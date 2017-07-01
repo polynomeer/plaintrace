@@ -1,0 +1,12 @@
+class SysInfoListClass: NameListClass {
+
+      property String InfoName,
+							   Value;
+
+      SysInfoListClass(SysInfoListClass parent  = null, const String &InfoName = "", const String &value = ""):
+      NameListClass(parent, ""),
+      InfoName = InfoName,
+      Value = value
+      {
+      }
+}
