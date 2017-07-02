@@ -10,3 +10,15 @@ class SysInfoListClass: NameListClass {
       {
       }
 }
+
+class _HandlerClass: HandlerClass { //OS Information
+       StringFieldClass  NameField;
+       StringFieldClass     ValueField;
+	   
+       _HandlerClass():
+        HandlerClass(null, "", 0, typeof(SysInfoListClass), ""),
+         NameField(this, "  OS Information", 0, SysInfoListClass::property(InfoName ), "name"),
+         ValueField(this, "Description", TEXTCENTER, SysInfoListClass::property(Value), "value")
+         {
+         }	  
+}
