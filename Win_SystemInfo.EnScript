@@ -22,3 +22,14 @@ class _HandlerClass: HandlerClass { //OS Information
          {
          }	  
 }
+class _HandlerClass1: HandlerClass { //Volume Information
+       StringFieldClass  NameField;
+       StringFieldClass     ValueField;
+	   
+       _HandlerClass1():
+        HandlerClass(null, "", 0, typeof(SysInfoListClass), ""),
+         NameField(this, "  Volume Information", 0, SysInfoListClass::property(InfoName ), "name"),
+         ValueField(this, "Description", TEXTCENTER, SysInfoListClass::property(Value), "value")
+         {
+         }
+}
