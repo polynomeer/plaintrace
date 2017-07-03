@@ -45,3 +45,100 @@ class _HandlerClass2: HandlerClass { //File Information
          {
          }
 }
+
+class FileReportClass : ReportClass	{
+			  SysInfoListClass  SysInfoList;
+			  BookmarkClass Folder;
+			  CaseClass C;
+			  _HandlerClass2 handler; //table related
+			  
+			  FileReportClass(CaseClass c, EntryClass e, BookmarkClass folder):
+			  SysInfoList(),
+			  handler(),
+			  Folder = folder,
+			  C = c
+			  { 
+			  	double  picCount,  appCount, docCount, multiCount, folderCount, internetCount, otherCount; 
+
+			  	for(ItemIteratorClass iter(c, 0, ItemIteratorClass::CURRENTVIEW_SELECTED); ItemClass item = iter.GetNextItem();) {
+					switch(item.Category()) {
+						case ItemClass::PICTURE : {
+							++picCount; //count the file type
+							break;
+						}
+						case ItemClass::APPLICATION : {
+							++appCount;
+							break;
+						}
+						case ItemClass::APPLICATION_DATA : {
+							++appCount;
+							break;
+						}
+						case ItemClass::DOCUMENT : {
+							++docCount;
+							break;
+						}
+						case ItemClass::DOCUMENT_CHART : {
+							++docCount;
+							break;
+						}
+						case ItemClass::DOCUMENT_FAX : {
+							++docCount;
+							break;
+						}
+						case ItemClass::DOCUMENT_PRESENTATION: {
+							++docCount;
+							break;
+						}
+						case ItemClass::DOCUMENT_SPREADSHEET : {
+							++docCount;
+							break;
+						}
+						case ItemClass::EMAIL : {
+							++internetCount;
+							break;
+						}
+						case ItemClass::EXECUTABLE : {
+							++appCount;
+							break;
+						}
+						case ItemClass::INTERNET : {
+							++internetCount;
+							break;
+						}
+						case ItemClass::MULTIMEDIA : {			
+							++multiCount;
+							break;
+						}
+						case ItemClass::MULTIMEDIA_AUDIO : {
+							++multiCount;
+							break;
+						}
+						case ItemClass::MULTIMEDIA_VIDEO : {
+							++multiCount;
+							break;
+						}
+						case ItemClass::FOLDER : {
+							++folderCount;
+							break;
+						}
+						default : {
+							++otherCount;
+							break;
+						}
+					}
+				}
+				double totalCount; //static FormatDouble (double Value, uint digits, uint Options=String::MINDIGITS)
+				totalCount = picCount + appCount + docCount + multiCount + internetCount + otherCount;
+				
+				new SysInfoListClass(SysInfoList, "  Pictures",  picCount+" ( "+String::FormatDouble(picCount / totalCount *100, 3, String::MINDIGITS)+"% )" );
+				new SysInfoListClass(SysInfoList, "  Applications",  appCount+" ( "+String::FormatDouble(appCount/totalCount * 100, 3, String::MINDIGITS)+"% )" );
+				new SysInfoListClass(SysInfoList, "  Documents",  docCount+" ( "+String::FormatDouble(docCount/totalCount * 100, 3, String::MINDIGITS)+"% )" );
+				new SysInfoListClass(SysInfoList, "  Multimedia Files", multiCount+" ( "+String::FormatDouble(multiCount/totalCount * 100, 3, String::MINDIGITS)+"% )" );
+				new SysInfoListClass(SysInfoList, "  Internet FIles",   internetCount+" ( "+String::FormatDouble(internetCount/totalCount * 100, 3, String::MINDIGITS)+"% )" );
+				new SysInfoListClass(SysInfoList, "  Other Files",  otherCount+" ( "+String::FormatDouble(otherCount/totalCount * 100, 3, String::MINDIGITS)+"% )");
+				new SysInfoListClass(SysInfoList, "  Total Files", totalCount+" ( 100.000% )");
+				
+			}
+
+}
