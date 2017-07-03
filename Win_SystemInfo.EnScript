@@ -33,3 +33,15 @@ class _HandlerClass1: HandlerClass { //Volume Information
          {
          }
 }
+
+class _HandlerClass2: HandlerClass { //File Information
+       StringFieldClass  NameField;
+       StringFieldClass     ValueField;
+	   
+       _HandlerClass2():
+        HandlerClass(null, "", 0, typeof(SysInfoListClass), ""),
+         NameField(this, "  File Category", 0, SysInfoListClass::property(InfoName ), "name"),
+         ValueField(this, "Count (Rate)", TEXTCENTER, SysInfoListClass::property(Value), "value")
+         {
+         }
+}
