@@ -140,5 +140,26 @@ class FileReportClass : ReportClass	{
 				new SysInfoListClass(SysInfoList, "  Total Files", totalCount+" ( 100.000% )");
 				
 			}
+			
+		   virtual void BuildDocument(ExportClass export) {
+				  ExportClass::TableClass table();
+				  export.Write("\n");
+				  export.AddTable(table, GetContext());
+			 }
 
-}
+		   ContextClass GetContext() {
+		   ContextClass context(null, "", 0, SysInfoList, new _HandlerClass2());
+		   ContextClass::ColumnClass cols(),
+									 nameColumn(cols, "name", 0, 20, 2500),
+									 sourColumn(cols, "value", 0, 20, 6500);
+
+		   nameColumn.SetTag("name");
+		   sourColumn.SetTag("value");
+
+		   context.SetColumns(cols);
+		   context.SetNodes();
+		 //  context.Sort();
+		   return context;
+		 }
+			 
+	}
