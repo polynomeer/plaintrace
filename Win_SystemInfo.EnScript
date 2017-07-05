@@ -163,3 +163,56 @@ class FileReportClass : ReportClass	{
 		 }
 			 
 	}
+	
+class VolumeReportClass : ReportClass	{
+			  SysInfoListClass  SysInfoList;
+			  BookmarkClass Folder;
+			  CaseClass C;
+			  _HandlerClass1 handler; //table related
+			  
+			  VolumeReportClass(CaseClass c, EntryClass e, BookmarkClass folder):
+			  SysInfoList(),
+			  handler(),
+			  Folder = folder,
+			  C = c
+			  { 
+					for(ItemIteratorClass iter(c, 0, ItemIteratorClass::ALL); EntryClass entry = iter.GetNextEntry();) {
+					  if (entry.IsVolume()) {
+						  VolumeClass vol = entry.GetVolume();
+						  if (vol) {
+							   if(vol.WinDir().Find("Windows") != -1) {
+								   	long total, allocated,	unallocated;
+									String encryptType;
+									
+									total = vol.TotalCapacity();
+									unallocated = vol.UnallocatedSpace();
+									allocated =  total - unallocated;
+							
+									CredentialClass creds();
+									if (vol.IsEncrypted(creds)) {
+										encryptType = CredentialClass::EncryptionTypes::DisplayText(creds.EncryptionType());
+										//Console.WriteLine("   Encryption Type	: {0}", encryptType);
+									}
+										new SysInfoListClass(SysInfoList, "  Volume Name",  vol.Name() );
+										new SysInfoListClass(SysInfoList, "  Volume File System",  VolumeClass::FileSystems::SourceText(vol.GetFileSystem()) );
+										new SysInfoListClass(SysInfoList, "  Windows Directory",  vol.WinDir() );
+										new SysInfoListClass(SysInfoList, "  Profile Directory",  vol.ProfileDir() );
+										new SysInfoListClass(SysInfoList, "  Free Clusters",  vol.FreeClusters() );
+										new SysInfoListClass(SysInfoList, "  Total Capacity",  total+ " Bytes ("+ total/(1024*1024*1024)+"GB)" );
+										new SysInfoListClass(SysInfoList, "  Unallocated Space",  unallocated+" Bytes ("+ unallocated/(1024*1024*1024)+"GB)");
+										new SysInfoListClass(SysInfoList, "  Allocated Space",  allocated+" Bytes ("+ allocated/(1024*1024*1024)+"GB)");
+										new SysInfoListClass(SysInfoList, "  Encryption Type",  encryptType );
+										 
+										 BookmarkDataClass mark(folder, "Information");													 
+										 mark.SetRoot(SysInfoList ,handler);
+
+										break;
+
+								}
+							}
+						}
+					}	
+
+			  }
+
+}
