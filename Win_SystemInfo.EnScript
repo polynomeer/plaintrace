@@ -235,3 +235,112 @@ class VolumeReportClass : ReportClass	{
 			   return context;
 			 }
 	}
+	
+class OSReportClass: ReportClass {
+      SysInfoListClass  SysInfoList;
+      BookmarkClass Folder;
+      typedef char[] charArray;
+      _HandlerClass handler;
+	  
+      OSReportClass(EntryClass e, BookmarkClass folder):
+      SysInfoList(),
+      handler(),
+      Folder = folder
+      {
+           RegCommandClass cmds();
+           RegistryClass reg(e);
+
+           //User name
+           new RegCommandClass(cmds, "SAM\\Users", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+                                     "SAM\\SAM\\Domains\\Account\\Users", "", 0, 1);
+           //Os installed date, Product ID
+           new RegCommandClass(cmds, "CurrentVersionKey", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+                                     "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", "", 0, 0);
+
+           //Windows Product key
+           new RegCommandClass(cmds, "DigitalProductId", RegCommandClass::READVALUE,RegCommandClass::HKEY_LOCAL_MACHINE,
+                                     "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", "DigitalProductId", 0, 0);
+			 //Os installed date, Product ID
+           new RegCommandClass(cmds, "ActiveComputerName", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+                                     "SYSTEM\\ControlSet001\\Control\\ComputerName\\ActiveComputerName", "ComputerName", 0, 0);
+           new RegCommandClass(cmds, "ComputerName", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+                                     "SYSTEM\\ControlSet001\\Control\\ComputerName\\ComputerName", "ComputerName", 0, 0);
+           new RegCommandClass(cmds, "ShutdownTime", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+                                     "SYSTEM\\ControlSet001\\Control\\Windows", "ShutdownTime", 0, 0);									 								 
+
+            RegValueClass values(); //registry value container
+           if (reg.Run(cmds, values)) {
+                 String ProductName, RegisteredOwner, RegisteredOrganization, ProductId, ProductKey, ServicePack, CurrentType, CurrentVersion, BuildLab, InstallDate, InstallationType, SystemRoot;
+                 RegValueClass CurrentVersionKey = values.Find("CurrentVersionKey");   //OS installed time, Product key
+                 if (CurrentVersionKey) {
+                      forall (RegValueClass n in CurrentVersionKey) {
+						  switch(n.Name()){
+                             case "BuildLab" : 
+								BuildLab = n.ValueText();
+								break;                       							 
+                             case "CurrentType" : 
+								CurrentType = n.ValueText();
+								break;       
+  							 case "InstallDate": 
+							    DateClass date();
+                                date.SetUnix(int::Convert(n.ValueText(),int::HEX));
+                                InstallDate = date.GetString("yyyy/MM/dd", "hh:mm:ss tt", 9 * -3600);								
+								break; 
+  							 case "InstallationType":
+							    InstallationType = n.ValueText();
+								break;          								
+                             case "ProductName" : 
+								ProductName = n.ValueText();
+								break;                            
+                             case "RegisteredOwner" : 
+								RegisteredOwner = n.ValueText();
+								break;                            
+                             case "RegisteredOrganization" :
+					 			RegisteredOrganization = n.ValueText();
+								break;                            
+                             case "ProductId" : 
+								ProductId = n.ValueText();
+								break;                                                
+                             case "CurrentVersion" :
+								CurrentVersion = n.ValueText();
+								break;               
+                             case "SystemRoot" : 
+								SystemRoot = n.ValueText();
+								break;                            
+                             case "CSDVersion" : 
+								ServicePack = n.ValueText();
+								break;
+					  		 default:
+                            }
+						}
+                 }
+                 String VersionInfo =  CurrentType + "  " + CurrentVersion + "  " + BuildLab; //Merge Current Version information
+                 RegValueClass DigitalProductIdValue = values.Find("DigitalProductId"); //Windows Product key decoding
+				 RegValueClass ActiveComputerNameValue = values.Find("ComputerName"); //Windows Computer Name
+				 RegValueClass ComputerNameValue = values.Find("ComputerName");
+				 RegValueClass ShutdownTimeValue = values.Find("ShutdownTime");
+				 
+				 String ComputerName = GetComputerName(ActiveComputerNameValue, ComputerNameValue);				 
+				 String LastShutdownTime = GetShutdownTime(ShutdownTimeValue);
+				 ProductKey = GetProductKey(DigitalProductIdValue);
+				
+                 new SysInfoListClass(SysInfoList, "  Product Name", ProductName );
+                 new SysInfoListClass(SysInfoList, "  Registered Owner", RegisteredOwner );
+                 new SysInfoListClass(SysInfoList, "  Registered Organization", RegisteredOrganization );
+                 new SysInfoListClass(SysInfoList, "  Product ID", ProductId );
+                 new SysInfoListClass(SysInfoList, "  Product Key", ProductKey );
+                 new SysInfoListClass(SysInfoList, "  Service Pack", ServicePack );                 
+                 new SysInfoListClass(SysInfoList, "  Current Version", VersionInfo);
+                 new SysInfoListClass(SysInfoList, "  Install Date", InstallDate );
+				 new SysInfoListClass(SysInfoList, "  Installation Type", InstallationType );
+				 new SysInfoListClass(SysInfoList, "  Computer Name", ComputerName);
+				 new SysInfoListClass(SysInfoList, "  Last Shutdown Time", LastShutdownTime);
+                 new SysInfoListClass(SysInfoList, "  System Root", SystemRoot );
+				 
+                 BookmarkDataClass mark(folder, "OS Information");
+                 mark.SetRoot(SysInfoList ,handler);
+          }
+
+     }	
+
+}
