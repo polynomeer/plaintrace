@@ -342,5 +342,22 @@ class OSReportClass: ReportClass {
           }
 
      }	
-
+ 
+	 String GetShutdownTime(RegValueClass ShutdownTimeValue){
+		String ShutdownTime, HexTime;
+		long sumTime;
+		FileClass value;
+		 forall (RegValueClass n in ShutdownTimeValue) {
+			 if(n.Name() == "ShutdownTime"){
+				DateClass date();
+				//sumTime = long::Convert(n.ValueText(), int::HEX);
+				sumTime = 0x4C88FA9A896FD301;
+				//Console.WriteLine(sumTime);
+				//date.SetUnix(sumTime);
+				//ShutdownTime = date.GetString("yyyy/MM/dd", "hh:mm:ss tt", 9 * -3600);
+				if(ShutdownTime.Contains("1970")) ShutdownTime="";
+			 }
+		 }	
+		return ShutdownTime;
+	 }
 }
