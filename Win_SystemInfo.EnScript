@@ -359,5 +359,18 @@ class OSReportClass: ReportClass {
 			 }
 		 }	
 		return ShutdownTime;
+	 }	 
+	 
+	 String GetComputerName(RegValueClass ActiveComputerNameValue, RegValueClass ComputerNameValue){
+		String ComputerName;
+		 forall (RegValueClass n in ActiveComputerNameValue) {
+			 if(n.Name() == "ComputerName")
+				ComputerName = n.ValueText();
+		 }
+		 forall (RegValueClass n in ComputerNameValue) {
+			 if(n.Name() == "ComputerName")
+				ComputerName = n.ValueText();
+		 }	
+		return ComputerName;
 	 }
 }
