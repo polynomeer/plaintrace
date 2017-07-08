@@ -426,4 +426,25 @@ class OSReportClass: ReportClass {
 			}
 		 return ProductKey;
 	 }
+
+     virtual void BuildDocument(ExportClass export) {
+          ExportClass::TableClass table();
+          export.Write("\n");
+          export.AddTable(table, GetContext());
+     }
+
+       ContextClass GetContext() {
+       ContextClass context(null, "", 0, SysInfoList, new _HandlerClass());
+       ContextClass::ColumnClass cols(),
+                                 nameColumn(cols, "name", 0, 20, 3500),
+                                 sourColumn(cols, "value", 0, 20, 5500);
+
+       nameColumn.SetTag("name");
+       sourColumn.SetTag("value");
+
+       context.SetColumns(cols);
+       context.SetNodes();
+     //  context.Sort();
+       return context;
+     }
 }
