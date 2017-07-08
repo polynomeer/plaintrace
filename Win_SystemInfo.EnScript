@@ -373,4 +373,57 @@ class OSReportClass: ReportClass {
 		 }	
 		return ComputerName;
 	 }
+	 
+	 String GetProductKey(RegValueClass DigitalProductIdValue){
+		 String ProductKey;
+			if (DigitalProductIdValue) {
+			   String DigitalProductId = DigitalProductIdValue.ValueText();
+			   if(DigitalProductId != "0 is not ready") {
+				   DigitalProductId.Trim(" ",TRIMALL,0);
+				   //charArray key{ 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'M', 'P', 'Q', 'R', 'T', 'V', 'W', 'X', 'Y', '2', '3', '4', '6', '7', '8', '9'}, digits();
+				   charArray digits(), DigitalProductId_Convert(),hexPid(),data();
+				   digits.Add('B');digits.Add('C');digits.Add('D');digits.Add('F');digits.Add('G');digits.Add('H');digits.Add('J');digits.Add('K');digits.Add('M');
+				   digits.Add('P');digits.Add('Q');digits.Add('R');digits.Add('T');digits.Add('V');digits.Add('W');digits.Add('X');digits.Add('Y');digits.Add('2');
+				   digits.Add('3');digits.Add('4');digits.Add('6');digits.Add('7');digits.Add('8');digits.Add('9');
+
+				   for(int i =0 ; i < DigitalProductId.GetLength() ; i++) {
+					  if( i%2 ==0) {
+							DigitalProductId_Convert.Add( int::Convert("\x"+DigitalProductId[i]+DigitalProductId[i+1],int::HEX));
+					  }
+				   }
+
+				   int keyStart = 52;
+				   int decodeStringLength = 15;
+				   int keyEnd = keyStart + decodeStringLength;
+				   int decodeLength = 29;				   
+
+				   for(int i = keyStart; i <=keyEnd ; i++) {
+					   hexPid.Add(DigitalProductId_Convert[i]);
+				   }
+				   String key_tmp;
+				   String key;
+
+				   for(int i = decodeLength -1; i>=0 ;i--) {
+					   if ( ( i + 1 ) % 6 == 0 ) {
+							key += '-';
+					   }
+					   else {
+						   int digitMapIndex = 0;
+						   for ( int j =decodeStringLength -1 ; j>=0 ; j--) {
+								  int byteValue = (digitMapIndex << 8 ) | hexPid[j];
+								  hexPid[j] = (byteValue/24);
+								  digitMapIndex = byteValue % 24;
+								  key_tmp = digits[digitMapIndex];
+						   }
+						   key += key_tmp;
+					   }
+				   }
+				   
+				   for(int i = key.GetLength() -1 ; i >= 0 ; i--) {
+					   ProductKey += key[i];
+				   }
+			   }
+			}
+		 return ProductKey;
+	 }
 }
