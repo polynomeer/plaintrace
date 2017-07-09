@@ -448,3 +448,12 @@ class OSReportClass: ReportClass {
        return context;
      }
 }
+
+class CreateChartClass {
+	CaseClass C;
+	CreateChartClass(CaseClass c):
+	C=c
+	{
+	}
+
+}
