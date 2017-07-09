@@ -455,5 +455,102 @@ class CreateChartClass {
 	C=c
 	{
 	}
+	
+	ChartClass GetChart(ChartClass::ChartTypes chosenType){						  
+			  	double  picCount,  appCount, docCount, multiCount, folderCount, internetCount, otherCount; 
 
+			  	for(ItemIteratorClass iter(C, 0, ItemIteratorClass::CURRENTVIEW_SELECTED); ItemClass item = iter.GetNextItem();) {
+					switch(item.Category()) {
+						case ItemClass::PICTURE : {
+							++picCount; //count the file type
+							break;
+						}
+						case ItemClass::APPLICATION : {
+							++appCount;
+							break;
+						}
+						case ItemClass::APPLICATION_DATA : {
+							++appCount;
+							break;
+						}
+						case ItemClass::DOCUMENT : {
+							++docCount;
+							break;
+						}
+						case ItemClass::DOCUMENT_CHART : {
+							++docCount;
+							break;
+						}
+						case ItemClass::DOCUMENT_FAX : {
+							++docCount;
+							break;
+						}
+						case ItemClass::DOCUMENT_PRESENTATION: {
+							++docCount;
+							break;
+						}
+						case ItemClass::DOCUMENT_SPREADSHEET : {
+							++docCount;
+							break;
+						}
+						case ItemClass::EMAIL : {
+							++internetCount;
+							break;
+						}
+						case ItemClass::EXECUTABLE : {
+							++appCount;
+							break;
+						}
+						case ItemClass::INTERNET : {
+							++internetCount;
+							break;
+						}
+						case ItemClass::MULTIMEDIA : {			
+							++multiCount;
+							break;
+						}
+						case ItemClass::MULTIMEDIA_AUDIO : {
+							++multiCount;
+							break;
+						}
+						case ItemClass::MULTIMEDIA_VIDEO : {
+							++multiCount;
+							break;
+						}
+						case ItemClass::FOLDER : {
+							++folderCount;
+							break;
+						}
+						default : {
+							++otherCount;
+							break;
+						}
+					}
+				}
+				double totalCount; //static FormatDouble (double Value, uint digits, uint Options=String::MINDIGITS)
+				totalCount = picCount + appCount + docCount + multiCount + internetCount + otherCount;
+				if(totalCount == 0){
+					 SystemClass::Message(SystemClass::ICONINFORMATION, "Error","Failed to build chart. Null value in the list.");
+					return null;
+				}
+			NameValueClass chartValues();
+			new NameValueClass(chartValues, "Pictures", 0, picCount / totalCount *100);
+			new NameValueClass(chartValues, "Applications", 0, appCount/totalCount * 100);
+			new NameValueClass(chartValues, "Documents", 0, docCount/totalCount * 100);
+			new NameValueClass(chartValues, "Multimedia Files", 0, multiCount/totalCount * 100);
+			new NameValueClass(chartValues, "Internet Files", 0, internetCount/totalCount * 100);
+			new NameValueClass(chartValues, "Other Files", 0, otherCount/totalCount * 100);
+			
+			ChartClass chart = new ChartClass(null, "CHART", chosenType);
+			 foreach (NameValueClass n in chartValues){
+				bool isSuccess = false;
+				chart.AddDataPoint(n.Name(), double::Convert(n.Value(), isSuccess));
+			}
+			
+		  //  	ChartClass chart = CreateChart(chartValues);
+				return chart;
+	}
+	
 }
+
+class MainClass;
