@@ -554,3 +554,56 @@ class CreateChartClass {
 }
 
 class MainClass;
+
+class SysInfoDialogClass : DialogClass {
+      ReportWindowClass  ReportWindow1, ReportWindow2, ReportWindow3, ReportWindow4;
+	  ImageWindowClass  ChartImageWindow;
+	  String     logoText;
+	  StringEditClass Edit;
+
+	  RectClass   logoRect;
+	  GraphicsClass Graphics;
+	  
+	  ButtonClass             button_chart;
+      RadioButtonClass  ChartTypeButton;
+	  CheckBoxClass     ShowHorizontal;
+	  CreateChartClass CreatedChart;
+	  FileReportClass FileReport;
+	  ReportClass ReportA;
+	  ChartClass ChartPie,ChartBar,ChartLine;
+	  
+	  TreeTableEditClass TreeControl;
+	  ThreadClass::SemaphoreClass   Semaphore;
+	  
+	  CaseClass c;
+	  EntryClass e;
+	  BookmarkClass folder;
+	  int               ChartType;
+	  bool              ShowAsHorizontal;
+	  
+	  //InfoDialogClass Constructor
+      SysInfoDialogClass(DialogClass parent, MainClass main, CaseClass &c, EntryClass e, BookmarkClass folder) :
+      DialogClass(parent,"System Information"), //Create System Information dialog
+	  c=c;
+	  e=e;
+	  folder=folder;
+	  //Create tables on the dialog
+      ReportWindow1(this, "OS Information Report", START, START, 370, 125, 0, 0, new OSReportClass(e,folder)), //Create tables on the dialog
+	  ReportWindow2(this, "Volume Information Report", START, NEXT, 370, 105,  0, 0, new VolumeReportClass(c, e,folder)),	  
+	  ChartImageWindow(this, "File Information Report", 385, START, 320, 150, 0),
+	  ReportWindow3(this, "", 385, 170, 370, 90,  0, 0, new FileReportClass(c,e,folder)),
+	 // TreeControl(this, "RecycleBin ", 10, 240, 750, 110, 0, null, ContextClass::CANCHECK | ContextClass::ALLFIELDS |ContextClass::CANDELETENODE, ListEditClass::TABLEDEFAULT, HandlerClass handler =null  ),
+		button_chart(this, "Chart ", 710, 15, 30, 20, 0),
+		ChartTypeButton(this, "Type", SAME, NEXT, 40, 10, 0, ChartType, "Pie\tBar\tLine", RadioButtonClass::GROUPBOX),
+		ShowHorizontal(this, "Convert", SAME, NEXT, 15, 10, 0, ShowAsHorizontal),
+		logoText = "KITRI BoB Shellock",
+	//	LogoText(this, Text, 125, 280, 500, 80, PUSHBUTTON),
+     //BarCode(this, START, 265, 750, 85, Text),
+	    logoRect(370, 800, 750, 100),
+		//RectStr(0, 0, 100, 20),
+		CreatedChart = new CreateChartClass(c)
+      {
+		Semaphore.Create(1,1);
+      }
+
+}
