@@ -605,5 +605,24 @@ class SysInfoDialogClass : DialogClass {
       {
 		Semaphore.Create(1,1);
       }
+	    
+	  virtual void ChildEvent(const EventClass &event) {
+		DialogClass::ChildEvent(event);
 
+			if(button_chart.Matches(event)){
+				if(Semaphore.Wait(10)){
+				SystemClass::Message(SystemClass::ICONINFORMATION, "Notice","Chart View OK");					
+				BuildChart();
+				ChartPie.SetChartType(ChartClass::ChartTypes::CHARTPIE);
+				ChartPie.SetHorizontal(ShowHorizontal.GetValue());
+				ChartImageWindow.SetImage(ChartPie);
+				}
+				else{
+				  SystemClass::Message(SystemClass::ICONINFORMATION, "Notice","Chart View OK");
+				}
+			}
+		if(ChartTypeButton.Matches(event)){
+			  ShowChart();
+		}
+	  }
 }
