@@ -624,5 +624,11 @@ class SysInfoDialogClass : DialogClass {
 		if(ChartTypeButton.Matches(event)){
 			  ShowChart();
 		}
+	  }	 
+	  
+	  void BuildChart(){
+	  	ChartPie = CreatedChart.GetChart(ChartClass::ChartTypes::CHARTPIE);
+		ChartBar = CreatedChart.GetChart(ChartClass::ChartTypes::CHARTBAR);
+		ChartLine = CreatedChart.GetChart(ChartClass::ChartTypes::CHARTLINE); //Create Chart	  
 	  }
 }
