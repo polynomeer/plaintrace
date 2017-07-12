@@ -631,4 +631,35 @@ class SysInfoDialogClass : DialogClass {
 		ChartBar = CreatedChart.GetChart(ChartClass::ChartTypes::CHARTBAR);
 		ChartLine = CreatedChart.GetChart(ChartClass::ChartTypes::CHARTLINE); //Create Chart	  
 	  }
+	  
+	  void ShowChart() {
+		 if(!ChartPie) return;
+		 
+		int chosenChartType = ChartTypeButton.GetValue();
+		if (chosenChartType == 0) //if Pie type prevent Show Horizontal
+		  ShowHorizontal.Enable(false);
+		else
+		  ShowHorizontal.Enable(true);
+
+	    ChartClass::ChartTypes mappedType = MapChartTypes(chosenChartType);
+	  if(mappedType == ChartClass::ChartTypes::CHARTPIE){
+		ChartPie.SetChartType(mappedType);
+		ChartPie.SetHorizontal(ShowHorizontal.GetValue());
+		ChartImageWindow.SetImage(ChartPie);
+	  }
+	  else if(mappedType == ChartClass::ChartTypes::CHARTBAR){
+		ChartBar.SetChartType(mappedType);
+		ChartBar.SetHorizontal(ShowHorizontal.GetValue());
+		ChartImageWindow.SetImage(ChartBar);
+	  }
+	  else if(mappedType == ChartClass::ChartTypes::CHARTLINE){
+		ChartLine.SetChartType(mappedType);
+		ChartLine.SetHorizontal(ShowHorizontal.GetValue());
+		ChartImageWindow.SetImage(ChartLine);
+	  }
+	/*
+		ChartA = CreatedChart.GetChart();
+		ChartA.SetChartType(ChartClass::ChartTypes::CHARTPIE);
+		ChartImageWindow.SetImage(ChartA);*/
+	  }
 }
