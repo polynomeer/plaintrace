@@ -662,4 +662,14 @@ class SysInfoDialogClass : DialogClass {
 		ChartA.SetChartType(ChartClass::ChartTypes::CHARTPIE);
 		ChartImageWindow.SetImage(ChartA);*/
 	  }
+	  
+	  ChartClass::ChartTypes MapChartTypes(int chosenChartType) {
+		if (chosenChartType == 0)
+		  return ChartClass::ChartTypes::CHARTPIE;
+		else if (chosenChartType == 1)
+		  return ChartClass::ChartTypes::CHARTBAR;
+		else if (chosenChartType == 2)
+		  return ChartClass::ChartTypes::CHARTLINE;
+		return ChartClass::ChartTypes::CHARTNONE;
+	  }
 }
