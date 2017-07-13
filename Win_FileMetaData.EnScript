@@ -1,0 +1,36 @@
+class MainClass;
+
+class FileListClass : NameListClass {
+		property String 	fileName,
+									fileExtension,
+									fileCategory,
+									fileProperty,
+									fileSize,									
+									accessedTime,
+									createdTime,
+									writtenTime,
+									deletedTime,
+									filePath;
+									//md5HashValue;
+
+      FileListClass(FileListClass parent = null, const String& fileName="", const String& fileExtension="", const String& fileCategory="",
+	  const String& fileProperty="", const String& fileSize="", const String& accessedTime="", const String& createdTime="", const String& writtenTime="",
+	  const String& deletedTime="", const String& filePath=""): // const String& md5HashValue="") :
+	  NameListClass(parent),
+		fileName = fileName,
+		fileExtension =fileExtension,
+		fileCategory=fileCategory,
+		fileProperty=fileProperty,
+		fileSize = fileSize,
+		accessedTime = accessedTime,
+		createdTime = createdTime,
+		writtenTime = writtenTime,
+		deletedTime=deletedTime,
+		filePath = filePath
+		//md5HashValue = md5HashValue
+      {
+      }
+
+}
+
+class FileDialogClass;
