@@ -672,4 +672,18 @@ class SysInfoDialogClass : DialogClass {
 		  return ChartClass::ChartTypes::CHARTLINE;
 		return ChartClass::ChartTypes::CHARTNONE;
 	  }
+
+	  
+	  virtual void PaintEvent(GraphicsClass g) {
+		g.DrawString(logoText, logoRect);
+		PointClass Point = g.StringSize(logoText);
+
+		g.Fill(logoRect, ColorClass::White);
+		FontClass font(null, "", FontClass::BOLD, "Times New Roman", Point.Y*40);
+		g.SetFont(font);
+		g.DrawString(String::Format(logoText), logoRect, DRAWCENTER, ColorClass::Black);
+	  }
+  
 }
+//ReportWindowClass (WindowClass parent, const String &Title, int x, int y, int width, int height, ulong style, uint Options=0, ReportClass Report=null, ScaleClass state=null)
+
