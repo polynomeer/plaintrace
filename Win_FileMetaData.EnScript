@@ -34,3 +34,54 @@ class FileListClass : NameListClass {
 }
 
 class FileDialogClass;
+
+class FileHandlerClass :  HandlerClass {
+
+      FileDialogClass  File_dialog;
+
+      property FieldClass fileNameField,
+							fileExtensionField,
+							fileCategoryField,
+							filePropertyField,
+							fileSizeField,							
+							accessedTimeField,
+							createdTimeField,
+							writtenTimeField,
+							deletedTimeField,
+							filePathField;
+							//md5HashValueField;
+
+      MenuClass    CsvMenu;
+	  MenuClass	SqliteMenu;
+	  int options;
+      FileHandlerClass(FileDialogClass  File_dialog, const String &name, uint options, SymbolClass type):
+      HandlerClass(null,name,options, type),
+      File_dialog = File_dialog,
+	  options=options,
+	  fileNameField(this, "FileName", TEXTCENTER, "fileName", "A tag"),
+	  fileExtensionField(this, "FileExt", TEXTCENTER, "fileExtension", "B tag"),
+	  fileCategoryField(this, "Category", TEXTCENTER, "fileCategory", "C tag"),
+	  filePropertyField(this, "Property", TEXTCENTER, "fileProperty", "D tag"),
+      fileSizeField(this, "FileSize", TEXTRIGHT, "fileSize", "E tag"),
+	  accessedTimeField(this, "AccessedTime", TEXTCENTER, "accessedTime", "F tag"),
+	  createdTimeField(this, "CreatedTime", TEXTCENTER, "createdTime", "G tag"),
+	  writtenTimeField(this, "WrittenTime", TEXTCENTER, "writtenTime", "H tag"),
+	  filePathField(this, "FilePath", TEXTCENTER, "filePath", "I tag"),
+	  //md5HashValueField(this, "MD5HashValue", TEXTCENTER, "md5HashValue", "J tag"),
+	  
+      CsvMenu(MenuList, "CSV", MenuClass::TOOL),
+	  SqliteMenu(MenuList, "SQLite", MenuClass::TOOL)
+      {
+		fileNameField.SetColWidth(20);
+		fileExtensionField.SetColWidth(10);
+		fileCategoryField.SetColWidth(15);
+		filePropertyField.SetColWidth(15);
+		fileSizeField.SetColWidth(10);							
+		accessedTimeField.SetColWidth(20);
+		createdTimeField.SetColWidth(20);
+		writtenTimeField.SetColWidth(20);
+		filePathField.SetColWidth(45);
+		//md5HashValueField.SetColWidth(15);
+      }
+
+}
