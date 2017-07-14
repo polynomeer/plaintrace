@@ -84,4 +84,9 @@ class FileHandlerClass :  HandlerClass {
 		//md5HashValueField.SetColWidth(15);
       }
 
+      virtual void BuildMenu(NodeEventClass event) {
+          event.MenuAdd(CsvMenu, 0);
+		  event.MenuAdd(SqliteMenu, 0);
+          HandlerClass::BuildMenu(event);
+      }
 }
