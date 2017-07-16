@@ -194,4 +194,85 @@ class FileThreadClass: ThreadClass {
             {
             }
 
+            virtual void Run() { //Core(Main) code to parse RecycleBin information
+                  while(IsRunning()) {
+						//Progress Bar related
+                       int StatusWindowMax, StatusWindowStatus, StatusPercent;
+
+                        for (ItemIteratorClass iter(c,0,ItemIteratorClass::CURRENTVIEW_SELECTED); DeviceClass dev = iter.GetNextDevice();) {
+                         EntryClass entryRoot = dev.GetRootEntry();
+                         StatusWindowMax = entryRoot.CountAll(2, NodeClass::COUNTNODES | NodeClass::COUNTFOLDERS  | NodeClass::COUNTRECURSIVE);
+                         Console.WriteLine(StatusWindowMax);
+                       } //set max value of the status window by current view selected
+
+                       File_dialog.StatusWindow.SetLimit("Progress Status", StatusWindowMax);
+
+                       if(StatusWindowMax < 100  )
+                          StatusPercent =  1;
+                       else
+                          StatusPercent =  StatusWindowMax / 100;
+
+                       File_dialog.time_reset = true;
+                       File_dialog.time_check = true;
+                       File_dialog.List.Close();
+                       File_dialog.TreeControl.Input();
+
+                       EntryFileClass ef();
+                       ef.SetCodePage(CodePageClass::UNICODE);
+
+                       for(ItemIteratorClass iter(c,0,ItemIteratorClass::CURRENTVIEW_SELECTED ); ItemClass item  = iter.GetNextItem();)  {
+                              if( (StatusWindowStatus++ % StatusPercent) == 0 ) { //Progress Bar, fill it up
+                                   File_dialog.StatusWindow.SetPosition(StatusWindowStatus);
+                              }
+							EntryClass entry = EntryClass::TypeCast(item); //type cast to ItemClass to use the methods which included in ItemClass
+							String path	= item.GetOriginalPath();
+							 String fileProperty="None"; 
+							 if(item.Extension()){
+								if(entry.IsDeleted() || path.Contains("$Recycle") && !entry.IsHidden()){
+									fileProperty="Deleted";
+									new  FileListClass(File_dialog.List2, item.Name(), item.Extension(), ItemClass::Categories::SourceText(entry.Category()), fileProperty, item.LogicalSize(), item.Accessed().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600),
+									item.Created().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600), item.Written().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600), entry.Deleted().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600),
+									item.ItemPath());// item.MD5Hash().GetString() );								
+								}
+								else if(entry.IsHidden()){
+									fileProperty="Hidden"; //switch statement on the file categories
+									new  FileListClass(File_dialog.List1, item.Name(), item.Extension(), ItemClass::Categories::SourceText(entry.Category()), fileProperty, item.LogicalSize(), item.Accessed().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600),
+									item.Created().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600), item.Written().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600), entry.Deleted().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600),
+									item.ItemPath());// item.MD5Hash().GetString() );										
+								}
+								else{
+									fileProperty="Common";	//switch statement on the file categories
+									new  FileListClass(File_dialog.List, item.Name(), item.Extension(), ItemClass::Categories::SourceText(entry.Category()), fileProperty, item.LogicalSize(), item.Accessed().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600),
+									item.Created().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600), item.Written().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600), entry.Deleted().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600),
+									item.ItemPath());// item.MD5Hash().GetString() );			
+									
+								}				
+							 }
+                       }
+                       SystemClass::Sleep(500);
+                       File_dialog.TreeControl.Input();
+					   File_dialog.TreeControl1.Input();
+					   File_dialog.TreeControl2.Input();
+                       foreach (FileListClass n in File_dialog.List) {
+                            FileListClass(File_dialog.ListCopy, n.fileName, n.fileExtension, n.fileCategory, n.fileProperty, n.fileSize, n.accessedTime, n.createdTime, n.writtenTime, n.deletedTime, n.filePath);// n.md5HashValue);
+                       }
+					  foreach (FileListClass n in File_dialog.List1) {
+                            FileListClass(File_dialog.ListCopy1, n.fileName, n.fileExtension, n.fileCategory, n.fileProperty, n.fileSize, n.accessedTime, n.createdTime, n.writtenTime, n.deletedTime, n.filePath);//n.md5HashValue);
+                       }
+					  foreach (FileListClass n in File_dialog.List2) {
+                            FileListClass(File_dialog.ListCopy2, n.fileName, n.fileExtension, n.fileCategory, n.fileProperty, n.fileSize, n.accessedTime, n.createdTime, n.writtenTime, n.deletedTime, n.filePath);//n.md5HashValue);
+                       }
+                       //LNK_dialog.search_name.Close();
+                       File_dialog.time_check = false;
+                       File_dialog.Semaphore.Release();
+
+                       BookmarkDataClass mark(folder, "File Information");
+                             // folder.SetComment("Comment for new BookmarkDataClass");
+                       mark.SetRoot(File_dialog.List, File_dialog.Handler);
+					   
+						BuildSqlite(); //Export sqlite file for timeline view in local "C:\\WindowsArtifact.sqlite"					   
+                          break;
+                  }
+
+             }
 }
