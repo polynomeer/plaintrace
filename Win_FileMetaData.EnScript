@@ -180,3 +180,18 @@ class FileHandlerClass :  HandlerClass {
 }
 
 class FileDialogClass;
+
+class FileThreadClass: ThreadClass {
+            FileDialogClass  File_dialog;
+            CaseClass c;
+            BookmarkClass folder;
+
+            FileThreadClass(FileDialogClass  File_dialog, const String &name, CaseClass c, BookmarkClass folder):
+            ThreadClass(null, name),
+            folder = folder,
+            c=c,
+            File_dialog =  File_dialog
+            {
+            }
+
+}
