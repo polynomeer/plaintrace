@@ -312,3 +312,58 @@ class FileThreadClass: ThreadClass {
 			}
 
  }
+
+class FileDialogClass : DialogClass {
+
+    FileThreadClass File_thread;
+    ThreadClass::SemaphoreClass  Semaphore;
+    FileListClass        List, List1, List2, ListCopy, ListCopy1, ListCopy2;
+    FileHandlerClass         Handler, Handler1, Handler2;
+    TreeTableEditClass      TreeControl, TreeControl1, TreeControl2;
+    StringEditClass         FilterControl;
+    String                  filter_name;
+    StaticTextClass         filter_title, search_time;
+    ButtonClass             button_search, button_stop;
+
+    bool time_check, time_reset;
+    int hour, minute, second;
+    CaseClass C;
+    StatusWindowClass StatusWindow;
+
+    //Dialog constructor
+    FileDialogClass(DialogClass parent,MainClass main, CaseClass c, BookmarkClass folder, int TreeViewSize):
+    DialogClass(parent, "File Information"),
+    C=c;
+
+    StatusWindow(this, "Searching", 5, 5, 200, 5, 0),
+    button_search(this, "Search ",  210, 15, 40, DEFAULT,0),
+	button_stop(this, "Stop ",  255, 15, 40, DEFAULT,0),
+    search_time(this, "", 300, 17, 40, DEFAULT,0),
+
+    FilterControl(this, "Keyword Search", 360, 5, 278,DEFAULT,0,filter_name,500, 0),
+
+    List(null, "List"),
+	List1(null, "List1"),
+	List2(null, "List2"),
+    ListCopy(null,""),
+	ListCopy1(null,""),
+	ListCopy2(null,""),
+    Handler(this, "Some Custom Class", 0, typeof(FileListClass)),
+	Handler1(this, "Some Custom Class", 1, typeof(FileListClass)),
+	Handler2(this, "Some Custom Class", 2, typeof(FileListClass)),
+
+    TreeControl(this, "Common Files ", 5, 30, 750, TreeViewSize/3-5, 0, List, ContextClass::CANCHECK | ContextClass::ALLFIELDS |
+                                                               ContextClass::CANDELETENODE, ListEditClass::TABLEDEFAULT,Handler  ),
+	TreeControl1(this, "Hidden FIles ", 5, TreeViewSize/3+38, 750, TreeViewSize/3-5, 0, List1, ContextClass::CANCHECK | ContextClass::ALLFIELDS |
+																ContextClass::CANDELETENODE, ListEditClass::TABLEDEFAULT,Handler1  ),
+	TreeControl2(this, "Deleted Files ", 5, TreeViewSize/3*2+45, 750, TreeViewSize/3-5, 0, List2, ContextClass::CANCHECK | ContextClass::ALLFIELDS |
+																ContextClass::CANDELETENODE, ListEditClass::TABLEDEFAULT,Handler2  ), //construct TreeTable as same handler, different list.
+     File_thread(this,"",c, folder)
+    {
+        TreeControl.SetView(ContextClass::PANETABLE);
+		TreeControl1.SetView(ContextClass::PANETABLE);
+		TreeControl2.SetView(ContextClass::PANETABLE);
+        Semaphore.Create(1, 1);
+    }
+
+}
