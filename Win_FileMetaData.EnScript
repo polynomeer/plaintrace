@@ -274,5 +274,41 @@ class FileThreadClass: ThreadClass {
                           break;
                   }
 
-             }
-}
+             }//run()
+			 
+			 	void BuildSqlite(){
+				  String exportPath = "C:\\TimeLineArtifacts.sqlite";
+
+					SQLiteClass sqliteDB();
+					LocalFileClass sqliteFile();
+					  if (!sqliteFile.Open(exportPath, FileClass::APPEND)){
+						SystemClass::Message(SystemClass::ICONINFORMATION, "Error", "Error in opening local  SQLite file");
+						Console.WriteLine("Error: Error in opening local SQLite file");
+						SystemClass::Exit();
+					  }
+					   if (sqliteDB.Open(sqliteFile, SQLiteClass::SQLITE_OPEN_READWRITE)){
+							sqliteFile.SetCodePage(CodePageClass::UTF8);
+						   SQLiteClass::CommandClass cmd = new SQLiteClass::CommandClass();
+						   if(sqliteDB.CreateCommand(cmd)){
+								 bool isSetTable = true;
+								 isSetTable = cmd.ExecuteNonQuery("CREATE TABLE File_Deleted (id INTEGER PRIMARY KEY, FileName LONGVARCHAR, FileExt LONGVARCHAR, FileCategory LONGVARCHAR, FileProperty LONGVARCHAR, FileSize LONGVARCHAR, AccessedTime LONGVARCHAR, CreatedTime LONGVARCHAR, WrittenTime LONGVARCHAR, FilePath LONGVARCHAR);"); 
+								 if(isSetTable){ //if table is set up successfully, insert value in each field
+									bool isQuery = true;
+									foreach(FileListClass n in File_dialog.List2) {
+										isQuery = cmd.ExecuteNonQuery("INSERT INTO File_Deleted (FileName, FileExt, FileCategory,FileProperty, FileSize, AccessedTime, CreatedTime, WrittenTime, FilePath) VALUES ('" + n.fileName + "', '" + n.fileExtension + "', '" + n.fileCategory + "', '" + n.fileProperty + "', '" + n.fileSize + "', '" + n.accessedTime + "', '" + n.createdTime + "', '" + n.writtenTime + "', '" + n.filePath + "');");
+										if(!isQuery) Console.WriteLine("\nError: Failed to execute query. Query is not correct.\n");										
+									}
+								}
+								else SystemClass::Message(SystemClass::ICONINFORMATION, "Error", "SQLite Table was not set up correctly");
+								cmd.ExecuteNonQuery("END TRANSACTION;");
+							}
+							else Console.WriteLine("Error: SQLite Command could not be created successfully");
+					 }
+					 else SystemClass::Message(SystemClass::ICONINFORMATION, "Error", "SQLite Database Connection could not be opened correctly");
+					sqliteFile.Close();
+					sqliteDB.Close();
+				  Console.WriteLine("[+] File_Deleted table is built in "+exportPath);
+					//SystemClass::Message(SystemClass::ICONINFORMATION, "Notice", "Export Completed!!");
+			}
+
+ }
