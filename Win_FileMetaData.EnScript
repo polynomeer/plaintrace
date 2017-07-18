@@ -366,4 +366,76 @@ class FileDialogClass : DialogClass {
         Semaphore.Create(1, 1);
     }
 
+    virtual void ChildEvent(const EventClass &event) {
+      if (button_search.Matches(event)) {
+           if (Semaphore.Wait(10)) {
+                  File_thread.Start();
+				  	//	  File_thread.StopRunning();
+           } else {
+                 SystemClass::Message(SystemClass::ICONINFORMATION, "Warning", "Still Processing..");
+                 return;
+           }
+      }
+	  else if(button_stop.Matches(event)){
+		  File_thread.StopRunning();
+	  }
+
+
+      if (FilterControl.Matches(event)) {
+           SearchClass search();
+           search.AddKeyword(FilterControl.GetText(), KeywordClass::UNICODE);
+
+           List.Close();
+		   List1.Close();
+		   List2.Close();
+           TreeControl.Input();
+		   TreeControl1.Input();
+		   TreeControl1.Input();
+
+           //int ListCopy_Count = ListCopy.CountAll(0,COUNTNODES);
+
+           if ( FilterControl.GetText() == "") {  //copy value when the lists are empty
+                foreach( FileListClass  n in  ListCopy ) { //search lists including keyword in the copied list
+                    FileListClass(List, n.fileName, n.fileExtension, n.fileSize, n.accessedTime, n.createdTime, n.writtenTime, n.filePath);
+                }
+           } else {
+                foreach( FileListClass  n in  ListCopy ) { //search lists including keyword in the copied list
+                    if ( (search.Find(n.fileName) == -1))
+                               continue;
+                   FileListClass(List, n.fileName, n.fileExtension, n.fileSize, n.accessedTime, n.createdTime, n.writtenTime, n.filePath);
+                }
+           }
+		   
+           if ( FilterControl.GetText() == "") {  //copy value when the lists are empty
+                foreach( FileListClass  n in  ListCopy1 ) { //search lists including keyword in the copied list
+                    FileListClass(List1, n.fileName, n.fileExtension, n.fileSize, n.accessedTime, n.createdTime, n.writtenTime, n.filePath);
+                }
+           } else {
+                foreach( FileListClass  n in  ListCopy1 ) { //search lists including keyword in the copied list
+                    if ( (search.Find(n.fileName) == -1))
+                               continue;
+                   FileListClass(List1, n.fileName, n.fileExtension, n.fileSize, n.accessedTime, n.createdTime, n.writtenTime, n.filePath);
+                }
+           }
+		   
+           if ( FilterControl.GetText() == "") {  //copy value when the lists are empty
+                foreach( FileListClass  n in  ListCopy2 ) { //search lists including keyword in the copied list
+                    FileListClass(List2, n.fileName, n.fileExtension, n.fileSize, n.accessedTime, n.createdTime, n.writtenTime, n.filePath);
+                }
+           } else {
+                foreach( FileListClass  n in  ListCopy2 ) { //search lists including keyword in the copied list
+                    if ( (search.Find(n.fileName) == -1))
+                               continue;
+                   FileListClass(List2, n.fileName, n.fileExtension, n.fileSize, n.accessedTime, n.createdTime, n.writtenTime, n.filePath);
+                }
+           }		   
+
+           TreeControl.Input();
+		   TreeControl1.Input();
+		   TreeControl2.Input();
+      }
+
+       DialogClass::ChildEvent(event);
+
+    }
 }
