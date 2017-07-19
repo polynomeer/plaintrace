@@ -437,5 +437,10 @@ class FileDialogClass : DialogClass {
 
        DialogClass::ChildEvent(event);
 
+    }//virtual void ChildEvent
+
+    virtual void Setup() {
+          StatusWindow.SetLimit("Progress Status", 0); //프로그레스바 0 으로 셋팅
+          SetTimer(1000); // 1초마다 호출
     }
 }
