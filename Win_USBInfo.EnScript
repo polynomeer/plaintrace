@@ -27,3 +27,39 @@ class USBRegListClass : NameListClass {
 	GUIDV = GUIDV,
 	LastConnectedTime = LastConnectedTime {}
 }
+
+class USBEventLogListClass : NameListClass {
+	property String vendor,
+							 product,
+							 state,							
+							 generatedTime,
+							 writtenTime,
+							 revision,
+							 serialNum,							
+							 lifetimeGUID,
+							 sourceGUID,
+							 source,
+							 computer,
+							 SID;							
+							
+	USBEventLogListClass(USBEventLogListClass parent = null, const String& vendor="", const String& product="", const String& state="", const String& generatedTime="",
+	const String& writtenTime="", const String& revision="", const String& serialNum="", const String& lifetimeGUID="", const String& sourceGUID="",
+	const String& source="", const String& computer="",const String& SID=""):
+		 NameListClass(parent),							 						
+		 vendor=vendor,
+		 product=product,
+		 state=state,							
+		 generatedTime=generatedTime,
+		 writtenTime=writtenTime,
+		 revision=revision,
+		 serialNum=serialNum,							
+		 lifetimeGUID= lifetimeGUID,
+		 sourceGUID=sourceGUID,
+		 source=source,
+		 computer = computer,
+		 SID =SID
+		 {
+		 }
+}
+
+class USBDialogClass;
