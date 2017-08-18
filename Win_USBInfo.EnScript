@@ -1,0 +1,29 @@
+
+class MainClass;
+
+class USBRegListClass : NameListClass {
+	property String
+	vendor,
+	prod,
+	FriendlyName,
+	FirstConnectedTime,
+	BootFirstConnectedTime,
+	LastConnectedTime,
+	rev,
+	UID,
+	GUIDD,
+	GUIDV;
+
+	USBRegListClass(USBRegListClass parent = null, const String & vendor = "", const String & prod = "", const String & FriendlyName = "", const String & FirstConnectedTime = "", const String & BootFirstConnectedTime = "", const String & LastConnectedTime = "", const String & rev = "", const String & UID = "", const String & GUIDD = "", const String & GUIDV = "") :
+	NameListClass(parent),
+	vendor = vendor,
+	prod = prod,
+	rev = rev,
+	UID = UID,
+	FriendlyName = FriendlyName,
+	FirstConnectedTime = FirstConnectedTime,
+	BootFirstConnectedTime = BootFirstConnectedTime,
+	GUIDD = GUIDD,
+	GUIDV = GUIDV,
+	LastConnectedTime = LastConnectedTime {}
+}
