@@ -63,3 +63,47 @@ class USBEventLogListClass : NameListClass {
 }
 
 class USBDialogClass;
+
+class USBWindowsHandlerClass : HandlerClass {
+	USBDialogClass USBWindows_dialog;
+	property FieldClass
+	vendorField,
+	prodField,
+	FriendlyNameField,
+	FirstConnectedTimeField,
+	BootFirstConnectedTimeField,
+	LastConnectedTimeField,
+	revField,
+	UIDField,
+	GUIDDField,
+	GUIDVField;
+
+	MenuClass CSVMenu;
+
+	USBWindowsHandlerClass(USBDialogClass USBWindows_dialog, const String & name, uint options, SymbolClass type) :
+	HandlerClass(null, name, options, type),
+	USBWindows_dialog = USBWindows_dialog,
+	vendorField(this, "Vendor", 0, "vendor", "vendor tag"),
+	prodField(this, "Product", 0, "prod", "prod tag"),
+	FriendlyNameField(this, "FriendlyName", 0, "FriendlyName", "A tag"),
+	FirstConnectedTimeField(this, "FirstConnect Time", TEXTCENTER, "FirstConnectedTime", "B tag"),
+	BootFirstConnectedTimeField(this, "FirstConnectTime AfterBooting", TEXTCENTER, "BootFirstConnectedTime", "C tag"),
+	LastConnectedTimeField(this, "LastConnect Time", TEXTCENTER, "LastConnectedTime", "D tag"),
+	revField(this, "Firmware Revision", 0, "rev", "E tag"),
+	UIDField(this, "Serial Number", 0, "UID", "F tag"),
+	GUIDDField(this, "Device GUID", 0, "GUIDD", "H tag"),
+	GUIDVField(this, "Volume GUID", 0, "GUIDV", "I tag"),
+	CSVMenu(MenuList, "CSV", MenuClass::TOOL) {
+		vendorField.SetColWidth(10);
+		prodField.SetColWidth(15);
+		FriendlyNameField.SetColWidth(10);
+		FirstConnectedTimeField.SetColWidth(20);
+		BootFirstConnectedTimeField.SetColWidth(20);
+		LastConnectedTimeField.SetColWidth(20);
+		revField.SetColWidth(5);
+		UIDField.SetColWidth(20);
+		GUIDDField.SetColWidth(20);
+		GUIDVField.SetColWidth(20);
+	}
+
+}
