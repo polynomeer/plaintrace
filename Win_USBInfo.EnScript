@@ -110,4 +110,32 @@ class USBWindowsHandlerClass : HandlerClass {
 		event.MenuAdd(CSVMenu, 0);
 		HandlerClass::BuildMenu(event);
 	}
+	
+	virtual MenuReply MenuEvent(MenuClass menu, NodeEventClass event) {
+		if (menu == CSVMenu) {
+			String savePath = "C:\\Browser_Exit.csv";
+
+			ExportUSBWindowsDialogClass dialog(null, savePath);
+
+			if (dialog.Execute() == SystemClass::OK) {
+				LocalFileClass lf();
+				if (lf.Open(savePath, FileClass::WRITETEXTCRLF)) {
+					lf.SetCodePage(CodePageClass::UTF8);
+
+					lf.Write("vendor, prod, rev, UID, FriendlyName, FirstConnectedTime, BootFirstConnectedTime, GUIDD, " +
+						"GUIDV, LastConnectedTime,\n");
+
+					foreach(USBRegListClass n in USBWindows_dialog.List) {
+						lf.Write("\"" + n.vendor + "\"" + "," + "\"" + n.prod + "\"" + "," + n.rev + "," + "\"" + n.UID + "\"" + "," + "\"" + n.FriendlyName + "\"" + "," +
+							n.FirstConnectedTime + "," + n.BootFirstConnectedTime + "," + n.GUIDD + "," + n.GUIDV + "," + n.LastConnectedTime + ",\n");
+
+					}
+					SystemClass::Message(SystemClass::ICONINFORMATION, "Notice", "Export Completed!!");
+				}
+			}
+		}
+
+		return HandlerClass::MenuEvent(menu, event);
+	}
+
 }
