@@ -190,4 +190,9 @@ class USBEventLogHandlerClass : HandlerClass {
 		SIDField.SetColWidth(10);
 	}
 
+	virtual void BuildMenu(NodeEventClass event) {
+		event.MenuAdd(CsvMenu, 0);
+		event.MenuAdd(SqliteMenu, 0);
+		HandlerClass::BuildMenu(event);
+	}
 }
