@@ -139,3 +139,55 @@ class USBWindowsHandlerClass : HandlerClass {
 	}
 
 }
+
+class USBEventLogHandlerClass : HandlerClass {
+	USBDialogClass USBEventLog_dialog;
+	property FieldClass vendorField,
+									productField,
+									stateField,
+									generatedTimeField,
+									writtenTimeField,									
+									revisionField,
+									serialNumField,
+									lifetimeGUIDField,
+									sourceGUIDField,
+									sourceField,
+									computerField,
+									SIDField;
+
+	MenuClass CsvMenu;
+	MenuClass SqliteMenu;
+
+	USBEventLogHandlerClass(USBDialogClass USBEventLog_dialog, const String & name, uint options, SymbolClass type) :
+	HandlerClass(null, name, options, type),
+	USBEventLog_dialog = USBEventLog_dialog,
+	vendorField(this, "Vendor", 0, "vendor", "vendor tag"),
+	productField(this, "Product", 0, "product", "product tag"),
+    stateField(this, "State", TEXTCENTER,"state", "state tag" ),
+	generatedTimeField(this, "GeneratedTime", TEXTCENTER, "generatedTime", "A tag"),
+	writtenTimeField(this, "WrittenTime", TEXTCENTER, "writtenTime", "B tag"),
+	revisionField(this, "Firmware Revision", 0, "revision", "C tag"),	
+	serialNumField(this, "Serial Number", 0, "serialNum", "D tag"),
+	lifetimeGUIDField(this, "Life Time GUID", 0, "lifetimeGUID", "F tag"),
+	sourceGUIDField(this, "SourceGUID", 0, "sourceGUID", "G tag"),
+	sourceField(this, "Source", 0, "source", "H tag"),
+	computerField(this, "Computer", 0, "computer", "I tag"),
+	SIDField(this, "SID", 0, "SID", "J tag"),
+	CsvMenu(MenuList, "CSV", MenuClass::TOOL),
+	SqliteMenu(MenuList, "SQLite", MenuClass::TOOL)	
+	{
+		vendorField.SetColWidth(10);
+		productField.SetColWidth(15);
+		stateField.SetColWidth(10);
+		generatedTimeField.SetColWidth(20);
+		writtenTimeField.SetColWidth(20);
+		revisionField.SetColWidth(5);
+		serialNumField.SetColWidth(15);
+		lifetimeGUIDField.SetColWidth(20);
+		sourceGUIDField.SetColWidth(20);
+        sourceField.SetColWidth(20);
+		computerField.SetColWidth(10);
+		SIDField.SetColWidth(10);
+	}
+
+}
