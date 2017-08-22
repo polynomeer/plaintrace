@@ -253,3 +253,11 @@ class USBEventLogHandlerClass : HandlerClass {
 	}
 
 }
+
+class ExportUSBWindowsDialogClass : DialogClass {
+	PathEditClass SaveHere;
+
+	ExportUSBWindowsDialogClass(DialogClass parent, String & savePath) :
+	DialogClass(parent, "ExportClass Example"),
+	SaveHere(this, "Location To save the CSV File", START, START, 200, DEFAULT, 0, savePath, PathEditClass::REQUIRED | PathEditClass::FILECREATE) {}
+}
