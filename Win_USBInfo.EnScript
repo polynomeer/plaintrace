@@ -195,4 +195,61 @@ class USBEventLogHandlerClass : HandlerClass {
 		event.MenuAdd(SqliteMenu, 0);
 		HandlerClass::BuildMenu(event);
 	}
+
+	virtual MenuReply MenuEvent(MenuClass menu, NodeEventClass event) {
+		if (menu == CsvMenu) {
+			String savePath = "C:\\Browser_Exit.csv";
+			ExportDialogClass dialog(null, savePath);
+			if (dialog.Execute() == SystemClass::OK) {
+				LocalFileClass lf();
+				if (lf.Open(savePath, FileClass::WRITETEXTCRLF)) {
+					lf.SetCodePage(CodePageClass::UTF8);
+					lf.Write("vendor, prod, rev, UID, FriendlyName, FirstConnectedTime, BootFirstConnectedTime, GUIDD, " +
+						"GUIDV, LastConnectedTime,\n");
+					foreach(USBEventLogListClass n in USBEventLog_dialog.List1) {
+						lf.Write("\"" + n.vendor + "\"" + "," + "\"" + n.product + "\"" + "," + n.state + "," + "\"" + n.generatedTime + "\"" + "," + "\"" + n.writtenTime + "\"" + "," +
+							n.revision + "," + n.serialNum + "," + n.lifetimeGUID + "," + n.sourceGUID + "," + "\"" + n.source + "," + "\"" + n.computer + "," + "\"" + n.SID + ",\n");
+					}
+					SystemClass::Message(SystemClass::ICONINFORMATION, "Notice", "Export Completed!!");
+				}
+			}
+		}
+		else if (menu == SqliteMenu) {
+		  String exportPath = "C:\\WindowsArtifacts.sqlite";
+		  ExportDialogClass dialog(null, exportPath);
+
+		  if (dialog.Execute() == SystemClass::OK) { //execute the export dialog
+			SQLiteClass sqliteDB();
+			LocalFileClass sqliteFile();
+			  if (!sqliteFile.Open(exportPath, FileClass::APPEND)){
+				SystemClass::Message(SystemClass::ICONINFORMATION, "Error", "Error in opening local  SQLite file");
+				Console.WriteLine("Error: Error in opening local SQLite file");
+				SystemClass::Exit();
+			  }
+			   if (sqliteDB.Open(sqliteFile, SQLiteClass::SQLITE_OPEN_READWRITE)){
+					sqliteFile.SetCodePage(CodePageClass::UTF8);
+				   SQLiteClass::CommandClass cmd = new SQLiteClass::CommandClass();
+				   if(sqliteDB.CreateCommand(cmd)){
+						 bool isSetTable = true;
+						 isSetTable = cmd.ExecuteNonQuery("CREATE TABLE USB_EventLog (id INTEGER PRIMARY KEY, Vendor LONGVARCHAR, Product LONGVARCHAR, State LONGVARCHAR, GeneratedTime LONGVARCHAR, WrittenTime LONGVARCHAR, FirmwareRevision LONGVARCHAR, SerialNumber LONGVARCHAR, LifeTimeGUID LONGVARCHAR, SourceGUID LONGVARCHAR, Source LONGVARCHAR, Computer LONGVARCHAR, SID LONGVARCHAR);");
+						 if(isSetTable){ //if table is set up successfully, insert value in each field
+							bool isQuery = true;
+							foreach(USBEventLogListClass n in USBEventLog_dialog.List1) {
+								isQuery = cmd.ExecuteNonQuery("INSERT INTO USB_EventLog (Vendor, Product, State, GeneratedTime, WrittenTime, FirmwareRevision, SerialNumber, LifeTimeGUID, SourceGUID, Source, Computer, SID) VALUES ('" + n.vendor + "', '" + n.product + "', '" + n.state + "', '" + n.generatedTime + "', '" + n.writtenTime + "', '" + n.revision + "', '" + n.serialNum + "', '" + n.lifetimeGUID + "', '" + n.sourceGUID + "', '" + n.source + "', '" + n.computer + "', '" + n.SID + "');");
+								if(!isQuery) Console.WriteLine("\nError: Failed to execute query. Query is not correct.\n");										
+							}
+						}
+						//else SystemClass::Message(SystemClass::ICONINFORMATION, "Error", "SQLite Table was not set up correctly.");
+					}
+					else Console.WriteLine("Error: SQLite Command could not be created successfully");
+			 }
+			 else SystemClass::Message(SystemClass::ICONINFORMATION, "Error", "SQLite Database Connection could not be opened correctly");
+			sqliteFile.Close();
+			sqliteDB.Close();
+		  }
+			SystemClass::Message(SystemClass::ICONINFORMATION, "Notice", "Export Completed!!");
+	  }
+		return HandlerClass::MenuEvent(menu, event);
+	}
+
 }
