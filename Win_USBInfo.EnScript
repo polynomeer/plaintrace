@@ -473,5 +473,47 @@ class USBWindowsThreadClass : ThreadClass {
 			
 		} // while loop close
 
+	} //run()
+
+
+	String Parse(const String & s) {
+		String ret;
+		int len = s.GetLength();
+		char prev = '_';
+		char c;
+		for (int i = 0; i < len; ++i) {
+			prev = c;
+			c = s[i];
+			if (c == '%') {
+				// get next 2
+				i++;
+				String j = s[i];
+				i++;
+				j += s[i];
+				ret += DecodeHex(j);
+			} else if (c == '0' && ((i + 1 < len) && (s[i + 1] == 'x' || s[i + 1] == 'X'))) {
+				++i;
+				//decode hex
+				while (++i < len) {
+					char w = s[i];
+					if (w == '%' || (!char::IsDigit(w) && w != 'a' && w != 'A' && w != 'b' && w != 'B' && w != 'c' && w != 'C' && w != 'd' && w != 'D' && w != 'e' && w != 'E' && w != 'f' && w != 'F')) {
+						--i;
+						break;
+					}
+					if (i == 340) {
+						//Console.WriteLine();
+					}
+					char w1;
+					if ((i + 1) < len) {
+						w1 = s[i + 1];
+					}
+					String b = w + "" + w1;
+					++i;
+					ret += DecodeHex(b);
+				}
+			} else
+				ret += c;
+		}
+		return ret;
 	}
 }
