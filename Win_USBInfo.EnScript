@@ -276,4 +276,202 @@ class USBWindowsThreadClass : ThreadClass {
 	cmds(),
 	USBWindows_dialog = USBWindows_dialog {}
 
+	virtual void Run() {
+		while (IsRunning()) {
+
+			int StatusWindowMax;
+			int StatusWindowStatus;
+			int StatusPercent;
+
+			USBWindows_dialog.time_reset = true;
+			USBWindows_dialog.time_check = true;
+			USBWindows_dialog.List.Close();
+			USBWindows_dialog.TreeControl.Input();
+
+			for (ItemIteratorClass iter(c, 0, ItemIteratorClass::CURRENTVIEW); EntryClass entry = iter.GetNextEntry(); ) {
+			   if (entry.IsVolume()) {
+				   VolumeClass vol = entry.GetVolume();
+				   if (vol) {
+						if(vol.WinDir().Find("Windows") != -1) {				
+							RegistryClass reg(entry);
+							Console.WriteLine("Registry File is on {0}:\\ drive", entry.Name());
+							
+							new RegCommandClass(cmds, "HKLM_ENUM_USBSTOR", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+								"SYSTEM\\ControlSet001\\Enum\\USBSTOR", "", 0, 2);
+
+							new RegCommandClass(cmds, "HKLM_ENUM_USB", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+								"SYSTEM\\ControlSet001\\Enum\\USB", "", 0, 1);
+
+							new RegCommandClass(cmds, "HKLM_CONTROL_DEVICECLASSES_D", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+								"SYSTEM\\ControlSet001\\Control\\DeviceClasses\\{53f56307-b6bf-11d0-94f2-00a0c91efb8b}", "", 0, 1);
+
+							new RegCommandClass(cmds, "HKLM_CONTROL_DEVICECLASSES_V", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+								"SYSTEM\\ControlSet001\\Control\\DeviceClasses\\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}", "", 0, 1);
+
+							new RegCommandClass(cmds, "HKLM_PORTABLE_DEVICES", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+								"SOFTWARE\\Microsoft\\Windows Portable Devices\\Devices", "", 0, 1);
+
+							new RegCommandClass(cmds, "HKLM_ProfileLists", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+								"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList", "", 0, 1);
+
+							new RegCommandClass(cmds, "HKLM_MOUNTEDDEVICE", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+								"SYSTEM\\MountedDevices", "", 0, 1);
+
+							RegValueClass values();
+							if(cmds == null) {
+								Console.WriteLine("Error: Registry has no data.");
+								break;
+							}
+							if (reg.Run(cmds, values)) {
+								String DID,
+								UID,
+								FriendlyName,
+								FirstConnectedTime,
+								BootFirstConnectedTime,
+								GUIDD,
+								GUIDV,
+								LastConnectedTime,
+								Drive_Letter,
+								Volume_Guid;
+								RegValueClass HKLM_ENUM_USBSTOR = values.Find("HKLM_ENUM_USBSTOR");
+								if (HKLM_ENUM_USBSTOR) {
+									forall(RegValueClass n in HKLM_ENUM_USBSTOR) {
+										StatusWindowMax++;
+									} //set max value of the status window by RegValueClass
+
+									USBWindows_dialog.StatusWindow.SetLimit("Progress Status", StatusWindowMax);
+
+									if (StatusWindowMax < 100)
+										StatusPercent = 1;
+									else
+										StatusPercent = StatusWindowMax / 100;
+
+									USBWindows_dialog.StatusWindow.SetPosition(StatusWindowMax);
+									
+									forall(RegValueClass n in HKLM_ENUM_USBSTOR) {
+										if ((StatusWindowStatus++ % StatusPercent) == 0) {
+											USBWindows_dialog.StatusWindow.SetPosition(StatusWindowStatus);
+										}
+
+										if (n.Name().Find("Disk") != -1 && n.Name().Find("Disk") != -1 && n.Name().Find("Ven") != -1 && n.Name().Find("Prod") != -1 && n.Name().Find("Rev") != -1 && n.IsFolder()) {
+											DID = UID = FriendlyName = FirstConnectedTime = BootFirstConnectedTime = GUIDD = GUIDV = LastConnectedTime = Drive_Letter = Volume_Guid = "";
+											DID = n.Name();
+										}
+										if (n.Name().Find("&", n.Name().GetLength() - 2, n.Name().GetLength()) != -1 && n.IsFolder()) {
+											UID = n.Name();
+											String DID_UID = DID + "#" + UID;
+											DID_UID.ToUpper();
+											if (reg.Run(cmds, values)) {
+												RegValueClass HKLM_PORTABLE_DEVICES = values.Find("HKLM_PORTABLE_DEVICES");
+												if (HKLM_PORTABLE_DEVICES) {
+													int count;
+													forall(RegValueClass n1 in HKLM_PORTABLE_DEVICES) {
+														if (n1.Name().Find(DID_UID) != -1) {
+															count = 1;
+														}
+														if (n1.Name() == "FriendlyName" && count == 1) {
+															FriendlyName = n1.ValueText();
+															FirstConnectedTime = n1.LastWritten().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+															break;
+														}
+													}
+												}
+
+												RegValueClass HKLM_CONTROL_DEVICECLASSES_D = values.Find("HKLM_CONTROL_DEVICECLASSES_D");
+												if (HKLM_CONTROL_DEVICECLASSES_D) {
+													forall(RegValueClass n1 in HKLM_CONTROL_DEVICECLASSES_D) {
+														if (n1.Name().Find(DID_UID) != -1) {
+															BootFirstConnectedTime = n1.LastWritten().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+														}
+													}
+												}
+
+												RegValueClass HKLM_CONTROL_DEVICECLASSES_V = values.Find("HKLM_CONTROL_DEVICECLASSES_V");
+												if (HKLM_CONTROL_DEVICECLASSES_V) {
+													forall(RegValueClass n1 in HKLM_CONTROL_DEVICECLASSES_V) {
+														if (n1.Name().Find(DID_UID) != -1) {
+															BootFirstConnectedTime = n1.LastWritten().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+														}
+													}
+												}
+
+												RegValueClass HKLM_MOUNTEDDEVICE = values.Find("HKLM_MOUNTEDDEVICE");
+												if (HKLM_MOUNTEDDEVICE) {
+													forall(RegValueClass n1 in HKLM_MOUNTEDDEVICE) {
+														String trimed = n1.ValueText();
+														trimed.Trim(" ", String::TRIMALL);
+														String decoded = Parse("0x" + trimed);
+														if (decoded.Find(DID) != -1 && n1.Name().Find("DosDevices") != -1) {
+															GUIDD = n1.Name();
+														}
+
+														if (decoded.Find(DID) != -1 && n1.Name().Find("Volume") != -1) {
+															GUIDV = n1.Name();
+														}
+													}
+												}
+
+												RegValueClass HKLM_ProfileLists = values.Find("HKLM_ProfileLists");
+												if (HKLM_ProfileLists) {
+													forall(RegValueClass n1 in HKLM_ProfileLists) {
+														if (n1.IsFolder()) {
+															new RegCommandClass(cmds, "HKLM_MOUNTPOINT2_" + n1.Name(), RegCommandClass::READKEY, RegCommandClass::HKEY_USERS, n1.Name() + "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MountPoints2", "", 0, 1);
+															RegValueClass HKLM_MOUNTPOINT2 = values.Find("HKLM_MOUNTPOINT2_" + n1.Name());
+															if (HKLM_MOUNTPOINT2) {
+																forall(RegValueClass n2 in HKLM_MOUNTPOINT2) {
+																	if (GUIDD.Find(n2.Name()) != -1)
+																		LastConnectedTime = n2.LastWritten().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+																	if (GUIDV.Find(n2.Name()) != -1)
+																		LastConnectedTime = n2.LastWritten().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+																}
+															}
+														}
+													}
+												}
+
+											}
+											String vendor, prod,	rev;
+											vendor = DID.SubString(DID.Find("&Ven_"), -1);
+											vendor = vendor.SubString(5, vendor.Find("&", 1) - 5);
+
+											prod = DID.SubString(DID.Find("&Prod_"), -1);
+											prod = prod.SubString(6, prod.Find("&", 1) - 6);
+
+											rev = DID.SubString(DID.Find("&Rev_"), -1);
+											rev = rev.SubString(5, rev.Find("&", 1) - 5);
+
+											new USBRegListClass(USBWindows_dialog.List, vendor, prod, FriendlyName, FirstConnectedTime, BootFirstConnectedTime, LastConnectedTime, rev, UID, GUIDD, GUIDV );
+											//insert parsed data into NameListClass object
+										}
+
+									}
+								}
+								break;
+							} else {
+								Console.WriteLine("Failed to Run with RegistryClass. ");
+								break;
+							}
+						} 
+					}
+			   } //Console.WriteLine("This entry is not a drive. Entry name : {0}", entry.Name());
+			} // for loop close
+			
+			SystemClass::Sleep(500);
+			USBWindows_dialog.TreeControl.Input();
+			//USBWindows_dialog.time_check = false;
+			USBWindows_dialog.Semaphore.Release();
+			foreach(USBRegListClass n in USBWindows_dialog.List) {
+				USBRegListClass(USBWindows_dialog.List_Copy_Value, n.vendor, n.prod, n.FriendlyName, n.FirstConnectedTime, n.BootFirstConnectedTime, n.LastConnectedTime, n.rev, n.UID, n.GUIDD, n.GUIDV);
+			}
+			USBWindows_dialog.StatusWindow.SetPosition(StatusWindowMax);
+
+			BookmarkDataClass mark(folder, "USB_Registry"); ///////////////////////////
+			// folder.SetComment("Comment for new BookmarkDataClass");
+			mark.SetRoot(USBWindows_dialog.List, USBWindows_dialog.Handler); ///////////////////////////
+			//SystemClass::Message(SystemClass::ICONINFORMATION, "Notice", "USB_Registry Export Finish");
+			break;
+			
+		} // while loop close
+
+	}
 }
