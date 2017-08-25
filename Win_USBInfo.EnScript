@@ -530,3 +530,20 @@ class USBWindowsThreadClass : ThreadClass {
 	}
 
 }
+
+
+class USBEventLogThreadClass : ThreadClass {
+	USBDialogClass USBEventLog_dialog;
+	CaseClass c;
+	BookmarkClass folder;
+
+	RegCommandClass cmds;
+
+	USBEventLogThreadClass(USBDialogClass USBEventLog_dialog, const String & name, CaseClass c, BookmarkClass folder) :
+	ThreadClass(null, name),
+	c = c,
+	folder = folder,
+	cmds(),
+	USBEventLog_dialog = USBEventLog_dialog {}
+
+}
