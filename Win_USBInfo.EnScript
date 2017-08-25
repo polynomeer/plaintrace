@@ -516,4 +516,17 @@ class USBWindowsThreadClass : ThreadClass {
 		}
 		return ret;
 	}
+
+	String DecodeHex(const String & str) {
+		String ret;
+		int len = str.GetLength();
+		for (int i = 0; (i < len) && ((i + 1) < len); i = i + 2) {
+			String s = str[i];
+			s += str[i + 1];
+			char c = int::Convert(s, int::HEX);
+			ret += c;
+		}
+		return ret;
+	}
+
 }
