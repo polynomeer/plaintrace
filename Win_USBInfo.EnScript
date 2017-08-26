@@ -545,5 +545,152 @@ class USBEventLogThreadClass : ThreadClass {
 	folder = folder,
 	cmds(),
 	USBEventLog_dialog = USBEventLog_dialog {}
+	
+	virtual void Run() {
+		while (IsRunning()) {
 
+			int StatusWindowMax;
+			int StatusWindowStatus;
+			int StatusPercent;
+			
+			USBEventLog_dialog.time_reset = true;
+			USBEventLog_dialog.time_check = true;
+			USBEventLog_dialog.List1.Close();
+			USBEventLog_dialog.TreeControl1.Input();
+
+		  ParserClass::EventLogParserClass EventParser = new ParserClass::EventLogParserClass();
+		  ParserClass::EvtxArtifactClass EvtxArtifactList = new ParserClass::EvtxArtifactClass();
+
+			bool isRun = false;
+		   EntryFileClass ef();
+		   ef.SetCodePage(CodePageClass::UNICODE);
+		
+		   for(ItemIteratorClass iter(c, 0, ItemIteratorClass::CURRENTVIEW); EntryClass entry = iter.GetNextEntry();) {
+			 //must open an EntryFile with each entry to check if the file matches what is being parsed for					 
+			   if(entry.ItemPath().Find("Windows\\System32\\winevt\\Logs") != -1 ) {
+					if( (entry.Name() == "Microsoft-Windows-DriverFrameworks-UserMode%4Operational.evtx") ) {
+						if(ef.Open(entry) ) {
+							//ef.SetCodePage(CodePageClass::ANSI);
+							 EventParser.Run(ef);
+							 isRun = true;
+							 Console.WriteLine("Event Parser starts running..");
+						} else
+							Console.WriteLine("Error: Failed to open the event log.");
+					} //else Console.WriteLine("Error: Microsoft-Windows-DriverFrameworks-UserMode%4Operational.evtx does not exits.");
+			   } //else Console.WriteLine("Error: \\Windows\\System32\\winevt\\Logs path does not exist.");		   
+		   }
+		   
+		   if(!isRun) {
+			   Console.WriteLine("Error: Failed to run Event Parser.");
+			   	USBEventLog_dialog.time_check = false;
+				USBEventLog_dialog.Semaphore.Release();
+			   return;
+		   }
+				
+				int StatusWindowMax_tmp;
+				String event_channel, event_computer, event_id, event_keyword, event_level, event_opcode, event_processID, event_qualifiers, event_recordNumber,
+				  event_sid, event_sourceEventName, event_sourceGuid, event_sourceName, event_task, event_theadID, event_timeGenerated, event_timeWritten, event_version, event_xmlEventData,
+				  event_time, event_xml, event_category;
+
+				  EvtxArtifactList = EventParser.EvtxArtifacts();
+				  ParserClass::EvtxArtifactClass preEvtx;
+				  
+				  foreach(ParserClass::EvtxArtifactClass evtx in EvtxArtifactList){
+					StatusWindowMax_tmp++;
+				  }
+				  StatusWindowMax = StatusWindowMax_tmp;
+				  USBEventLog_dialog.StatusWindow.SetLimit("Progress Status", StatusWindowMax);
+				  //Console.WriteLine("Status Window Max Value : "+StatusWindowMax);
+				   if(StatusWindowMax < 100  )
+					  StatusPercent =  1;
+				   else
+					  StatusPercent =  StatusWindowMax / 100;				  
+				  
+				  foreach(ParserClass::EvtxArtifactClass evtx in EvtxArtifactList){ //get the first event
+					preEvtx=evtx;
+					break;
+				  }
+				  int count=0;
+				  String vendor, product, revision, serialNum, lifeTime, state;
+			
+				  foreach(ParserClass::EvtxArtifactClass evtx in EvtxArtifactList){
+					  /*if( (StatusWindowStatus++ % StatusPercent) == 0 ) {
+						   USBEventLog_dialog.StatusWindow.SetPosition(StatusWindowStatus);
+					  }	*/
+					  USBEventLog_dialog.StatusWindow.SetPosition(StatusWindowStatus++);
+					//Console.WriteLine(StatusWindowStatus+" / "+StatusWindowMax);			  
+						if(preEvtx.TimeGenerated()==evtx.TimeGenerated() || preEvtx.TimeWritten()==evtx.TimeWritten()){	//compare preccesor event and currunt event
+							count++; //same device, so count up
+						} else{						
+							//Console.WriteLine("Event Changed!!");
+							if(count==25 && preEvtx.TimeGenerated()!=evtx.TimeGenerated()){
+								state="Mounted";
+								Console.WriteLine(preEvtx.TimeGenerated().GetString()+" : "+product+" was mounted.");
+								new USBEventLogListClass(USBEventLog_dialog.List1, vendor, product, state, event_timeGenerated, event_timeWritten, revision, serialNum, lifeTime, event_sourceGuid, event_sourceName, event_computer, event_sid);
+								
+							} else if(count==8 && preEvtx.TimeGenerated()!=evtx.TimeGenerated()){
+								state="Unmounted";
+								Console.WriteLine(preEvtx.TimeGenerated().GetString()+" : "+product+" was unmounted.");
+								new USBEventLogListClass(USBEventLog_dialog.List1, vendor, product, state, event_timeGenerated, event_timeWritten, revision, serialNum, lifeTime, event_sourceGuid, event_sourceName, event_computer, event_sid);
+							}
+							count=1; //reset count
+						}
+						  //event_channel = evtx.Channel();
+						  event_computer = evtx.Computer();
+						  event_id = evtx.EventId();
+						  event_sid = evtx.Sid();
+						  event_sourceEventName = evtx.SourceEventName();
+						  event_sourceGuid = evtx.SourceGuid();
+						  event_sourceName = evtx.SourceName();
+						  //event_theadID = evtx.ThreadID();
+						  event_timeGenerated =  evtx.TimeGenerated().GetString("yyyy/MM/dd","HH:mm:ss", -9*3600);
+						  event_timeWritten = evtx.TimeWritten().GetString("yyyy/MM/dd","HH:mm:ss", -9*3600);		
+					
+						 int offset,startOffset, endOffset ;
+						  if( (offset = evtx.XmlEventData().Find("DISK&") ) > 0) {
+								int tmpOffset =  evtx.XmlEventData().Find("lifetime") - 3;
+								String temp = evtx.XmlEventData().SubString(offset, tmpOffset - offset);
+								startOffset = temp.Find("VEN_") + 4;
+								endOffset = temp.Find("&PROD");
+								vendor = temp.SubString(startOffset, endOffset - startOffset);
+								startOffset = temp.Find("PROD_") + 5;
+								endOffset = temp.Find("&REV");
+								product = temp.SubString(startOffset, endOffset - startOffset);
+								startOffset = temp.Find("REV_") + 4;
+								endOffset = temp.Find("#");
+								revision = temp.SubString(startOffset, endOffset - startOffset);
+								startOffset = temp.Find("#") + 1;
+								endOffset = temp.Find("&0");
+								serialNum = temp.SubString(startOffset, endOffset - startOffset);							
+						  }
+						  if( (offset = evtx.XmlEventData().Find("lifetime") ) > 0) {
+								int tmpOffset = evtx.XmlEventData().Find("xmlns:auto");
+								String temp = evtx.XmlEventData().SubString(offset, tmpOffset-offset);
+								startOffset = temp.Find("=\"{") + 2;
+								endOffset = temp.Find("}") + 1;
+								lifeTime = temp.SubString(startOffset, endOffset - startOffset) ;
+							}				
+						  preEvtx=evtx;
+				}
+				
+				SystemClass::Sleep(500);
+				USBEventLog_dialog.TreeControl1.Input();
+				USBEventLog_dialog.time_check = false;
+				USBEventLog_dialog.Semaphore.Release();
+				
+				foreach(USBEventLogListClass n in USBEventLog_dialog.List1) {
+					USBEventLogListClass(USBEventLog_dialog.List_Copy_Value1, n.vendor, n.product, n.state, n.generatedTime, n.writtenTime, n.revision, n.serialNum, n.lifetimeGUID, n.sourceGUID, n.source, n.computer, n.SID);
+				}
+				USBEventLog_dialog.StatusWindow.SetPosition(StatusWindowMax);
+
+				BookmarkDataClass mark(folder, "USB_EventLog"); ///////////////////////////
+				// folder.SetComment("Comment for new BookmarkDataClass");
+				mark.SetRoot(USBEventLog_dialog.List1, USBEventLog_dialog.Handler1); ///////////////////////////
+				
+				//Console.WriteLine("Event Log ended");
+				BuildSqlite(); //Export sqlite file for timeline view in local "C:\\WindowsArtifact.sqlite"				
+				break;
+		} //while loop close
+
+	}
 }
