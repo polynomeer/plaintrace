@@ -731,3 +731,74 @@ class USBEventLogThreadClass : ThreadClass {
 			}
 
 }
+
+class USBDialogClass : DialogClass {
+
+	USBWindowsThreadClass USBWindows_thread;
+	USBEventLogThreadClass USBEventLog_thread;
+
+	ThreadClass::SemaphoreClass Semaphore;
+
+	USBRegListClass List, List_Copy_Value;
+	USBEventLogListClass List1, List_Copy_Value1;
+
+	USBWindowsHandlerClass Handler;
+	USBEventLogHandlerClass Handler1;
+
+	TreeTableEditClass TreeControl;
+	TreeTableEditClass TreeControl1;
+
+	StringEditClass FilterControl;
+
+	String filter_name;
+
+	StaticTextClass filter_title,
+	search_time;
+
+	ButtonClass button_search;
+
+	bool b_evtx;
+
+	bool time_check,
+	time_reset;
+
+	int hour,
+	minute,
+	second;
+
+	CaseClass c;
+
+	StatusWindowClass StatusWindow;
+
+	//Dialog Class Constructor
+
+	USBDialogClass(DialogClass parent, MainClass main, CaseClass c, BookmarkClass folder, int TreeViewSize) :
+	DialogClass(parent, "USB"),
+	c = c;
+
+	StatusWindow(this, "Searching", 5, 5, 240, 5, 0),
+	button_search(this, "Search ", 250, 15, 60, DEFAULT, 0),
+	search_time(this, "", 315, 17, 30, DEFAULT, 0),
+
+	FilterControl(this, "Keyword Search", 350, 5, 278, DEFAULT, 0, filter_name, 500, 0),
+
+	List(null, "List"),
+	List_Copy_Value(null, ""),
+	List1(null, "List"),
+	List_Copy_Value1(null, ""),
+	Handler(this, "Some Custom Class", 0, typeof(USBRegListClass)),
+	Handler1(this, "Some Custom Class", 0, typeof(USBEventLogListClass)),
+
+	TreeControl(this, "USB Registry ", 5, 30, 750, TreeViewSize/2, 0, List, ContextClass::CANCHECK | ContextClass::ALLFIELDS |
+		ContextClass::CANDELETENODE, ListEditClass::TABLEDEFAULT, Handler),
+	TreeControl1(this, "USB EventLog ", 5, TreeViewSize/2+43, 750, TreeViewSize/2, 0, List1, ContextClass::CANCHECK | ContextClass::ALLFIELDS |
+		ContextClass::CANDELETENODE, ListEditClass::TABLEDEFAULT, Handler1),
+	USBWindows_thread(this, "", c, folder),
+	USBEventLog_thread(this, "", c, folder)
+	{
+		TreeControl.SetView(ContextClass::PANETABLE);
+		TreeControl1.SetView(ContextClass::PANETABLE);
+		Semaphore.Create(1, 1);
+	}
+
+}
