@@ -692,5 +692,42 @@ class USBEventLogThreadClass : ThreadClass {
 				break;
 		} //while loop close
 
-	}
+	} //run()
+	
+				void BuildSqlite(){
+				  String exportPath = "C:\\TimeLineArtifacts.sqlite";
+
+					SQLiteClass sqliteDB();
+					LocalFileClass sqliteFile();
+					  if (!sqliteFile.Open(exportPath, FileClass::APPEND)){
+						SystemClass::Message(SystemClass::ICONINFORMATION, "Error", "Error in opening local  SQLite file");
+						Console.WriteLine("Error: Error in opening local SQLite file");
+						SystemClass::Exit();
+					  }
+					   if (sqliteDB.Open(sqliteFile, SQLiteClass::SQLITE_OPEN_READWRITE)){
+							sqliteFile.SetCodePage(CodePageClass::UTF8);
+						   SQLiteClass::CommandClass cmd = new SQLiteClass::CommandClass();
+						   if(sqliteDB.CreateCommand(cmd)){
+								 bool isSetTable = true;
+								  isSetTable = cmd.ExecuteNonQuery("CREATE TABLE USB_EventLog (id INTEGER PRIMARY KEY, Vendor LONGVARCHAR, Product LONGVARCHAR, State LONGVARCHAR, GeneratedTime LONGVARCHAR, WrittenTime LONGVARCHAR, FirmwareRevision LONGVARCHAR, SerialNumber LONGVARCHAR, LifeTimeGUID LONGVARCHAR, SourceGUID LONGVARCHAR, Source LONGVARCHAR, Computer LONGVARCHAR, SID LONGVARCHAR);");
+								 cmd.ExecuteNonQuery("BEGIN TRANSACTION;");
+								if(isSetTable){ //if table is set up successfully, insert value in each field
+									bool isQuery = true;									
+									foreach(USBEventLogListClass n in USBEventLog_dialog.List1) {
+										isQuery = cmd.ExecuteNonQuery("INSERT INTO USB_EventLog (Vendor, Product, State, GeneratedTime, WrittenTime, FirmwareRevision, SerialNumber, LifeTimeGUID, SourceGUID, Source, Computer, SID) VALUES ('" + n.vendor + "', '" + n.product + "', '" + n.state + "', '" + n.generatedTime + "', '" + n.writtenTime + "', '" + n.revision + "', '" + n.serialNum + "', '" + n.lifetimeGUID + "', '" + n.sourceGUID + "', '" + n.source + "', '" + n.computer + "', '" + n.SID + "');");
+										if(!isQuery) Console.WriteLine("\nError: Failed to execute query. Query is not correct.\n");										
+									}
+								}
+								//else SystemClass::Message(SystemClass::ICONINFORMATION, "Error", "SQLite Table was not set up correctly");
+								cmd.ExecuteNonQuery("END TRANSACTION;");
+							}
+							else Console.WriteLine("Error: SQLite Command could not be created successfully");
+					 }
+					 else SystemClass::Message(SystemClass::ICONINFORMATION, "Error", "SQLite Database Connection could not be opened correctly");
+					sqliteFile.Close();
+					sqliteDB.Close();
+				  Console.WriteLine("[+] USB_EventLog table is built in "+exportPath);
+				  //SystemClass::Message(SystemClass::ICONINFORMATION, "Notice", "USB EventLog Export Finish");
+			}
+
 }
