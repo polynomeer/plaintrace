@@ -801,4 +801,54 @@ class USBDialogClass : DialogClass {
 		Semaphore.Create(1, 1);
 	}
 
+	virtual void ChildEvent(const EventClass & event) {
+
+		if (button_search.Matches(event)) {
+           if (Semaphore.Wait(10)) {
+                  USBWindows_thread.Start();
+				  USBEventLog_thread.Start();				  
+           } else {
+                 SystemClass::Message(SystemClass::ICONINFORMATION, "Warning", "Still Processing..");
+                 return;
+           }
+		}
+
+		if (FilterControl.Matches(event)) {
+			SearchClass search();
+			search.AddKeyword(FilterControl.GetText(), KeywordClass::UNICODE);
+
+			List.Close();
+			TreeControl.Input();
+			List1.Close();
+			TreeControl1.Input();
+
+			if (FilterControl.GetText() == "") { 
+				foreach(USBRegListClass n in List_Copy_Value) {
+					new USBRegListClass(List, n.vendor, n.prod, n.rev, n.UID, n.FriendlyName, n.FirstConnectedTime, n.BootFirstConnectedTime, n.GUIDD, n.GUIDV, n.LastConnectedTime);
+				}
+			} else {
+				foreach(USBRegListClass n in List_Copy_Value) {
+					if ((search.Find(n.vendor) == -1))
+						continue;
+					new USBRegListClass(List, n.vendor, n.prod, n.rev, n.UID, n.FriendlyName, n.FirstConnectedTime, n.BootFirstConnectedTime, n.GUIDD, n.GUIDV, n.LastConnectedTime);
+				}
+			}
+			if (FilterControl.GetText() == "") { 
+				foreach(USBEventLogListClass n in List_Copy_Value1) {
+					new USBEventLogListClass(List1, n.vendor, n.product, n.state, n.generatedTime, n.writtenTime, n.revision, n.serialNum, n.lifetimeGUID, n.sourceGUID, n.source, n.computer, n.SID);
+				}
+			} else {
+				foreach(USBEventLogListClass n in List_Copy_Value1) {
+					if ((search.Find(n.vendor) == -1))
+						continue;
+					new USBEventLogListClass(List1, n.vendor, n.product, n.state, n.generatedTime, n.writtenTime, n.revision, n.serialNum, n.lifetimeGUID, n.sourceGUID, n.source, n.computer, n.SID);
+				}
+			}
+			TreeControl.Input();
+			TreeControl1.Input();
+		}
+
+		DialogClass::ChildEvent(event);
+
+	}
 }
