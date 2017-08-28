@@ -850,5 +850,10 @@ class USBDialogClass : DialogClass {
 
 		DialogClass::ChildEvent(event);
 
+	} //virtual void ChildEvent
+
+	virtual void Setup() {
+		StatusWindow.SetLimit("Progress Status", 0); 
+		SetTimer(500); 
 	}
 }
