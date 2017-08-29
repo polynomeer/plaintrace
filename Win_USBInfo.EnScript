@@ -856,4 +856,27 @@ class USBDialogClass : DialogClass {
 		StatusWindow.SetLimit("Progress Status", 0); 
 		SetTimer(500); 
 	}
+
+    virtual void TimerEvent(uint timerId) {
+         if (time_reset) {
+           hour=0;
+           minute=0;
+           second=0;
+           time_reset = false;
+         }
+         if (time_check) {
+           second++;
+           if(second >= 60) {
+             second=0;
+             minute++;
+           }
+           if(minute >= 60) {
+             minute=0;
+             hour++;
+           }
+           search_time.SetText( String::Format("{0}:{1}:{2} ",hour,minute,second));
+         } else {
+           search_time.SetText( String::Format("{0}:{1}:{2} ",hour,minute,second));
+         }
+    }
 }
