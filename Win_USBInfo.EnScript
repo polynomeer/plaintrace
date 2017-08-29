@@ -879,4 +879,8 @@ class USBDialogClass : DialogClass {
            search_time.SetText( String::Format("{0}:{1}:{2} ",hour,minute,second));
          }
     }
+
+	virtual bool CanClose() {
+		return false;
+	}
 }
