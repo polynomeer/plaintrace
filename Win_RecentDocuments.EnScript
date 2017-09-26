@@ -1,0 +1,28 @@
+class MainClass;
+
+class RecentDocListClass : NameListClass{
+  property String viewer,
+          file,
+          mtime,
+          atime,
+          ctime,
+          filesize,
+          driveType,
+          path;
+
+  RecentDocListClass(RecentDocListClass parent=null, const String &viewer="", const String &file="", const String &mtime="", const String &atime="", const String &ctime="", const String &filesize="", const String &driveType="", const String &path=""):
+
+  NameListClass(parent),
+  viewer = viewer,
+  file = file,
+  mtime = mtime,
+  atime = atime,
+  ctime = ctime,
+  filesize = filesize,
+  driveType = driveType,
+  path = path
+  {
+  }
+}
+
+class RecentDocDialogClass;
