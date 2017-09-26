@@ -26,3 +26,45 @@ class RecentDocListClass : NameListClass{
 }
 
 class RecentDocDialogClass;
+
+class RecentDocHandlerClass : HandlerClass{
+  RecentDocDialogClass RD_dialog;
+
+  property FieldClass viewerField,
+            fileField,
+            mtimeField,
+            atimeField,
+            ctimeField,
+            filesizeField,
+            driveTypeField,
+            pathField;
+
+  MenuClass CsvMenu;
+  MenuClass SqliteMenu;
+
+  RecentDocHandlerClass(RecentDocDialogClass RD_dialog, const String &name, uint options, SymbolClass type):
+  HandlerClass(null, name, options, type),
+  RD_dialog = RD_dialog,
+  viewerField(this, "Viewer", TEXTCENTER, "viewer", "A tag"),
+  fileField(this, "FileName", TEXTCENTER, "file", "B tag"),
+  mtimeField(this, "ModifiedTime", TEXTCENTER, "mtime", "C tag"),
+  atimeField(this, "AccessedTime", TEXTCENTER, "atime", "D tag"),
+  ctimeField(this, "CreatedTime", TEXTCENTER, "ctime", "E tag"),
+  filesizeField(this, "FileSize", TEXTCENTER, "filesize", "F tag"),
+  driveTypeField(this, "DriveType", TEXTCENTER, "driveType", "G tag"),
+  pathField(this, "Path", TEXTCENTER, "path", "H tag"),
+
+  CsvMenu(MenuList, "CSV", MenuClass::TOOL),
+  SqliteMenu(MenuList, "SQLite", MenuClass::TOOL)
+  {
+    viewerField.SetColWidth(15);
+    fileField.SetColWidth(15);
+    mtimeField.SetColWidth(25);
+    atimeField.SetColWidth(25);
+    ctimeField.SetColWidth(25);
+    filesizeField.SetColWidth(10);
+    driveTypeField.SetColWidth(10);
+    pathField.SetColWidth(40);
+  }
+
+}
