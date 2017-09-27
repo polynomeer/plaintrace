@@ -67,4 +67,10 @@ class RecentDocHandlerClass : HandlerClass{
     pathField.SetColWidth(40);
   }
 
+  virtual void BuildMenu(NodeEventClass event){
+    event.MenuAdd(CsvMenu, 0);
+    HandlerClass::BuildMenu(event);
+    event.MenuAdd(SqliteMenu, 0);
+    HandlerClass::BuildMenu(event);
+  }
 }
