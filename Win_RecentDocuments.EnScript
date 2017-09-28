@@ -134,3 +134,21 @@ class RecentDocHandlerClass : HandlerClass{
 
 
 class RecentDocDialogClass;
+
+class RecentDocThreadClass: ThreadClass {
+  RecentDocDialogClass RD_dialog;
+  CaseClass c;
+  BookmarkClass folder;
+
+  typedef String[] StringArr;
+  typedef int[] IntArr;
+
+  RecentDocThreadClass(RecentDocDialogClass RD_dialog, const String &name, CaseClass c, BookmarkClass folder):
+  ThreadClass(null, name),
+  folder = folder,
+  c = c,
+  RD_dialog = RD_dialog
+  {
+  }
+
+}
