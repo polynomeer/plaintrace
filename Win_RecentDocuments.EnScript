@@ -151,4 +151,15 @@ class RecentDocThreadClass: ThreadClass {
   {
   }
 
+  bool cmp_lnk_recent(StringArr arr, String name, String base_path){
+      String ext = base_path.GetFileExt();
+      name.ReplaceExtension("");
+      for(int i=0;i<arr.Count();i++){
+        arr[i].ReplaceExtension("");        
+        if(arr[i] == name){          
+          return true;
+        }
+      }
+      return false;
+    }
 }
