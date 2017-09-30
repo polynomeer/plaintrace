@@ -296,4 +296,16 @@ class RecentDocThreadClass: ThreadClass {
         for(int i=0;i<str_arr.Count();i++)
             Console.WriteLine(str_arr[i]);
   }
+
+  void str_cmp_add(StringArr str_arr, String target){
+      bool flag = true;
+      for(int i=0;i<str_arr.Count();i++){
+          if(target == str_arr[i]){
+              flag = false;
+              break;
+          }
+      }
+      if(flag)
+          str_arr.Add(target);
+  }
 }
