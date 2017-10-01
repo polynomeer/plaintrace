@@ -308,4 +308,58 @@ class RecentDocThreadClass: ThreadClass {
       if(flag)
           str_arr.Add(target);
   }
+
+  void recent_doc(EntryClass e, String reg_path, StringArr list){
+        RegistryClass reg(e);
+        RegValueClass values();
+        RegCommandClass::Keys key = RegCommandClass::HKEY_CURRENT_USER;
+        RegCommandClass cmd();
+
+        String str_num, name, result;
+        int num = 1;
+        while(1){
+
+            if(reg_path.Contains("Office")){
+                str_num = String::FormatInt(num);
+                name = "Item " + str_num;
+            }
+            else if(reg_path.Contains("Hnc")){
+                str_num = String::FormatInt(num-1);
+                name = "file" + str_num;
+            }
+            else if(reg_path.Contains("Adobe")){
+                str_num = String::FormatInt(num);
+                name = "\\c" + str_num;
+                reg_path += name;
+                name = "tDIText";
+            }
+            num += 1;
+            //Console.WriteLine("reg path : {0}\tname : {1}",reg_path, name);
+            new RegCommandClass(cmd, name, RegCommandClass::READVALUE, key, reg_path, name, 0, 1);
+            if(reg.Run(cmd, values)){
+                forall(RegValueClass cmd_name in values){
+                    MemoryFileClass mf();
+                    if(mf.Open(8, FileClass::WRITE)){
+                        mf.Seek(0);
+                        if(cmd_name.GetData(mf)){
+                            mf.Seek(0);
+                            mf.ReadString(result);
+                            //Console.WriteLine(result);
+                            if(result.Contains("Unable to open registry")) return;
+                            if(result != "Cannot read value")
+                                str_cmp_add(list, result.GetFilename2());
+                        }
+                    }
+                }
+            }
+            else{
+              break;
+            }
+            if(result == "Cannot read value") {
+                //Console.WriteLine(result);
+                //print_str_list(list);
+                break;
+            }
+        }
+    }
 }
