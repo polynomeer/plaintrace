@@ -398,4 +398,12 @@ class RecentDocThreadClass: ThreadClass {
         recent_doc(e, reg_path3, list);
         recent_doc(e, reg_path4, list);
     }
+
+    void hwp_doc(EntryClass e, String path, StringArr list){
+        String reg_path = "Software\\Hnc\\Hwp\\9.0\\HwpFrame_KOR\\RecentFile";
+        String reg_path2 = "Software\\Hnc\\Hwp\\9.0\\HwpFrame\\RecentFile";
+        Console.WriteLine("\n[+] Hwp Recent Files");
+        recent_doc(e, reg_path, list);
+        recent_doc(e, reg_path2, list);
+    }
 }
