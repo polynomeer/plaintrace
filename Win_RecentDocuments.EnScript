@@ -413,4 +413,169 @@ class RecentDocThreadClass: ThreadClass {
         Console.WriteLine("\n[+] Adobe Recent Files");
         recent_doc(e, reg_path, list);
     }
+
+  virtual void Run(){
+    while(IsRunning()){
+      int StatusWindowMax;
+      int StatusWindowStatus;
+      int OnePercent;
+
+      for(ItemIteratorClass iter(c,0,ItemIteratorClass::CURRENTVIEW_SELECTED); DeviceClass dev = iter.GetNextDevice();){
+        EntryClass entryRoot = dev.GetRootEntry();
+        StatusWindowMax = entryRoot.CountAll(2, NodeClass::COUNTNODES | NodeClass::COUNTFOLDERS | NodeClass::COUNTRECURSIVE);
+        Console.WriteLine(StatusWindowMax);
+      }
+
+      RD_dialog.StatusWindow.SetLimit("Progress Status", StatusWindowMax);
+      if(StatusWindowMax < 100) OnePercent = 1;
+      else OnePercent = StatusWindowMax / 100;
+
+      RD_dialog.time_reset = true;
+      RD_dialog.time_check = true;
+      RD_dialog.List.Close();
+      RD_dialog.TreeControl.Input();
+
+      String path = c.ExportFolder() + "\\link_files";
+        String lnk_path = path + "\\lnk_parse.csv";
+        ConnectionClass conn = LocalMachine;
+        conn.CreateFolder(path, ConnectionClass::CREATEFOLDERALL);
+        conn.Close();
+
+      StringArr pp_list(), word_list(), excel_list(), hwp_list(), adobe_list();
+
+        StringArr lnk();
+        IntArr cnt();
+
+        uint num = 0;
+        String str_num;
+        String name;
+
+        LocalFileClass db = new LocalFileClass();
+        SQLiteClass sql = new SQLiteClass();
+        db.Open("C:\\TimeLineArtifacts.sqlite", FileClass::APPEND);
+        sql.Open(db, SQLiteClass::SQLITE_OPEN_READWRITE);
+
+        LocalFileClass lf = new LocalFileClass();
+        lf.Open(lnk_path, FileClass::WRITE + FileClass::TEXT);        
+        lf.WriteLine("FILE NAME\tFILE SIZE\tDRIVE TYPE\tMTIME\tATIME\tCTIME\tLOCAL PATH\t");
+
+      for(ItemIteratorClass i(c,0,ItemIteratorClass::CURRENTVIEW_SELECTED); ItemClass item = i.GetNextItem();){
+        if((StatusWindowStatus++ % OnePercent) == 0){
+          RD_dialog.StatusWindow.SetPosition(StatusWindowStatus);
+        }
+
+        EntryClass e = EntryClass::TypeCast(item);
+
+        if(e.IsVolume()){
+                //RegistryClass reg(e);
+                Console.WriteLine("[+] recent document export");
+                pp_doc(e, path, pp_list);
+                word_doc(e, path, word_list);
+                excel_doc(e, path, excel_list);
+                hwp_doc(e, path, hwp_list);
+                adobe_doc(e, path, adobe_list);
+
+                Console.WriteLine("[+} PP");print_str_list(pp_list);
+                Console.WriteLine("[+} Word");print_str_list(word_list);
+                Console.WriteLine("[+} Excel");print_str_list(excel_list);
+                Console.WriteLine("[+} HWP");print_str_list(hwp_list);
+                Console.WriteLine("[+} ADOBE");print_str_list(adobe_list);
+
+                Console.WriteLine("[+] recent document export done\n");
+        }
+        String ext = e.Extension();
+        ext.ToLower();
+
+        if(ext == "lnk"){
+            EntryFileClass ef();
+            ef.Open(e);
+
+            DateClass obj_ctime(), obj_mtime(), obj_atime();
+
+            String ctime, mtime, atime;
+            ctime = e.Created().GetString("yyyy/MM/dd", "HH:mm:ss", -9*3600);
+            mtime = e.Written().GetString("yyyy/MM/dd", "HH:mm:ss", -9*3600);
+            atime = e.Accessed().GetString("yyyy/MM/dd", "HH:mm:ss", -9*3600);
+
+            ef.Seek(0x1c);
+            ef.ReadWinDate(obj_ctime);
+            ef.ReadWinDate(obj_atime);
+            ef.ReadWinDate(obj_mtime);
+
+            int file_size = ef.ReadBinaryInt(4);
+
+            int offset = 0x4c;
+            ef.Seek(offset);
+            int IDListSize = ef.ReadBinaryInt(2);
+
+            offset += IDListSize + 2;
+            ef.Seek(offset);
+
+            //Console.WriteLine("lnk offset: {0}",ef.GetPos());
+            int local_info_size = ef.ReadBinaryInt(4);
+            int local_info_hdr_size = ef.ReadBinaryInt(4);
+            int location_flag = ef.ReadBinaryInt(4);
+            int vol_offset = ef.ReadBinaryInt(4);
+            int local_path_offset = ef.ReadBinaryInt(4);
+            ef.Skip(8), int local_path_uni_offset = ef.ReadBinaryInt(4);
+
+            String local_path, local_path_uni, drive_type;
+            //Volume ID
+            if(vol_offset != 0){
+                ef.Seek(offset + vol_offset);
+                int vol_size = ef.ReadBinaryInt(4);
+                int drive = ef.ReadBinaryInt(4);
+                if(drive == 0) drive_type = "UNKNOWN";
+                else if(drive == 1) drive_type = "NO_ROOT";
+                else if(drive == 2) drive_type = "EXTERNAL_DEV";
+                else if(drive == 3) drive_type = "FIXED_DEV";
+                else if(drive == 4) drive_type = "NETWORK";
+                else if(drive == 5) drive_type = "CD-ROM";
+                else if(drive == 6) drive_type = "RAM_DISK";
+
+                int serial_num = ef.ReadBinaryInt(4);
+            }
+            if(local_path_offset != 0){
+              ef.SetCodePage(CodePageClass::ANSI);
+                ef.Seek(offset + local_path_offset);
+                ef.ReadString(local_path);
+                if(local_path_uni_offset){
+                    ef.Seek(offset + local_path_uni_offset);
+                    ef.ReadString(local_path_uni);
+                }
+            }
+
+            /*Console.WriteLine("###################################################");
+            Console.WriteLine("file name : {0}", e.Name());
+            Console.WriteLine("file size : {0}", file_size);
+            Console.WriteLine("drive type : {0}", drive_type);
+            Console.WriteLine("object ctime : {0}", obj_ctime.GetString("yyyy/MM/dd", "hh:mm:ss tt", -9*3600));
+            Console.WriteLine("object atime : {0}", obj_atime.GetString("yyyy/MM/dd", "hh:mm:ss tt", -9*3600));
+            Console.WriteLine("object mtime : {0}", obj_mtime.GetString("yyyy/MM/dd", "hh:mm:ss tt", -9*3600));
+            Console.WriteLine("local path : {0}", local_path);
+            Console.WriteLine("local path unicode : {0}", local_path_uni);*/
+            String query = e.Name() + "\t" + file_size + "\t" + drive_type + "\t" + mtime + "\t" + atime + "\t" + ctime + "\t" + local_path + "\t";
+            lf.WriteLine(query);
+        }
+
+      }
+      lf.Close();
+
+      recent_lnk(path, lnk_path, pp_list, word_list, excel_list, hwp_list, adobe_list, sql);
+
+      sql.Close();
+      db.Close();
+
+      SystemClass::Sleep(500);
+      RD_dialog.TreeControl.Input();
+      foreach(RecentDocListClass n in RD_dialog.List){
+        RecentDocListClass(RD_dialog.CopyList, n.viewer, n.file, n.mtime, n.atime, n.ctime, n.filesize, n.driveType, n.path);
+      }
+      RD_dialog.time_check = false;
+      RD_dialog.Semaphore.Release();
+      break;
+    }
+    //SystemClass::Message(SystemClass::ICONINFORMATION, "Notice", "RecentDoc Export Finish");
+  }
+
 }
