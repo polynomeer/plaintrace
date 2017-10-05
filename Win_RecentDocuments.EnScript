@@ -579,3 +579,43 @@ class RecentDocThreadClass: ThreadClass {
   }
 
 }
+
+
+class RecentDocDialogClass : DialogClass{
+  RecentDocThreadClass    RD_thread;
+  ThreadClass::SemaphoreClass Semaphore;
+  RecentDocListClass      List, CopyList;
+  RecentDocHandlerClass   Handler;
+  TreeTableEditClass      TreeControl;
+  StringEditClass       FilterControl;
+  String                      filter_name;
+  StaticTextClass       filter_title, RunningTime;
+  ButtonClass         button_search;
+  bool            b_evtx;
+  bool            time_check, time_reset;
+  int             hour, minute, second;
+  CaseClass         c;
+  StatusWindowClass     StatusWindow;
+
+  RecentDocDialogClass(DialogClass parent, MainClass main, CaseClass c, BookmarkClass folder, int TreeViewSize):
+  DialogClass(parent, "Recent Documents"),
+  c=c;
+
+  StatusWindow(this, "Progress Status", 5,5, 240, 5, 0),
+  button_search(this, "Search", 250, 15, 60, DEFAULT, 0),
+  RunningTime(this, "", 315, 17, 40, DEFAULT, 0),
+
+  FilterControl(this, "Keyword Search", 360, 5, 300, DEFAULT, 0, filter_name, 500, 0),
+
+  List(null, "List"),
+  CopyList(null, ""),
+  Handler(this, "Some Custom Class", 0, typeof(RecentDocListClass)),
+
+  TreeControl(this, "Recent Document", 5, 30, 750, TreeViewSize, 0, List, ContextClass::CANCHECK | ContextClass::ALLFIELDS | ContextClass::CANDELETENODE, ListEditClass::TABLEDEFAULT, Handler),
+  RD_thread(this, "", c, folder)
+  {
+    TreeControl.SetView(ContextClass::PANETABLE);
+    Semaphore.Create(1,1);
+  }
+
+}
