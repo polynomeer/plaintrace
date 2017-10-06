@@ -653,4 +653,9 @@ class RecentDocDialogClass : DialogClass{
     }
     DialogClass::ChildEvent(event);
   }
+
+  virtual void Setup(){
+    StatusWindow.SetLimit("Progress Status", 0);
+    SetTimer(1000);
+  }
 }
