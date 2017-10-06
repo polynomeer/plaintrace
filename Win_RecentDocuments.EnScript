@@ -618,4 +618,39 @@ class RecentDocDialogClass : DialogClass{
     Semaphore.Create(1,1);
   }
 
+  virtual void ChildEvent(const EventClass &event){
+    if(button_search.Matches(event)){
+      if(Semaphore.Wait(10)){
+        RD_thread.Start();
+      }
+      else{
+        SystemClass::Message(SystemClass::ICONINFORMATION, "Warning", "Still Processing...");
+        return;
+      }
+    }
+
+    if(FilterControl.Matches(event)){
+      SearchClass search();
+      search.AddKeyword(FilterControl.GetText(), KeywordClass::UNICODE);
+
+      List.Close();
+      TreeControl.Input();
+
+      int CopyList_Count = CopyList.CountAll(0, COUNTNODES);
+
+      if(FilterControl.GetText() == ""){
+        foreach(RecentDocListClass n in CopyList){
+          new RecentDocListClass(List, n.viewer, n.file, n.mtime, n.atime, n.ctime, n.filesize, n.driveType, n.path);
+        }
+      }
+      else{
+        foreach(RecentDocListClass n in CopyList){
+          if(search.Find(n.file) == -1) continue;
+          new RecentDocListClass(List, n.viewer, n.file, n.mtime, n.atime, n.ctime, n.filesize, n.driveType, n.path);
+        }
+      }
+      TreeControl.Input();
+    }
+    DialogClass::ChildEvent(event);
+  }
 }
