@@ -682,4 +682,10 @@ class RecentDocDialogClass : DialogClass{
       RunningTime.SetText(String::Format("{0}:{1}:{2} ", hour, minute, second));
     }
   }
+
+  virtual bool CanClose(){
+    return false;
+  }
 }
+
+
