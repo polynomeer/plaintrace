@@ -1,0 +1,19 @@
+class MainClass;
+
+class TimeLineWindow: WindowClass {
+  String Code;
+  RectClass   Rect, RectStr, RectStr1, RectStr2;
+  //ButtonClass	help_button, findMe_button;
+  
+  TimeLineWindow(WindowClass parent, int x, int y, int w, int h, const String &code):
+    WindowClass(parent, "", x, y, w, h, NOHIDESEL),
+    Code = code,
+    RectStr(30, 70, 600, 100),
+	RectStr1(60, 200, 1000, 100),
+	RectStr2(90, 350, 1400, 100)
+	//help_button(this, "Help", 700, 10, 30, 10, NOHIDESEL),
+	//findMe_button(this, "Find Me", 690, 300, 30, 10, NOHIDESEL)
+  {
+  }
+
+}
