@@ -16,4 +16,35 @@ class TimeLineWindow: WindowClass {
   {
   }
 
+	/*virtual void ChildEvent(const EventClass &event){
+		if(help_button.Matches(event)){
+		    SystemClass::Message(ICONINFORMATION, "Notice", "Help Clicked!!");			
+		}
+		if(findMe_button.Matches(event)){
+		    SystemClass::Message(ICONINFORMATION, "Notice", "Find me Clicked!!");			
+		}		
+	} */ 
+  
+  virtual void PaintEvent(GraphicsClass g) {
+    RectClass a = g.ClientArea();
+	g.Fill(a, ColorClass::Black); //paint background color	  
+	  //g.Fill(a, ColorClass::White); //paint background color	  
+    g.Fill(Rect, ColorClass::Black);
+    FontClass font(null, "", FontClass::BOLD, "Times New Roman", 850);
+    g.SetFont(font);
+    g.DrawString(String::Format("KITRI BoB Shellock"), RectStr, DRAWTOP, ColorClass::White);
+	 
+	FontClass font1(null, "", FontClass::BOLD, "Times New Roman", 1200);
+    g.SetFont(font1);
+	g.DrawString(String::Format("Plain View of Multi Artifacts"), RectStr1, DRAWTOP, ColorClass::White);
+	
+	FontClass font2(null, "", FontClass::BOLD, "Times New Roman", 1600);
+    g.SetFont(font2);
+	g.DrawString(String::Format("Timeline Artifacts View"), RectStr2, DRAWTOP, ColorClass::White);	
+  //DrawString (const String &s, const RectClass &r, uint Options=0, ColorClass fore=ColorClass::Default, ColorClass back=ColorClass::Null)
+
+  }
+  
 }
+
+class TimeLineDialogClass;
