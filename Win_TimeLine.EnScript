@@ -48,3 +48,22 @@ class TimeLineWindow: WindowClass {
 }
 
 class TimeLineDialogClass;
+
+class TimeLineThreadClass: ThreadClass{
+	TimeLineDialogClass	TimeLine_dialog;
+	CaseClass			c;
+	BookmarkClass		folder;
+
+	TimeLineThreadClass(TimeLineDialogClass TimeLine_dialog, const String &name, CaseClass c, BookmarkClass folder):
+	ThreadClass(null, name),
+	c=c,
+	folder = folder,
+	TimeLine_dialog = TimeLine_dialog
+	{		
+	}
+
+	bool f_flag;
+	typedef String [] StringArr;
+	typedef int [] IntArr;
+
+}
