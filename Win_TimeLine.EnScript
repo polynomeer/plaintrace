@@ -66,4 +66,17 @@ class TimeLineThreadClass: ThreadClass{
 	typedef String [] StringArr;
 	typedef int [] IntArr;
 
+	void FileDeleted(ItemClass item, SQLiteClass::CommandClass cmd){				
+		EntryClass entry = EntryClass::TypeCast(item); //type cast to ItemClass to use the methods which included in ItemClass
+		String path	= item.GetOriginalPath();
+		String fileProperty="None"; 
+		if(item.Extension()){
+			if(entry.IsDeleted() || path.Contains("$Recycle") && !entry.IsHidden()){
+				fileProperty="Deleted";
+				cmd.ExecuteNonQuery("INSERT INTO File_Deleted (FileName, FileExt, FileCategory,FileProperty, FileSize, AccessedTime, CreatedTime, WrittenTime, FilePath) VALUES ('" + 									item.Name() + "', '" +  item.Extension() + "', '" +  ItemClass::Categories::SourceText(entry.Category()) + "', '" +  fileProperty + "', '" +  item.LogicalSize() + "', '" +  item.Accessed().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600) + "', '" + item.Created().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600) + "', '" +  item.Written().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600) + "', '" +  entry.Deleted().GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600) + "');");
+			}
+		}
+
+		return;
+	}
 }
