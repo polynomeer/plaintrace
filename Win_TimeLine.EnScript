@@ -179,4 +179,87 @@ class TimeLineThreadClass: ThreadClass{
 		  }
 
 	}
+
+	void LogOn(EntryClass e, SQLiteClass::CommandClass cmd){
+		EntryFileClass ef();
+
+		ParserClass::EvtxArtifactClass  EvtxArtifact = new ParserClass::EvtxArtifactClass();
+        ParserClass::EventLogParserClass EventLogParser = new ParserClass::EventLogParserClass();
+
+		if(e.ItemPath().Find("System32\\winevt\\Logs") != -1){
+			if(e.Name() == "Security.evtx"){
+				if(ef.Open(e)){
+					EventLogParser.Run(ef);					
+				}
+			}
+		}
+
+
+       EvtxArtifact = EventLogParser.EvtxArtifacts();
+
+       foreach(ParserClass::EvtxArtifactClass evtx in EvtxArtifact) {            
+              DateClass generatedTime = evtx.TimeGenerated();
+              DateClass writtenTime = evtx.TimeWritten();
+              String targetUserName,SubjectDomainName,targetDomainName,targetLogonId,logonType,IpAddress,event;
+              int offset,startOffset, endOffset ;
+
+              if(evtx.EventId()==4647 | evtx.EventId()==4624  | evtx.EventId()==4634  )   {
+				  
+					if(evtx.EventId() == 4624) {
+                         event = "LogOn";
+                    } else {
+                         event = "LogOff";
+                    }
+					
+                    if( (offset = evtx.XmlEventData().Find("TargetUserName") ) > 0)
+                    {
+                         String temp = evtx.XmlEventData().SubString(offset,100);
+                         startOffset = temp.Find(">") + 1;
+                         endOffset = temp.Find("<");
+                         targetUserName = temp.SubString(startOffset, endOffset - startOffset) ;
+                    }
+                    if( (offset = evtx.XmlEventData().Find("SubjectDomainName") ) > 0)
+                    {
+                         String temp = evtx.XmlEventData().SubString(offset,100);
+                         startOffset = temp.Find(">") + 1;
+                         endOffset = temp.Find("<");
+                         SubjectDomainName = temp.SubString(startOffset, endOffset - startOffset) ;
+                    }
+                    if( (offset = evtx.XmlEventData().Find("TargetDomainName") ) > 0)
+                    {
+                         String temp = evtx.XmlEventData().SubString(offset,100);
+                         startOffset = temp.Find(">") + 1;
+                         endOffset = temp.Find("<");
+                         targetDomainName = temp.SubString(startOffset, endOffset - startOffset) ;
+                    }
+
+                    if( (offset = evtx.XmlEventData().Find("TargetLogonId") ) > 0)
+                    {
+                         String temp = evtx.XmlEventData().SubString(offset,100);
+                         startOffset = temp.Find(">") + 1;
+                         endOffset = temp.Find("<");
+                         targetLogonId = temp.SubString(startOffset, endOffset - startOffset) ;
+                    }
+                    if( (offset = evtx.XmlEventData().Find("LogonType") ) > 0)
+                    {
+                         String temp = evtx.XmlEventData().SubString(offset,100);
+                         startOffset = temp.Find(">") + 1;
+                         endOffset = temp.Find("<");
+                         logonType = temp.SubString(startOffset, endOffset - startOffset) ;
+                    }
+                    if( (offset = evtx.XmlEventData().Find("IpAddress") ) > 0)
+                    {
+                         String temp = evtx.XmlEventData().SubString(offset,100);
+                         startOffset = temp.Find(">") + 1;
+                         endOffset = temp.Find("<");
+                         IpAddress = temp.SubString(startOffset, endOffset - startOffset) ;
+                    }
+
+                    if( targetDomainName !="NT AUTHORITY" ) {
+                    	cmd.ExecuteNonQuery("INSERT INTO PC_LogOnOff (EventID, LogonID, User, Event, EventTime, NetworkAddress, LogonType, SID, GUID) VALUES ('" + evtx.EventId() + "', '" + targetLogonId + "', '" + targetUserName + "', '" + event + "', '" + generatedTime.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600) + "', '" + IpAddress + "', '" + logonType + "', '" + evtx.Sid() + "', '" + evtx.SourceGuid() + "');");                          
+                    }
+
+              }
+       }
+	}
 }
