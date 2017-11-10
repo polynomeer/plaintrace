@@ -310,4 +310,238 @@ class TimeLineThreadClass: ThreadClass{
        }
 
 	}
+
+	void UserAccount(EntryClass e, SQLiteClass::CommandClass cmd){
+    	RegCommandClass cmds;
+		if(e.IsVolume()) {
+					RegistryClass reg(e);
+					Console.WriteLine("Registry On {0}", e.Name());
+
+					new RegCommandClass(cmds, "HKLM_SAM_USERS_NAME", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+						"SAM\\SAM\\Domains\\Account\\Users\\Names\\", "", 0, 1);
+
+					new RegCommandClass(cmds, "HKLM_USERS_RID", RegCommandClass::READKEY, RegCommandClass::HKEY_LOCAL_MACHINE,
+						"SAM\\SAM\\Domains\\Account\\Users\\", "", 0, 1);
+          
+          if(cmds == null) return;
+          
+					RegValueClass values();
+					if (reg.Run(cmds, values)) {
+						RegValueClass HKLM_SAM_USERS_NAME = values.Find("HKLM_SAM_USERS_NAME");
+						if (HKLM_SAM_USERS_NAME) {
+							
+
+							forall(RegValueClass n in HKLM_SAM_USERS_NAME) {
+								
+
+								String RID_1;
+								RID_1 = RID_1.FormatInt(n.Type(), int::HEX, 0, 0);
+
+								if (reg.Run(cmds, values)) {
+									RegValueClass HKLM_USERS_RID = values.Find("HKLM_USERS_RID");
+									if (HKLM_USERS_RID) {
+										String RID,
+										lastLogonTime,
+										pwdChangedTime,
+										expiredTime,
+										invalidLogonTime,
+										lastWrittenTime,
+										userPrivilege,
+										userPrivilege_tmp,
+										full_name,
+										fullName,
+										descript,
+										homeDir,
+										lmHash,
+										ntHash,
+										countryCodeStr,
+										activation,
+										passwordExpiredTime;
+										int LogonCount,
+										invalidLogonCount;
+										
+										forall(RegValueClass n1 in HKLM_USERS_RID) {
+											if (n1.Depth() == 2) {
+												RID = lastLogonTime = pwdChangedTime = expiredTime = invalidLogonTime =
+													lastWrittenTime = userPrivilege = userPrivilege_tmp = full_name =
+													fullName = descript = homeDir = lmHash = ntHash = countryCodeStr = activation =
+													passwordExpiredTime = "";
+												LogonCount = invalidLogonCount = 0;
+											}
+											if (n1.Name() == "F") {
+												MemoryFileClass mf();
+												RID = lastLogonTime = pwdChangedTime = expiredTime = invalidLogonTime = lastWrittenTime = userPrivilege = userPrivilege_tmp = full_name = fullName = descript = homeDir = lmHash = ntHash = countryCodeStr = "";
+												if (mf.Open(n1.GetSize(), FileClass::WRITE)) {
+													if (n1.GetData(mf)) {
+
+														DateClass d();
+														mf.Seek(8);
+														if (mf.ReadWinDate(d))
+															lastLogonTime = d.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600); // last log on success time
+														mf.Seek(24);
+														if (mf.ReadWinDate(d))
+															pwdChangedTime = d.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600); // last password changed time
+
+														mf.Seek(32);
+														if (mf.ReadWinDate(d))
+															expiredTime = d.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600); // account expired time
+
+														mf.Seek(40);
+														if (mf.ReadWinDate(d))
+															invalidLogonTime = d.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+
+														d = n1.LastWritten();
+														lastWrittenTime = d.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+
+														mf.Seek(48);
+														int int_RID = mf.ReadBinaryInt(4);
+														String Hex_RID = RID.FormatInt(int_RID, int::HEX, uint Options = 0, uint zeropad = 0);
+														RID = Hex_RID;
+
+														mf.Seek(56); // Account Activation
+														int ac;
+														ac = mf.ReadBinaryInt(1);
+
+														if (int::InRange(ac, 0, 3) || int::InRange(ac, 0x8, 0xB))
+															activation = "Necessary/";
+
+														if (int::InRange(ac, 4, 7) || int::InRange(ac, 0xc, 0xf))
+															activation = "Unnecessary/";
+
+														if (0 == ac % 2)
+															activation = activation + "Active";
+
+														if (1 == ac % 2)
+															activation = activation + "Inactive";
+
+														mf.Seek(57);
+														int pa;
+														pa = mf.ReadBinaryInt(1);
+														if (pa == 2 || pa == 3 || pa == 6 || pa == 7 || pa == 0xE || pa == 0xF)
+															passwordExpiredTime = "None";
+														else {
+															d.Set(pwdChangedTime);
+															pa = d.GetUnix() + 3628800;
+															d.SetUnix(pa);
+															passwordExpiredTime = d.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+														}
+
+														mf.Seek(60);
+														int int_countryCode = mf.ReadBinaryInt(2);
+														String Hex_countryCode = Hex_countryCode.FormatInt(int_countryCode, int::HEX, 0, 0);
+														countryCodeStr = Hex_countryCode + " \(" + int_countryCode + "\)";
+
+														mf.Seek(64);
+														invalidLogonCount = mf.ReadBinaryInt(2);
+
+														mf.Seek(66);
+														LogonCount = mf.ReadBinaryInt(2);
+
+													}
+												}
+
+											} // F
+
+											if (n1.Name() == "V") {
+												MemoryFileClass mf();
+												if (mf.Open(n1.GetSize(), FileClass::WRITE)) { //must have the FileClass::WRITE flag because GetData() will write to the mem file
+													if (n1.GetData(mf)) {
+														mf.Seek(4);
+														int account_previliage = mf.ReadBinaryInt(4);
+														userPrivilege = userPrivilege.FormatInt(account_previliage, int::HEX, uint Options = 0, uint zeropad = 0);
+														if (userPrivilege == "bc")
+															userPrivilege = "Administrator";
+														if (userPrivilege == "d4")
+															userPrivilege = "Standard user";
+														if (userPrivilege == "b0")
+															userPrivilege = "Guest account";
+
+														mf.Seek(12);
+														int name_offset = mf.ReadBinaryInt(4) + 204; //이름 offset
+
+														mf.Seek(16);
+														int name_length = mf.ReadBinaryInt(4); //이름 길이
+														mf.Seek(name_offset);
+														mf.ReadString(full_name, name_length / 2);
+
+														mf.Seek(24);
+														int all_name_offset = mf.ReadBinaryInt(4) + 204; //전체 계정 이름  이름 offset
+
+														mf.Seek(28);
+														int all_name_length = mf.ReadBinaryInt(4); //전체 계정 이름 이름 길이
+														mf.Seek(all_name_offset);
+														mf.ReadString(fullName, all_name_length / 2);
+
+														mf.Seek(36);
+														int descript_offset = mf.ReadBinaryInt(4) + 204; //설명 offset
+
+														mf.Seek(40);
+														int descript_length = mf.ReadBinaryInt(4); //설명 길이
+														mf.Seek(descript_offset);
+														mf.ReadString(descript, descript_length / 2);
+
+														mf.Seek(72);
+														int homeDir_name_offset = mf.ReadBinaryInt(4) + 204; //홈 디렉토리 이름 offset
+
+														mf.Seek(76);
+														int homeDir_name_length = mf.ReadBinaryInt(4); //홈 디렉토리 이름 길이
+														mf.Seek(homeDir_name_offset);
+														mf.ReadString(homeDir, homeDir_name_length / 2);
+
+														mf.Seek(156);
+														int lmHash_offset = mf.ReadBinaryInt(4) + 204; //LM hash offset
+
+														mf.Seek(160);
+														int lmHash_length = mf.ReadBinaryInt(4); //LM hash 길이
+														//mf.ReadString(lmHash, lmHash_length / 2)
+														for (int i = 4; i < lmHash_length; i++) {
+															mf.Seek(lmHash_offset + i);
+															int lmHash_int = mf.ReadBinaryInt(1);
+															String lmHash_tmp = lmHash_tmp.FormatInt(lmHash_int, int::HEX); ;
+															if (lmHash_int < 16)
+																lmHash_tmp = "0" + lmHash_tmp;
+															lmHash = lmHash + lmHash_tmp;
+														}
+
+														mf.Seek(168);
+														int ntHash_offset = mf.ReadBinaryInt(4) + 204; //NT hash offset
+
+														mf.Seek(172);
+														int ntHash_length = mf.ReadBinaryInt(4); //NT hash 길이
+														for (int i = 4; i < ntHash_length; i++) {
+															mf.Seek(ntHash_offset + i);
+															int ntHash_int = mf.ReadBinaryInt(1);
+															String ntHash_tmp = ntHash_tmp.FormatInt(ntHash_int, int::HEX); ;
+															if (ntHash_int < 16)
+																ntHash_tmp = "0" + ntHash_tmp;
+															ntHash = ntHash + ntHash_tmp;
+														}
+
+														// Console.WriteLine("offset : " +  user_name);
+													}
+												}
+												if (RID_1 == RID){
+													Console.WriteLine("UserID : {0}", full_name);
+													cmd.ExecuteNonQuery("INSERT INTO PC_UserAccount (User, RID, LogonCount, InvalidLogonCount, LastLogonTime, InvalidLogonTime, LastPasswordChangedTime, ExpiredTime, PasswordExpiredTime, FullName, Description, HomeDirectory, LMHash, NTHash, Activation, UserPrivilege, CountryCode ) VALUES ('" + full_name + "', '" + RID + "', '" + LogonCount  + "', '" +  invalidLogonCount + "', '" + lastLogonTime + "', '" + invalidLogonTime + "', '" + pwdChangedTime + "', '" + expiredTime + "', '" + lastWrittenTime  + "', '" + fullName + "', '" + descript + "', '" + homeDir + "', '" + lmHash + "', '" + ntHash + "', '" + activation + "', '" + userPrivilege + "', '" + countryCodeStr + "');");
+												}
+
+											} //v
+										}
+										//break;
+									}
+								} 
+								else {
+										Console.WriteLine("Failed to get HKLM_USERS_RID from Registry. ");
+										//break;
+								}					
+							} //for loop RegValueClass HKLM_SAM_USERS_NAME close
+						}
+					} 
+					else 
+						Console.WriteLine("Failed to Run with RegistryClass. ");
+		}
+		//else
+			//Console.WriteLine("Fail to find Drive");
+						
+	}
 }
