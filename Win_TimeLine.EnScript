@@ -262,4 +262,52 @@ class TimeLineThreadClass: ThreadClass{
               }
        }
 	}
+
+	void PowerOn(EntryClass e, SQLiteClass::CommandClass cmd){
+		EntryFileClass ef();
+
+		ParserClass::EvtxArtifactClass  EvtxArtifact = new ParserClass::EvtxArtifactClass();
+        ParserClass::EventLogParserClass EventLogParser = new ParserClass::EventLogParserClass();
+
+		if(e.ItemPath().Find("System32\\winevt\\Logs") != -1){
+			if(e.Name() == "System.evtx"){
+				ef.Open(e);
+				EventLogParser.Run(ef);
+			}
+		}
+
+		EvtxArtifact = EventLogParser.EvtxArtifacts();
+
+       foreach(ParserClass::EvtxArtifactClass evtx in EvtxArtifact) {
+            
+              DateClass generatedTime = evtx.TimeGenerated();
+              String UserSid, Computer, State;
+              int offset,startOffset, endOffset ;
+
+              if(evtx.EventId()==12 | evtx.EventId()==13   )   {
+
+                  if( (offset = evtx.XmlEventData().Find("Security UserID") ) > 0)
+                  {
+                        String temp = evtx.XmlEventData().SubString(offset,100);
+                        startOffset = temp.Find("\"") + 1;
+                        endOffset = temp.Find("\" />");
+                        UserSid = temp.SubString(startOffset, endOffset - startOffset);
+                  }
+
+                  if( (offset = evtx.XmlEventData().Find("Computer") ) > 0)
+                  {
+                        String temp = evtx.XmlEventData().SubString(offset,100);
+                        startOffset = temp.Find(">") + 1;
+                        endOffset = temp.Find("<");
+                        Computer = temp.SubString(startOffset, endOffset - startOffset) ;
+                  }
+                  if(evtx.EventId() == 12 )
+                      State = "PowerOn";
+                  else if(evtx.EventId() == 13 )
+                      State = "PowerOff";
+				  cmd.ExecuteNonQuery("INSERT INTO PC_PowerOnOff (EventID, Computer, Event, EventTime, SID, GUID) VALUES ('" + evtx.EventId() + "', '" + Computer + "', '" + State + "', '" + generatedTime.GetString("yyyy/MM/dd","HH:mm:ss", -9*3600) + "', '" + UserSid + "', '" + evtx.SourceGuid() + "');");                  
+              }
+       }
+
+	}
 }
