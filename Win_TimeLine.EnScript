@@ -544,4 +544,66 @@ class TimeLineThreadClass: ThreadClass{
 			//Console.WriteLine("Fail to find Drive");
 						
 	}
+
+	void PrefetchEXE(EntryClass entry, SQLiteClass::CommandClass cmd){
+    	EntryFileClass ef();
+		if(entry.ItemPath().Find("\\Prefetch") != -1) {
+	          NameListClass NameListPath();
+	          NameListPath.Split(entry.ItemPath(),"\\");
+	          int index;
+
+	          foreach(NameListClass n in NameListPath ) {
+	               if(n.Name() =="Prefetch") {
+	                   index = n.Index();
+	               }
+	          }
+
+	          if(NameListPath.GetChild(index).Name() == "Prefetch" && entry.ItemPath().Find("ReadyBoot") == -1 && entry.Extension() == "pf" && entry.Description().Find("Deleted") == -1 ){
+	               if(ef.Open(entry)) {
+	                   DateClass LastRunTime();
+	                   DateClass CreatedTime = entry.Created();
+	                   DateClass ModifyTime = entry.Written();
+
+	                   String ProcessEXE, DevicePath, ProcessPath;
+	                   ef.Seek(0xC),  long FileSize = ef.ReadBinaryInt(4);
+	                   ef.Seek(0x10), ef.ReadString(ProcessEXE,28);
+	                   ef.Seek(0x58), int Count  = ef.ReadBinaryInt(4);
+	                   ef.Seek(0x64), int Offset = ef.ReadBinaryInt(4);
+
+	                   ef.Seek(0x80), ef.ReadWinDate(LastRunTime);
+	                   ef.Seek(0x98), int RunCount = ef.ReadBinaryInt(4);
+
+	                   ef.Seek(Offset);
+						if(Count < 300){
+						   for(int i = 0 ; i < Count ; i++ ) { //Reference List (Loaded DLL files and so on...)
+							   ef.ReadString(DevicePath);
+								
+								if((DevicePath.Contains(ProcessEXE))&&!(DevicePath.Contains(".MUI"))) {
+									ProcessPath = DevicePath;
+									if(DevicePath.Contains("HARDDISKVOLUME1")){
+										ProcessPath.Replace("\\Device\\HARDDISKVOLUME1\\", "C:\\",0,-1, 0);
+									//	ProcessPath = "C:\"" + ProcessPath;
+									}
+									else if(DevicePath.Contains("HARDDISKVOLUME2")){
+										ProcessPath.Replace("\\Device\\HARDDISKVOLUME2\\", "D:\\",0,-1, 0);
+									//	ProcessPath = "D:\"" + ProcessPath;
+									}
+									else if(DevicePath.Contains("HARDDISKVOLUME3")){
+										ProcessPath.Replace("\\Device\\HARDDISKVOLUME3\\", "E:\\",0,-1, 0);
+									//	ProcessPath = "E:\"" + ProcessPath;
+									}
+									else{
+									}
+								}
+								//new  NameValueClass( Prefetch_dialog.NameValue, entry.Name(), 0, DevicePath);
+						   }
+						} 
+						else
+						   Console.WriteLine("Error: Cannot get the process path. Reference lists are not proper."); //maybe memory corrupt. It can be into infinite loop
+					   
+					   cmd.ExecuteNonQuery("INSERT INTO App_EXEFile (SourceFile, FileName, CreatedTime,  FileSize, RunCount, FilePath) VALUES ('" + "PrefetchFile" + "', '" + ProcessEXE + "', '" + LastRunTime.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600)  + "', '" + FileSize + "', '" + RunCount + "', '" + ProcessPath+ "');");	                   
+	               }
+	          }
+	      }
+	}
 }
