@@ -741,4 +741,9 @@ class TimeLineThreadClass: ThreadClass{
       hwp.Close();
       adobe.Close();
     }
+
+  	void print_str_list(StringArr str_arr){
+        for(int i=0;i<str_arr.Count();i++)
+            Console.WriteLine(str_arr[i]);
+  	}
 }
