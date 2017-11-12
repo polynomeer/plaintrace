@@ -618,4 +618,127 @@ class TimeLineThreadClass: ThreadClass{
       }
       return false;
     }
+
+  	void recent_lnk(String path, String csv_path, StringArr pp_list, StringArr word_list, StringArr excel_list, StringArr hwp_list, StringArr adobe_list, SQLiteClass sql){
+      int i=0;
+      LocalFileClass lnk_csv = new LocalFileClass();
+      LocalFileClass pp = new LocalFileClass();
+      LocalFileClass word = new LocalFileClass();
+      LocalFileClass excel = new LocalFileClass();
+      LocalFileClass hwp = new LocalFileClass();
+      LocalFileClass adobe = new LocalFileClass();
+
+      lnk_csv.Open(csv_path);
+      pp.Open(path + "\\pp_recent_doc.csv", FileClass::TEXT + FileClass::WRITE);
+      word.Open(path + "\\word_recent_doc.csv", FileClass::TEXT + FileClass::WRITE);
+      excel.Open(path + "\\excel_recent_doc.csv", FileClass::TEXT + FileClass::WRITE);
+      hwp.Open(path + "\\hwp_recent_doc.csv", FileClass::TEXT + FileClass::WRITE);
+      adobe.Open(path + "\\adobe_recent_doc.csv", FileClass::TEXT + FileClass::WRITE);
+
+      String field = "Name\tMtime\tAtime\tCtime\tBasePath\tDescription\t";
+      pp.WriteLine(field);
+      word.WriteLine(field);
+      excel.WriteLine(field);
+      hwp.WriteLine(field);
+      adobe.WriteLine(field);
+
+      SQLiteClass::CommandClass cmd = new SQLiteClass::CommandClass();
+      sql.CreateCommand(cmd);
+      
+      cmd.ExecuteNonQuery("CREATE TABLE App_Documents (Viewer LONGVARCHAR, Name LONGVARCHAR, mtime LONGVARCHAR, atime LONGVARCHAR, ctime LONGVARCHAR, FileSize LONGVARCHAR, DriveType LONGVARCHAR, Path LONGVARCHAR);");
+
+      String sql_query;
+
+      //Console.WriteLine("[+] lnk_csv path : {0}", lnk_csv.Name());
+      while(lnk_csv.More()){
+        String union_insert_q = "insert into App_Documents (Viewer, Name, mtime, atime, ctime, FileSize, DriveType, Path) values ('";
+        String line = "";
+        lnk_csv.ReadString(line, -1, "\n");
+        if(i==0){
+          i++;
+          continue;
+        }
+
+        String obj = line.SubString(0,line.Find("\t"));
+        String time = line.SubString(line.Find("\t")+1,-1);
+        //int file_size = int::Convert(time.SubString(0, time.Find("\t")),int::DECIMAL);
+        String file_size = time.SubString(0, time.Find("\t"));
+        time = time.SubString(time.Find("\t")+1,-1);
+        String drive_type = time.SubString(0,time.Find("\t"));
+        time = time.SubString(time.Find("\t")+1,-1);
+        String mtime = time.SubString(0,time.Find("\t"));
+        time = time.SubString(time.Find("\t")+1,-1);
+        String atime = time.SubString(0,time.Find("\t"));
+        time = time.SubString(time.Find("\t")+1,-1);
+        String ctime = time.SubString(0,time.Find("\t"));
+        time = time.SubString(time.Find("\t")+1,-1);
+        String base_path = time.SubString(0,time.Find("\t"));
+
+
+        String ext = obj.GetFileExt();
+        ext.ToLower();
+
+        if(ext == "lnk")
+          obj.ReplaceExtension("");
+
+        String viewer = "";
+        //Console.WriteLine(obj);
+        String query = obj + "\t" + file_size + "\t" + drive_type + "\t" +  mtime + "\t" + atime + "\t" + ctime + "\t" + base_path + "\t";
+        
+        if(cmp_lnk_recent(pp_list, obj, base_path)){
+          viewer = "PowerPoint";
+          pp.WriteLine(query);
+          sql_query = "insert into powerpoint(Name, FileSize, DriveType, mtime, atime, ctime, local_path) values(\'" + obj + "\'," + file_size + ",\'" + drive_type + "\',\'" + mtime + "\',\'" + atime + "\',\'" + ctime + "\',\'" + base_path + "\');";
+          //cmd.ExecuteNonQuery(sql_query);
+          union_insert_q += viewer + "','" + obj +  "','" + mtime + "','" + atime + "','" + ctime + "','" + file_size + "','" + drive_type + "','" + base_path + "');";
+          //new RecentDocListClass(RD_dialog.List, viewer, obj, mtime, atime, ctime, file_size, drive_type, base_path);
+          cmd.ExecuteNonQuery(union_insert_q);
+        }
+        else if(cmp_lnk_recent(word_list, obj, base_path)){
+          viewer = "Word";
+          word.WriteLine(query);
+          sql_query = "insert into word(Name, FileSize, DriveType, mtime, atime, ctime, local_path) values(\'" + obj + "\'," + file_size + ",\'" + drive_type + "\',\'" + mtime + "\',\'" + atime + "\',\'" + ctime + "\',\'" + base_path + "\');";
+          //cmd.ExecuteNonQuery(sql_query);
+          union_insert_q += viewer + "','" + obj +  "','" + mtime + "','" + atime + "','" + ctime + "','" + file_size + "','" + drive_type + "','" + base_path + "');";
+          //new RecentDocListClass(RD_dialog.List, viewer, obj, mtime, atime, ctime, file_size, drive_type, base_path);
+          cmd.ExecuteNonQuery(union_insert_q);
+        }
+        else if(cmp_lnk_recent(excel_list, obj, base_path)){
+          viewer = "Excel";
+          excel.WriteLine(query);
+          sql_query = "insert into excel(Name, FileSize, DriveType, mtime, atime, ctime, local_path) values(\'" + obj + "\'," + file_size + ",\'" + drive_type + "\',\'" + mtime + "\',\'" + atime + "\',\'" + ctime + "\',\'" + base_path + "\');";
+          //cmd.ExecuteNonQuery(sql_query);
+          union_insert_q += viewer + "','" + obj +  "','" + mtime + "','" + atime + "','" + ctime + "','" + file_size + "','" + drive_type + "','" + base_path + "');";
+          //new RecentDocListClass(RD_dialog.List, viewer, obj, mtime, atime, ctime, file_size, drive_type, base_path);
+          cmd.ExecuteNonQuery(union_insert_q);
+        }
+        else if(cmp_lnk_recent(hwp_list, obj, base_path)){
+          viewer = "Hangul";
+          hwp.WriteLine(query);
+          sql_query = "insert into hwp(Name, FileSize, DriveType, mtime, atime, ctime, local_path) values(\'" + obj + "\'," + file_size + ",\'" + drive_type + "\',\'" + mtime + "\',\'" + atime + "\',\'" + ctime + "\',\'" + base_path + "\');";
+          //cmd.ExecuteNonQuery(sql_query);
+          union_insert_q += viewer + "','" + obj +  "','" + mtime + "','" + atime + "','" + ctime + "','" + file_size + "','" + drive_type + "','" + base_path + "');";
+          //new RecentDocListClass(RD_dialog.List, viewer, obj, mtime, atime, ctime, file_size, drive_type, base_path);
+          cmd.ExecuteNonQuery(union_insert_q);
+        }
+        else if(cmp_lnk_recent(adobe_list, obj, base_path)){
+          viewer = "AdobeReader";
+          adobe.WriteLine(query);
+          sql_query = "insert into adobe(Name, FileSize, DriveType, mtime, atime, ctime, local_path) values(\'" + obj + "\'," + file_size + ",\'" + drive_type + "\',\'" + mtime + "\',\'" + atime + "\',\'" + ctime + "\',\'" + base_path + "\');";
+          //cmd.ExecuteNonQuery(sql_query);
+          union_insert_q += viewer + "','" + obj +  "','" + mtime + "','" + atime + "','" + ctime + "','" + file_size + "','" + drive_type + "','" + base_path + "');";
+          //new RecentDocListClass(RD_dialog.List, viewer, obj, mtime, atime, ctime, file_size, drive_type, base_path);
+          cmd.ExecuteNonQuery(union_insert_q);
+        }
+
+
+        //Console.WriteLine(sql_query);
+      }
+      lnk_csv.Close();
+      pp.Close();
+      word.Close();
+      excel.Close();
+      hwp.Close();
+      adobe.Close();
+    }
 }
