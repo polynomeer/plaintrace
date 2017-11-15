@@ -836,4 +836,16 @@ class TimeLineThreadClass: ThreadClass{
         recent_doc(e, reg_path3, list);
         recent_doc(e, reg_path4, list);
     }
+
+    void excel_doc(EntryClass e, String path, StringArr list){
+        String reg_path1 = "Software\\Microsoft\\Office\\13.0\\Excel\\File MRU";
+        String reg_path2 = "Software\\Microsoft\\Office\\14.0\\Excel\\File MRU";
+        String reg_path3 = "Software\\Microsoft\\Office\\15.0\\Excel\\File MRU";
+        String reg_path4 = "Software\\Microsoft\\Office\\16.0\\Excel\\File MRU";
+        Console.WriteLine("\n[+] Excel Recent Files");
+        recent_doc(e, reg_path1, list);
+        recent_doc(e, reg_path2, list);
+        recent_doc(e, reg_path3, list);
+        recent_doc(e, reg_path4, list);
+    }
 }
