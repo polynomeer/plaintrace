@@ -863,4 +863,83 @@ class TimeLineThreadClass: ThreadClass{
         Console.WriteLine("\n[+] Adobe Recent Files");
         recent_doc(e, reg_path, list);
     }
+
+    void ExportLink(EntryClass e, SQLiteClass::CommandClass cmd, LocalFileClass lf){
+    	String path = c.ExportFolder() + "\\link_files";
+        String lnk_path = path + "\\lnk_parse.csv";
+
+      	StringArr pp_list(), word_list(), excel_list(), hwp_list(), adobe_list();
+
+        StringArr lnk();
+        IntArr cnt();
+
+        uint num = 0;
+        String str_num;
+        String name;        
+        
+        String ext = e.Extension();
+        ext.ToLower();
+
+        if(ext == "lnk"){
+            EntryFileClass ef();
+            ef.Open(e);
+
+            DateClass obj_ctime(), obj_mtime(), obj_atime();
+
+            String ctime, mtime, atime;
+            ctime = e.Created().GetString("yyyy/MM/dd", "HH:mm:ss", -9*3600);
+            mtime = e.Written().GetString("yyyy/MM/dd", "HH:mm:ss", -9*3600);
+            atime = e.Accessed().GetString("yyyy/MM/dd", "HH:mm:ss", -9*3600);
+
+            ef.Seek(0x1c);
+            ef.ReadWinDate(obj_ctime);
+            ef.ReadWinDate(obj_atime);
+            ef.ReadWinDate(obj_mtime);
+
+            int file_size = ef.ReadBinaryInt(4);
+
+            int offset = 0x4c;
+            ef.Seek(offset);
+            int IDListSize = ef.ReadBinaryInt(2);
+
+            offset += IDListSize + 2;
+            ef.Seek(offset);
+
+            //Console.WriteLine("lnk offset: {0}",ef.GetPos());
+            int local_info_size = ef.ReadBinaryInt(4);
+            int local_info_hdr_size = ef.ReadBinaryInt(4);
+            int location_flag = ef.ReadBinaryInt(4);
+            int vol_offset = ef.ReadBinaryInt(4);
+            int local_path_offset = ef.ReadBinaryInt(4);
+            ef.Skip(8), int local_path_uni_offset = ef.ReadBinaryInt(4);
+
+            String local_path, local_path_uni, drive_type;
+            //Volume ID
+            if(vol_offset != 0){
+                ef.Seek(offset + vol_offset);
+                int vol_size = ef.ReadBinaryInt(4);
+                int drive = ef.ReadBinaryInt(4);
+                if(drive == 0) drive_type = "UNKNOWN";
+                else if(drive == 1) drive_type = "NO_ROOT";
+                else if(drive == 2) drive_type = "EXTERNAL_DEV";
+                else if(drive == 3) drive_type = "FIXED_DEV";
+                else if(drive == 4) drive_type = "NETWORK";
+                else if(drive == 5) drive_type = "CD-ROM";
+                else if(drive == 6) drive_type = "RAM_DISK";
+
+                int serial_num = ef.ReadBinaryInt(4);
+            }
+            if(local_path_offset != 0){
+              ef.SetCodePage(CodePageClass::ANSI);
+                ef.Seek(offset + local_path_offset);
+                ef.ReadString(local_path);
+                if(local_path_uni_offset){
+                    ef.Seek(offset + local_path_uni_offset);
+                    ef.ReadString(local_path_uni);
+                }
+            }            
+            String query = e.Name() + "\t" + file_size + "\t" + drive_type + "\t" + mtime + "\t" + atime + "\t" + ctime + "\t" + local_path + "\t";
+            lf.WriteLine(query);
+        }        
+    }
 }
