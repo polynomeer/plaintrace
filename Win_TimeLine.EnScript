@@ -856,4 +856,11 @@ class TimeLineThreadClass: ThreadClass{
         recent_doc(e, reg_path, list);
         recent_doc(e, reg_path2, list);
     }
+
+    void adobe_doc(EntryClass e, String path, StringArr list){
+        String reg_path;
+        reg_path = "Software\\Adobe\\Acrobat Reader\\DC\\AVGeneral\\cRecentFiles";
+        Console.WriteLine("\n[+] Adobe Recent Files");
+        recent_doc(e, reg_path, list);
+    }
 }
