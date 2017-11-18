@@ -942,4 +942,33 @@ class TimeLineThreadClass: ThreadClass{
             lf.WriteLine(query);
         }        
     }
+
+void host_extract(String url, StringArr host, IntArr host_fre){
+    String tmp;
+    int idx;
+    StringArr host_ext();
+    host_ext.Add(".com/"), host_ext.Add(".co."), host_ext.Add(".net/"), host_ext.Add(".org/"), host_ext.Add(".ac.");
+
+    for(int i=0;i<host_ext.Count();i++){
+      if(url.Contains(host_ext[i])){
+        tmp = url.SubString(0, url.Find(host_ext[i]));
+        while(tmp.Find(".") != -1){
+          tmp = tmp.SubString(tmp.Find(".")+1, -1);
+        }
+        if(tmp.Contains("http")){
+          tmp.Trim("https://", TRIMALL);
+          tmp.Trim("http://", TRIMALL);
+        }
+        idx = host.Find(tmp);
+        if(idx == -1){
+          host.Add(tmp);
+          host_fre.Add(1);
+        }
+        else
+          host_fre[idx]++;
+
+        break;
+      }
+    }
+  }
 }
