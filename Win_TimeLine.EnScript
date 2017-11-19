@@ -1118,4 +1118,241 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 		copy.Close();
 		copy_db.Close();
 	}
+
+	void download_sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, String full_path, String table_name){
+		SQLiteClass copy = new SQLiteClass();
+		LocalFileClass copy_db = new LocalFileClass();
+		//if(!copy_db.Open(full_path + "\\history.sqlite", FileClass::APPEND))
+		if(!copy_db.Open("C:\\TimeLineArtifacts_Total.sqlite", FileClass::APPEND))
+		  Console.WriteLine("fail to open " + full_path + "\\" + full_path.GetFilename() +  "_history.sqlite");
+		if(!copy.Open(copy_db, SQLiteClass::SQLITE_OPEN_READWRITE))
+		  Console.WriteLine("fail to open history db " + full_path.GetFilename());
+		SQLiteClass::CommandClass copy_cmd = new SQLiteClass::CommandClass();
+		if(!copy.CreateCommand(copy_cmd))
+		  Console.WriteLine("fail to create command");
+
+		StringArr time_arr();
+		time_arr.Add("start_time");
+		time_arr.Add("end_time");
+		time_arr.Add("last_access_time");
+		time_arr.Add("last_visit_time");
+		time_arr.Add("dateAdded");
+		time_arr.Add("lastModified");
+		time_arr.Add("last_visit_date");
+
+		StringArr ff_download_arr();
+		ff_download_arr.Add("id");
+		ff_download_arr.Add("path");
+		ff_download_arr.Add("start_time");
+		ff_download_arr.Add("end_time");
+		ff_download_arr.Add("file_size");
+
+		String browser;
+		bool set_table = true;
+		if(table_name == "Web_cr_visit"){
+		  browser = "Chrome";
+		 //set_table = copy_cmd.ExecuteNonQuery("CREATE TABLE "+table_name+"(id INTEGER PRIMARY KEY AUTOINCREMENT,url LONGVARCHAR,title LONGVARCHAR,visit_count INTEGER DEFAULT 0 NOT NULL,typed_count INTEGER DEFAULT 0 NOT NULL,last_visit_time LONGVARCHAR,hidden INTEGER DEFAULT 0 NOT NULL);");
+		}
+		else if(table_name == "Web_cr_download"){
+		  browser = "Chrome";
+		  //set_table = copy_cmd.ExecuteNonQuery("CREATE TABLE "+table_name+" (id INTEGER PRIMARY KEY,guid VARCHAR NOT NULL,current_path LONGVARCHAR NOT NULL,target_path LONGVARCHAR NOT NULL,start_time LONGVARCHAR,received_bytes INTEGER NOT NULL,total_bytes INTEGER NOT NULL,state INTEGER NOT NULL,danger_type INTEGER NOT NULL,interrupt_reason INTEGER NOT NULL,hash BLOB NOT NULL,end_time LONGVARCHAR NOT NULL,opened INTEGER NOT NULL,last_access_time LONGVARCHAR NOT NULL,transient INTEGER NOT NULL,referrer VARCHAR NOT NULL,site_url VARCHAR NOT NULL,tab_url VARCHAR NOT NULL,tab_referrer_url VARCHAR NOT NULL,http_method VARCHAR NOT NULL,by_ext_id VARCHAR NOT NULL,by_ext_name VARCHAR NOT NULL,etag VARCHAR NOT NULL,last_modified VARCHAR NOT NULL,mime_type VARCHAR(255) NOT NULL,original_mime_type VARCHAR(255) NOT NULL);");
+		}
+		else if(table_name == "Web_ff_visit"){
+		  browser = "Firefox";
+		  //set_table = copy_cmd.ExecuteNonQuery("CREATE TABLE "+table_name+" (   id INTEGER PRIMARY KEY, url LONGVARCHAR, title LONGVARCHAR, rev_host LONGVARCHAR, visit_count INTEGER DEFAULT 0, hidden INTEGER DEFAULT 0 NOT NULL, typed INTEGER DEFAULT 0 NOT NULL, frecency INTEGER DEFAULT -1 NOT NULL, last_visit_date LONGVARCHAR, guid TEXT, foreign_count INTEGER DEFAULT 0 NOT NULL, url_hash INTEGER DEFAULT 0 NOT NULL );");
+		}
+		else if(table_name == "Web_ff_download"){
+		  browser = "Firefox";
+		  //set_table = copy_cmd.ExecuteNonQuery("CREATE TABLE "+table_name+" (  id INTEGER PRIMARY KEY, place_id INTEGER NOT NULL, anno_attribute_id INTEGER, content LONGVARCHAR, flags INTEGER DEFAULT 0, expiration INTEGER DEFAULT 0, type INTEGER DEFAULT 0, dateAdded LONGVARCHAR, lastModified LONGVARCHAR);");
+		  //set_table = copy_cmd.ExecuteNonQuery("CREATE TABLE "+table_name+" ( id INTEGER PRIMARY KEY, path LONGVARCHAR, start_time LONGVARCHAR, end_time LONGVARCHAR, file_size LONGVARCHAR);");
+		}
+		else if(table_name == "Web_op_visit"){
+		  browser = "Opera";
+		  //set_table = copy_cmd.ExecuteNonQuery("CREATE TABLE "+table_name+"(id INTEGER PRIMARY KEY AUTOINCREMENT,url LONGVARCHAR,title LONGVARCHAR,visit_count INTEGER DEFAULT 0 NOT NULL,typed_count INTEGER DEFAULT 0 NOT NULL,last_visit_time LONGVARCHAR NOT NULL,hidden INTEGER DEFAULT 0 NOT NULL)");
+		}
+		else if(table_name == "Web_op_download"){
+		  browser = "Opera";
+		  //set_table = copy_cmd.ExecuteNonQuery("CREATE TABLE "+table_name+" (id INTEGER PRIMARY KEY,guid VARCHAR NOT NULL,current_path LONGVARCHAR NOT NULL,target_path LONGVARCHAR NOT NULL,start_time LONGVARCHAR NOT NULL,received_bytes INTEGER NOT NULL,total_bytes INTEGER NOT NULL,state INTEGER NOT NULL,danger_type INTEGER NOT NULL,interrupt_reason INTEGER NOT NULL,hash BLOB NOT NULL,end_time LONGVARCHAR NOT NULL,opened INTEGER NOT NULL,last_access_time LONGVARCHAR NOT NULL,transient INTEGER NOT NULL,referrer VARCHAR NOT NULL,site_url VARCHAR NOT NULL,tab_url VARCHAR NOT NULL,tab_referrer_url VARCHAR NOT NULL,http_method VARCHAR NOT NULL,by_ext_id VARCHAR NOT NULL,by_ext_name VARCHAR NOT NULL,etag VARCHAR NOT NULL,last_modified VARCHAR NOT NULL,mime_type VARCHAR(255) NOT NULL,original_mime_type VARCHAR(255) NOT NULL);");
+		}
+
+		//copy_cmd.ExecuteNonQuery("CREATE TABLE Web_Download (Browser LONGVARCHAR, Path LONGVARCHAR, StartTime LONGVARCHAR, EndTime LONGVARCHAR, RecvBytes LONGVARCHAR, TotalBytes LONGVARCHAR, Url LONGVARCHAR);");
+
+
+		int ff_check = 0;
+		int ff_download_cnt = 0;
+		StringArr ff_download_val();
+		String ff_download_field = "";
+		String ff_download_query = "";
+		String ff_insert_query = "";
+
+		String tmp_url, tmp_time;
+		String tmp_path, tmp_start_time, tmp_end_time, tmp_received_bytes, tmp_total_bytes, tmp_origin;
+
+		while(dataReader.Read()){
+		  String query = "";
+		  String field = "";
+		  uint fieldCnt;
+		  StringArr field_arr();
+		  StringArr field_val();
+		  String insert_query = "";
+		  long time;
+		  DateClass date;
+		  String date_str;
+		  String union_insert_q = "insert into Web_Download (Browser, Path, StartTime, EndTime, RecvBytes, TotalBytes, Url) values ('" + browser + "','";
+		  bool readData = dataReader.GetFieldCount(fieldCnt);
+		  int ff_attribute_id;
+		  int ff_attribute_flag = 1;
+		  for(int i=0;i<fieldCnt;i++){
+		    String fieldName;
+		    variant v;
+		    SQLiteClass::DataReaderClass::DataTypes fieldType;
+		    readData = dataReader.GetFieldName(i, fieldName);
+		    readData = dataReader.Get(i,v);
+		    field_arr.Add(fieldName);
+
+
+		    if(table_name.Contains("ff_download")){
+		      if(ff_check % 2 == 0){
+		        if(fieldName == "content"){
+		          ff_download_query = "";
+		          ff_download_field = "";
+		          ff_download_val.Delete(0,ff_download_val.Count());
+		          ff_download_query += v.GetString() + "\t";
+		          ff_download_field += "id" + "\t";
+		          ff_download_field += "path" + "\t";
+		          ff_download_val.Add(ff_download_cnt);
+		          ff_download_val.Add(v.GetString());
+		          ff_download_cnt++;
+		        }
+		        else if(fieldName == "dateAdded"){
+		          time = ulong::Convert(v.GetString(), int::DECIMAL);
+		          date.SetUnix(time/1000000);
+		          date_str = date.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+		          ff_download_query += date_str + "\t";
+		          ff_download_field += "start_time" + "\t";
+		          ff_download_val.Add(date_str);
+		        }
+		        else if(fieldName == "ff_attribute_id"){
+		          ff_attribute_id = int::Convert(v.GetString(),int::DECIMAL);
+		          if(ff_attribute_id == 4 || ff_attribute_id == 5) ff_attribute_flag = 1;
+		          else ff_attribute_flag = 0;
+		        }
+		      }
+		      else{
+		        if(fieldName == "content" && ff_attribute_flag == 1){
+		          String content = v.GetString();
+		          int idx1 = content.Find("endTime");
+		          int idx2 = content.Find("fileSize");
+		          int idx3 = content.Find("}");
+		          String end = content.SubString(content.Find("endTime")+9, idx2-idx1-11);
+		          time = ulong::Convert(end, int::DECIMAL);
+		          date.SetUnix(time/1000);
+		          date_str = date.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+		          ff_download_query += date_str + "\t";
+		          String filesize = content.SubString(idx2+10, idx3-idx2-10);
+		          ff_download_query += filesize + "\t";
+		          ff_download_field += "end_time" + "\t";
+		          ff_download_field += "file_size" + "\t";
+		          ff_download_val.Add(date_str);
+		          ff_download_val.Add(filesize);
+		        }
+		      }
+		    }
+		    else if(table_name.Contains("download")){
+		      if(fieldName == "start_time" || fieldName == "end_time"){
+		        time = ulong::Convert(v.GetString(), int::DECIMAL);
+		        date.SetUnix(time/1000000 - 11644473600);
+		        date_str = date.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+		        query += date_str + "\t";
+		        field_val.Add(date_str);
+		        field += fieldName + "\t";
+		        if(fieldName == "start_time")
+		          tmp_start_time = date_str;
+		        else
+		          tmp_end_time = date_str;
+		      }
+		      else if(fieldName == "id" || fieldName == "current_path" || fieldName == "received_bytes" || fieldName == "total_bytes" || fieldName == "referrer"){
+		        field_val.Add(v.GetString());
+		        field += fieldName + "\t";
+		        if(fieldName == "current_path") tmp_path = v.GetString();
+		        else if(fieldName == "received_bytes") tmp_received_bytes = v.GetString();
+		        else if(fieldName == "total_bytes") tmp_total_bytes = v.GetString();
+		        else if(fieldName == "referrer") tmp_origin = v.GetString();
+		      }
+		    }
+		    else{
+		      if(time_arr.Find(fieldName) != -1){
+		        time = ulong::Convert(v.GetString(), int::DECIMAL);
+		        if(table_name.Contains("cr") || table_name.Contains("op")){
+		          date.SetUnix(time/1000000 - 11644473600);
+		        }
+		        else if(table_name.Contains("ff")){
+		          date.SetUnix(time/1000000);
+		        }
+		        date_str = date.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+		        query += date_str + "\t";
+		        field_val.Add(date_str);
+		      }
+		      else{
+		        query += v.GetString() + "\t";
+		        field_val.Add(v.GetString());
+		      }
+
+		      field += fieldName + "\t";
+		    }
+		  }
+
+		  insert_query = "insert into "+table_name+" (";
+
+		  if(table_name.Contains("ff_download") && ff_attribute_flag == 1){
+		    if(ff_check % 2 != 0){
+		      tmp_path = ff_download_val[1];
+		      tmp_start_time = ff_download_val[2];
+		      tmp_end_time = ff_download_val[3];
+		      tmp_received_bytes = ' ';
+		      tmp_total_bytes = ff_download_val[4];
+		      tmp_origin = ' ';		          
+		      //ff_insert_query += ");";
+
+		      union_insert_q += tmp_path + "','" + tmp_start_time + "','" + tmp_end_time + "','" + tmp_received_bytes + "','" + tmp_total_bytes + "','" + tmp_origin + "');";
+		      copy_cmd.ExecuteNonQuery(union_insert_q);
+		    }
+		    ff_check++;
+		  }
+		  else if(table_name.Contains("download")){		      
+		    union_insert_q += tmp_path + "','" + tmp_start_time + "','" + tmp_end_time + "','" + tmp_received_bytes + "','" + tmp_total_bytes + "','" + tmp_origin + "');";
+		    Console.WriteLine(union_insert_q);
+		    copy_cmd.ExecuteNonQuery(union_insert_q);
+		  }
+		  else{
+		    for(int i=0;i<field_arr.Count();i++){
+		      insert_query += field_arr[i];
+		      if(i != field_arr.Count()-1)
+		        insert_query += ",";
+		    }
+		    insert_query += ") values (";
+		    for(int i=0;i<field_val.Count();i++){
+		      insert_query += "\'" + field_val[i] + "\'";
+		      if(i != field_arr.Count()-1)
+		        insert_query += ",";
+		      if(i == 1)
+		        tmp_url = field_val[i];
+		      else{
+		        if(table_name == "Web_cr_visit" || table_name == "Web_op_visit"){
+		          if(i==5) tmp_time = field_val[i];
+		        }
+		        else if(table_name == "Web_ff_visit"){
+		          if(i==8) tmp_time = field_val[i];
+		        }
+		      }
+		    }
+		    insert_query += ");";
+		  }
+
+		  //f_flag = false;
+		  //Console.WriteLine(query);
+		}
+		copy.Close();
+		copy_db.Close();
+	}
 }
