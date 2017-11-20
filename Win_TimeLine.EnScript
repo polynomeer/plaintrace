@@ -1525,4 +1525,55 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 		copy_db.Close();
 		lf.Close();
 	}
+
+	void visit_csv(CaseClass c, String path, String full_path){
+		String table_name;
+		LocalFileClass db = new LocalFileClass();
+		SQLiteClass sql = new SQLiteClass();
+		LocalFileClass result = new LocalFileClass();
+		ConnectionClass conn = LocalMachine;
+		conn.CreateFolder(full_path + "\\visit", ConnectionClass::CREATEFOLDERALL);
+
+		table_name = "Web_";
+
+		if(path.Contains("Chrome")){
+		  result.Open(full_path + "\\visit" + "\\Chrome_history.csv", FileClass::WRITE + FileClass::TEXT);
+		  table_name += "cr_visit";
+		}
+		else if(path.Contains("FF_History")){
+		  result.Open(full_path + "\\visit" + "\\FF_history.csv", FileClass::WRITE + FileClass::TEXT);
+		  table_name += "ff_visit";
+		}
+		else if(path.Contains("Opera_History")){
+		  result.Open(full_path + "\\visit" + "\\Opera_history.csv", FileClass::WRITE + FileClass::TEXT);
+		  table_name += "op_visit";
+		}
+
+		if(db.Open(path)){
+		  if(sql.Open(db, SQLiteClass::SQLITE_OPEN_READONLY)){
+		    SQLiteClass::CommandClass cmd = new SQLiteClass::CommandClass();
+		    if(sql.CreateCommand(cmd)){
+		      bool queryTable = true;
+		      SQLiteClass::DataReaderClass dataReader = new SQLiteClass::DataReaderClass();
+		      if(path.Contains("Chrome_History") || path.Contains("Opera_History"))
+		        queryTable = cmd.ExecuteQuery("select * from urls;", dataReader);
+		      else if(path.Contains("FF_History"))
+		        queryTable = cmd.ExecuteQuery("select * from moz_places;", dataReader);
+
+		      if(queryTable){
+		          sql2csv(dataReader, result, full_path, table_name);
+		          keyword_extract(dataReader, full_path, table_name + "_keyword");
+		      }
+		      else
+		        Console.WriteLine("[-] query error!\n");
+		    }
+		    else
+		      Console.WriteLine("[-] fail to create command!\n");
+		  }
+		  else
+		    Console.WriteLine("[-] fail to open database!\n");
+		}
+		else
+		  Console.WriteLine("[-] fail to open local database file!\n");
+	}
 }
