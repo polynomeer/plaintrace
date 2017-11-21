@@ -1629,4 +1629,27 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 	      Console.WriteLine("[-] fail to open local database!\n");
 
 	  }
+
+
+	  String IE_timeformat(String s){
+	    String mon = s.SubString(0,2);
+	    String day = s.SubString(3,2);
+	    String year = "20"+s.SubString(6,2);
+	    String time = s.SubString(9,8);
+
+	    String hh = s.SubString(18,2);
+	    if(hh == "오후"){
+	      int hour_int = int::Convert(time.SubString(0,2),int::DECIMAL);
+	      hour_int += 12;
+	      String hour_str = String::FormatInt(hour_int,int::DECIMAL);
+	      time = hour_str + time.SubString(2,-1);
+	    }
+
+	    String str = year+"-"+mon+"-"+day+" "+time;
+	    DateClass date();
+	    date.Set(str);
+	    String date_str = date.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+	    //Console.WriteLine(date_str);
+	    return date_str;
+	  }
 }
