@@ -1576,4 +1576,57 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 		else
 		  Console.WriteLine("[-] fail to open local database file!\n");
 	}
+
+	void download_csv(CaseClass c, String path, String full_path){
+	    String table_name;
+	    LocalFileClass db = new LocalFileClass();
+	    SQLiteClass sql = new SQLiteClass();
+	    LocalFileClass result = new LocalFileClass();
+	    ConnectionClass conn = LocalMachine;
+	    conn.CreateFolder(full_path + "\\downloads", ConnectionClass::CREATEFOLDERALL);
+
+	    table_name = "Web_";
+
+	    if(path.Contains("Chrome"))
+	      result.Open(full_path + "\\downloads" + "\\Chrome_download.csv", FileClass::WRITE + FileClass::TEXT);
+	    else if(path.Contains("FF_History"))
+	      result.Open(full_path + "\\downloads" + "\\FF_download.csv", FileClass::WRITE + FileClass::TEXT);
+	    else if(path.Contains("Opera_History"))
+	      result.Open(full_path + "\\downloads" + "\\Opera_download.csv", FileClass::WRITE + FileClass::TEXT);
+
+	    if(db.Open(path)){
+	        if(sql.Open(db, SQLiteClass::SQLITE_OPEN_READONLY)){
+	          SQLiteClass::CommandClass command = new SQLiteClass::CommandClass();
+	          if(sql.CreateCommand(command)){
+	            bool queryTable = true;
+	            SQLiteClass::DataReaderClass dataReader = new SQLiteClass::DataReaderClass();
+	            if(path.Contains("Chrome_History")){
+	              table_name += "cr_download";
+	              queryTable = command.ExecuteQuery("select * from downloads;", dataReader);
+	            }
+	            if(path.Contains("Opera_History")){
+	              table_name += "op_download";
+	              queryTable = command.ExecuteQuery("select * from downloads;", dataReader);
+	            }
+	            else if(path.Contains("FF_History")){
+	              table_name += "ff_download";
+	              queryTable = command.ExecuteQuery("select * from moz_annos;", dataReader);
+	            }
+
+	            if(queryTable){
+	              download_sql2csv(dataReader, result, full_path, table_name);
+	            }
+	            else
+	             Console.WriteLine("[-] queyr error!\n");
+	          }
+	          else
+	            Console.WriteLine("[-] fail to create command\n");
+	        }
+	        else
+	          Console.WriteLine("[-] fail to open database\n");
+	    }
+	    else
+	      Console.WriteLine("[-] fail to open local database!\n");
+
+	  }
 }
