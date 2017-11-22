@@ -1682,4 +1682,97 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 	    else
 	      return 0;
 	  }
+
+	  void IE_index_dat(CaseClass c, String path, String full_path){
+	    String browser = "IE";
+	    LocalFileClass idx_dat = new LocalFileClass();
+	    LocalFileClass result = new LocalFileClass();
+	    LocalFileClass result_search = new LocalFileClass();
+	    LocalFileClass portal = new LocalFileClass();
+
+	    StringArr host();
+	    IntArr host_fre();
+
+	    LocalFileClass db = new LocalFileClass();
+	    SQLiteClass sql = new SQLiteClass();
+	    SQLiteClass::CommandClass cmd = new SQLiteClass::CommandClass();
+
+	    //db.Open(full_path + "\\internet_explorer_history\\index_history.sqlite", FileClass::APPEND);
+	    db.Open("C:\\TimeLineArtifacts_Total.sqlite", FileClass::APPEND);
+	    sql.Open(db, SQLiteClass::SQLITE_OPEN_READWRITE);
+	    sql.CreateCommand(cmd);
+
+
+	    if(!idx_dat.Open(path, FileClass::TEXT)){
+	      Console.WriteLine("[-] fail to open index.dat\n");
+	      return;
+	    }
+
+	    String query = "FRAME\tTIME\tVISITED_URL\t";
+	    
+
+	    uint sign = 0, idx;
+	    String search_key;
+	    String url_str, key;
+	    uint v;
+	    while(idx_dat.More()){
+	      v = idx_dat.Get();
+	      //Console.WriteLine(v);
+	      if(v == 0x55){
+	        v = idx_dat.Get();
+	        if(v == 0x52){
+	          v = idx_dat.Get();
+	          if(v == 0x4c){
+	            v = idx_dat.Get();
+	            if(v == 0x20){
+	                uint ptr = idx_dat.GetPos();
+	                uint rec_size;
+	                rec_size = idx_dat.ReadBinaryInt(4, 0) * 128;
+	                ulong time_num;
+	                //time_num = idx_dat.ReadBinaryInt(8, 0);
+	                DateClass date();
+	                idx_dat.ReadWinDate(date);
+	                String time = IE_timeformat(date.GetString());
+
+	                idx_dat.Seek(idx_dat.GetPos()+36);
+	                uint name_offset = idx_dat.ReadBinaryInt(4,0);
+	                idx_dat.Seek(ptr+name_offset-4);
+	                String url_str;
+	                idx_dat.ReadString(url_str,rec_size-name_offset,"\x00");
+	                query = sign + "\t" + time + "\t" + url_str + "\t";
+	                String insert_query = "insert into Web_ie_index_visit(frame, url, time) values(" + sign + ",\'" + url_str + "\',\'" + time + "\');";
+	                String union_visit_q = "insert into Web_Visit(Browser, url, title, time) values('IE','" + url_str + "','" + " ','" + time + "');";	                
+	                cmd.ExecuteNonQuery(union_visit_q);
+	                sign++;	                
+	                search_key = IE_search(url_str);
+	                host_extract(url_str, host, host_fre);
+	                //Console.WriteLine(search_key);
+	                if(search_key != 0){
+	                  insert_query = "insert into Web_ie_index_keyword(frame, url, keyword, time) values(" + sign + ",\'" + url_str + "\',\'" + search_key  + "\',\'" + time + "\');";
+	                  String union_insert_q = "insert into Web_Keyword(Browser, url, keyword, title, time) values('IE','" + url_str + "','" + search_key + "',' ', '" + time + "');";
+	                  query += search_key;
+	                  Console.WriteLine(union_insert_q);
+	                  //cmd.ExecuteNonQuery(insert_query);	                  
+	                  //cmd.ExecuteNonQuery(union_insert_q);
+	                  
+	                }
+	            }
+	          }
+	        }
+	      }
+	    }
+	    Console.WriteLine(path);
+	    for(int i=0;i<host.Count();i++){
+	      String fre_query = host[i] + "\t" + host_fre[i] + "\t";
+	      String insert_query = "insert into Web_ie_index_host(host, visit_count) values(\'" + host[i] + "\'," + host_fre[i] + ");";
+	      String union_host_q = "insert into Web_Host(Browser, host, visit_count) values('IE', '" + host[i] + "','" + host_fre[i] + "');";
+	      //cmd.ExecuteNonQuery(insert_query);
+	      cmd.ExecuteNonQuery(union_host_q);	      
+	      //Console.WriteLine(fre_query);
+	    }
+	    
+	    idx_dat.Close();
+	    sql.Close();
+	    db.Close();
+	  }
 }
