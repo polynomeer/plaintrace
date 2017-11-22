@@ -1652,4 +1652,34 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 	    //Console.WriteLine(date_str);
 	    return date_str;
 	  }
+
+	  String IE_search(String url){
+	    String key, search_key;
+	    int idx;
+	    if(url.Contains("&q=") || url.Contains("&query=") || url.Contains("&search_query=") || url.Contains("?q=") || url.Contains("?query=") || url.Contains("?search_keyword=")){
+	      if(url.Contains("&q="))
+	        key = url.SubString(url.Find("&q=")+3, -1);
+	      else if(url.Contains("&query="))
+	        key = url.SubString(url.Find("&query=")+7, -1);
+	      else if(url.Contains("&search_query="))
+	        key = url.SubString(url.Find("&search_query=")+14, -1);
+	      else if(url.Contains("?q="))
+	      	key = url.SubString(url.Find("?q=")+3, -1);
+	      else if(url.Contains("?query="))
+	      	key = url.SubString(url.Find("?query=")+7,-1);
+	      else if(url.Contains("?search_query="))
+	      	key = url.SubString(url.Find("?search_query=")+14,-1);
+
+	      if(key.Find("&") >= 0)
+	        idx = key.Find("&");
+	      else
+	        idx = -1;
+
+	      search_key = key.SubString(0, idx);
+	      //Console.WriteLine(search_key);
+	      return search_key;
+	    }
+	    else
+	      return 0;
+	  }
 }
