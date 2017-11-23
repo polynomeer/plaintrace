@@ -1906,4 +1906,75 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 	       }
 
 	  }
+
+	void export_file(CaseClass c, EntryClass e, String f_name){
+	    String root_path = c.ExportFolder() + "\\Web_History";
+	    String sub_path;
+	    String full_path;
+	    String sub_folder, dst_fn;
+	    ConnectionClass conn = LocalMachine;
+	    conn.CreateFolder(root_path, ConnectionClass::CREATEFOLDERALL);
+	    //Console.WriteLine("[+] Case path : {0}",c.Path());
+	    EntryFileClass ef();
+	    uint opts;
+	    if(ef.Open(e, FileClass::WRITE)){
+	      String contents;
+	      variant val;
+	      ef.SetCodePage(CodePageClass::ANSI);
+	      ef.ReadBinary(val);
+	      //ef.ReadString(contents);
+	      LocalFileClass lf();
+	      SQLiteClass sql = new SQLiteClass();
+	      LocalFileClass result = new LocalFileClass();
+
+
+	      //result.Open(c.ExportFolder() + "\\web_download.csv", FileClass::WRITE);
+	      LocalFileClass db = new LocalFileClass();
+	      if(f_name.Contains("Chrome_History"))
+	        sub_path = "\\Chrome";
+	      else if(f_name.Contains("FF_History"))
+	        sub_path = "\\FireFox";
+	      else if(f_name.Contains("Opera_History"))
+	        sub_path = "\\Opera";
+	      else if(f_name.Contains("IE_Index")){
+	        sub_path = "\\Internet Explorer";
+	        sub_folder = e.TruePath().GetFilePath().GetFilename();
+	        if(sub_folder != "History.IE5")
+	          f_name = sub_folder + "_history";
+	        else
+	          f_name = "IE_history";
+	      }
+	      else if(f_name.Contains("IE_WebCache"))
+	        sub_path = "\\Internet Explorer";
+
+
+	      full_path = root_path + sub_path;
+	      conn.CreateFolder(full_path, ConnectionClass::CREATEFOLDERALL);
+	      if(lf.Open(full_path + "\\" + f_name, FileClass::WRITE)){
+	        lf.WriteBuffer(ef);
+	        String path = lf.Name();
+	        Console.WriteLine("File Exported : {0}", path);
+	        lf.Close();
+	        if(!lf.Name().Contains("Internet Explorer")){
+	          visit_csv(c, path, full_path);
+	          download_csv(c, path, full_path);
+	        }
+	        else if(f_name.Contains("_history")){
+	          IE_index_dat(c, path, full_path);
+	        }
+	        else if(f_name.Contains("IE_WebCache")){
+	          IE_WebCache_dat(c, path, full_path);
+	        }
+	      }
+	      else{
+	        Console.WriteLine("[-] Fail to open local file");
+	      }
+	    }
+	    else{
+	      //Console.WriteLine("Could not open {0}", e.TruePath());
+
+	      Console.WriteLine("[+] sql to csv script finish\n");
+	    }
+	    //f_flag = true;
+	  }
 }
