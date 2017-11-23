@@ -1775,4 +1775,135 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 	    sql.Close();
 	    db.Close();
 	  }
+
+	  void IE_WebCache_dat(CaseClass c, String path, String full_path) {
+	      String browser = "IE";
+	      LocalFileClass webcache_dat = new LocalFileClass();
+	      LocalFileClass result = new LocalFileClass();
+	      LocalFileClass result_search = new LocalFileClass();
+	      LocalFileClass result_down = new LocalFileClass();
+	      LocalFileClass portal = new LocalFileClass();
+
+	      LocalFileClass db = new LocalFileClass();
+	      SQLiteClass sql = new SQLiteClass();
+	      SQLiteClass::CommandClass cmd = new SQLiteClass::CommandClass();
+
+	      //db.Open(full_path + "\\internet_explorer_history\\webcache_history.sqlite", FileClass::APPEND);
+	      db.Open("C:\\TimeLineArtifacts_Total.sqlite", FileClass::APPEND);
+	      sql.Open(db, SQLiteClass::SQLITE_OPEN_READWRITE);
+	      sql.CreateCommand(cmd);
+
+	      StringArr host();
+	      IntArr host_fre();
+
+	      SearchClass search();
+	      SearchClass search_container();
+
+	      LocalFileClass ef();	     	    
+	      
+	      search.AddKeyword("\\x11\\x7F\\x77\\x00", KeywordClass::GREP);
+	      search_container.AddKeyword("\\x48\\x00\\x69\\x00\\x73\\x00\\x74\\x00\\x6F\\x00\\x72\\x00\\x79\\x00", KeywordClass::GREP);
+	      search_container.AddKeyword("\\x69\\x00\\x65\\x00\\x64\\x00\\x6F\\x00\\x77\\x00\\x6E\\x00\\x6C\\x00\\x6F\\x00\\x61\\x00\\x64\\x00", KeywordClass::GREP); //iedownload
+	      
+
+	       if(ef.Open(path))  {
+	           //Console.WriteLine("success to open {0}", ef.FullPath());
+	           //Console.WriteLine("size : {0}", ef.GetSize());
+	           int history_id, download_id;
+
+	           if (search_container.Find(ef, -1, -1, SearchClass::STATUSUPDATE) > 0)  { // 이알고리즘 없애면  LOW/History.IE5 도 나옴.
+	                //Console.WriteLine("searching");
+	                foreach (SearchClass::HitClass hit in search_container.GetHits())  {
+
+	                         String Container_name;
+	                         int Partitaion_id , value ;
+	                         ef.Seek(hit.Offset()), ef.ReadString(Container_name);
+	                         ef.Skip(0x09), Partitaion_id = ef.ReadBinaryInt(1);
+	                         ef.Skip(0x06), value = ef.ReadBinaryInt(1);
+	                         //Console.WriteLine("p_id : {0}\tvalue : {1}\tcontainer name : {2}",Partitaion_id, value, Container_name);
+	                         if((Container_name == "History" || Container_name == "iedownload") && Partitaion_id == 77 && value == 58){ //  L
+	                            ef.Seek(hit.Offset() - 0x37);
+	                            if(Container_name == "History")
+	                            	history_id = ef.ReadBinaryInt(1);
+	                              //Console.WriteLine("historyID : {0}",history_id);
+	                            else if(Container_name == "iedownload")
+	                            	download_id = ef.ReadBinaryInt(1);
+	                         }
+
+	                }
+	            }
+
+	            ef.Seek(0);
+
+
+	            if (search.Find(ef, -1, -1, SearchClass::STATUSUPDATE) > 0)  {
+	                  int cnt = 0;
+	                  foreach (SearchClass::HitClass hit in search.GetHits())  {
+	                       if (hit.KeywordIndex() == 0 ) {
+	                          String url;
+	                          int id , AccessCount;
+
+
+	                          ef.Seek(hit.Offset() + 12), id = ef.ReadBinaryInt(8);
+	                          ef.Seek(hit.Offset() + 56), AccessCount = ef.ReadBinaryInt(4);
+	                          DateClass Access_date();
+	                          ef.Seek(hit.Offset() + 92), ef.ReadWinDate(Access_date);
+	                          
+	                          if(id == history_id) {	                               
+	                                String search_key, title, query;
+	                                ef.Seek(hit.Offset() + 128), ef.ReadString(url);
+	                                ef.Skip(0x61), ef.ReadString(title);
+	                                if(url.SubString(0,7) == "Visited"){
+	                                
+	                                  String date = IE_timeformat(Access_date.GetString());
+	                                  query = cnt + "\t" + date + "\t" + url + "\t" + title + "\t";
+	                                  String insert_query = "insert into Web_ie_webcache_visit(frame, url, title, time) values(" + cnt + ",\'" + url + "\',\'" + title + "\',\'" + date + "\');";
+	                                  String union_visit_q = "insert into Web_Visit('IE','" + url + "','" + title + "','" + date + "');";
+	                                  //new WindowsWebListClass(Web_dialog.List, browser, url, date);
+	                                  cmd.ExecuteNonQuery(union_visit_q);
+	                                  	                                  
+	                                  search_key = IE_search(url);
+	                                  host_extract(url, host, host_fre);
+	                                  if(search_key != 0){
+	                                    query = cnt + "\t" + date + "\t" + url + "\t" + search_key + "\t" + title + "\t";
+	                                    String insert_query = "insert into Web_ie_webcache_keyword(frame, url, keyword, title, time) values(" + cnt + ",\'" + url + "\',\'" + search_key + "\',\'" + title + "\',\'" + date + "\');";
+	                                    String union_insert_q = "insert into Web_Keyword(Browser, url, keyword, title, time) values('IE','" + url + "','" + search_key + "','" + title + "','" + date + "');";	                                    
+	                                    cmd.ExecuteNonQuery(union_insert_q);
+	                                  }
+	                                  cnt++;
+	                                }
+	                          }
+	                          else if(id == download_id){
+	                          	String app, cache, url, down_url, path, query;
+	                            ef.Seek(hit.Offset() + 0x235), ef.ReadString(url);
+	                            if(url.SubString(0,7) == "Visited"){
+	                              ef.ReadString(app);
+	                              ef.ReadString(cache);
+	                              ef.ReadString(down_url);
+	                              ef.ReadString(path);
+	                              String date = IE_timeformat(Access_date.GetString());
+	                              query = cnt + "\t" + date + "\t" + app + "\t" + path + "\t" + down_url + "\t" + url  + "\t";
+	                              String insert_query = "insert into Web_ie_download(frame, url, app, down_url, path, time) values(" + cnt + ",\'" + url + "\',\'" + app + "\',\'" + down_url + "\',\'" + path + "\',\'" + date + "\');";
+	                              String union_insert_q = "insert into Web_Download(Browser, Path, StartTime, EndTime, RecvBytes, TotalBytes, Url) values ('IE','" + path + "','" + date + "',' ','" + down_url + "');";                                  
+	                              cmd.ExecuteNonQuery(union_insert_q);
+	                              cnt++;
+	                            }
+	                          }
+	                       }
+	                    }
+	            }
+
+	            for(int i=0;i<host.Count();i++){
+	              String fre_query = host[i] + "\t" + host_fre[i] + "\t";
+	              String insert_query = "insert into Web_ie_webcache_host(host, visit_count) values(\'" + host[i] + "\'," + host_fre[i] + ");";
+	              String union_host_q = "insert into Web_Host(Browser, host, visit_count) values('IE','" + host[i] + "','" + host_fre[i] + "');";
+	              cmd.ExecuteNonQuery(union_host_q);
+	            }
+	            ef.Close();
+	            sql.Close();
+	            db.Close();
+
+	       }
+
+	  }
 }
