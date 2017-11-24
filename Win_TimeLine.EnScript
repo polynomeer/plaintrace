@@ -1977,4 +1977,29 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 	    }
 	    //f_flag = true;
 	  }
+
+	void WebArtifact(EntryClass e){
+		if(e.Name() == "History" || e.Name() == "places.sqlite" || e.Name() == "index.dat" || e.Name().Contains("WebCacheV")){
+	      if(e.TruePath().Contains("Google\\Chrome\\User Data\\")){             
+	        export_file(c, e, "Chrome_History");
+	        Console.WriteLine("[+] Chrome History export done\n");
+	      }
+	      else if(e.TruePath().Contains("Roaming\\Mozilla\\Firefox\\Profiles")){ // places.sqlite 에 visit history/download history 저장            
+	        export_file(c, e, "FF_History");
+	        Console.WriteLine("[+] Firefox History export done\n");
+	      }
+	      else if(e.TruePath().Contains("Roaming\\Opera Software\\Opera Stable")){ // History 에 visit history / download history 저장            
+	        export_file(c, e, "Opera_History");
+	        Console.WriteLine("[+] Opera History export done\n");
+	      }
+	      else if(e.TruePath().Contains("Local\\Microsoft\\Windows\\History\\History.IE5") &&  e.TruePath().Contains("C\\Users")){            
+	        export_file(c, e, "IE_Index");
+	        Console.WriteLine("[+] Internet Explorer export done\n");
+	      }
+	      else if(e.Name().Contains("WebCacheV") && e.Extension() == "dat" && e.TruePath().Contains("\\Microsoft\\Windows")){            
+	        export_file(c, e, "IE_WebCache");
+	        Console.WriteLine("[+] Internet Explorer export done\n");
+	      }
+	    }
+	}
 }
