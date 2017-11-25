@@ -2121,3 +2121,42 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 
 
 }
+
+class TimeLineDialogClass : DialogClass{	
+	TimeLineThreadClass			TimeLine_thread;
+	ThreadClass::SemaphoreClass	Semaphore;
+	ButtonClass					progress_button, view_button1, view_button2, view_button3, help_button;
+	CaseClass					c;
+	TimeLineWindow Window;
+	
+  int StatusWindowMax;
+  int StatusWindowStatus;
+  uint StatusWindowTimerId;
+  StatusWindowClass StatusWindow;
+
+	StaticTextClass RunningTime;
+	bool time_check, time_reset;
+    int hour, minute, second;
+
+    typedef String [] StringArr;
+    typedef int [] IntArr;
+	
+	TimeLineDialogClass(DialogClass parent, MainClass main, CaseClass c, BookmarkClass folder, int TreeViewSize):
+	DialogClass(parent, "Timeline"),
+	c=c;
+    StatusWindowMax = 200,
+    StatusWindowTimerId = 1024,
+	StatusWindow(this, "Progress Status", 5, 5, 250, 5, 0),
+	RunningTime(this, "", 325, 17, 40, DEFAULT, 0),
+	progress_button(this, "Build DB", 265, 15, 50, 10, 0),
+	view_button1(this, "View as Chrome", 370, 10, 100, 20, 0),
+	view_button2(this, "View as Internet Explorer", NEXT, 10, 100, 20, 0),
+	view_button3(this, "View as Mozilla FireFox", NEXT, 10, 100, 20, 0),
+	help_button(this, "Help", 720, 10, 30, 20, 0),
+	Window(this, START, NEXT, 750, 320, "KITRI BoB Shellock"),
+	TimeLine_thread(this, "", c, folder)
+	{		
+		Semaphore.Create(1,1);
+	}
+
+}
