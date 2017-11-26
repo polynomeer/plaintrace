@@ -2275,4 +2275,13 @@ class TimeLineDialogClass : DialogClass{
 			}
 		}
 	}
+
+	virtual void Setup() {
+		String StatusWindowTitle = "Progress Status";
+		int Time = 50;
+		StatusWindow.SetLimit(StatusWindowTitle, StatusWindowMax);
+		SetTimer(Time, StatusWindowTimerId);
+		//StatusWindow.SetLimit(StatusWindowTitle, 0);  // Set Progresss Bar as zero
+        //SetTimer(500); // SetTimer (uint milliseconds, uint Id=0), 1000ms = 1s
+    }
 }
