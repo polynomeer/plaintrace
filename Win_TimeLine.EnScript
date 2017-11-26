@@ -2159,4 +2159,120 @@ class TimeLineDialogClass : DialogClass{
 		Semaphore.Create(1,1);
 	}
 
+	virtual void ChildEvent(const EventClass &event){
+		if(help_button.Matches(event)){
+			LocalFileClass lf = new LocalFileClass();
+			lf.Open(c.ExportFolder() + "\\help.txt", FileClass::WRITE + FileClass::CRLF);
+			lf.SetCodePage (CodePageClass::UNICODE);
+
+			
+			lf.WriteLine("***********************************************************************************************************");
+			lf.WriteLine("* Title : Plain View of Multi Artifacts");					
+			lf.WriteLine("* File name : Plain View of Multi Artifacts.EnScript");						
+			lf.WriteLine("* Written by : Ham Seung Hun, Choi Jung Wan");
+			lf.WriteLine("* Version : 2.0");			
+			lf.WriteLine("* Created : December, 17th, 2017 ");						
+			lf.WriteLine("* Supported OS : Windows 7");	
+			lf.WriteLine("* Artifact List: System Information, File Entry, Link File, Prefetch File, USB registry, USB event log, ");
+			lf.WriteLine("* Power On/Off event log, Log On/Off event log, Web Visit, Web Keyword, Web Downloads, Recent Documents");	
+			lf.WriteLine("* Description : This script goes through all the evidence in the case");
+			lf.WriteLine("* and extract some important Artifacts and view the TimeLine as well.");						
+			lf.WriteLine("***********************************************************************************************************");	
+			lf.WriteLine();
+			lf.WriteLine("1. Click Build DB and Wait processing.\n");
+			lf.WriteLine("2. Choose the Browser to view TimeLine, and Click.\n");
+			lf.WriteLine("3. When the view popped up, Click the select file button.\n");
+			lf.WriteLine("4. Choose the SQLite file which already built by each process or by one button processing.\n");
+			lf.WriteLine("5. Select time to view or just click \"View TimeLine\" button.\n");
+			lf.WriteLine();
+			/*lf.WriteLine("1. Build DB 버튼을 클릭하고 완료될 때까지 기다린다.\n");
+			lf.WriteLine("2. 완료되면 원하는 브라우저에 따라 View as 버튼을 클릭한다.\n");
+			lf.WriteLine("3. 타임라인 웹뷰가 뜨면 C:\\TimeLineArtifacts_Total.sqlite 파일을 선택한다.\n");
+			lf.WriteLine("4. 원하는 시간을 선택하고 Start 버튼을 누른다.(시간을 선택하지 않으면 기본 설정에 따라 보여짐)\n");	*/
+			
+			lf.Close();
+
+			String path = c.ExportFolder() + "\\help.txt";
+			String cmd = "/C \"C:\\Windows\\System32\\notepad.exe\" " + path;
+
+			ExecuteClass exec();
+			exec.SetApplication("cmd.exe");
+			exec.SetFolder("C:\\windows\\system32");
+			exec.SetCommandLine(cmd);
+			exec.SetShow(false);
+			exec.Start(LocalMachine, 1000);		
+		}
+		
+		if(view_button1.Matches(event)){
+			String file_path = "C:\\PlainView.html";
+			SystemClass::Message(SystemClass::ICONINFORMATION,"Notice", file_path);
+		    DateClass start(), finish();
+		    start.Now();
+		
+		    //String cmd = "/C \"C:\\Program Files\\Internet Explorer\\iexplore.exe\" C:\\PlainView\\plainview.html";
+			String cmd = "/C \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" C:\\PlainView\\PlainView.html";
+		    Console.WriteLine(cmd);
+		    ExecuteClass exec();
+		    exec.SetApplication("cmd.exe");
+		    exec.SetFolder("C:\\windows\\system32");
+		    exec.SetCommandLine(cmd);
+		    exec.SetShow(false);
+		    exec.Start(LocalMachine, 1000);
+		    Console.WriteLine(exec.Output());
+
+		    //SystemClass::Message(ICONINFORMATION, "Notice", "Select \'C:\\TimeLineArtifacts.sqlite\'");
+		}
+
+		if(view_button2.Matches(event)){
+			String file_path = "C:\\PlainView.html";
+			SystemClass::Message(SystemClass::ICONINFORMATION,"Notice", file_path);
+		    //SystemClass::ClearConsole(SystemClass::SHOWCONSOLE);
+		    DateClass start(), finish();
+		    start.Now();
+	
+		    String cmd = "/C \"C:\\Program Files\\Internet Explorer\\iexplore.exe\" C:\\PlainView\\PlainView.html";
+			//String cmd = "/C \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" C:\\PlainView\\PlainView.html";
+		    Console.WriteLine(cmd);
+		    ExecuteClass exec();
+		    exec.SetApplication("cmd.exe");
+		    exec.SetFolder("C:\\windows\\system32");
+		    exec.SetCommandLine(cmd);
+		    exec.SetShow(false);
+		    exec.Start(LocalMachine, 1000);
+		    Console.WriteLine(exec.Output());
+
+		    //SystemClass::Message(ICONINFORMATION, "Notice", "Select \'C:\\TimeLineArtifacts.sqlite\'");
+		}
+		
+		if(view_button3.Matches(event)){
+			String file_path = "C:\\PlainView.html";
+			SystemClass::Message(SystemClass::ICONINFORMATION,"Notice", file_path);
+		    DateClass start(), finish();
+		    start.Now();
+	
+		    //String cmd = "/C \"C:\\Program Files\\Internet Explorer\\iexplore.exe\" C:\\PlainView\\plainview.html";
+			//String cmd = "/C \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" C:\\PlainView\\PlainView.html";
+			String cmd = "/C \"C:\\Program Files\\Mozilla Firefox\\firefox.exe\" C:\\PlainView\\plainview.html";
+		    Console.WriteLine(cmd);
+		    ExecuteClass exec();
+		    exec.SetApplication("cmd.exe");
+		    exec.SetFolder("C:\\windows\\system32");
+		    exec.SetCommandLine(cmd);
+		    exec.SetShow(false);
+		    exec.Start(LocalMachine, 1000);
+		    Console.WriteLine(exec.Output());
+
+		    //SystemClass::Message(ICONINFORMATION, "Notice", "Select \'C:\\TimeLineArtifacts.sqlite\'");
+		}
+		if (progress_button.Matches(event)) {
+			/*if(!BuildSqlite()) SystemClass::Message(ICONINFORMATION, "Notice", "Failed to build SQLite'");
+			else SystemClass::Message(ICONINFORMATION, "Notice", "Built SQLite completed!!'");*/
+			if(Semaphore.Wait(10))
+				TimeLine_thread.Start();
+			else{
+				SystemClass::Message(SystemClass::ICONINFORMATION, "Warning", "Still Processing..");
+				return;
+			}
+		}
+	}
 }
