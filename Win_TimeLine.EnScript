@@ -2284,4 +2284,28 @@ class TimeLineDialogClass : DialogClass{
 		//StatusWindow.SetLimit(StatusWindowTitle, 0);  // Set Progresss Bar as zero
         //SetTimer(500); // SetTimer (uint milliseconds, uint Id=0), 1000ms = 1s
     }
+	
+
+    virtual void TimerEvent(uint timerId) {
+         if (time_reset) {
+           hour=0;
+           minute=0;
+           second=0;
+           time_reset = false;
+         }
+         if (time_check) {
+           second++;
+           if(second >= 60) {
+             second=0;
+             minute++;
+           }
+           if(minute >= 60) {
+             minute=0;
+             hour++;
+           }
+           RunningTime.SetText( String::Format("{0}:{1}:{2} ",hour,minute,second));
+         } else {
+           RunningTime.SetText( String::Format("{0}:{1}:{2} ",hour,minute,second));
+         }
+    }
 }
