@@ -1,0 +1,25 @@
+include "Win_SystemInfo"
+include "Win_FileMetaData"
+include "Win_UserAccount"
+include "Win_PrefetchFile"
+include "Win_LinkFile"
+include "Win_PowerLogOnOff"
+include "Win_RecycleBin"
+include "Win_USBInfo"
+
+include "Win_RecentDocuments"
+include "Win_WebDownloads"
+include "Win_WebVisitKeyword"
+include "Win_TimeLine"
+
+class MainClass;
+
+class ExportDialogClass: DialogClass {
+  PathEditClass ExportPath;
+
+   ExportDialogClass(DialogClass parent, String &exportPath) :
+    DialogClass(parent, "Choose the export path "),
+    ExportPath  (this, "Location to save the Exported/Extracted File", START, START, 200, DEFAULT, 0, exportPath,  PathEditClass::REQUIRED | PathEditClass::FILECREATE)
+	  {
+	  }
+}
