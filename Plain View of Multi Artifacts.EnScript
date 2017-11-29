@@ -23,3 +23,39 @@ class ExportDialogClass: DialogClass {
 	  {
 	  }
 }
+
+class MainDialogClass: DialogClass {
+
+      SysInfoDialogClass             SysInfoDialog;
+	  FileDialogClass		FileDialog;
+	  AccountDialogClass		AccountDialog;
+	  RecycleDialogClass     RecycleDialog;
+	  LogonDialogClass       LogonDialog;
+      PrefetchDialogClass    PrefetchDialog;
+	  LinkDialogClass         LinkDialog;
+	  USBDialogClass 		USBDialog;
+      WebDialogClass         WebDialog; 
+      DownloadsDialogClass        Downloads;
+      RecentDocDialogClass          RecentDocDialog;
+      TimeLineDialogClass   TimeLineDialog;	  
+	  
+	
+	 MainDialogClass(DialogClass parent, MainClass main,CaseClass &c, DeviceClass dev, EntryClass e,  BookmarkClass folder, int heightTreeView) :
+     DialogClass(parent, "Plain View of Multi Artifacts"),
+     SysInfoDialog(this, main, c, e , folder ),
+	 AccountDialog(this,main,c,folder, heightTreeView),
+	 FileDialog(this, main, c, folder, heightTreeView),
+     RecycleDialog(this, main, c, folder, heightTreeView),
+	 LogonDialog(this, main, c, folder, heightTreeView),
+	 PrefetchDialog(this, main, c, folder, heightTreeView),
+	 LinkDialog(this, main, c, folder, heightTreeView),
+	 USBDialog(this, main, c, folder, heightTreeView),
+     WebDialog(this, main, c, folder, heightTreeView), 
+     Downloads(this, main, c, folder, heightTreeView),
+     RecentDocDialog(this, main, c, folder, heightTreeView),
+	 TimeLineDialog(this, main, c, folder, heightTreeView)
+    {
+       SetViewOptions(VIEWOK|VIEWSIZE|VIEWMAX);
+       CloseOnly();
+    }
+}
