@@ -61,4 +61,34 @@ class MainDialogClass: DialogClass {
 }
 
 class MainClass {
+  void Main(CaseClass c) {
+	  SystemClass::ClearConsole(SystemClass::SHOWCONSOLE);
+      if (c) {
+          DateClass CurrentDate();
+          CurrentDate.Now();
+          int heightTreeView = 300;
+
+          for(ItemIteratorClass iter(c, 0, ItemIteratorClass::CURRENTVIEW); EntryClass entry = iter.GetNextEntry();) {
+              if (entry.IsVolume()) {
+                  VolumeClass vol = entry.GetVolume();
+				  DeviceClass dev = entry.GetDevice();
+                  NameValueClass volume();
+                  if (vol) {
+                       if(vol.WinDir().Find("Windows") != -1) {
+                            NameValueClass(volume, entry.ItemPath(),0, entry.GetKey());
+                            BookmarkClass folder(c.BookmarkRoot(), "WindowsAtifacts   " + CurrentDate.GetString("yyyy/MM/dd", "hh:mm:ss tt", -9*3600), NodeClass::FOLDER);
+                            MainDialogClass dialog(null, this, c, dev, entry, folder, heightTreeView);
+                            dialog.Execute();
+                            break;
+					   } else
+						   Console.WriteLine("Error: Volume does not include \"Windows\" ");
+                    } else
+						Console.WriteLine("Error: Volume is not found.");
+				} //else Console.WriteLine("This entry is not Volume. Entry is {0}", entry.Name());
+              } //for loop close
+     }
+     else
+         SystemClass::Message(SystemClass::MBOK, Lang::T0028, Lang::T0179);
+  }
+
 }
