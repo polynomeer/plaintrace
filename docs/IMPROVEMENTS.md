@@ -4,7 +4,7 @@
 
 ## Baselines and Scope
 
-Branch: `codex/prioritized-code-fixes`. Preserved baseline: tag `archive/pre-improvements-2026-10-13` at commit `758bfc5`; master and all 263 synthetic 2017 commits are unchanged. Original hashes remain in source-manifest.json. Source changes retain each file's encoding, BOM and CRLF and use present-day commits. This is a maintenance improvement, not a new historical reconstruction.
+Branch: `codex/prioritized-code-fixes`. Preserved baseline: tag `archive/pre-improvements-2026-10-13` at commit `758bfc5`; the baseline tag and all 263 synthetic 2017 commits remain unchanged; improvements may be integrated into master through a normal merge. Original hashes remain in source-manifest.json. Source changes retain each file's encoding, BOM and CRLF and use present-day commits. This is a maintenance improvement, not a new historical reconstruction.
 
 Handwritten retrospective documents describe the tagged archive unless stated otherwise. Generated [code structure](CODE_STRUCTURE.md) and [schema reference](SCHEMA_REFERENCE.md) describe this branch. This record supersedes baseline defect descriptions for the fixes below.
 

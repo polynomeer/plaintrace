@@ -4,7 +4,7 @@
 
 ## 기준과 범위
 
-브랜치: `codex/prioritized-code-fixes`. 보존 기준은 커밋 `758bfc5`의 태그 `archive/pre-improvements-2026-10-13`이며 master와 2017년 합성 커밋 263개는 변경하지 않습니다. 원본 해시는 source-manifest.json에 유지합니다. 소스 변경은 파일별 인코딩, BOM과 CRLF를 보존하고 실제 현재 날짜로 커밋합니다. 이는 유지보수 개선이며 새로운 과거 히스토리 재구성이 아닙니다.
+브랜치: `codex/prioritized-code-fixes`. 보존 기준은 커밋 `758bfc5`의 태그 `archive/pre-improvements-2026-10-13`이며 기준 태그와 2017년 합성 커밋 263개는 변경하지 않으며 개선은 일반 병합으로 master에 통합할 수 있습니다. 원본 해시는 source-manifest.json에 유지합니다. 소스 변경은 파일별 인코딩, BOM과 CRLF를 보존하고 실제 현재 날짜로 커밋합니다. 이는 유지보수 개선이며 새로운 과거 히스토리 재구성이 아닙니다.
 
 별도 표기가 없는 수동 작성 사후 문서는 태그의 아카이브를 설명합니다. 자동 생성 [코드 구조](CODE_STRUCTURE.ko.md)와 [스키마 참조](SCHEMA_REFERENCE.ko.md)는 이 브랜치를 설명합니다. 아래 수정 사항은 기존 결함 설명보다 이 기록을 우선 적용합니다.
 

@@ -4,7 +4,7 @@
 
 ## Scope and Preservation
 
-Reviewed on 2026-10-13 against the preserved baseline `archive/pre-improvements-2026-10-13` (`758bfc5`). The review covers all six modified EnScript files, archive/documentation tooling and bilingual deliverables. Master, the baseline tag, original manifest and 263 reconstructed historical commits remain unchanged. Source fixes retain each file's BOM, encoding and CRLF. This is a manual source review plus portable contract validation, not an independent external review or EnCase runtime certification.
+Reviewed on 2026-10-13 against the preserved baseline `archive/pre-improvements-2026-10-13` (`758bfc5`). The review covers all six modified EnScript files, archive/documentation tooling and bilingual deliverables. The baseline tag, original manifest and 263 reconstructed historical commits remain unchanged; integrating improvements into master adds modern commits without rewriting history. Source fixes retain each file's BOM, encoding and CRLF. This is a manual source review plus portable contract validation, not an independent external review or EnCase runtime certification.
 
 ## Findings Resolved
 
@@ -38,4 +38,4 @@ Before treating this branch as runtime-ready, compile the complete entry and inc
 
 The existing-output guard checks whether a file can be opened for reading; it does not establish atomic creation or protect unreadable existing files and races. Setup failures can leave a partial output, and individual artifact helpers still do not propagate all errors. The final completion message therefore does not promise complete collection. Recent append exports can duplicate rows on reruns. Browser visit/download SQL outside keyword writes remains unescaped. Fixed-offset parsers, ControlSet001 assumptions, timezone semantics, missing HTML/JS, hardcoded paths, source provenance and Recycle Bin content recovery remain unresolved. UTF-8 replacement/truncation behavior for invalid bytes or percent-encoded NUL requires host validation; raw evidence URLs remain available.
 
-The PR is for review only. No merge, force push, historical redate or archive replacement is included. See [the improvement record](IMPROVEMENTS.md) for the complete branch behavior.
+Final integration is authorized through a normal merge commit. EnCase compilation and execution remain unverified after merging. No force push, historical redate or archive replacement is included. See [the improvement record](IMPROVEMENTS.md) for the complete branch behavior.
