@@ -71,3 +71,12 @@ python3 tools/verify_archive.py --archive-only
 - [현재 GitHub 저장소](https://github.com/polynomeer/plaintrace)
 - [기존 프로젝트 GitHub 주소](https://github.com/Polynomeer/PVMA)
 - [당시 프로젝트 Trello 주소](https://trello.com/b/xIo5E0Ez/bobenscriptwork)
+
+## Python CLI (2026)
+
+독립 실행 가능한 Python 이식 버전으로 EnCase 없이 획득한 Chromium/Firefox SQLite의 방문, 검색어 후보와 다운로드를 분석합니다. 이 브랜치의 EnScript 파일과 아카이브는 변경하지 않습니다. [사용법과 구조](docs/PYTHON_CLI.ko.md), [실행 가능한 테스트 계획](docs/PYTHON_TESTS.ko.md)을 확인하세요. Python 테스트가 EnCase 런타임 정확성을 입증하지는 않습니다.
+
+```sh
+python3 -m plaintrace --input /path/to/History --browser chrome --output report.json
+python3 -m unittest discover -s tests -v
+```
