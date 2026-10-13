@@ -2,6 +2,8 @@
 
 **English** | [한국어](HISTORY.ko.md)
 
+Archived implementation descriptions and review findings in this document refer to tag `archive/pre-improvements-2026-10-13`. See [the improvement record](IMPROVEMENTS.md) for changes and remaining validation on the current improvement branch.
+
 Document date: **2026-10-13**. Commits dated **2017-07-01–2017-11-30 (+09:00)** are an **archival retrospective reconstruction** from the surviving final source snapshot. They are not recovered original Git records. Dates, development order, and work intervals were assigned for presentation and must not be used as evidence of actual historical activity or contributions.
 
 ## Reconstruction Method
@@ -21,7 +23,7 @@ Document date: **2026-10-13**. Commits dated **2017-07-01–2017-11-30 (+09:00)*
 ```sh
 python3 tools/inspect_sources.py
 python3 tools/inspect_sources.py Win_TimeLine.EnScript --start 2006 --end 2120
-python3 tools/verify_archive.py
+python3 tools/verify_archive.py --archive-only
 git log --reverse --format='%h %aI %s' master
 ```
 

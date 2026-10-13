@@ -10,3 +10,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Keep generated exports, evidence, caches and backup bundles out of Git.
 - History dated July–November 2017 is a retrospective reconstruction from a final snapshot. Its dates and task order are synthetic, not evidence of actual historical work.
 - Modern agent tooling and analysis must use actual creation dates, outside the reconstructed historical chain.
+
+## Improvement branch
+
+- The user authorized source improvements on `codex/prioritized-code-fixes`; preserve the baseline at tag `archive/pre-improvements-2026-10-13` and never rewrite master or the 2017 history.
+- Read `docs/IMPROVEMENTS.md` for the branch's behavior and remaining host-validation requirements. Keep file encodings, BOMs and CRLF when editing.
+- Use `python3 tools/verify_archive.py --archive-only` to validate historical blobs on an improvement branch. Default verification intentionally requires unchanged working source.
+- Run `python3 tools/test_improvements.py` and regenerate source references after source changes. Portable tests do not establish EnCase compilation or execution.

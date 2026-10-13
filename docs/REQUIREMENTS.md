@@ -2,6 +2,8 @@
 
 **English** | [한국어](REQUIREMENTS.ko.md)
 
+Archived implementation descriptions and review findings in this document refer to tag `archive/pre-improvements-2026-10-13`. See [the improvement record](IMPROVEMENTS.md) for changes and remaining validation on the current improvement branch.
+
 Prepared on 2026-10-13 from the archived source. This is retrospective documentation, not an original 2017 deliverable.
 
 ## Basis

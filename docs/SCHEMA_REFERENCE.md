@@ -2,15 +2,15 @@
 
 **English** | [한국어](SCHEMA_REFERENCE.ko.md)
 
-Generated on 2026-10-13 from archived source. This is a retrospective reference, not an original design document.
+Generated on 2026-10-13 from the current checkout source. This is a retrospective reference, not an original design document.
 
 Only static CREATE TABLE string arguments passed directly to `ExecuteNonQuery` are extracted. Comments, dynamic table_name expressions, SQL passed through variables, and INSERT/SELECT statements are excluded. This is not the complete runtime schema. SQL is not executed or repaired. Whitespace is normalized and identical declarations are grouped; variants remain separate. Read with [the data model](DATA_MODEL.md).
 
-18 table names, 22 declaration variants.
+19 table names, 23 declaration variants.
 
 ## App_Documents
 
-Variant 1: [Win_RecentDocuments.EnScript:113](../Win_RecentDocuments.EnScript#L113), [Win_RecentDocuments.EnScript:198](../Win_RecentDocuments.EnScript#L198), [Win_TimeLine.EnScript:648](../Win_TimeLine.EnScript#L648), [Win_TimeLine.EnScript:2028](../Win_TimeLine.EnScript#L2028).
+Variant 1: [Win_RecentDocuments.EnScript:113](../Win_RecentDocuments.EnScript#L113), [Win_RecentDocuments.EnScript:198](../Win_RecentDocuments.EnScript#L198), [Win_TimeLine.EnScript:648](../Win_TimeLine.EnScript#L648), [Win_TimeLine.EnScript:2057](../Win_TimeLine.EnScript#L2057).
 
 ```sql
 CREATE TABLE App_Documents (
@@ -27,7 +27,7 @@ CREATE TABLE App_Documents (
 
 ## App_EXEFile
 
-Variant 1: [Win_LinkFile.EnScript:183](../Win_LinkFile.EnScript#L183), [Win_LinkFile.EnScript:769](../Win_LinkFile.EnScript#L769), [Win_PrefetchFile.EnScript:135](../Win_PrefetchFile.EnScript#L135), [Win_TimeLine.EnScript:2027](../Win_TimeLine.EnScript#L2027).
+Variant 1: [Win_LinkFile.EnScript:183](../Win_LinkFile.EnScript#L183), [Win_LinkFile.EnScript:808](../Win_LinkFile.EnScript#L808), [Win_PrefetchFile.EnScript:135](../Win_PrefetchFile.EnScript#L135), [Win_TimeLine.EnScript:2056](../Win_TimeLine.EnScript#L2056).
 
 ```sql
 CREATE TABLE IF NOT EXISTS App_EXEFile (
@@ -105,6 +105,27 @@ create table App_PrefetchFile_Sorted (
 );
 ```
 
+## App_RecentFile
+
+Variant 1: [Win_LinkFile.EnScript:366](../Win_LinkFile.EnScript#L366).
+
+```sql
+CREATE TABLE IF NOT EXISTS App_RecentFile (
+  id INTEGER PRIMARY KEY,
+  FileName LONGVARCHAR,
+  OriginalFile LONGVARCHAR,
+  AccessedTime LONGVARCHAR,
+  CreatedTime LONGVARCHAR,
+  WrittenTime LONGVARCHAR,
+  FileSize LONGVARCHAR,
+  MachineID LONGVARCHAR,
+  Volume LONGVARCHAR,
+  DriveType LONGVARCHAR,
+  SerialNumber LONGVARCHAR,
+  MACaddress LONGVARCHAR
+);
+```
+
 ## File_Common
 
 Variant 1: [Win_FileMetaData.EnScript:130](../Win_FileMetaData.EnScript#L130).
@@ -126,7 +147,7 @@ CREATE TABLE File_Common (
 
 ## File_Deleted
 
-Variant 1: [Win_FileMetaData.EnScript:156](../Win_FileMetaData.EnScript#L156), [Win_FileMetaData.EnScript:294](../Win_FileMetaData.EnScript#L294), [Win_TimeLine.EnScript:2033](../Win_TimeLine.EnScript#L2033).
+Variant 1: [Win_FileMetaData.EnScript:156](../Win_FileMetaData.EnScript#L156), [Win_FileMetaData.EnScript:294](../Win_FileMetaData.EnScript#L294), [Win_TimeLine.EnScript:2064](../Win_TimeLine.EnScript#L2064).
 
 ```sql
 CREATE TABLE File_Deleted (
@@ -187,7 +208,7 @@ CREATE TABLE File_RecycleBin (
 
 ## PC_LogOnOff
 
-Variant 1: [Win_PowerLogOnOff.EnScript:164](../Win_PowerLogOnOff.EnScript#L164), [Win_PowerLogOnOff.EnScript:452](../Win_PowerLogOnOff.EnScript#L452), [Win_TimeLine.EnScript:2026](../Win_TimeLine.EnScript#L2026).
+Variant 1: [Win_PowerLogOnOff.EnScript:164](../Win_PowerLogOnOff.EnScript#L164), [Win_PowerLogOnOff.EnScript:452](../Win_PowerLogOnOff.EnScript#L452), [Win_TimeLine.EnScript:2055](../Win_TimeLine.EnScript#L2055).
 
 ```sql
 CREATE TABLE PC_LogOnOff (
@@ -206,7 +227,7 @@ CREATE TABLE PC_LogOnOff (
 
 ## PC_PowerOnOff
 
-Variant 1: [Win_PowerLogOnOff.EnScript:268](../Win_PowerLogOnOff.EnScript#L268), [Win_PowerLogOnOff.EnScript:597](../Win_PowerLogOnOff.EnScript#L597), [Win_TimeLine.EnScript:2025](../Win_TimeLine.EnScript#L2025).
+Variant 1: [Win_PowerLogOnOff.EnScript:268](../Win_PowerLogOnOff.EnScript#L268), [Win_PowerLogOnOff.EnScript:597](../Win_PowerLogOnOff.EnScript#L597), [Win_TimeLine.EnScript:2054](../Win_TimeLine.EnScript#L2054).
 
 ```sql
 CREATE TABLE PC_PowerOnOff (
@@ -222,7 +243,7 @@ CREATE TABLE PC_PowerOnOff (
 
 ## PC_UserAccount
 
-Variant 1: [Win_TimeLine.EnScript:2030](../Win_TimeLine.EnScript#L2030), [Win_UserAccount.EnScript:162](../Win_UserAccount.EnScript#L162).
+Variant 1: [Win_TimeLine.EnScript:2059](../Win_TimeLine.EnScript#L2059), [Win_UserAccount.EnScript:162](../Win_UserAccount.EnScript#L162).
 
 ```sql
 CREATE TABLE PC_UserAccount (
@@ -249,7 +270,7 @@ CREATE TABLE PC_UserAccount (
 
 ## USB_EventLog
 
-Variant 1: [Win_TimeLine.EnScript:2029](../Win_TimeLine.EnScript#L2029), [Win_USBInfo.EnScript:234](../Win_USBInfo.EnScript#L234), [Win_USBInfo.EnScript:712](../Win_USBInfo.EnScript#L712).
+Variant 1: [Win_TimeLine.EnScript:2058](../Win_TimeLine.EnScript#L2058), [Win_USBInfo.EnScript:237](../Win_USBInfo.EnScript#L237), [Win_USBInfo.EnScript:715](../Win_USBInfo.EnScript#L715).
 
 ```sql
 CREATE TABLE USB_EventLog (
@@ -271,7 +292,7 @@ CREATE TABLE USB_EventLog (
 
 ## Web_Download
 
-Variant 1: [Win_TimeLine.EnScript:2031](../Win_TimeLine.EnScript#L2031), [Win_WebDownloads.EnScript:108](../Win_WebDownloads.EnScript#L108).
+Variant 1: [Win_TimeLine.EnScript:2060](../Win_TimeLine.EnScript#L2060), [Win_WebDownloads.EnScript:108](../Win_WebDownloads.EnScript#L108).
 
 ```sql
 CREATE TABLE Web_Download (
@@ -301,7 +322,7 @@ CREATE TABLE Web_Download (
 
 ## Web_Host
 
-Variant 1: [Win_WebVisitKeyword.EnScript:402](../Win_WebVisitKeyword.EnScript#L402), [Win_WebVisitKeyword.EnScript:816](../Win_WebVisitKeyword.EnScript#L816), [Win_WebVisitKeyword.EnScript:923](../Win_WebVisitKeyword.EnScript#L923).
+Variant 1: [Win_TimeLine.EnScript:2062](../Win_TimeLine.EnScript#L2062), [Win_WebVisitKeyword.EnScript:402](../Win_WebVisitKeyword.EnScript#L402), [Win_WebVisitKeyword.EnScript:828](../Win_WebVisitKeyword.EnScript#L828), [Win_WebVisitKeyword.EnScript:935](../Win_WebVisitKeyword.EnScript#L935).
 
 ```sql
 CREATE TABLE Web_Host (
@@ -313,7 +334,7 @@ CREATE TABLE Web_Host (
 
 ## Web_Host_Union
 
-Variant 1: [Win_WebVisitKeyword.EnScript:1235](../Win_WebVisitKeyword.EnScript#L1235).
+Variant 1: [Win_WebVisitKeyword.EnScript:1247](../Win_WebVisitKeyword.EnScript#L1247).
 
 ```sql
 create table Web_Host_Union (
@@ -324,7 +345,7 @@ create table Web_Host_Union (
 
 ## Web_Keyword
 
-Variant 1: [Win_TimeLine.EnScript:2032](../Win_TimeLine.EnScript#L2032), [Win_WebVisitKeyword.EnScript:205](../Win_WebVisitKeyword.EnScript#L205), [Win_WebVisitKeyword.EnScript:561](../Win_WebVisitKeyword.EnScript#L561), [Win_WebVisitKeyword.EnScript:815](../Win_WebVisitKeyword.EnScript#L815), [Win_WebVisitKeyword.EnScript:922](../Win_WebVisitKeyword.EnScript#L922).
+Variant 1: [Win_TimeLine.EnScript:2063](../Win_TimeLine.EnScript#L2063), [Win_WebVisitKeyword.EnScript:205](../Win_WebVisitKeyword.EnScript#L205), [Win_WebVisitKeyword.EnScript:561](../Win_WebVisitKeyword.EnScript#L561), [Win_WebVisitKeyword.EnScript:827](../Win_WebVisitKeyword.EnScript#L827), [Win_WebVisitKeyword.EnScript:934](../Win_WebVisitKeyword.EnScript#L934).
 
 ```sql
 CREATE TABLE Web_Keyword (
@@ -338,17 +359,7 @@ CREATE TABLE Web_Keyword (
 
 ## Web_Visit
 
-Variant 1: [Win_WebVisitKeyword.EnScript:109](../Win_WebVisitKeyword.EnScript#L109).
-
-```sql
-CREATE TABLE Web_Visit (
-  Browser LONGVARCHAR,
-  url LONGVARCHAR,
-  time LONGVARCHAR
-);
-```
-
-Variant 2: [Win_WebVisitKeyword.EnScript:403](../Win_WebVisitKeyword.EnScript#L403), [Win_WebVisitKeyword.EnScript:814](../Win_WebVisitKeyword.EnScript#L814).
+Variant 1: [Win_TimeLine.EnScript:2061](../Win_TimeLine.EnScript#L2061), [Win_WebVisitKeyword.EnScript:403](../Win_WebVisitKeyword.EnScript#L403), [Win_WebVisitKeyword.EnScript:826](../Win_WebVisitKeyword.EnScript#L826).
 
 ```sql
 CREATE TABLE Web_Visit (
@@ -359,7 +370,17 @@ CREATE TABLE Web_Visit (
 );
 ```
 
-Variant 3: [Win_WebVisitKeyword.EnScript:921](../Win_WebVisitKeyword.EnScript#L921).
+Variant 2: [Win_WebVisitKeyword.EnScript:109](../Win_WebVisitKeyword.EnScript#L109).
+
+```sql
+CREATE TABLE Web_Visit (
+  Browser LONGVARCHAR,
+  url LONGVARCHAR,
+  time LONGVARCHAR
+);
+```
+
+Variant 3: [Win_WebVisitKeyword.EnScript:933](../Win_WebVisitKeyword.EnScript#L933).
 
 ```sql
 CREATE TABLE Web_Visit(

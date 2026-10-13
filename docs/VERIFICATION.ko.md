@@ -2,17 +2,19 @@
 
 [English](VERIFICATION.md) | **한국어**
 
+이 문서의 보존 구현 설명과 검토 결과는 개선 전 태그 `archive/pre-improvements-2026-10-13` 기준입니다. 현재 개선 브랜치의 변경 사항과 남은 검증 항목은 [개선 기록](IMPROVEMENTS.ko.md)을 확인하세요.
+
 2026-10-13 보존된 소스를 기준으로 작성한 사후 문서입니다. 2017년 당시의 원본 산출물이 아닙니다.
 
 ## 범위
 
-보고일: 2026-10-13. 보존 구현의 사후 문서 작업을 검증합니다. 변경은 문서와 문서 검증 도구에 한정하며 EnScript는 수정하지 않습니다. 아래 검사는 저장소 일관성이며 런타임 정확성을 입증하지 않습니다.
+보고일: 2026-10-13. 보존 구현의 사후 문서 작업을 검증합니다. 변경은 문서와 문서 검증 도구에 한정하며 아카이브 EnScript는 기준 태그에 보존하며 이 브랜치에는 별도로 검증한 소스 변경이 있습니다. 아래 검사는 저장소 일관성이며 런타임 정확성을 입증하지 않습니다.
 
 ## 수행한 검사
 
 | 검사 | 방법 | 결과 |
 | --- | --- | --- |
-| 원본 소스·히스토리 | 원래 작업 공간의 python3 tools/verify_archive.py | 통과: 소스 13개·과거 README·263개 커밋·기준 tree |
+| 원본 소스·히스토리 | 원래 작업 공간의 python3 tools/verify_archive.py --archive-only | 통과: 소스 13개·과거 README·263개 커밋·기준 tree |
 | 소스 참조 생성 | python3 tools/generate_source_reference.py --check | 통과: 두 언어 참조가 소스 추출과 일치 |
 | 소스 행 인용 | 대상 디코딩·클래스/메서드/SQL 위치 대조 | 명시한 제한 범위에서 통과 |
 | 상대 문서 링크 | Markdown별 경로·파일/행 앵커 해석 | 저장소 내부 대상 통과 |
@@ -31,7 +33,7 @@ EnCase 컴파일·실행, 증거 파싱 정답 대조, GUI 조작, DB 내보내�
 python3 tools/inspect_sources.py
 python3 tools/generate_source_reference.py --check
 python3 tools/verify_documentation.py
-python3 tools/verify_archive.py
+python3 tools/verify_archive.py --archive-only
 git diff --check
 ```
 
@@ -53,3 +55,7 @@ git diff --check
 | 번역 | 런타임 경로 표기, 기술 리터럴과 설명 동기화 |
 
 테스트 계획에 차트 및 추출 회귀 사례와 발견 사항별 검증 항목을 추가했습니다. 자동 번역 검사는 구조 외에도 인라인 기술 리터럴과 언어별 문서 링크를 비교합니다. 이는 문장 의미의 일치나 실행 성공을 입증하지 않으며, 각각 수동 검토와 호스트 검증이 필요합니다.
+
+## 개선 브랜치 검증
+
+현재 개선 브랜치는 휴대 가능한 회귀 검사 7개, 생성 참조 검사, 문서 34개의 영문·국문 검사와 과거 아카이브 전용 검증을 통과했습니다. 원본 기준은 별도 태그에 보존합니다. 변경과 남은 호스트 검증은 [개선 기록](IMPROVEMENTS.ko.md)에 정리했습니다. 휴대 가능한 검사는 추출한 SQL/출력 계약과 소스 구조를 확인하며 EnCase 컴파일 또는 런타임 통과를 주장하지 않습니다.

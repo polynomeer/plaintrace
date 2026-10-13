@@ -2,6 +2,8 @@
 
 [English](README.md) | **한국어**
 
+이 문서의 보존 구현 설명과 검토 결과는 개선 전 태그 `archive/pre-improvements-2026-10-13` 기준입니다. 현재 개선 브랜치의 변경 사항과 남은 검증 항목은 [개선 기록](docs/IMPROVEMENTS.ko.md)을 확인하세요.
+
 Windows의 여러 디지털포렌식 아티팩트를 수집·분석하고, 시간 흐름에 따라 사용자의 행위를 살펴보기 위해 개발한 **EnCase용 EnScript 플러그인**입니다. 현재 저장소 이름은 `plaintrace`이며, 프로젝트의 원래 이름은 **Plain View of Multi Artifacts**입니다.
 
 ## 개발 배경
@@ -53,7 +55,7 @@ EnScript 파일에는 UTF-8과 UTF-16LE가 혼재되어 있습니다. 원본 인
 ```sh
 python3 tools/inspect_sources.py
 python3 tools/inspect_sources.py Win_TimeLine.EnScript --start 2006 --end 2120
-python3 tools/verify_archive.py
+python3 tools/verify_archive.py --archive-only
 ```
 
 전체 아카이브 검증에는 재구성 작업 공간의 로컬 백업 ref가 필요합니다. [검증 사전 조건](docs/USER_GUIDE.ko.md)을 참조하세요.

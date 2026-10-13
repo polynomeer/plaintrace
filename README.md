@@ -2,6 +2,8 @@
 
 **English** | [한국어](README.ko.md)
 
+Archived implementation descriptions and review findings in this document refer to tag `archive/pre-improvements-2026-10-13`. See [the improvement record](docs/IMPROVEMENTS.md) for changes and remaining validation on the current improvement branch.
+
 An **EnScript plugin for EnCase** developed to collect and analyze Windows forensic artifacts and explore user activity over time. The repository is now named `plaintrace`; the project's original name is **Plain View of Multi Artifacts**.
 
 ## Background
@@ -53,7 +55,7 @@ The EnScript files use a mixture of UTF-8 and UTF-16LE encodings. The Python 3 t
 ```sh
 python3 tools/inspect_sources.py
 python3 tools/inspect_sources.py Win_TimeLine.EnScript --start 2006 --end 2120
-python3 tools/verify_archive.py
+python3 tools/verify_archive.py --archive-only
 ```
 
 Full archive verification requires the local backup ref from the reconstruction workspace; see [verification prerequisites](docs/USER_GUIDE.md).

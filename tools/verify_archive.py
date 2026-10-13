@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Verify source bytes and synthetic archival commit metadata, not runtime behavior."""
+import argparse
 import hashlib
 import json
 import subprocess
@@ -10,12 +11,15 @@ def git(*args):
     return subprocess.check_output(['git', *args], cwd=ROOT)
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--archive-only', action='store_true', help='Validate historical blobs without requiring current improved sources to match')
+    args = parser.parse_args()
     manifest = json.loads((ROOT/'docs/source-manifest.json').read_text())
     records = json.loads((ROOT/'docs/history-map.json').read_text())
     tip = records[-1]['commit']
     for name, expected in manifest.items():
         # README is maintained today; its manifest describes the archive snapshot.
-        data = git('show', f'{tip}:{name}') if name == 'README.md' else (ROOT/name).read_bytes()
+        data = git('show', f'{tip}:{name}') if name == 'README.md' or args.archive_only else (ROOT/name).read_bytes()
         assert len(data) == expected['bytes'], name
         assert hashlib.sha256(data).hexdigest() == expected['sha256'], name
     for i, record in enumerate(records):
@@ -29,7 +33,8 @@ def main():
         assert changed == [record['file']], (commit, changed)
     assert git('rev-parse', tip+'^{tree}') == git('rev-parse', 'refs/archive/pre-reconstruction^{tree}')
     assert git('merge-base', '--is-ancestor', tip, 'HEAD') == b''
-    print(f'PASS: {len(manifest)-1} current sources and archived README preserved; '
+    scope = 'archived' if args.archive_only else 'current'
+    print(f'PASS: {len(manifest)-1} {scope} sources and archived README preserved; '
           f'{len(records)} synthetic commits verified; original tree matches.')
 
 if __name__ == '__main__': main()
