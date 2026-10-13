@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+"""Verify source bytes and synthetic archival commit metadata, not runtime behavior."""
+import hashlib
+import json
+import subprocess
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+def git(*args):
+    return subprocess.check_output(['git', *args], cwd=ROOT)
+
+def main():
+    manifest = json.loads((ROOT/'docs/source-manifest.json').read_text())
+    records = json.loads((ROOT/'docs/history-map.json').read_text())
+    for name, expected in manifest.items():
+        data = (ROOT/name).read_bytes()
+        assert len(data) == expected['bytes'], name
+        assert hashlib.sha256(data).hexdigest() == expected['sha256'], name
+    for i, record in enumerate(records):
+        commit = record['commit']
+        fields = git('show', '-s', '--format=%aI%n%cI%n%s%n%P%n%B', commit).decode().splitlines()
+        assert fields[0] == fields[1] == record['date'], commit
+        assert fields[2] == record['subject'], commit
+        assert fields[3] == (records[i-1]['commit'] if i else ''), commit
+        assert 'Synthetic date and order' in '\n'.join(fields[4:]), commit
+        changed = git('diff-tree', '--root', '--no-commit-id', '--name-only', '-r', commit).decode().splitlines()
+        assert changed == [record['file']], (commit, changed)
+    tip = records[-1]['commit']
+    assert git('rev-parse', tip+'^{tree}') == git('rev-parse', 'refs/archive/pre-reconstruction^{tree}')
+    assert git('merge-base', '--is-ancestor', tip, 'HEAD') == b''
+    print(f'PASS: {len(manifest)} files preserved; {len(records)} synthetic commits verified; original tree matches.')
+
+if __name__ == '__main__': main()

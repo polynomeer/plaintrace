@@ -1,0 +1,1843 @@
+[
+  {
+    "sequence": 1,
+    "date": "2017-07-01T10:00:00+09:00",
+    "file": "README.md",
+    "subject": "archive: add README / preserve project description",
+    "commit": "6f732ce3f22d78090682e3dad48a816b247d5c9e"
+  },
+  {
+    "sequence": 2,
+    "date": "2017-07-01T23:57:15+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / SysInfoListClass",
+    "commit": "31342de5364780ccf6cfa739a6bba6fc9fae7b5f"
+  },
+  {
+    "sequence": 3,
+    "date": "2017-07-02T13:54:30+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / _HandlerClass",
+    "commit": "1bd377976c8241ae9f0eae739841be40e1e46210"
+  },
+  {
+    "sequence": 4,
+    "date": "2017-07-03T03:51:45+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / _HandlerClass1",
+    "commit": "694e6cd43e5466382882d8390e937d0af290cff1"
+  },
+  {
+    "sequence": 5,
+    "date": "2017-07-03T17:49:00+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / _HandlerClass2",
+    "commit": "d951352e9af965693103c944b15a46fb1cf34f21"
+  },
+  {
+    "sequence": 6,
+    "date": "2017-07-04T07:46:15+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / FileReportClass fields and constructor",
+    "commit": "d30bee9bbb16618b0a3d41944feed53c656abef7"
+  },
+  {
+    "sequence": 7,
+    "date": "2017-07-04T21:43:30+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / FileReportClass.BuildDocument",
+    "commit": "38b560114519c05a48faa270601609b7a93a2d79"
+  },
+  {
+    "sequence": 8,
+    "date": "2017-07-05T11:40:45+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / VolumeReportClass fields and constructor",
+    "commit": "e9047550e9c5a6a6313e1f1fb7b99a76d6a66639"
+  },
+  {
+    "sequence": 9,
+    "date": "2017-07-06T01:38:00+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / VolumeReportClass.BuildDocument",
+    "commit": "1d3c54fd3032197da2722bbe572d5707cd21072a"
+  },
+  {
+    "sequence": 10,
+    "date": "2017-07-06T15:35:16+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / OSReportClass fields and constructor",
+    "commit": "2da5aeabc29eeffd7d7be2856a4f13a655e718a2"
+  },
+  {
+    "sequence": 11,
+    "date": "2017-07-07T05:32:31+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / OSReportClass.GetShutdownTime",
+    "commit": "0242de02627e43f9753fa3d62be02a0318b49e77"
+  },
+  {
+    "sequence": 12,
+    "date": "2017-07-07T19:29:46+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / OSReportClass.GetComputerName",
+    "commit": "ea9e31035fe261f18d12966b6085fdd17a4eb620"
+  },
+  {
+    "sequence": 13,
+    "date": "2017-07-08T09:27:01+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / OSReportClass.GetProductKey",
+    "commit": "5138d54f229e09bfe310ae1a871ede0ed0b88f3e"
+  },
+  {
+    "sequence": 14,
+    "date": "2017-07-08T23:24:16+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / OSReportClass.BuildDocument",
+    "commit": "a235a9144ea2142c2159f3bf6bf705b02ac7343c"
+  },
+  {
+    "sequence": 15,
+    "date": "2017-07-09T13:21:31+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / CreateChartClass fields and constructor",
+    "commit": "0b3464b7264901b3b0422fc9d1b1af1a8c6932c7"
+  },
+  {
+    "sequence": 16,
+    "date": "2017-07-10T03:18:46+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / CreateChartClass.GetChart",
+    "commit": "32ac82951cfddb73ef01ab92e9a78ef685996702"
+  },
+  {
+    "sequence": 17,
+    "date": "2017-07-10T17:16:01+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / SysInfoDialogClass fields and constructor",
+    "commit": "03f9cc4b9167aa8cd6da4cfbdff1145769099edc"
+  },
+  {
+    "sequence": 18,
+    "date": "2017-07-11T07:13:16+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / SysInfoDialogClass.ChildEvent",
+    "commit": "8a40253fd4f8cbd59251b28e6c08308a6b02ff66"
+  },
+  {
+    "sequence": 19,
+    "date": "2017-07-11T21:10:32+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / SysInfoDialogClass.BuildChart",
+    "commit": "3fad5a13a784af40eb412c47c3df3164c5f48fdb"
+  },
+  {
+    "sequence": 20,
+    "date": "2017-07-12T11:07:47+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / SysInfoDialogClass.ShowChart",
+    "commit": "54007ecb129f31459870825ec61d039bf8ad6540"
+  },
+  {
+    "sequence": 21,
+    "date": "2017-07-13T01:05:02+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / SysInfoDialogClass.MapChartTypes",
+    "commit": "1440c1c877adc2450b684d4b17c3ace5d23c5adf"
+  },
+  {
+    "sequence": 22,
+    "date": "2017-07-13T15:02:17+09:00",
+    "file": "Win_SystemInfo.EnScript",
+    "subject": "archive: add Win_SystemInfo / SysInfoDialogClass.PaintEvent",
+    "commit": "14629bac862dbca800aabe9f9960108691a0335f"
+  },
+  {
+    "sequence": 23,
+    "date": "2017-07-14T04:59:32+09:00",
+    "file": "Win_FileMetaData.EnScript",
+    "subject": "archive: add Win_FileMetaData / FileListClass",
+    "commit": "31484cd23ffabb3774869042d91bdc84f14b1812"
+  },
+  {
+    "sequence": 24,
+    "date": "2017-07-14T18:56:47+09:00",
+    "file": "Win_FileMetaData.EnScript",
+    "subject": "archive: add Win_FileMetaData / FileHandlerClass fields and constructor",
+    "commit": "06aacfaa0a143657d69e826d7da3a324cb723adb"
+  },
+  {
+    "sequence": 25,
+    "date": "2017-07-15T08:54:02+09:00",
+    "file": "Win_FileMetaData.EnScript",
+    "subject": "archive: add Win_FileMetaData / FileHandlerClass.BuildMenu",
+    "commit": "9603313889727ddc3cb2ac8251e7513d9164037d"
+  },
+  {
+    "sequence": 26,
+    "date": "2017-07-15T22:51:17+09:00",
+    "file": "Win_FileMetaData.EnScript",
+    "subject": "archive: add Win_FileMetaData / FileHandlerClass.MenuEvent",
+    "commit": "62b0a4397f3d91d7116aea4774c3c52b9ed77623"
+  },
+  {
+    "sequence": 27,
+    "date": "2017-07-16T12:48:32+09:00",
+    "file": "Win_FileMetaData.EnScript",
+    "subject": "archive: add Win_FileMetaData / FileThreadClass fields and constructor",
+    "commit": "4e65994254da2582c6e95c7ac708c7e42557bd9c"
+  },
+  {
+    "sequence": 28,
+    "date": "2017-07-17T02:45:48+09:00",
+    "file": "Win_FileMetaData.EnScript",
+    "subject": "archive: add Win_FileMetaData / FileThreadClass.Run",
+    "commit": "70fcb2c163c02098efbaccb57e27c013873d32af"
+  },
+  {
+    "sequence": 29,
+    "date": "2017-07-17T16:43:03+09:00",
+    "file": "Win_FileMetaData.EnScript",
+    "subject": "archive: add Win_FileMetaData / FileThreadClass.BuildSqlite",
+    "commit": "6610112049e56861cbe97c42da27c237639daf6b"
+  },
+  {
+    "sequence": 30,
+    "date": "2017-07-18T06:40:18+09:00",
+    "file": "Win_FileMetaData.EnScript",
+    "subject": "archive: add Win_FileMetaData / FileDialogClass fields and constructor",
+    "commit": "f835f8d4b725901848b9688b725462d8e519ae33"
+  },
+  {
+    "sequence": 31,
+    "date": "2017-07-18T20:37:33+09:00",
+    "file": "Win_FileMetaData.EnScript",
+    "subject": "archive: add Win_FileMetaData / FileDialogClass.ChildEvent",
+    "commit": "6c3b6aefbc8ce8429404be7c8268d35b704a36d7"
+  },
+  {
+    "sequence": 32,
+    "date": "2017-07-19T10:34:48+09:00",
+    "file": "Win_FileMetaData.EnScript",
+    "subject": "archive: add Win_FileMetaData / FileDialogClass.Setup",
+    "commit": "db95bd60d701a2e970049d7ee738678ca583b52f"
+  },
+  {
+    "sequence": 33,
+    "date": "2017-07-20T00:32:03+09:00",
+    "file": "Win_FileMetaData.EnScript",
+    "subject": "archive: add Win_FileMetaData / FileDialogClass.TimerEvent",
+    "commit": "a2c710212005b841c8d720a6d61f086f675a4fee"
+  },
+  {
+    "sequence": 34,
+    "date": "2017-07-20T14:29:18+09:00",
+    "file": "Win_FileMetaData.EnScript",
+    "subject": "archive: add Win_FileMetaData / FileDialogClass.CanClose",
+    "commit": "6ed8deebdcb0f35433f12b575c7191b720e61fdb"
+  },
+  {
+    "sequence": 35,
+    "date": "2017-07-21T04:26:33+09:00",
+    "file": "Win_UserAccount.EnScript",
+    "subject": "archive: add Win_UserAccount / AccountListClass",
+    "commit": "9694b59f479b64bb82bf469b20e016151955cf56"
+  },
+  {
+    "sequence": 36,
+    "date": "2017-07-21T18:23:49+09:00",
+    "file": "Win_UserAccount.EnScript",
+    "subject": "archive: add Win_UserAccount / AccountHandlerClass fields and constructor",
+    "commit": "13c4dc36d8b06d31003a7f2b59e21cf83e930643"
+  },
+  {
+    "sequence": 37,
+    "date": "2017-07-22T08:21:04+09:00",
+    "file": "Win_UserAccount.EnScript",
+    "subject": "archive: add Win_UserAccount / AccountHandlerClass.BuildMenu",
+    "commit": "ea0d95cedbd6f83509cffc3894cc049f9ed50e0a"
+  },
+  {
+    "sequence": 38,
+    "date": "2017-07-22T22:18:19+09:00",
+    "file": "Win_UserAccount.EnScript",
+    "subject": "archive: add Win_UserAccount / AccountHandlerClass.MenuEvent",
+    "commit": "b756f11da4dfafd84ce8f09d7c7c63f607d85111"
+  },
+  {
+    "sequence": 39,
+    "date": "2017-07-23T12:15:34+09:00",
+    "file": "Win_UserAccount.EnScript",
+    "subject": "archive: add Win_UserAccount / ExportAccountDialogClass",
+    "commit": "7b3b166111a1e66181584129ac38821b4f84fb33"
+  },
+  {
+    "sequence": 40,
+    "date": "2017-07-24T02:12:49+09:00",
+    "file": "Win_UserAccount.EnScript",
+    "subject": "archive: add Win_UserAccount / AccountThreadClass fields and constructor",
+    "commit": "f7182340f93fcd251820e26374ee5a9aa7d31b73"
+  },
+  {
+    "sequence": 41,
+    "date": "2017-07-24T16:10:04+09:00",
+    "file": "Win_UserAccount.EnScript",
+    "subject": "archive: add Win_UserAccount / AccountThreadClass.Run",
+    "commit": "bfb809a5fabf2f2336ca5849ac9119f625f0afc7"
+  },
+  {
+    "sequence": 42,
+    "date": "2017-07-25T06:07:19+09:00",
+    "file": "Win_UserAccount.EnScript",
+    "subject": "archive: add Win_UserAccount / AccountDialogClass fields and constructor",
+    "commit": "516edcb13af82fdd8ee93d28a6b1c13aba6ac224"
+  },
+  {
+    "sequence": 43,
+    "date": "2017-07-25T20:04:34+09:00",
+    "file": "Win_UserAccount.EnScript",
+    "subject": "archive: add Win_UserAccount / AccountDialogClass.ChildEvent",
+    "commit": "aa576de431fcf85118ae82cda891833c43d81cf4"
+  },
+  {
+    "sequence": 44,
+    "date": "2017-07-26T10:01:49+09:00",
+    "file": "Win_UserAccount.EnScript",
+    "subject": "archive: add Win_UserAccount / AccountDialogClass.Setup",
+    "commit": "d086b60c1b35e732aa7a7378398ed218deebf486"
+  },
+  {
+    "sequence": 45,
+    "date": "2017-07-26T23:59:05+09:00",
+    "file": "Win_UserAccount.EnScript",
+    "subject": "archive: add Win_UserAccount / AccountDialogClass.TimerEvent",
+    "commit": "7198404e3195ea491397ce8126176657fba8d043"
+  },
+  {
+    "sequence": 46,
+    "date": "2017-07-27T13:56:20+09:00",
+    "file": "Win_UserAccount.EnScript",
+    "subject": "archive: add Win_UserAccount / AccountDialogClass.CanClose",
+    "commit": "bb1c7313077fe104a6b3a1839677bbf107e73770"
+  },
+  {
+    "sequence": 47,
+    "date": "2017-07-28T03:53:35+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / RecycleListClass",
+    "commit": "1354fb47740d9f3c09161e3c9a0c766bdece79b7"
+  },
+  {
+    "sequence": 48,
+    "date": "2017-07-28T17:50:50+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / RecycleHandlerClass fields and constructor",
+    "commit": "9e4a36f7aaf277a4a12a64b1494c44fd07035167"
+  },
+  {
+    "sequence": 49,
+    "date": "2017-07-29T07:48:05+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / RecycleHandlerClass.BuildMenu",
+    "commit": "f3f8146aa4deb5b59ce7412cd866ff3bab075f13"
+  },
+  {
+    "sequence": 50,
+    "date": "2017-07-29T21:45:20+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / RecycleHandlerClass.MenuEvent",
+    "commit": "53eef19713faa87294be3dedfe29a47cc61fb3be"
+  },
+  {
+    "sequence": 51,
+    "date": "2017-07-30T11:42:35+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / ExtractDialogClass fields and constructor",
+    "commit": "d1347f148ad15f795f22b6cb61caa9ebac46e177"
+  },
+  {
+    "sequence": 52,
+    "date": "2017-07-31T01:39:50+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / ExtractDialogClass.CreateExportPath",
+    "commit": "7385568ae4d05b94524e227cb220ff286d97cbfc"
+  },
+  {
+    "sequence": 53,
+    "date": "2017-07-31T15:37:05+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / ExtractDialogClass.CanClose",
+    "commit": "aa25e9da1fd6c6ee67fe6a6eafafa98fda4bc869"
+  },
+  {
+    "sequence": 54,
+    "date": "2017-08-01T05:34:21+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / RecycleThreadClass fields and constructor",
+    "commit": "5f4682bb7956b43b2ab7c6158d7c6f7b5fa37b0a"
+  },
+  {
+    "sequence": 55,
+    "date": "2017-08-01T19:31:36+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / RecycleThreadClass.Run",
+    "commit": "347aa2082c5757197498dec86be10755a6fbb8bd"
+  },
+  {
+    "sequence": 56,
+    "date": "2017-08-02T09:28:51+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / RecycleDialogClass fields and constructor",
+    "commit": "5790288d9432dbfc3ccf833eec142423d11dd86e"
+  },
+  {
+    "sequence": 57,
+    "date": "2017-08-02T23:26:06+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / RecycleDialogClass.ChildEvent",
+    "commit": "b00eea068885c6ee2b7410db41719bf31ada401f"
+  },
+  {
+    "sequence": 58,
+    "date": "2017-08-03T13:23:21+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / RecycleDialogClass.Setup",
+    "commit": "08d67a32be597cf16f6882960674d7e5e19484ef"
+  },
+  {
+    "sequence": 59,
+    "date": "2017-08-04T03:20:36+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / RecycleDialogClass.TimerEvent",
+    "commit": "6059220ea63c827356135dc6074476342db2db27"
+  },
+  {
+    "sequence": 60,
+    "date": "2017-08-04T17:17:51+09:00",
+    "file": "Win_RecycleBin.EnScript",
+    "subject": "archive: add Win_RecycleBin / RecycleDialogClass.CanClose",
+    "commit": "81bd7aae31a78579bae046f93baeec85eb3af6bf"
+  },
+  {
+    "sequence": 61,
+    "date": "2017-08-05T07:15:06+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonTypeClass",
+    "commit": "e4ada41a4658e35de002882561d589e111d634c1"
+  },
+  {
+    "sequence": 62,
+    "date": "2017-08-05T21:12:21+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonListClass",
+    "commit": "a43ee6a925de0cc837506777d35c99713de40f1e"
+  },
+  {
+    "sequence": 63,
+    "date": "2017-08-06T11:09:37+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / PowerListClass",
+    "commit": "c93ac83fa717c548357afae822c7403df1fc7aa6"
+  },
+  {
+    "sequence": 64,
+    "date": "2017-08-07T01:06:52+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonHandlerClass fields and constructor",
+    "commit": "2ae1f405ce33821f45ffadae8904af36424eeccf"
+  },
+  {
+    "sequence": 65,
+    "date": "2017-08-07T15:04:07+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonHandlerClass.BuildMenu",
+    "commit": "73b08eb0a93841609e4f890b7edce7802483e746"
+  },
+  {
+    "sequence": 66,
+    "date": "2017-08-08T05:01:22+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonHandlerClass.MenuEvent",
+    "commit": "6384ca31c79f31dccbf33dc2d3cfc78de68a31e7"
+  },
+  {
+    "sequence": 67,
+    "date": "2017-08-08T18:58:37+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / PowerHandlerClass fields and constructor",
+    "commit": "6a5693f67af69a5d41469f9eac1bb5e522131f1e"
+  },
+  {
+    "sequence": 68,
+    "date": "2017-08-09T08:55:52+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / PowerHandlerClass.BuildMenu",
+    "commit": "b3dbdc3d1a2776c0c483876b3c3dfac4a9ca0f16"
+  },
+  {
+    "sequence": 69,
+    "date": "2017-08-09T22:53:07+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / PowerHandlerClass.MenuEvent",
+    "commit": "fa52fc63b0613d95bb739cd9b89cd93d54fe0be9"
+  },
+  {
+    "sequence": 70,
+    "date": "2017-08-10T12:50:22+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonThreadClass fields and constructor",
+    "commit": "27f211fd2f904cc1f462e448765f593e96e51287"
+  },
+  {
+    "sequence": 71,
+    "date": "2017-08-11T02:47:38+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonThreadClass.Run",
+    "commit": "60ac511c15432555f46cb4d620dd9b8d7e502161"
+  },
+  {
+    "sequence": 72,
+    "date": "2017-08-11T16:44:53+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonThreadClass.BuildSqlite",
+    "commit": "0a6b88f42a69434f6d6c858433fa5075b0762e0e"
+  },
+  {
+    "sequence": 73,
+    "date": "2017-08-12T06:42:08+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / PowerThreadClass fields and constructor",
+    "commit": "b367d72eb1dbcc6416792cf4e7e8ae405ccbfade"
+  },
+  {
+    "sequence": 74,
+    "date": "2017-08-12T20:39:23+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / PowerThreadClass.Run",
+    "commit": "40a29a9594584e67c70753492aaf4d82b6632b64"
+  },
+  {
+    "sequence": 75,
+    "date": "2017-08-13T10:36:38+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / PowerThreadClass.BuildSqlite",
+    "commit": "f9172d14c554d9bc2d96452954c395289e1dc8a8"
+  },
+  {
+    "sequence": 76,
+    "date": "2017-08-14T00:33:53+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonTypeHandlerClass",
+    "commit": "5d9bb763a811dc1d89389f01987d925c70fb3ed7"
+  },
+  {
+    "sequence": 77,
+    "date": "2017-08-14T14:31:08+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonTypeReportClass fields and constructor",
+    "commit": "efcd5fdd096a75b3774fba7495bc6dd392aa9847"
+  },
+  {
+    "sequence": 78,
+    "date": "2017-08-15T04:28:23+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonTypeReportClass.BuildDocument",
+    "commit": "816138f543a4308f1aaa932611a25b3a98a3b64c"
+  },
+  {
+    "sequence": 79,
+    "date": "2017-08-15T18:25:38+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonDialogClass fields and constructor",
+    "commit": "673adcde81244a882004c2a3159bfbf6e9fb9c92"
+  },
+  {
+    "sequence": 80,
+    "date": "2017-08-16T08:22:54+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonDialogClass.ChildEvent",
+    "commit": "e032dad9754438f0ce7b5c09330126bfce60d2f2"
+  },
+  {
+    "sequence": 81,
+    "date": "2017-08-16T22:20:09+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonDialogClass.Setup",
+    "commit": "3b288c12151e07da59d8e9592ceb22f86d8655aa"
+  },
+  {
+    "sequence": 82,
+    "date": "2017-08-17T12:17:24+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonDialogClass.TimerEvent",
+    "commit": "dc384a93514a7425934ee6bec6f87696946615ae"
+  },
+  {
+    "sequence": 83,
+    "date": "2017-08-18T02:14:39+09:00",
+    "file": "Win_PowerLogOnOff.EnScript",
+    "subject": "archive: add Win_PowerLogOnOff / LogonDialogClass.CanClose",
+    "commit": "b7d0d29974c2af124d9fca9dc1b2eaa5ff95f124"
+  },
+  {
+    "sequence": 84,
+    "date": "2017-08-18T16:11:54+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBRegListClass",
+    "commit": "b1f73d17ecdf6adb2d13e3e12342cde93cb56383"
+  },
+  {
+    "sequence": 85,
+    "date": "2017-08-19T06:09:09+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBEventLogListClass",
+    "commit": "b78428720f64b6e896de20f67eec1ad1a8b4ddbb"
+  },
+  {
+    "sequence": 86,
+    "date": "2017-08-19T20:06:24+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBWindowsHandlerClass fields and constructor",
+    "commit": "52a118a25c1bc5dc49665e17f2005a094653cdca"
+  },
+  {
+    "sequence": 87,
+    "date": "2017-08-20T10:03:39+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBWindowsHandlerClass.BuildMenu",
+    "commit": "4c32f1eddc68fbeaf02d612cb195f82f115255d5"
+  },
+  {
+    "sequence": 88,
+    "date": "2017-08-21T00:00:54+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBWindowsHandlerClass.MenuEvent",
+    "commit": "7f9fd96a206294947c94e2acba5a5ef6c2117134"
+  },
+  {
+    "sequence": 89,
+    "date": "2017-08-21T13:58:10+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBEventLogHandlerClass fields and constructor",
+    "commit": "12d09beb1c969df7d0784f9fb19b88cbda26a567"
+  },
+  {
+    "sequence": 90,
+    "date": "2017-08-22T03:55:25+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBEventLogHandlerClass.BuildMenu",
+    "commit": "e1f994d3de76ea1321e386b7edd4f62e4314c1b9"
+  },
+  {
+    "sequence": 91,
+    "date": "2017-08-22T17:52:40+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBEventLogHandlerClass.MenuEvent",
+    "commit": "7dea5d2306ec9241e5799945d6a4f34da06e9c05"
+  },
+  {
+    "sequence": 92,
+    "date": "2017-08-23T07:49:55+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / ExportUSBWindowsDialogClass",
+    "commit": "6c5a62ae162282528a38f032a562b53529bf92f2"
+  },
+  {
+    "sequence": 93,
+    "date": "2017-08-23T21:47:10+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBWindowsThreadClass fields and constructor",
+    "commit": "91d36e2d81dc366931960c52753c602c318fc8f4"
+  },
+  {
+    "sequence": 94,
+    "date": "2017-08-24T11:44:25+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBWindowsThreadClass.Run",
+    "commit": "a7b87f632906a9acfcb59ca5cd209303b4127c8f"
+  },
+  {
+    "sequence": 95,
+    "date": "2017-08-25T01:41:40+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBWindowsThreadClass.Parse",
+    "commit": "43965161649de0cdbb78fea00af09917e4d7eb37"
+  },
+  {
+    "sequence": 96,
+    "date": "2017-08-25T15:38:55+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBWindowsThreadClass.DecodeHex",
+    "commit": "ed61a77e3a9db42d2f10130c015bb12d2894d864"
+  },
+  {
+    "sequence": 97,
+    "date": "2017-08-26T05:36:10+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBEventLogThreadClass fields and constructor",
+    "commit": "f76ad0272d2defd393a1142d1b3400d51b1e1303"
+  },
+  {
+    "sequence": 98,
+    "date": "2017-08-26T19:33:26+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBEventLogThreadClass.Run",
+    "commit": "b1fc10a3528252817d3555560e55658a03962241"
+  },
+  {
+    "sequence": 99,
+    "date": "2017-08-27T09:30:41+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBEventLogThreadClass.BuildSqlite",
+    "commit": "08bb0536ab6d292064b679d09999907cec4136d3"
+  },
+  {
+    "sequence": 100,
+    "date": "2017-08-27T23:27:56+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBDialogClass fields and constructor",
+    "commit": "3601f972d89039f3987925d11c3ae3f45d6c7664"
+  },
+  {
+    "sequence": 101,
+    "date": "2017-08-28T13:25:11+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBDialogClass.ChildEvent",
+    "commit": "6983c6beeeaf5c5c0c79147b6fcaaeca3e819742"
+  },
+  {
+    "sequence": 102,
+    "date": "2017-08-29T03:22:26+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBDialogClass.Setup",
+    "commit": "e89413c3ffaa3d9a348bead2bdc18693867aa124"
+  },
+  {
+    "sequence": 103,
+    "date": "2017-08-29T17:19:41+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBDialogClass.TimerEvent",
+    "commit": "613c48f5835a5bc4972d0469147e1dc0423b5b5b"
+  },
+  {
+    "sequence": 104,
+    "date": "2017-08-30T07:16:56+09:00",
+    "file": "Win_USBInfo.EnScript",
+    "subject": "archive: add Win_USBInfo / USBDialogClass.CanClose",
+    "commit": "b5fe9882959c1b3ae715c3df90191490bbace243"
+  },
+  {
+    "sequence": 105,
+    "date": "2017-08-30T21:14:11+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchListClass",
+    "commit": "65802b9539545a21791e88987f701254468b199b"
+  },
+  {
+    "sequence": 106,
+    "date": "2017-08-31T11:11:27+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchHandlerClass fields and constructor",
+    "commit": "1123150c555c4a045589872339aeeebb44de46a5"
+  },
+  {
+    "sequence": 107,
+    "date": "2017-09-01T01:08:42+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchHandlerClass.BuildMenu",
+    "commit": "e658a5d43a52393d49edfc578f05af6faab20f2e"
+  },
+  {
+    "sequence": 108,
+    "date": "2017-09-01T15:05:57+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchHandlerClass.MenuEvent",
+    "commit": "459ff5a224839f95357b1c20755635d181c8e5e9"
+  },
+  {
+    "sequence": 109,
+    "date": "2017-09-02T05:03:12+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchExtractDialogClass fields and constructor",
+    "commit": "ffc02a941b3b577095daea8a75ffe5139852ad17"
+  },
+  {
+    "sequence": 110,
+    "date": "2017-09-02T19:00:27+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchExtractDialogClass.CreateExportPath",
+    "commit": "09270b560e322ab9576d83194d5904514fb7ec62"
+  },
+  {
+    "sequence": 111,
+    "date": "2017-09-03T08:57:42+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchExtractDialogClass.CanClose",
+    "commit": "d767bac8eaf6ad571f5cc0355228f9c16e9a0e5b"
+  },
+  {
+    "sequence": 112,
+    "date": "2017-09-03T22:54:57+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchValueListClass",
+    "commit": "e1f21299670bcdae0247fe1e3c3da71788c997bc"
+  },
+  {
+    "sequence": 113,
+    "date": "2017-09-04T12:52:12+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchValueHandlerClass",
+    "commit": "18ea1a4ad240d489e04aa9d3e80252905648891f"
+  },
+  {
+    "sequence": 114,
+    "date": "2017-09-05T02:49:27+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchThreadClass fields and constructor",
+    "commit": "93acc0c2f5e9ef40e6ec0eba79159f3d164f8767"
+  },
+  {
+    "sequence": 115,
+    "date": "2017-09-05T16:46:43+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchThreadClass.Run",
+    "commit": "39a4cc987140c96d3ed63b6478469c688a5d8d8f"
+  },
+  {
+    "sequence": 116,
+    "date": "2017-09-06T06:43:58+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchThreadClass.BuildSqlite",
+    "commit": "d0e44cb13e48c48175162aa2222f83a39fe8e775"
+  },
+  {
+    "sequence": 117,
+    "date": "2017-09-06T20:41:13+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchThreadClass.BuildSqlite1",
+    "commit": "16f12a4c5ec732bffe34014ca923707c7dbc7620"
+  },
+  {
+    "sequence": 118,
+    "date": "2017-09-07T10:38:28+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / CreatePrefetchChartClass fields and constructor",
+    "commit": "257e0f2a4a40786156f531e6c70474d143c0f1f5"
+  },
+  {
+    "sequence": 119,
+    "date": "2017-09-08T00:35:43+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / CreatePrefetchChartClass.GetChart",
+    "commit": "6ecd7c7d1b6d7ef6c81a4b7af7c40f76a96c64a7"
+  },
+  {
+    "sequence": 120,
+    "date": "2017-09-08T14:32:58+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchDialogClass fields and constructor",
+    "commit": "35119d2f5fa85f04873c24a5f8aae10cd3bf7010"
+  },
+  {
+    "sequence": 121,
+    "date": "2017-09-09T04:30:13+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchDialogClass.ChildEvent",
+    "commit": "f6ba3614130ac6a8608f5acb3de0ffad378208f9"
+  },
+  {
+    "sequence": 122,
+    "date": "2017-09-09T18:27:28+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchDialogClass.BuildChart",
+    "commit": "28c11c190bdeb3076a42575aa8c4d7d43195cd4b"
+  },
+  {
+    "sequence": 123,
+    "date": "2017-09-10T08:24:43+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchDialogClass.ShowChart",
+    "commit": "1b8514a08ba099ce5b0185d1d598fa8effd62e0d"
+  },
+  {
+    "sequence": 124,
+    "date": "2017-09-10T22:21:59+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchDialogClass.MapChartTypes",
+    "commit": "b9f62fd81f1358c518c18791db38e369ca5b0b69"
+  },
+  {
+    "sequence": 125,
+    "date": "2017-09-11T12:19:14+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchDialogClass.Setup",
+    "commit": "b5fab09ad6d17361a0ece2e2df5408c6c5f6c816"
+  },
+  {
+    "sequence": 126,
+    "date": "2017-09-12T02:16:29+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchDialogClass.TimerEvent",
+    "commit": "a5767e177fa350a62609e2712e73d0e97850e92a"
+  },
+  {
+    "sequence": 127,
+    "date": "2017-09-12T16:13:44+09:00",
+    "file": "Win_PrefetchFile.EnScript",
+    "subject": "archive: add Win_PrefetchFile / PrefetchDialogClass.CanClose",
+    "commit": "6b08ffac8826e64a6bccf2be77df351ffb8a0d2d"
+  },
+  {
+    "sequence": 128,
+    "date": "2017-09-13T06:10:59+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkListClass",
+    "commit": "ee8765ff3b9ff8158637190298a482896df29fbd"
+  },
+  {
+    "sequence": 129,
+    "date": "2017-09-13T20:08:14+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / RecentListClass",
+    "commit": "13cff726ae85f0c219909dea284ed125b9126897"
+  },
+  {
+    "sequence": 130,
+    "date": "2017-09-14T10:05:29+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkHandlerClass fields and constructor",
+    "commit": "038fe3611ab2595dc6af68e8b106d1751837f1ee"
+  },
+  {
+    "sequence": 131,
+    "date": "2017-09-15T00:02:44+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkHandlerClass.BuildMenu",
+    "commit": "f6a04e16822ad62e64c5cec88c16e1aab16f4567"
+  },
+  {
+    "sequence": 132,
+    "date": "2017-09-15T14:00:00+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkHandlerClass.MenuEvent",
+    "commit": "01ac3b5ab77b6fe5d335edfe30a14aeb586417e3"
+  },
+  {
+    "sequence": 133,
+    "date": "2017-09-16T03:57:15+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkExtractDialogClass fields and constructor",
+    "commit": "0b942c993f6f7f6cc105c05ca84d50baef7f1152"
+  },
+  {
+    "sequence": 134,
+    "date": "2017-09-16T17:54:30+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkExtractDialogClass.CreateExportPath",
+    "commit": "7a7bc1ee8e3110077989ec0efe9b5fc68dfd0c16"
+  },
+  {
+    "sequence": 135,
+    "date": "2017-09-17T07:51:45+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkExtractDialogClass.CanClose",
+    "commit": "5a5ea3bbdc46a0a064d55e89e53af08c75fb68b7"
+  },
+  {
+    "sequence": 136,
+    "date": "2017-09-17T21:49:00+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / RecentHandlerClass fields and constructor",
+    "commit": "3eeb7a5f206e811e0c82ab9da0ab1fed208956e9"
+  },
+  {
+    "sequence": 137,
+    "date": "2017-09-18T11:46:15+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / RecentHandlerClass.BuildMenu",
+    "commit": "3b0461214f44271348058aa637e257d0bdf2a2c0"
+  },
+  {
+    "sequence": 138,
+    "date": "2017-09-19T01:43:30+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / RecentHandlerClass.MenuEvent",
+    "commit": "6b1f08a6b48b4775f971ad16111250bd0fbe4857"
+  },
+  {
+    "sequence": 139,
+    "date": "2017-09-19T15:40:45+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkThreadClass fields and constructor",
+    "commit": "132bb23a1d3ab45eca066e9dd3e03df221b91068"
+  },
+  {
+    "sequence": 140,
+    "date": "2017-09-20T05:38:00+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkThreadClass._x2c",
+    "commit": "86d10001540c60b60ad841323ac4a0e51ae284fb"
+  },
+  {
+    "sequence": 141,
+    "date": "2017-09-20T19:35:16+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkThreadClass.DecodePath",
+    "commit": "5d159aef27c1fa3026638710a763ca5ef3fdac0e"
+  },
+  {
+    "sequence": 142,
+    "date": "2017-09-21T09:32:31+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkThreadClass.Run",
+    "commit": "24b356216cde62e97e54505c5139130d4b4d6e64"
+  },
+  {
+    "sequence": 143,
+    "date": "2017-09-21T23:29:46+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkThreadClass.BuildSqlite",
+    "commit": "a06c16a23d517bf16c98ab8e68b414daade93f6b"
+  },
+  {
+    "sequence": 144,
+    "date": "2017-09-22T13:27:01+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / RecentThreadClass fields and constructor",
+    "commit": "3355760c11664098a2493585fb64671786c4db80"
+  },
+  {
+    "sequence": 145,
+    "date": "2017-09-23T03:24:16+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / RecentThreadClass.Run",
+    "commit": "ab7fdfa28ade589b87d028ba6276938338eada64"
+  },
+  {
+    "sequence": 146,
+    "date": "2017-09-23T17:21:31+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkDialogClass fields and constructor",
+    "commit": "c3f54afcff49b1d826868b40d16af489c30ab122"
+  },
+  {
+    "sequence": 147,
+    "date": "2017-09-24T07:18:46+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkDialogClass.ChildEvent",
+    "commit": "58e1911245bce3c5259104092f1388932a9b11cc"
+  },
+  {
+    "sequence": 148,
+    "date": "2017-09-24T21:16:01+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkDialogClass.Setup",
+    "commit": "0bbea21da86dbf8d1e82065531173a8d54131f48"
+  },
+  {
+    "sequence": 149,
+    "date": "2017-09-25T11:13:16+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkDialogClass.TimerEvent",
+    "commit": "d7053f75a7ee781b809175be85a97e51fade652d"
+  },
+  {
+    "sequence": 150,
+    "date": "2017-09-26T01:10:32+09:00",
+    "file": "Win_LinkFile.EnScript",
+    "subject": "archive: add Win_LinkFile / LinkDialogClass.CanClose",
+    "commit": "131cb2f1b86030b57ccde0d6d0e97b8b76f921e7"
+  },
+  {
+    "sequence": 151,
+    "date": "2017-09-26T15:07:47+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocListClass",
+    "commit": "92fb85e8dfa5a9d51e82733762c4a3b14fc9b246"
+  },
+  {
+    "sequence": 152,
+    "date": "2017-09-27T05:05:02+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocHandlerClass fields and constructor",
+    "commit": "fd19ca3b77945a077a12cf1c9d1f98c3f10aac1c"
+  },
+  {
+    "sequence": 153,
+    "date": "2017-09-27T19:02:17+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocHandlerClass.BuildMenu",
+    "commit": "9e97c3017ba86573202c2ece102f7c3b71288785"
+  },
+  {
+    "sequence": 154,
+    "date": "2017-09-28T08:59:32+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocHandlerClass.MenuEvent",
+    "commit": "89bc268b4d484d56df56c5624c2a101d3e20d1bd"
+  },
+  {
+    "sequence": 155,
+    "date": "2017-09-28T22:56:47+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocThreadClass fields and constructor",
+    "commit": "bbf1d7930e5c7e4d50ee63f7c558883e7ecf2aea"
+  },
+  {
+    "sequence": 156,
+    "date": "2017-09-29T12:54:02+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocThreadClass.cmp_lnk_recent",
+    "commit": "997c5501a8fdc47b97145a429b952e729aa79dd2"
+  },
+  {
+    "sequence": 157,
+    "date": "2017-09-30T02:51:17+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocThreadClass.recent_lnk",
+    "commit": "2b93e0a0bd3f5fbe7c272985ff9dac4ae2af70f7"
+  },
+  {
+    "sequence": 158,
+    "date": "2017-09-30T16:48:32+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocThreadClass.print_str_list",
+    "commit": "7066cce0946293ca0370a9baaaa3d5acedbac50a"
+  },
+  {
+    "sequence": 159,
+    "date": "2017-10-01T06:45:48+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocThreadClass.str_cmp_add",
+    "commit": "34a3f599eef07fb14e01ec249d7ac405acf7a0f2"
+  },
+  {
+    "sequence": 160,
+    "date": "2017-10-01T20:43:03+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocThreadClass.recent_doc",
+    "commit": "16d6f98b3abd4d4065c162c0b6be5dd5b83b4531"
+  },
+  {
+    "sequence": 161,
+    "date": "2017-10-02T10:40:18+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocThreadClass.pp_doc",
+    "commit": "ac1af475686ec867a3cbfa8d6530e527b9cfc576"
+  },
+  {
+    "sequence": 162,
+    "date": "2017-10-03T00:37:33+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocThreadClass.word_doc",
+    "commit": "9d4a3ee4cfb434373bd0dc4ff419722972391d7f"
+  },
+  {
+    "sequence": 163,
+    "date": "2017-10-03T14:34:48+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocThreadClass.excel_doc",
+    "commit": "04bf0efff436aca7fac3efa85abacf8c2dbbab1d"
+  },
+  {
+    "sequence": 164,
+    "date": "2017-10-04T04:32:03+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocThreadClass.hwp_doc",
+    "commit": "8d18f444ce67f0465ec4ccf7b70a5d204ef07d7e"
+  },
+  {
+    "sequence": 165,
+    "date": "2017-10-04T18:29:18+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocThreadClass.adobe_doc",
+    "commit": "0ed7b435bf912e0f2400249286bd0f2d58d116ac"
+  },
+  {
+    "sequence": 166,
+    "date": "2017-10-05T08:26:33+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocThreadClass.Run",
+    "commit": "126f3e419abd0178f52f677ead24b3bff8f1015e"
+  },
+  {
+    "sequence": 167,
+    "date": "2017-10-05T22:23:49+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocDialogClass fields and constructor",
+    "commit": "3c85009b0cdb749a9a501b4439a9a1a311c026d0"
+  },
+  {
+    "sequence": 168,
+    "date": "2017-10-06T12:21:04+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocDialogClass.ChildEvent",
+    "commit": "4fb77ec9be476c708b2dde2cc8f3b43ab8757a9e"
+  },
+  {
+    "sequence": 169,
+    "date": "2017-10-07T02:18:19+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocDialogClass.Setup",
+    "commit": "138b2afe75199c7a51d59cbc40cb1e3efdd8359a"
+  },
+  {
+    "sequence": 170,
+    "date": "2017-10-07T16:15:34+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocDialogClass.TimerEvent",
+    "commit": "c213644a4629fd1717db95778a96829c5ca77976"
+  },
+  {
+    "sequence": 171,
+    "date": "2017-10-08T06:12:49+09:00",
+    "file": "Win_RecentDocuments.EnScript",
+    "subject": "archive: add Win_RecentDocuments / RecentDocDialogClass.CanClose",
+    "commit": "81ac3f85e286cb2d263dd04fb3164ebcedae8e1c"
+  },
+  {
+    "sequence": 172,
+    "date": "2017-10-08T20:10:04+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsListClass",
+    "commit": "3a463f694b5b9c49a4f96fb2ec865aab0680ddc7"
+  },
+  {
+    "sequence": 173,
+    "date": "2017-10-09T10:07:19+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsHandlerClass fields and constructor",
+    "commit": "2d65e989e3378d704765e1e5363bf7d41d77e71c"
+  },
+  {
+    "sequence": 174,
+    "date": "2017-10-10T00:04:34+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsHandlerClass.BuildMenu",
+    "commit": "d85e8c97a593ce40698a38b4050e647912119e22"
+  },
+  {
+    "sequence": 175,
+    "date": "2017-10-10T14:01:49+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsHandlerClass.MenuEvent",
+    "commit": "49204d7c870ec1f397bdc8caa8ccadcaefe90e6b"
+  },
+  {
+    "sequence": 176,
+    "date": "2017-10-11T03:59:05+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsThreadClass fields and constructor",
+    "commit": "89ef6ffd22a707b57a8002aa59aefded22e2e28e"
+  },
+  {
+    "sequence": 177,
+    "date": "2017-10-11T17:56:20+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsThreadClass._x2c",
+    "commit": "f22e76d92f0104332a3a66fdb192d98e3c8a008a"
+  },
+  {
+    "sequence": 178,
+    "date": "2017-10-12T07:53:35+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsThreadClass.qURLdecode",
+    "commit": "5ca0b8964c294d9ca646cef8306c9833b8f57925"
+  },
+  {
+    "sequence": 179,
+    "date": "2017-10-12T21:50:50+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsThreadClass.sql2csv",
+    "commit": "9250ab9abea029f85ba35268a8076150b037ce3e"
+  },
+  {
+    "sequence": 180,
+    "date": "2017-10-13T11:48:05+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsThreadClass.download_csv",
+    "commit": "1b0db32fb97ff3d3c5f72f8c3a75474ea1b03daf"
+  },
+  {
+    "sequence": 181,
+    "date": "2017-10-14T01:45:20+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsThreadClass.IE_timeformat",
+    "commit": "75f8f96ac91388a810f7c7b9459af31e186e7a21"
+  },
+  {
+    "sequence": 182,
+    "date": "2017-10-14T15:42:35+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsThreadClass.IE_WebCache_dat",
+    "commit": "1cdc0ddb9f930e0c3f697c262e48ac308bc36e04"
+  },
+  {
+    "sequence": 183,
+    "date": "2017-10-15T05:39:50+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsThreadClass.export_file",
+    "commit": "c97d08f1332ac8c8bf83b7258b9298892ab77eab"
+  },
+  {
+    "sequence": 184,
+    "date": "2017-10-15T19:37:05+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsThreadClass.Run",
+    "commit": "f8cfb084f99d7c416b99d950238df14226a79843"
+  },
+  {
+    "sequence": 185,
+    "date": "2017-10-16T09:34:21+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsDialogClass fields and constructor",
+    "commit": "ca1e50387e2662651cff7fff2735f9b025c3d098"
+  },
+  {
+    "sequence": 186,
+    "date": "2017-10-16T23:31:36+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsDialogClass.ChildEvent",
+    "commit": "8ee752b42a24b7f2132863d500b070f53fff691f"
+  },
+  {
+    "sequence": 187,
+    "date": "2017-10-17T13:28:51+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsDialogClass.Setup",
+    "commit": "739b9fa329b8cbc68f8e93aec1fa946d3266d4c0"
+  },
+  {
+    "sequence": 188,
+    "date": "2017-10-18T03:26:06+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsDialogClass.TimerEvent",
+    "commit": "f51c3796bd9209045ecbcb1a2ec612581ca0f4f0"
+  },
+  {
+    "sequence": 189,
+    "date": "2017-10-18T17:23:21+09:00",
+    "file": "Win_WebDownloads.EnScript",
+    "subject": "archive: add Win_WebDownloads / DownloadsDialogClass.CanClose",
+    "commit": "e7dae66def91712f2b3f44e836dba387cf914255"
+  },
+  {
+    "sequence": 190,
+    "date": "2017-10-19T07:20:36+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebListClass",
+    "commit": "9c58cfa2c7c8c355ea99beefcd20db49ba441ffd"
+  },
+  {
+    "sequence": 191,
+    "date": "2017-10-19T21:17:51+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / KeywordListClass",
+    "commit": "f3bcf23cf0a0c0f41e3a018f88b2a66e5047d01c"
+  },
+  {
+    "sequence": 192,
+    "date": "2017-10-20T11:15:06+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebHandlerClass fields and constructor",
+    "commit": "a2a1079772132f06035eee92a0a9c90aba49eddc"
+  },
+  {
+    "sequence": 193,
+    "date": "2017-10-21T01:12:21+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebHandlerClass.BuildMenu",
+    "commit": "217d81c2fefca631d9ca17e8a80f18c7726dfac7"
+  },
+  {
+    "sequence": 194,
+    "date": "2017-10-21T15:09:37+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebHandlerClass.MenuEvent",
+    "commit": "3e7ea18abb01b0ed766b4686c9e1027708ff96e8"
+  },
+  {
+    "sequence": 195,
+    "date": "2017-10-22T05:06:52+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / KeywordHandlerClass fields and constructor",
+    "commit": "b53df6f2730067789e783cced20225f83abe2a6a"
+  },
+  {
+    "sequence": 196,
+    "date": "2017-10-22T19:04:07+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / KeywordHandlerClass.BuildMenu",
+    "commit": "58dde8f2a95fc84c67f2e1f945978c7c5c6f7b5f"
+  },
+  {
+    "sequence": 197,
+    "date": "2017-10-23T09:01:22+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / KeywordHandlerClass.MenuEvent",
+    "commit": "7ced51f3dfce77341602411926ec25118f993539"
+  },
+  {
+    "sequence": 198,
+    "date": "2017-10-23T22:58:37+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass fields and constructor",
+    "commit": "febd3842479723b70e320fdc6b974327d8ec2865"
+  },
+  {
+    "sequence": 199,
+    "date": "2017-10-24T12:55:52+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass.host_extract",
+    "commit": "e5f46d170eb5d6d87689303547fa8da2b0fd7542"
+  },
+  {
+    "sequence": 200,
+    "date": "2017-10-25T02:53:07+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass.Search_Keyword",
+    "commit": "aabd52eaa6d3611cb2c70d2ad07edc44d1fe2561"
+  },
+  {
+    "sequence": 201,
+    "date": "2017-10-25T16:50:22+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass._x2c",
+    "commit": "25584156ac5e177ab8bf72b20cba42452cc00a57"
+  },
+  {
+    "sequence": 202,
+    "date": "2017-10-26T06:47:38+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass.qURLdecode",
+    "commit": "278c87932ec22b367b29cd53cda3d8ae728c319a"
+  },
+  {
+    "sequence": 203,
+    "date": "2017-10-26T20:44:53+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass.sql2csv",
+    "commit": "b54c05aec1b6d5691d7379a92c0a563f87040f56"
+  },
+  {
+    "sequence": 204,
+    "date": "2017-10-27T10:42:08+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass.keyword_extract",
+    "commit": "691d87b58fb39f7b3ff3fc964f9da6e8b6c6184d"
+  },
+  {
+    "sequence": 205,
+    "date": "2017-10-28T00:39:23+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass.visit_csv",
+    "commit": "2ea38431a7540536877e7d485d9e0d595c398b9b"
+  },
+  {
+    "sequence": 206,
+    "date": "2017-10-28T14:36:38+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass.IE_timeformat",
+    "commit": "a5d2cb730184aaaf2824c50af301c7a89800d7fe"
+  },
+  {
+    "sequence": 207,
+    "date": "2017-10-29T04:33:53+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass.IE_search",
+    "commit": "f25be0bd86efdc58bba09c085485a4c9ce8d16d7"
+  },
+  {
+    "sequence": 208,
+    "date": "2017-10-29T18:31:08+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass.IE_index_dat",
+    "commit": "9397ca19e3233cbe531ca9aefeda528fc2680835"
+  },
+  {
+    "sequence": 209,
+    "date": "2017-10-30T08:28:23+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass.IE_WebCache_dat",
+    "commit": "72947bec597d63af4267049fbc69cc8d5a7a1d2a"
+  },
+  {
+    "sequence": 210,
+    "date": "2017-10-30T22:25:38+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass.export_file",
+    "commit": "eabe436c0aa524b36bcbfd0f449a3165c8ba98b8"
+  },
+  {
+    "sequence": 211,
+    "date": "2017-10-31T12:22:54+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebThreadClass.Run",
+    "commit": "5d73a4cec9351ec7d5fb08490e5f0c6ab2f34fec"
+  },
+  {
+    "sequence": 212,
+    "date": "2017-11-01T02:20:09+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / CreateWebChartClass fields and constructor",
+    "commit": "04989b525d04f0ba374f18437a8f7c6c3be7accc"
+  },
+  {
+    "sequence": 213,
+    "date": "2017-11-01T16:17:24+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / CreateWebChartClass.GetChart",
+    "commit": "45c543bd2ec950f66f5d8da0ecf8650ff10cc52b"
+  },
+  {
+    "sequence": 214,
+    "date": "2017-11-02T06:14:39+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebDialogClass fields and constructor",
+    "commit": "b8558961c222dacee099c7c97a8294685bf57db5"
+  },
+  {
+    "sequence": 215,
+    "date": "2017-11-02T20:11:54+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebDialogClass.BuildChart",
+    "commit": "9a3878b485328c0dbdf652760ed9b20b8bb2393b"
+  },
+  {
+    "sequence": 216,
+    "date": "2017-11-03T10:09:09+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebDialogClass.ShowChart",
+    "commit": "b73d3b145c40eba88db81471dc3b448fe2ed10f5"
+  },
+  {
+    "sequence": 217,
+    "date": "2017-11-04T00:06:24+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebDialogClass.MapChartTypes",
+    "commit": "5fc632ae60954911e3f49d4e6302d8df61fdf79a"
+  },
+  {
+    "sequence": 218,
+    "date": "2017-11-04T14:03:39+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebDialogClass.ChildEvent",
+    "commit": "f57a6cedd7e41838d5fccbc83c0bedd0de6d3c60"
+  },
+  {
+    "sequence": 219,
+    "date": "2017-11-05T04:00:54+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebDialogClass.Setup",
+    "commit": "b2d664e3c6dee1829cafb417fa9afa7c0550d512"
+  },
+  {
+    "sequence": 220,
+    "date": "2017-11-05T17:58:10+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebDialogClass.TimerEvent",
+    "commit": "3b93a01148985f3184194eaf59d2305dd9b3c039"
+  },
+  {
+    "sequence": 221,
+    "date": "2017-11-06T07:55:25+09:00",
+    "file": "Win_WebVisitKeyword.EnScript",
+    "subject": "archive: add Win_WebVisitKeyword / WebDialogClass.CanClose",
+    "commit": "950122b854b1f520d2b305ce69514eb766778abd"
+  },
+  {
+    "sequence": 222,
+    "date": "2017-11-06T21:52:40+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineWindow fields and constructor",
+    "commit": "600e194e40353f8407158a85fd2467fbc14844e2"
+  },
+  {
+    "sequence": 223,
+    "date": "2017-11-07T11:49:55+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineWindow.PaintEvent",
+    "commit": "250e0b3a8d2d5490ffa77573710ffe559c13150d"
+  },
+  {
+    "sequence": 224,
+    "date": "2017-11-08T01:47:10+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass fields and constructor",
+    "commit": "f27d7afec1639b88e5b5917925514801a542be67"
+  },
+  {
+    "sequence": 225,
+    "date": "2017-11-08T15:44:25+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.FileDeleted",
+    "commit": "7b6a4109b1314718091d0775f5f39c7b20d2bc29"
+  },
+  {
+    "sequence": 226,
+    "date": "2017-11-09T05:41:40+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.USBEventLog",
+    "commit": "6c5ca2d5d1e71a4d0304517ddc6929577a7537e2"
+  },
+  {
+    "sequence": 227,
+    "date": "2017-11-09T19:38:55+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.LogOn",
+    "commit": "e854ab605af960d3032f6ba1245d83422bf99dbc"
+  },
+  {
+    "sequence": 228,
+    "date": "2017-11-10T09:36:10+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.PowerOn",
+    "commit": "ce05502b539bc86ffa7f7c7c732a91ddbf3eefb2"
+  },
+  {
+    "sequence": 229,
+    "date": "2017-11-10T23:33:26+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.UserAccount",
+    "commit": "804a0c179acd95eb26fbbfd2e05e7c7de2562bca"
+  },
+  {
+    "sequence": 230,
+    "date": "2017-11-11T13:30:41+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.PrefetchEXE",
+    "commit": "dcdcf2f30a62d2d8d6434aa4ddc7deb70f1ee020"
+  },
+  {
+    "sequence": 231,
+    "date": "2017-11-12T03:27:56+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.cmp_lnk_recent",
+    "commit": "8c74c661e41cf96ca7fb3df0732111fc2ef242fa"
+  },
+  {
+    "sequence": 232,
+    "date": "2017-11-12T17:25:11+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.recent_lnk",
+    "commit": "840dbce8ae44f3b63bdd5050cf182e797060a4ab"
+  },
+  {
+    "sequence": 233,
+    "date": "2017-11-13T07:22:26+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.print_str_list",
+    "commit": "191210e0674b8d9469c6141ccb29f18e601acac0"
+  },
+  {
+    "sequence": 234,
+    "date": "2017-11-13T21:19:41+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.str_cmp_add",
+    "commit": "c647ff606d6b107cdcb8e75ad73d76bde1c16085"
+  },
+  {
+    "sequence": 235,
+    "date": "2017-11-14T11:16:56+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.recent_doc",
+    "commit": "4f944614aa759547be9730c623dd142d9899925f"
+  },
+  {
+    "sequence": 236,
+    "date": "2017-11-15T01:14:11+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.pp_doc",
+    "commit": "bf2cd57be44aa21233f82fb3ad6a7908a8c4bb91"
+  },
+  {
+    "sequence": 237,
+    "date": "2017-11-15T15:11:27+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.word_doc",
+    "commit": "dd3104d8ca4af57223fca9e74f1fae2744448158"
+  },
+  {
+    "sequence": 238,
+    "date": "2017-11-16T05:08:42+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.excel_doc",
+    "commit": "ccbfa9f9e3a0d0b1a7b0742c100ee4537993f490"
+  },
+  {
+    "sequence": 239,
+    "date": "2017-11-16T19:05:57+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.hwp_doc",
+    "commit": "1c59bf65e84eb335fb3ff69d4ad080084a233124"
+  },
+  {
+    "sequence": 240,
+    "date": "2017-11-17T09:03:12+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.adobe_doc",
+    "commit": "9382ea5b9746fc87668482cae51060b8774f08fb"
+  },
+  {
+    "sequence": 241,
+    "date": "2017-11-17T23:00:27+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.ExportLink",
+    "commit": "b41ee4939faa0e4e49ea647d522ebd1515fdb27d"
+  },
+  {
+    "sequence": 242,
+    "date": "2017-11-18T12:57:42+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.host_extract",
+    "commit": "17f611e87e69f76380d61551839f1772df5ec081"
+  },
+  {
+    "sequence": 243,
+    "date": "2017-11-19T02:54:57+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.sql2csv",
+    "commit": "2745bc659e61bc086e7c205a867c82284af60901"
+  },
+  {
+    "sequence": 244,
+    "date": "2017-11-19T16:52:12+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.download_sql2csv",
+    "commit": "bbeb8151337f926850bd596601d561ae05510142"
+  },
+  {
+    "sequence": 245,
+    "date": "2017-11-20T06:49:27+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.keyword_extract",
+    "commit": "727a6d16bd25a07b0f80e097d516f2feb04fcc40"
+  },
+  {
+    "sequence": 246,
+    "date": "2017-11-20T20:46:43+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.visit_csv",
+    "commit": "dec0438b3ea711e3926cc392925fbba5cffce36a"
+  },
+  {
+    "sequence": 247,
+    "date": "2017-11-21T10:43:58+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.download_csv",
+    "commit": "9d218c5047639600bb70ef76054939bf8e218e3e"
+  },
+  {
+    "sequence": 248,
+    "date": "2017-11-22T00:41:13+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.IE_timeformat",
+    "commit": "3beaa9b7620f30353ac96d7589a7ab7f4312c4ad"
+  },
+  {
+    "sequence": 249,
+    "date": "2017-11-22T14:38:28+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.IE_search",
+    "commit": "124a549243adad761e65f654f33dc3e1c72bf573"
+  },
+  {
+    "sequence": 250,
+    "date": "2017-11-23T04:35:43+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.IE_index_dat",
+    "commit": "e7c1984bee381daae598192c5580d75d186fb389"
+  },
+  {
+    "sequence": 251,
+    "date": "2017-11-23T18:32:58+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.IE_WebCache_dat",
+    "commit": "636680d93cc265d86547b05b6818c0de692fbf63"
+  },
+  {
+    "sequence": 252,
+    "date": "2017-11-24T08:30:13+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.export_file",
+    "commit": "dbcbb2579c3a0b3e4efb72faf215c69e43671778"
+  },
+  {
+    "sequence": 253,
+    "date": "2017-11-24T22:27:28+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.WebArtifact",
+    "commit": "696785445879f94bcf13cbefda1adbc79e3ee012"
+  },
+  {
+    "sequence": 254,
+    "date": "2017-11-25T12:24:43+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineThreadClass.Run",
+    "commit": "d56b96d44d23d8831420a509e7d6b0de45bcc2b6"
+  },
+  {
+    "sequence": 255,
+    "date": "2017-11-26T02:21:59+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineDialogClass fields and constructor",
+    "commit": "d400982ecce840976b3b7fd5de0c655b5d60a46c"
+  },
+  {
+    "sequence": 256,
+    "date": "2017-11-26T16:19:14+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineDialogClass.ChildEvent",
+    "commit": "1e7fc77b3a0f1784273db58b2233fef8a5f4bebe"
+  },
+  {
+    "sequence": 257,
+    "date": "2017-11-27T06:16:29+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineDialogClass.Setup",
+    "commit": "989f5f0ac5ed177ec0fc91af91b6d479847b4d2f"
+  },
+  {
+    "sequence": 258,
+    "date": "2017-11-27T20:13:44+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineDialogClass.TimerEvent",
+    "commit": "83e75acddc933b3e1fd5ec86e2a6cec23e0da74a"
+  },
+  {
+    "sequence": 259,
+    "date": "2017-11-28T10:10:59+09:00",
+    "file": "Win_TimeLine.EnScript",
+    "subject": "archive: add Win_TimeLine / TimeLineDialogClass.CanClose",
+    "commit": "8947ec74d91d218f3cf13aec5435294dc19e7aed"
+  },
+  {
+    "sequence": 260,
+    "date": "2017-11-29T00:08:14+09:00",
+    "file": "Plain View of Multi Artifacts.EnScript",
+    "subject": "archive: add Plain View of Multi Artifacts / ExportDialogClass",
+    "commit": "02970a1f3a137119113c1c534d48a7afcea42db5"
+  },
+  {
+    "sequence": 261,
+    "date": "2017-11-29T14:05:29+09:00",
+    "file": "Plain View of Multi Artifacts.EnScript",
+    "subject": "archive: add Plain View of Multi Artifacts / MainDialogClass",
+    "commit": "1cdfffae2315efe44c8cbf203a2297ebb35870e1"
+  },
+  {
+    "sequence": 262,
+    "date": "2017-11-30T04:02:44+09:00",
+    "file": "Plain View of Multi Artifacts.EnScript",
+    "subject": "archive: add Plain View of Multi Artifacts / MainClass fields and constructor",
+    "commit": "d56e4e202ec6de9e6ce3421e70763fd194382d10"
+  },
+  {
+    "sequence": 263,
+    "date": "2017-11-30T18:00:00+09:00",
+    "file": "Plain View of Multi Artifacts.EnScript",
+    "subject": "archive: add Plain View of Multi Artifacts / MainClass.Main",
+    "commit": "e2b13debe61aa65ab2a031a85ff57bf040f176a9"
+  }
+]
