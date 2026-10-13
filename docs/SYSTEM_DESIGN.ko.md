@@ -53,7 +53,9 @@ sequenceDiagram
 
 ## 타임라인 처리 흐름
 
-`TimeLineThreadClass.Run`(2006–2120행)은 `C:\TimeLineArtifacts_Total.sqlite`를 쓰기 모드로 열고 9개 테이블 계열을 생성합니다. 케이스 내보내기 폴더에 `link_files`와 `lnk_parse.csv`를 만듭니다. 첫 순회는 FileDeleted, USBEventLog, LogOn, PowerOn, UserAccount, PrefetchEXE, ExportLink를 호출합니다. 초기 핸들을 닫고 두 번째 순회에서 볼륨별 최근 문서 레지스트리를 읽고 비볼륨 항목에 WebArtifact를 호출합니다. 이후 통합 DB를 다시 열어 recent_lnk로 추출 LNK와 최근 문서를 대조합니다.
+`TimeLineThreadClass.Run`(2006–2120행)은 `C:\TimeLineArtifacts_Total.sqlite`를 쓰기 모드로 열고 반환값 검사 없이 9개 테이블 생성 명령을 실행합니다. 케이스 내보내기 폴더에 `link_files`와 `lnk_parse.csv`를 만듭니다. 첫 순회는 FileDeleted, USBEventLog, LogOn, PowerOn, UserAccount, PrefetchEXE, ExportLink를 호출합니다. 초기 핸들을 닫고 두 번째 순회에서 볼륨별 최근 문서 레지스트리를 읽고 비볼륨 항목에 WebArtifact를 호출합니다. 이후 통합 DB를 다시 열어 recent_lnk로 추출 LNK와 최근 문서를 대조합니다.
+
+초기 스키마는 PC_PowerOnOff, PC_LogOnOff, App_EXEFile, App_Documents, USB_EventLog, PC_UserAccount, Web_Download, Web_Keyword, File_Deleted입니다. 브라우저 보조 함수가 INSERT하는 Web_Visit·Web_Host는 없습니다. 방문→검색어 전달에서도 읽은 reader를 재사용합니다. 아래 화살표는 시도하는 흐름이며 정상 기록을 입증하지 않습니다.
 
 ```mermaid
 flowchart TD
@@ -74,7 +76,7 @@ flowchart TD
 
 ## 필터·차트·오류
 
-필터는 대체로 표시 목록을 지우고 사본에서 다시 만듭니다. 필터 해제 시 복원하지만 일부 모듈 생성자 인자 불일치로 값이 달라질 수 있습니다. 차트는 원본 증거 전체가 아닌 파생 SQLite 데이터를 집계합니다. 내보내기·차트 반복 생성 시 기존 테이블과 충돌할 수 있습니다. 콘솔·Dialog·bool·프로세스 종료가 혼용되며 중앙 오류·결과 계약은 없습니다.
+필터는 대체로 표시 목록을 지우고 사본에서 다시 만듭니다. 필터 해제 시 복원하지만 일부 모듈 생성자 인자 불일치로 값이 달라질 수 있습니다. 시스템 정보 차트는 선택한 케이스 항목을 직접 집계합니다(Win_SystemInfo 459–542행). Prefetch·웹 차트는 파생 SQLite를 집계합니다. 내보내기·차트 반복 생성 시 기존 테이블과 충돌할 수 있습니다. 콘솔·Dialog·bool·프로세스 종료가 혼용되며 중앙 오류·결과 계약은 없습니다.
 
 ## 누락된 표현 계약
 

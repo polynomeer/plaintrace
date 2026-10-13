@@ -16,7 +16,7 @@ Windows의 여러 디지털포렌식 아티팩트를 수집·분석하고, 시�
 | --- | --- |
 | 시스템·계정 | 운영체제·볼륨·컴퓨터 정보, 사용자 계정과 로그인 관련 정보 조회 |
 | 파일 | 일반·숨김·삭제 파일의 메타데이터, 휴지통의 삭제 시각과 원래 경로 분석 |
-| 프로그램 실행 | Prefetch와 LNK에서 실행 흔적·경로·시각 등을 추출 |
+| 실행·파일 사용 흔적 | Prefetch 실행 흔적과 LNK 대상 경로·시각 등을 추출 |
 | 최근 문서 | Office, HWP, Adobe 등의 최근 문서 기록과 LNK 대조 |
 | 로그인·전원 | 이벤트 로그 기반 로그인·로그오프 및 전원 켜짐·꺼짐 기록 분석 |
 | USB | 레지스트리와 이벤트 로그 기반 장치 식별·연결 흔적 분석 |
@@ -55,6 +55,8 @@ python3 tools/inspect_sources.py
 python3 tools/inspect_sources.py Win_TimeLine.EnScript --start 2006 --end 2120
 python3 tools/verify_archive.py
 ```
+
+전체 아카이브 검증에는 재구성 작업 공간의 로컬 백업 ref가 필요합니다. [검증 사전 조건](docs/USER_GUIDE.ko.md)을 참조하세요.
 
 검증 도구는 현재 EnScript 소스, 재구성 당시 README 스냅샷과 커밋의 무결성을 확인합니다. EnCase 컴파일이나 실행 검증을 수행하는 도구는 아닙니다.
 

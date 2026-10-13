@@ -11,13 +11,12 @@ The source uses in-memory NameList rows, EnCase bookmarks/reports, local extract
 | Output | Purpose | Important behavior |
 | --- | --- | --- |
 | User-selected CSV/SQLite path | Per-module menu export | ExportDialogClass prompts for destination |
-| C:\WindowsArtifacts.sqlite | Default export destination in several handlers | Not the same spelling as WindowsArtifact.sqlite |
-| C:\WindowsArtifact.sqlite | Alternate path in legacy collection code | Inspect the actual module; do not assume a single output |
+| C:\WindowsArtifacts.sqlite | Default export destination in several handlers | User-selectable handler default; singular WindowsArtifact.sqlite exists only in comments |
 | C:\TimeLineArtifacts.sqlite | Several standalone timeline helpers | Table existence and repeated writes need review |
 | C:\TimeLineArtifacts_Total.sqlite | Integrated timeline build | Opened with WRITE; preserve prior outputs before rebuilding |
 | Case export directory | Browser copies/intermediate files, link_files, lnk_parse.csv, help.txt | Multiple per-browser subdirectories and filenames |
 
-Paths are source literals, not a configurable deployment specification. Some `.csv` files are tab-separated, such as timeline `lnk_parse.csv`; delimiters and headers must be checked per writer.
+The table lists runtime paths as they would appear on Windows, not escaped EnScript string literals or a centralized configuration interface. `C:\WindowsArtifact.sqlite` is mentioned only in comments; helpers actually use `C:\TimeLineArtifacts.sqlite`. Some `.csv` files are tab-separated, such as timeline `lnk_parse.csv`; delimiters and headers must be checked per writer.
 
 ## Table Families
 
@@ -28,8 +27,8 @@ Paths are source literals, not a configurable deployment specification. Some `.c
 | Execution | App_PrefetchFile, App_PrefetchFile_Sorted, App_LinkFile, App_EXEFile | Parsed execution traces and aggregate chart data; traces are not proof of every execution |
 | Documents | App_Documents | Viewer, filename, timestamps, size, drive type and path |
 | USB | USB_EventLog | Device and connection event information |
-| Web | Web_Visit, Web_Keyword, Web_Host, Web_Download | Visits, searches, counts and downloads |
-| Intermediate | Dynamic Web_cr/ff/op visit/download/keyword tables and viewer-specific tables | Browser-specific staging; not a single canonical schema |
+| Web | Web_Visit, Web_Keyword, Web_Host, Web_Host_Union, Web_Download | Visits, searches, counts and downloads |
+| Templates and delimited intermediates | Web_cr/ff/op names in browser helpers; viewer-specific CSV files | Many dynamic CREATE TABLE templates and all viewer-specific table declarations are commented out; names do not guarantee generated tables |
 
 Literal SQL declarations and their locations are in [the schema reference](SCHEMA_REFERENCE.md). That appendix preserves variant declarations rather than silently creating a normalized schema.
 
@@ -42,6 +41,8 @@ Source file paths, SID, RID, LogonID, machine IDs, device serials and GUIDs are 
 ## Schema and Export Limitations
 
 Web_Visit has variants with and without title; App_EXEFile RunCount appears as LONGVARCHAR or INTEGER with constraints; Web_Download TotalBytes is declared with and without a type. Some account declarations spell LONGVARCHAR as LONGVARHAR. SQL strings and CSV quoting are not consistently escaped. No schema migration/version registry or universal idempotent export mechanism is present. A consumer must inspect the actual database schema before querying.
+
+The table-family list covers the repository, not every individual output file. The total timeline build omits Web_Visit and Web_Host creation while helpers attempt writes to them. Recent-document per-viewer outputs are CSV files; active SQL writes target App_Documents. Web_Host_Union is a web-chart aggregation table. USB event CSV headers differ from the emitted event fields, so headers alone are not reliable field contracts.
 
 ## Suggested Inspection Queries
 

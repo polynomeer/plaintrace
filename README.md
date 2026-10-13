@@ -16,7 +16,7 @@ The work included UI development and Windows artifact extraction and parsing in 
 | --- | --- |
 | System and accounts | Inspect operating system, volume, computer, user account, and logon information |
 | Files | Analyze metadata for ordinary, hidden, and deleted files, plus Recycle Bin deletion times and original paths |
-| Program execution | Extract execution traces, paths, and timestamps from Prefetch and LNK files |
+| Execution and file interaction | Extract execution traces from Prefetch and shortcut target paths/timestamps from LNK files |
 | Recent documents | Correlate recent document records for Office, HWP, and Adobe applications with LNK files |
 | Logon and power | Analyze logon, logoff, power-on, and power-off records from event logs |
 | USB | Analyze device identifiers and connection traces from registry data and event logs |
@@ -55,6 +55,8 @@ python3 tools/inspect_sources.py
 python3 tools/inspect_sources.py Win_TimeLine.EnScript --start 2006 --end 2120
 python3 tools/verify_archive.py
 ```
+
+Full archive verification requires the local backup ref from the reconstruction workspace; see [verification prerequisites](docs/USER_GUIDE.md).
 
 The verification tool checks the integrity of the current EnScript source, the archived README snapshot, and the reconstructed commits. It does not compile the plugin or test its behavior in EnCase.
 

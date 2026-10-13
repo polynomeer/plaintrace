@@ -6,7 +6,7 @@ Prepared on 2026-10-13 from the archived source. This is retrospective documenta
 
 ## Context and Boundaries
 
-The EnCase process hosts the plugin. Evidence is accessed through case APIs; derived reports and databases are written to the examiner's local filesystem. Browser launch is a separate process boundary. There is no observed network service, REST API, authentication server, or database daemon in the source.
+The EnCase process hosts the plugin. Evidence is accessed through case APIs; reports and bookmarks belong to the EnCase host, while extracted files and databases are written to the examiner's local filesystem. Browser launch is a separate process boundary. There is no observed network service, REST API, authentication server, or database daemon in the source.
 
 ```mermaid
 flowchart LR

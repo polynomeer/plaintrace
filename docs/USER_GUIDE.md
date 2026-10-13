@@ -46,3 +46,11 @@ The Timeline tab exposes Build DB, browser buttons, and Help. Build DB performs 
 ## Run Record
 
 Record run date, source commit, EnCase/Windows versions, evidence identifiers, visible/selected scope, source timezone, output paths/hashes, per-table counts, sample comparisons and console errors. Keep generated evidence and exports outside repository commits. See [the validation plan](TEST_PLAN.md) and [maintenance](MAINTENANCE.md).
+
+## Confirmed Implementation Limits
+
+USB registry results offer CSV export; USB event results offer CSV and SQLite. Their event CSV header uses registry field names, so inspect column order against the source before importing. The Link view implements CSV, SQLite and extraction actions; the separate Recent view displays a SQLite menu item without a corresponding handler branch. Recent Documents produces viewer-specific CSV files and the App_Documents table; viewer-specific SQL definitions are commented out.
+
+System charts read selected case items directly; Prefetch and web charts query SQLite. The shutdown-time helper has no active assignment to its returned timestamp. Browser keyword processing reuses a reader already consumed by CSV generation. Total timeline collection attempts browser inserts without creating Web_Visit or Web_Host, and one IE insert lacks VALUES. These are source-level findings requiring host reproduction; an empty result must not be interpreted as absence of evidence.
+
+Extraction actions require independent verification of selected row keys and exported bytes. Recycle Bin parsing of $I metadata does not establish recovery of the corresponding $R content.

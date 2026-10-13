@@ -6,7 +6,7 @@ Prepared on 2026-10-13 from the archived source. This is retrospective documenta
 
 ## Scope
 
-Report date: 2026-10-13. This report covers retrospective documentation of the preserved implementation. Changes are limited to documentation and the source-reference generator; no archived EnScript file is modified. Checks below establish repository consistency, not runtime correctness.
+Report date: 2026-10-13. This report covers retrospective documentation of the preserved implementation. Changes are limited to documentation and documentation validation tools; no archived EnScript file is modified. Checks below establish repository consistency, not runtime correctness.
 
 ## Checks Performed
 
@@ -36,3 +36,20 @@ git diff --check
 ```
 
 Full archive verification requires the original local backup ref; see [setup](USER_GUIDE.md). Planned runtime acceptance cases and recording fields are in [the test plan](TEST_PLAN.md). The generated SQL appendix is a declaration inventory, not a successfully executed migration.
+
+## Full Source and Translation Review
+
+The review compared the entry point, all twelve included modules, active SQL and export handlers with both language versions. Commented code was distinguished from active implementation. The following documentation corrections were made without modifying archived source.
+
+| Finding | Corrected description |
+| --- | --- |
+| Database paths | WindowsArtifact.sqlite occurs in comments; active defaults use WindowsArtifacts.sqlite and the two timeline destinations |
+| Recent Documents | Viewer outputs are CSV; viewer SQL definitions are commented; App_Documents is active |
+| Charts | System charts inspect selected items; Prefetch/web charts query SQLite |
+| Total timeline | Nine initial table declarations omit Web_Visit/Web_Host; browser inserts are attempts, not verified successful consolidation |
+| Browser keywords | Reader reuse after CSV conversion is a source-level risk |
+| Incomplete controls and helpers | Recent SQLite handling and shutdown-time conversion are incomplete |
+| USB exports | Registry/event capabilities differ; event header does not describe emitted fields correctly |
+| Translation | Runtime path spelling, technical literals and descriptions synchronized |
+
+The test plan now includes chart and extraction regression cases and targeted checks for these findings. Automated translation checks compare inline technical literals and language-specific document links in addition to structural coverage. They cannot establish prose equivalence or runtime success; those conclusions require manual review and host testing respectively.

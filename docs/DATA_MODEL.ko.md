@@ -11,13 +11,12 @@
 | 출력 | 목적 | 주의할 동작 |
 | --- | --- | --- |
 | 사용자가 선택한 CSV/SQLite 경로 | 모듈 메뉴 내보내기 | ExportDialogClass에서 경로 선택 |
-| C:\WindowsArtifacts.sqlite | 여러 Handler 기본 내보내기 | WindowsArtifact.sqlite와 철자가 다름 |
-| C:\WindowsArtifact.sqlite | 레거시 수집 코드의 다른 경로 | 모듈별 확인 필요; 단일 출력으로 가정하지 않음 |
+| C:\WindowsArtifacts.sqlite | 여러 Handler 기본 내보내기 | 사용자 변경 가능 기본값; 단수 WindowsArtifact.sqlite는 주석에만 존재 |
 | C:\TimeLineArtifacts.sqlite | 독립 모듈의 타임라인 보조 출력 | 기존 테이블·반복 기록 검토 필요 |
 | C:\TimeLineArtifacts_Total.sqlite | 통합 타임라인 생성 | WRITE로 열기; 재생성 전 이전 결과 보존 |
 | 케이스 내보내기 폴더 | 브라우저 사본·중간 파일, link_files, lnk_parse.csv, help.txt | 브라우저별 여러 폴더·파일명 |
 
-소스의 경로 문자열이며 설정 가능한 배포 명세가 아닙니다. 타임라인 `lnk_parse.csv` 등 일부 .csv는 탭 구분이므로 작성 코드별 구분자·헤더를 확인해야 합니다.
+표는 이스케이프한 EnScript 리터럴이나 중앙 설정 인터페이스가 아닌 Windows 실행 경로를 표시합니다. `C:\WindowsArtifact.sqlite`는 주석에만 있고 실제 보조 출력은 `C:\TimeLineArtifacts.sqlite`입니다. 타임라인 `lnk_parse.csv` 등 일부 `.csv`는 탭 구분이므로 작성 코드별 구분자·헤더를 확인해야 합니다.
 
 ## 테이블 계열
 
@@ -28,8 +27,8 @@
 | 실행 | App_PrefetchFile, App_PrefetchFile_Sorted, App_LinkFile, App_EXEFile | 실행 흔적과 차트 집계; 모든 실행을 입증하지 않음 |
 | 문서 | App_Documents | 뷰어·이름·시각·크기·드라이브 종류·경로 |
 | USB | USB_EventLog | 장치·연결 이벤트 |
-| 웹 | Web_Visit, Web_Keyword, Web_Host, Web_Download | 방문·검색·횟수·다운로드 |
-| 중간 | 동적 Web_cr/ff/op 방문·다운로드·검색어 및 뷰어별 테이블 | 브라우저별 중간 데이터; 단일 표준 스키마가 아님 |
+| 웹 | Web_Visit, Web_Keyword, Web_Host, Web_Host_Union, Web_Download | 방문·검색·횟수·다운로드 |
+| 템플릿·구분자 중간 파일 | 브라우저 함수의 Web_cr/ff/op 이름·뷰어별 CSV | 다수 동적 CREATE TABLE 템플릿과 모든 뷰어별 테이블 선언은 주석 처리; 이름만으로 테이블 생성 보장 불가 |
 
 SQL 리터럴과 위치는 [스키마 참조](SCHEMA_REFERENCE.ko.md)에 있습니다. 변형 선언을 그대로 제공하며 임의로 정규화하지 않았습니다.
 
@@ -42,6 +41,8 @@ SQL 리터럴과 위치는 [스키마 참조](SCHEMA_REFERENCE.ko.md)에 있습�
 ## 스키마·내보내기 제약
 
 Web_Visit에는 title 포함·미포함 변형이 있습니다. App_EXEFile의 RunCount는 LONGVARCHAR 또는 제약을 가진 INTEGER로 나타납니다. Web_Download의 TotalBytes는 타입 포함·미포함으로 선언됩니다. 계정 선언의 LONGVARHAR 오타도 있습니다. SQL 문자열과 CSV 이스케이프가 일관되지 않습니다. 마이그레이션·버전 레지스트리나 공통 멱등 내보내기 장치는 없습니다. 소비자는 실제 DB 스키마를 확인해야 합니다.
+
+테이블 계열은 저장소 전체의 목록이며 모든 출력 파일에 전부 존재하지 않습니다. 통합 타임라인은 Web_Visit·Web_Host 생성 없이 쓰기를 시도합니다. 최근 문서 뷰어별 출력은 CSV이고 실행 SQL 대상은 App_Documents입니다. Web_Host_Union은 웹 차트 집계 테이블입니다. USB 이벤트 CSV 헤더와 실제 출력 필드가 달라 헤더만으로 필드 계약을 판단할 수 없습니다.
 
 ## 조회 예시
 

@@ -53,7 +53,9 @@ These are internal EnScript interfaces, not public REST endpoints. Constructors 
 
 ## Timeline Pipeline
 
-`TimeLineThreadClass.Run` (lines 2006–2120) opens `C:\TimeLineArtifacts_Total.sqlite` for writing and creates nine table families. It creates `link_files` and `lnk_parse.csv` under the case export directory. Pass one invokes FileDeleted, USBEventLog, LogOn, PowerOn, UserAccount, PrefetchEXE and ExportLink. After closing the initial handles, pass two reads per-volume recent-document registry lists and invokes WebArtifact for non-volume entries. It then reopens the total database and correlates exported LNK data using recent_lnk.
+`TimeLineThreadClass.Run` (lines 2006–2120) opens `C:\TimeLineArtifacts_Total.sqlite` for writing and issues nine table-creation statements without checking their results. It creates `link_files` and `lnk_parse.csv` under the case export directory. Pass one invokes FileDeleted, USBEventLog, LogOn, PowerOn, UserAccount, PrefetchEXE and ExportLink. After closing the initial handles, pass two reads per-volume recent-document registry lists and invokes WebArtifact for non-volume entries. It then reopens the total database and correlates exported LNK data using recent_lnk.
+
+The initial schema includes PC_PowerOnOff, PC_LogOnOff, App_EXEFile, App_Documents, USB_EventLog, PC_UserAccount, Web_Download, Web_Keyword and File_Deleted. Web_Visit and Web_Host are absent even though browser helpers attempt inserts into them. The visit-to-keyword helper handoff also reuses a consumed reader. The arrows below describe attempted data flow, not verified successful writes.
 
 ```mermaid
 flowchart TD
@@ -74,7 +76,7 @@ Browser helpers use their own file/database handles; the flow is not one atomic 
 
 ## Filtering, Charts and Errors
 
-Filtering generally clears displayed rows and rebuilds them from a copied list. Clearing a filter can restore the list, but constructor argument mismatches can alter values in some modules. Charts aggregate derived SQLite data, not all raw evidence. Exports and repeated chart builds can conflict with pre-existing tables. Console messages, dialogs, boolean results, and some process exits are used inconsistently; there is no central error/result contract.
+Filtering generally clears displayed rows and rebuilds them from a copied list. Clearing a filter can restore the list, but constructor argument mismatches can alter values in some modules. The system information chart directly counts selected case items (Win_SystemInfo lines 459–542); Prefetch and web charts aggregate derived SQLite data. Exports and repeated chart builds can conflict with pre-existing tables. Console messages, dialogs, boolean results, and some process exits are used inconsistently; there is no central error/result contract.
 
 ## Missing Presentation Contract
 

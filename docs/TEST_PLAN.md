@@ -50,3 +50,12 @@ For each case record: test ID, source commit, Windows/EnCase versions, fixture h
 Host compilation and every supported artifact fixture must pass; export round trips must preserve values; timestamps must have documented interpretation; scope and repeated-run behavior must be explicit; known failures need fixes or clearly stated exclusions. HTML-dependent cases stay blocked until assets and contracts are restored. Performance runs should record evidence size, item counts, duration, output sizes and resource use; no historical target exists to claim compliance against.
 
 See [requirements](REQUIREMENTS.md), [analysis](ANALYSIS.md), and [operations](USER_GUIDE.md).
+
+## Additional Regression Cases
+
+| ID | Requirement | Fixture / action | Expected observation to assess |
+| --- | --- | --- | --- |
+| T-17 | FR-02 / FR-07 | System selection chart, Prefetch/web SQLite charts; empty and small inputs | Compare system chart with selected items and other charts with independent database aggregates |
+| T-18 | FR-03 / FR-04 / FR-07 | Extract checked rows with duplicate names across volumes; paired $I/$R fixtures | Row keys identify intended evidence; exported bytes match original content; metadata parsing is distinguished from content recovery |
+
+For T-02, compare computer-name queries and record the unfinished shutdown-time result. For T-08, check whether keyword processing receives an exhausted reader. For T-09, validate USB event header names, field order and quoting. For T-10, check whether the power keyword filter actually filters rows. For T-11, inspect absent Web_Visit/Web_Host creation and malformed IE inserts before interpreting browser coverage. Also exercise the Recent view's unhandled SQLite menu item in T-09.

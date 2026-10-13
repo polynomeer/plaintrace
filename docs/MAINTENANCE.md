@@ -44,3 +44,11 @@ This is proposed future work, not implemented functionality. No schedule, budget
 ## Change Review Checklist
 
 Record the source commit and fixture, affected standalone/timeline paths, old/new output examples, schema impact, original encoding preservation, runtime evidence, and English/Korean documentation changes. Run appropriate archive checks only when retaining the baseline. A modified parser deliberately changes source hashes and requires a documented new baseline instead of claiming the old hash test passed.
+
+## Additional Source Review Findings
+
+| ID | Priority | Risk / evidence | Proposed next action |
+| --- | --- | --- | --- |
+| R-11 | High | Total timeline omits browser table creation and contains an IE insert without VALUES | Reproduce and validate complete schema and insert contracts |
+| R-12 | High | CSV conversion consumes the reader reused for keyword extraction | Use independent queries or explicitly reset supported readers, then compare keyword fixtures |
+| R-13 | Medium | Unfinished shutdown helper, unhandled Recent SQLite action, USB event header mismatch | Define supported UI/output behavior and validate every exposed action |

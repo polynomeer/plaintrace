@@ -30,7 +30,9 @@ def main():
                 source = decode_source(resolved.read_bytes()).splitlines()
                 line = int(url.fragment[1:])
                 assert 1 <= line <= len(source), f'Invalid line: {target}'
-            elif url.fragment:
+            if resolved.suffix == '.md' and resolved.parent == ROOT/'docs' and resolved != path.with_name(path.stem.replace('.ko','') + ('.md' if path.name.endswith('.ko.md') else '.ko.md')):
+                assert resolved.name.endswith('.ko.md') == path.name.endswith('.ko.md'), f'Wrong document language: {path}: {target}'
+            if url.fragment and not re.fullmatch(r'L\d+', url.fragment):
                 raise AssertionError(f'Unvalidated anchor: {target}')
             links += 1
         if not path.name.endswith('.ko.md'):
@@ -40,11 +42,14 @@ def main():
             assert f'({korean.name})' in text and f'({path.name})' in ko, f'Missing language links: {path}'
             for pattern in (r'^#{1,6} ', r'^\|', r'^```'):
                 assert len(re.findall(pattern,text,re.M))==len(re.findall(pattern,ko,re.M)), f'Pair structure mismatch: {path}: {pattern}'
+            literals = lambda value: set(re.findall(r'(?<!`)`([^`\n]+)`(?!`)', re.sub(r'```[\s\S]*?```', '', value)))
+            assert literals(text) == literals(ko), f'Technical literal mismatch: {path}: {literals(text) ^ literals(ko)}'
             for lang in ('sh','sql'):
                 pattern=r'```'+lang+r'\n([\s\S]*?)```'
                 assert re.findall(pattern,text)==re.findall(pattern,ko), f'Command/SQL mismatch: {path}'
     for name,content in render().items():
         assert (ROOT/'docs'/name).read_text()==content, f'Stale generated file: {name}'
+    english_test_ids = None
     for suffix in ('','.ko'):
         requirements=(ROOT/'docs'/f'REQUIREMENTS{suffix}.md').read_text()
         tests=(ROOT/'docs'/f'TEST_PLAN{suffix}.md').read_text()
@@ -52,9 +57,13 @@ def main():
         covered=set(re.findall(r'\b(?:FR|NFR)-\d+\b',tests))
         assert required<=covered, f'Unmapped requirements: {required-covered}'
         test_ids=re.findall(r'^\| (T-\d+) \|',tests,re.M)
-        assert len(test_ids)==len(set(test_ids))==16, f'Invalid test IDs: {suffix}'
+        assert test_ids == [f'T-{i:02}' for i in range(1, len(test_ids)+1)], f'Invalid test IDs: {suffix}'
+        if english_test_ids is None:
+            english_test_ids = test_ids
+        else:
+            assert test_ids == english_test_ids, 'Bilingual test ID mismatch'
         readme=(ROOT/f'README{suffix}.md').read_text()
         assert f'(docs/README{suffix}.md)' in readme, f'Missing documentation index: {suffix}'
-    print(f'PASS: {len(documents)} documents, {links} local links, bilingual structures, source references and 16 test IDs.')
+    print(f'PASS: {len(documents)} documents, {links} local links, bilingual structures, source references and {len(test_ids)} test IDs.')
 
 if __name__=='__main__': main()
