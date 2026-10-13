@@ -1,0 +1,6 @@
+{
+  "files.associations": { "*.EnScript": "cpp" },
+  "editor.formatOnSave": false,
+  "files.trimTrailingWhitespace": false,
+  "files.insertFinalNewline": false
+}
