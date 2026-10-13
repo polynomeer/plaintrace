@@ -2,6 +2,8 @@
 
 **English** | [한국어](ANALYSIS.ko.md)
 
+Archived implementation descriptions and review findings in this document refer to tag `archive/pre-improvements-2026-10-13`. See [the improvement record](IMPROVEMENTS.md) for changes and remaining validation on the current improvement branch.
+
 Analysis date: 2026-10-13. According to the project author's account, the original name was **Plain View of Multi Artifacts**, developed during undergraduate studies from July to November 2017 in the digital forensics track of Korea's Best of the Best (BoB) security leader training program. This analysis examines the surviving final source snapshot. It does not infer the actual development schedule or individual contributions.
 
 ## Architecture and Runtime

@@ -1356,7 +1356,32 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 		copy_db.Close();
 	}
 
-	void keyword_extract(SQLiteClass::DataReaderClass dataReader, String path, String table_name){
+	    String SearchParameter(String url) {
+        int start = url.Find("?");
+        if(start == -1) return "";
+        int firstFragment = url.Find("#");
+        if(firstFragment != -1 && firstFragment < start) return "";
+        int fragment = url.Find("#", start + 1);
+        String parameters;
+        if(fragment == -1) parameters = url.SubString(start + 1, -1);
+        else parameters = url.SubString(start + 1, fragment - start - 1);
+        while(parameters.GetLength() > 0) {
+            int separator = parameters.Find("&");
+            String parameter = parameters.SubString(0, separator);
+            if(parameter.Find("q=") == 0 || parameter.Find("query=") == 0 || parameter.Find("search_query=") == 0)
+                return parameter.SubString(parameter.Find("=") + 1, -1);
+            if(separator == -1) break;
+            parameters = parameters.SubString(separator + 1, -1);
+        }
+        return "";
+    }
+
+    String KeywordSqlText(String value) {
+        value.Replace("'", "''", 0, -1, 0);
+        return value;
+    }
+
+void keyword_extract(SQLiteClass::DataReaderClass dataReader, String path, String table_name){
 		LocalFileClass lf = new LocalFileClass();	    
 	
 		ulong time;
@@ -1373,16 +1398,27 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 
 		SQLiteClass copy = new SQLiteClass();
 		LocalFileClass copy_db = new LocalFileClass();
-		//if(!copy_db.Open(path + "\\history.sqlite", FileClass::APPEND))
-		if(!copy_db.Open("C:\\TimeLineArtifacts_Total.sqlite", FileClass::APPEND))
-		  Console.WriteLine("fail to open " + path + "\\" + path.GetFilename() +  "_history.sqlite");
-		if(!copy.Open(copy_db, SQLiteClass::SQLITE_OPEN_READWRITE))
-		  Console.WriteLine("fail to open history db " + path.GetFilename());
-		SQLiteClass::CommandClass copy_cmd = new SQLiteClass::CommandClass();
-		if(!copy.CreateCommand(copy_cmd))
-		  Console.WriteLine("fail to create command");
+		if(!copy_db.Open("C:\\TimeLineArtifacts_Total.sqlite", FileClass::APPEND)) {
+            Console.WriteLine("[-] keyword output open failed!\n");
+            lf.Close();
+            return;
+        }
+        if(!copy.Open(copy_db, SQLiteClass::SQLITE_OPEN_READWRITE)) {
+            Console.WriteLine("[-] keyword database open failed!\n");
+            copy_db.Close();
+            lf.Close();
+            return;
+        }
+        SQLiteClass::CommandClass copy_cmd = new SQLiteClass::CommandClass();
+        if(!copy.CreateCommand(copy_cmd)) {
+            Console.WriteLine("[-] keyword command creation failed!\n");
+            copy.Close();
+            copy_db.Close();
+            lf.Close();
+            return;
+        }
 
-		String host_table = table_name.SubString(0,6)+"_host";
+        String host_table = table_name.SubString(0,6)+"_host";
 		table_name = table_name.SubString(0,7) + table_name.SubString(table_name.Find("keyword"),7);
 		String browser = "";
 		bool set_table = true;
@@ -1436,51 +1472,12 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 		      union_url = url_ex;
 		      query += url_ex + "\t";
 		      //host_extract(url_ex, host, host_fre);
-		      if(url_ex.Contains("&q=") || url_ex.Contains("&query=") || url_ex.Contains("&search_query=") || url_ex.Contains("?q=") || url_ex.Contains("?query=") || url_ex.Contains("?search_query=")){
-		        field += "search_keyword" + "\t";
-		        field_arr.Add("keywords");
-		        if(url_ex.Contains("&q=")){
-		          q_idx = url_ex.Find("&q=");
-		          key = url_ex.SubString(q_idx+3,-1);
-
-		          //Console.WriteLine(key);
-		        }
-		        else if(url_ex.Contains("&query=")){
-		          q_idx = url_ex.Find("&query=");;
-		          key = url_ex.SubString(q_idx+7,-1);
-		          //idx = key.Find("&");
-		          //search_keyword = key.SubString(0,idx);
-		          //Console.WriteLine(key);
-		          //Console.WriteLine(search_keyword);
-		        }
-		        else if(url_ex.Contains("&search_query=") || url_ex.Contains("?search_query=")){
-		          q_idx = url_ex.Find("&search_query=");
-		          key = url_ex.SubString(q_idx+14,-1);
-		          //Console.WriteLine(key);
-		        }
-		        else if(url_ex.Contains("?q=")){
-		        	q_idx = url_ex.Find("?q=");
-		        	key = url_ex.SubString(q_idx+3,-1);
-		        }
-		        else if(url_ex.Contains("?query=")){
-		        	q_idx = url_ex.Find("?query=");
-		        	key = url_ex.SubString(q_idx+7,-1);
-		        }
-		        else if(url_ex.Contains("?search_query=")){
-		        	q_idx = url_ex.Find("?search_query=");
-		        	key = url_ex.SubString(q_idx+14,-1);
-		        }		        	
-
-		        if(key.Find("&")){
-		          if(0 < key.Find("&"))
-		            idx = key.Find("&");
-		          else
-		            idx = -1;
-		        }
-		        else
-		          idx = -1;
-		        search_key = key.SubString(0,idx);
-		        union_keyword = search_key;
+		      key = SearchParameter(url_ex);
+          if(key != ""){
+            field += "search_keyword" + "\t";
+            field_arr.Add("keywords");
+            search_key = key;
+            union_keyword = search_key;
 		        //Console.WriteLine("{0} {1} {2}",q_idx,idx,search_key);
 		        query += search_key + "\t";
 		        field_val.Add(search_key);
@@ -1510,9 +1507,10 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 		  
 
 		  if(flag){
-		    union_insert_q += union_url + "\',\'" + union_keyword + "\',\'" + union_title + "\',\'" + union_time + "\');";
+		    union_insert_q += KeywordSqlText(union_url) + "\',\'" + KeywordSqlText(union_keyword) + "\',\'" + KeywordSqlText(union_title) + "\',\'" + KeywordSqlText(union_time) + "\');";
 		    //Console.WriteLine(union_insert_q);	        
-		    copy_cmd.ExecuteNonQuery(union_insert_q);
+		    if(!copy_cmd.ExecuteNonQuery(union_insert_q))
+                Console.WriteLine("[-] keyword insert failed!\n");
 
 		  }
 
@@ -1553,7 +1551,7 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 		  if(sql.Open(db, SQLiteClass::SQLITE_OPEN_READONLY)){
 		    SQLiteClass::CommandClass cmd = new SQLiteClass::CommandClass();
 		    if(sql.CreateCommand(cmd)){
-		      bool queryTable = true;
+		      bool queryTable = false;
 		      SQLiteClass::DataReaderClass dataReader = new SQLiteClass::DataReaderClass();
 		      if(path.Contains("Chrome_History") || path.Contains("Opera_History"))
 		        queryTable = cmd.ExecuteQuery("select * from urls;", dataReader);
@@ -1562,7 +1560,20 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 
 		      if(queryTable){
 		          sql2csv(dataReader, result, full_path, table_name);
-		          keyword_extract(dataReader, full_path, table_name + "_keyword");
+              // Query again with an independent command and reader; CSV consumed dataReader.
+              SQLiteClass::CommandClass keywordCommand = new SQLiteClass::CommandClass();
+              SQLiteClass::DataReaderClass keywordReader = new SQLiteClass::DataReaderClass();
+              bool keywordQuery = false;
+              if(sql.CreateCommand(keywordCommand)){
+                  if(path.Contains("Chrome_History") || path.Contains("Opera_History"))
+                      keywordQuery = keywordCommand.ExecuteQuery("select * from urls;", keywordReader);
+                  else if(path.Contains("FF_History"))
+                      keywordQuery = keywordCommand.ExecuteQuery("select * from moz_places;", keywordReader);
+              }
+              if(keywordQuery)
+                  keyword_extract(keywordReader, full_path, table_name + "_keyword");
+              else
+                  Console.WriteLine("[-] keyword query error!\n");
 		      }
 		      else
 		        Console.WriteLine("[-] query error!\n");
@@ -1598,7 +1609,7 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 	        if(sql.Open(db, SQLiteClass::SQLITE_OPEN_READONLY)){
 	          SQLiteClass::CommandClass command = new SQLiteClass::CommandClass();
 	          if(sql.CreateCommand(command)){
-	            bool queryTable = true;
+	            bool queryTable = false;
 	            SQLiteClass::DataReaderClass dataReader = new SQLiteClass::DataReaderClass();
 	            if(path.Contains("Chrome_History")){
 	              table_name += "cr_download";
@@ -1858,7 +1869,7 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 	                                  String date = IE_timeformat(Access_date.GetString());
 	                                  query = cnt + "\t" + date + "\t" + url + "\t" + title + "\t";
 	                                  String insert_query = "insert into Web_ie_webcache_visit(frame, url, title, time) values(" + cnt + ",\'" + url + "\',\'" + title + "\',\'" + date + "\');";
-	                                  String union_visit_q = "insert into Web_Visit('IE','" + url + "','" + title + "','" + date + "');";
+	                                  String union_visit_q = "insert into Web_Visit(Browser, url, title, time) values('IE','" + url + "','" + title + "','" + date + "');";
 	                                  //new WindowsWebListClass(Web_dialog.List, browser, url, date);
 	                                  cmd.ExecuteNonQuery(union_visit_q);
 	                                  	                                  
@@ -2018,19 +2029,45 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 			SQLiteClass sqliteDB();
 			SQLiteClass::CommandClass cmd();
 
-			sqliteFile.Open(exportPath, FileClass::WRITE);
-			sqliteDB.Open(sqliteFile, SQLiteClass::SQLITE_OPEN_READWRITE);
-			sqliteDB.CreateCommand(cmd);
-
-			cmd.ExecuteNonQuery("CREATE TABLE PC_PowerOnOff (id INTEGER PRIMARY KEY, EventID LONGVARCHAR, Computer LONGVARCHAR, Event LONGVARCHAR, EventTime LONGVARCHAR, SID LONGVARCHAR, GUID LONGVARCHAR);");
-			cmd.ExecuteNonQuery("CREATE TABLE PC_LogOnOff (id INTEGER PRIMARY KEY, EventID LONGVARCHAR, LogonID LONGVARCHAR, User LONGVARCHAR, Event LONGVARCHAR, EventTime LONGVARCHAR, NetworkAddress LONGVARCHAR,  LogonType LONGVARCHAR, SID LONGVARCHAR, GUID LONGVARCHAR);");			
-			cmd.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS App_EXEFile (id INTEGER PRIMARY KEY, SourceFile LONGVARCHAR, FileName LONGVARCHAR, CreatedTime LONGVARCHAR,  FileSize LONGVARCHAR, RunCount LONGVARCHAR, FilePath LONGVARCHAR);");
-			cmd.ExecuteNonQuery("CREATE TABLE App_Documents (Viewer LONGVARCHAR, Name LONGVARCHAR, mtime LONGVARCHAR, atime LONGVARCHAR, ctime LONGVARCHAR, FileSize LONGVARCHAR, DriveType LONGVARCHAR, Path LONGVARCHAR);");
-			cmd.ExecuteNonQuery("CREATE TABLE USB_EventLog (id INTEGER PRIMARY KEY, Vendor LONGVARCHAR, Product LONGVARCHAR, State LONGVARCHAR, GeneratedTime LONGVARCHAR, WrittenTime LONGVARCHAR, FirmwareRevision LONGVARCHAR, SerialNumber LONGVARCHAR, LifeTimeGUID LONGVARCHAR, SourceGUID LONGVARCHAR, Source LONGVARCHAR, Computer LONGVARCHAR, SID LONGVARCHAR);");
-			cmd.ExecuteNonQuery("CREATE TABLE PC_UserAccount (id INTEGER PRIMARY KEY, User LONGVARCHAR, RID LONGVARCHAR, LogonCount LONGVARCHAR,  InvalidLogonCount LONGVARHAR,  LastLogonTime LONGVARCHAR, InvalidLogonTime LONGVARCHAR, LastPasswordChangedTime LONGVARCHAR, ExpiredTime LONGVARCHAR,  PasswordExpiredTime LONGVARCHAR, FullName LONGVARCHAR, Description LONGVARCHAR, HomeDirectory LONGVARCHAR, LMHash LONGVARCHAR, NTHash LONGVARCHAR, Activation LONGVARCHAR, UserPrivilege LONGVARCHAR, CountryCode LONGVARCHAR  );");
-			cmd.ExecuteNonQuery("CREATE TABLE Web_Download (Browser LONGVARCHAR, Path LONGVARCHAR, StartTime LONGVARCHAR, EndTime LONGVARCHAR, RecvBytes LONGVARCHAR, TotalBytes, Url LONGVARCHAR);");
-			cmd.ExecuteNonQuery("CREATE TABLE Web_Keyword (Browser LONGVARCHAR, url LONGVARCHAR, keyword LONGVARCHAR, title LONGVARCHAR, time LONGVARCHAR);");
-			cmd.ExecuteNonQuery("CREATE TABLE File_Deleted (id INTEGER PRIMARY KEY, FileName LONGVARCHAR, FileExt LONGVARCHAR, FileCategory LONGVARCHAR, FileProperty LONGVARCHAR, FileSize LONGVARCHAR, AccessedTime LONGVARCHAR, CreatedTime LONGVARCHAR, WrittenTime LONGVARCHAR, FilePath LONGVARCHAR);"); // MD5HashValue LONGVARCHAR);");			
+            // Preserve an existing readable output; move it before rebuilding.
+            LocalFileClass previousOutput();
+            if(previousOutput.Open(exportPath, FileClass::READ)) {
+                previousOutput.Close();
+                Console.WriteLine("[-] Timeline output already exists; preserve or move it before rebuilding.\n");
+                TimeLine_dialog.time_check = false;
+                TimeLine_dialog.Semaphore.Release();
+                return;
+            }
+            if(!sqliteFile.Open(exportPath, FileClass::WRITE) ||
+               !sqliteDB.Open(sqliteFile, SQLiteClass::SQLITE_OPEN_READWRITE) ||
+               !sqliteDB.CreateCommand(cmd)) {
+                Console.WriteLine("[-] Timeline database setup failed; collection stopped.\n");
+                sqliteDB.Close();
+                sqliteFile.Close();
+                TimeLine_dialog.time_check = false;
+                TimeLine_dialog.Semaphore.Release();
+                return;
+            }
+            bool schemaReady = true;
+            if(!cmd.ExecuteNonQuery("CREATE TABLE PC_PowerOnOff (id INTEGER PRIMARY KEY, EventID LONGVARCHAR, Computer LONGVARCHAR, Event LONGVARCHAR, EventTime LONGVARCHAR, SID LONGVARCHAR, GUID LONGVARCHAR);")) schemaReady = false;
+            if(!cmd.ExecuteNonQuery("CREATE TABLE PC_LogOnOff (id INTEGER PRIMARY KEY, EventID LONGVARCHAR, LogonID LONGVARCHAR, User LONGVARCHAR, Event LONGVARCHAR, EventTime LONGVARCHAR, NetworkAddress LONGVARCHAR,  LogonType LONGVARCHAR, SID LONGVARCHAR, GUID LONGVARCHAR);")) schemaReady = false;
+            if(!cmd.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS App_EXEFile (id INTEGER PRIMARY KEY, SourceFile LONGVARCHAR, FileName LONGVARCHAR, CreatedTime LONGVARCHAR,  FileSize LONGVARCHAR, RunCount LONGVARCHAR, FilePath LONGVARCHAR);")) schemaReady = false;
+            if(!cmd.ExecuteNonQuery("CREATE TABLE App_Documents (Viewer LONGVARCHAR, Name LONGVARCHAR, mtime LONGVARCHAR, atime LONGVARCHAR, ctime LONGVARCHAR, FileSize LONGVARCHAR, DriveType LONGVARCHAR, Path LONGVARCHAR);")) schemaReady = false;
+            if(!cmd.ExecuteNonQuery("CREATE TABLE USB_EventLog (id INTEGER PRIMARY KEY, Vendor LONGVARCHAR, Product LONGVARCHAR, State LONGVARCHAR, GeneratedTime LONGVARCHAR, WrittenTime LONGVARCHAR, FirmwareRevision LONGVARCHAR, SerialNumber LONGVARCHAR, LifeTimeGUID LONGVARCHAR, SourceGUID LONGVARCHAR, Source LONGVARCHAR, Computer LONGVARCHAR, SID LONGVARCHAR);")) schemaReady = false;
+            if(!cmd.ExecuteNonQuery("CREATE TABLE PC_UserAccount (id INTEGER PRIMARY KEY, User LONGVARCHAR, RID LONGVARCHAR, LogonCount LONGVARCHAR,  InvalidLogonCount LONGVARHAR,  LastLogonTime LONGVARCHAR, InvalidLogonTime LONGVARCHAR, LastPasswordChangedTime LONGVARCHAR, ExpiredTime LONGVARCHAR,  PasswordExpiredTime LONGVARCHAR, FullName LONGVARCHAR, Description LONGVARCHAR, HomeDirectory LONGVARCHAR, LMHash LONGVARCHAR, NTHash LONGVARCHAR, Activation LONGVARCHAR, UserPrivilege LONGVARCHAR, CountryCode LONGVARCHAR  );")) schemaReady = false;
+            if(!cmd.ExecuteNonQuery("CREATE TABLE Web_Download (Browser LONGVARCHAR, Path LONGVARCHAR, StartTime LONGVARCHAR, EndTime LONGVARCHAR, RecvBytes LONGVARCHAR, TotalBytes, Url LONGVARCHAR);")) schemaReady = false;
+            if(!cmd.ExecuteNonQuery("CREATE TABLE Web_Visit (Browser LONGVARCHAR, url LONGVARCHAR, title LONGVARCHAR, time LONGVARCHAR);")) schemaReady = false;
+            if(!cmd.ExecuteNonQuery("CREATE TABLE Web_Host (Browser LONGVARCHAR, host LONGVARCHAR, visit_count INTEGER DEFAULT 0 NOT NULL);")) schemaReady = false;
+            if(!cmd.ExecuteNonQuery("CREATE TABLE Web_Keyword (Browser LONGVARCHAR, url LONGVARCHAR, keyword LONGVARCHAR, title LONGVARCHAR, time LONGVARCHAR);")) schemaReady = false;
+            if(!cmd.ExecuteNonQuery("CREATE TABLE File_Deleted (id INTEGER PRIMARY KEY, FileName LONGVARCHAR, FileExt LONGVARCHAR, FileCategory LONGVARCHAR, FileProperty LONGVARCHAR, FileSize LONGVARCHAR, AccessedTime LONGVARCHAR, CreatedTime LONGVARCHAR, WrittenTime LONGVARCHAR, FilePath LONGVARCHAR);")) schemaReady = false;
+            if(!schemaReady) {
+                Console.WriteLine("[-] Timeline database setup failed; collection stopped.\n");
+                sqliteDB.Close();
+                sqliteFile.Close();
+                TimeLine_dialog.time_check = false;
+                TimeLine_dialog.Semaphore.Release();
+                return;
+            }
 
 			String lnk_path = c.ExportFolder() + "\\link_files";
 	        String lnk_csv_path = c.ExportFolder() + "\\lnk_parse.csv";
@@ -2039,7 +2076,14 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 	        conn.Close();
 
 	        LocalFileClass lnk_csv = new LocalFileClass();
-	        lnk_csv.Open(lnk_csv_path, FileClass::WRITE + FileClass::TEXT);
+            if(!lnk_csv.Open(lnk_csv_path, FileClass::WRITE + FileClass::TEXT)) {
+                Console.WriteLine("[-] Timeline LNK CSV open failed; collection stopped.\n");
+                sqliteDB.Close();
+                sqliteFile.Close();
+                TimeLine_dialog.time_check = false;
+                TimeLine_dialog.Semaphore.Release();
+                return;
+            }
 	        lnk_csv.WriteLine("FILE NAME\tFILE SIZE\tDRIVE TYPE\tMTIME\tATIME\tCTIME\tLOCAL PATH\t");
 
 	        for(ItemIteratorClass iter(c,0,ItemIteratorClass::CURRENTVIEW_SELECTED); DeviceClass dev = iter.GetNextDevice();){
@@ -2071,8 +2115,8 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 			}
 
 			lnk_csv.Close();
-			sqliteFile.Close();
 			sqliteDB.Close();
+			sqliteFile.Close();
 
 			StringArr pp_list(), word_list(), excel_list(), hwp_list(), adobe_list();
 
@@ -2102,21 +2146,28 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 					WebArtifact(e);				
 			}
 
-			sqliteFile.Open(exportPath, FileClass::APPEND);
-			sqliteDB.Open(sqliteFile, SQLiteClass::SQLITE_OPEN_READWRITE);
-			sqliteDB.CreateCommand(cmd);
+            if(!sqliteFile.Open(exportPath, FileClass::APPEND) ||
+               !sqliteDB.Open(sqliteFile, SQLiteClass::SQLITE_OPEN_READWRITE) ||
+               !sqliteDB.CreateCommand(cmd)) {
+                Console.WriteLine("[-] Timeline final database reopen failed; collection is incomplete.\n");
+                sqliteDB.Close();
+                sqliteFile.Close();
+                TimeLine_dialog.time_check = false;
+                TimeLine_dialog.Semaphore.Release();
+                return;
+            }
 			
 			recent_lnk(lnk_path, lnk_csv_path, pp_list, word_list, excel_list, hwp_list, adobe_list, sqliteDB);
 
-			sqliteFile.Close();
 			sqliteDB.Close();
+			sqliteFile.Close();
 
 			TimeLine_dialog.time_check = false;
 			TimeLine_dialog.Semaphore.Release();
 			break;
 		}
 
-		SystemClass::Message(SystemClass::ICONINFORMATION, "Notice", "Timeline Database Created");
+		SystemClass::Message(SystemClass::ICONINFORMATION, "Notice", "Timeline collection finished; inspect console errors and validate database contents.");
 	}
 
 

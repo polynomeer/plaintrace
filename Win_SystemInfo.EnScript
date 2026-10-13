@@ -316,7 +316,7 @@ class OSReportClass: ReportClass {
                  }
                  String VersionInfo =  CurrentType + "  " + CurrentVersion + "  " + BuildLab; //Merge Current Version information
                  RegValueClass DigitalProductIdValue = values.Find("DigitalProductId"); //Windows Product key decoding
-				 RegValueClass ActiveComputerNameValue = values.Find("ComputerName"); //Windows Computer Name
+				 RegValueClass ActiveComputerNameValue = values.Find("ActiveComputerName"); //Windows Computer Name
 				 RegValueClass ComputerNameValue = values.Find("ComputerName");
 				 RegValueClass ShutdownTimeValue = values.Find("ShutdownTime");
 				 
@@ -344,29 +344,31 @@ class OSReportClass: ReportClass {
      }	
  
 	 String GetShutdownTime(RegValueClass ShutdownTimeValue){
-		String ShutdownTime, HexTime;
-		long sumTime;
-		FileClass value;
-		 forall (RegValueClass n in ShutdownTimeValue) {
-			 if(n.Name() == "ShutdownTime"){
-				DateClass date();
-				//sumTime = long::Convert(n.ValueText(), int::HEX);
-				sumTime = 0x4C88FA9A896FD301;
-				//Console.WriteLine(sumTime);
-				//date.SetUnix(sumTime);
-				//ShutdownTime = date.GetString("yyyy/MM/dd", "hh:mm:ss tt", 9 * -3600);
-				if(ShutdownTime.Contains("1970")) ShutdownTime="";
-			 }
-		 }	
-		return ShutdownTime;
-	 }	 
-	 
+        String shutdownTime = "";
+        forall (RegValueClass n in ShutdownTimeValue) {
+            if(n.Name() == "ShutdownTime" && n.GetSize() == 8){
+                MemoryFileClass value();
+                if(value.Open(n.GetSize(), FileClass::WRITE)){
+                    if(n.GetData(value)){
+                        DateClass date();
+                        value.Seek(0);
+                        if(value.ReadWinDate(date))
+                            shutdownTime = date.GetString("yyyy/MM/dd", "HH:mm:ss", 9 * -3600);
+                    }
+                    value.Close();
+                }
+            }
+        }
+        return shutdownTime;
+     }
+
 	 String GetComputerName(RegValueClass ActiveComputerNameValue, RegValueClass ComputerNameValue){
 		String ComputerName;
 		 forall (RegValueClass n in ActiveComputerNameValue) {
 			 if(n.Name() == "ComputerName")
 				ComputerName = n.ValueText();
 		 }
+        if(ComputerName != "") return ComputerName;
 		 forall (RegValueClass n in ComputerNameValue) {
 			 if(n.Name() == "ComputerName")
 				ComputerName = n.ValueText();

@@ -113,7 +113,7 @@ class USBWindowsHandlerClass : HandlerClass {
 	
 	virtual MenuReply MenuEvent(MenuClass menu, NodeEventClass event) {
 		if (menu == CSVMenu) {
-			String savePath = "C:\\Browser_Exit.csv";
+			String savePath = "C:\\USB_Registry.csv";
 
 			ExportUSBWindowsDialogClass dialog(null, savePath);
 
@@ -196,20 +196,23 @@ class USBEventLogHandlerClass : HandlerClass {
 		HandlerClass::BuildMenu(event);
 	}
 
-	virtual MenuReply MenuEvent(MenuClass menu, NodeEventClass event) {
+	String CsvField(String value) {
+        value.Replace("\"", "\"\"", 0, -1, 0);
+        return "\"" + value + "\"";
+    }
+
+    virtual MenuReply MenuEvent(MenuClass menu, NodeEventClass event) {
 		if (menu == CsvMenu) {
-			String savePath = "C:\\Browser_Exit.csv";
+			String savePath = "C:\\USB_EventLog.csv";
 			ExportDialogClass dialog(null, savePath);
 			if (dialog.Execute() == SystemClass::OK) {
 				LocalFileClass lf();
 				if (lf.Open(savePath, FileClass::WRITETEXTCRLF)) {
 					lf.SetCodePage(CodePageClass::UTF8);
-					lf.Write("vendor, prod, rev, UID, FriendlyName, FirstConnectedTime, BootFirstConnectedTime, GUIDD, " +
-						"GUIDV, LastConnectedTime,\n");
-					foreach(USBEventLogListClass n in USBEventLog_dialog.List1) {
-						lf.Write("\"" + n.vendor + "\"" + "," + "\"" + n.product + "\"" + "," + n.state + "," + "\"" + n.generatedTime + "\"" + "," + "\"" + n.writtenTime + "\"" + "," +
-							n.revision + "," + n.serialNum + "," + n.lifetimeGUID + "," + n.sourceGUID + "," + "\"" + n.source + "," + "\"" + n.computer + "," + "\"" + n.SID + ",\n");
-					}
+                    lf.Write("Vendor,Product,State,GeneratedTime,WrittenTime,FirmwareRevision,SerialNumber,LifeTimeGUID,SourceGUID,Source,Computer,SID\n");
+                    foreach(USBEventLogListClass n in USBEventLog_dialog.List1) {
+                        lf.Write(CsvField(n.vendor) + "," + CsvField(n.product) + "," + CsvField(n.state) + "," + CsvField(n.generatedTime) + "," + CsvField(n.writtenTime) + "," + CsvField(n.revision) + "," + CsvField(n.serialNum) + "," + CsvField(n.lifetimeGUID) + "," + CsvField(n.sourceGUID) + "," + CsvField(n.source) + "," + CsvField(n.computer) + "," + CsvField(n.SID) + "\n");
+                    }
 					SystemClass::Message(SystemClass::ICONINFORMATION, "Notice", "Export Completed!!");
 				}
 			}

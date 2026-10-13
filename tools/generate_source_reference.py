@@ -16,8 +16,8 @@ STAMP = '2026-10-13'
 
 def header(stem, title, ko):
     nav = f'[English]({stem}.md) | **한국어**' if ko else f'**English** | [한국어]({stem}.ko.md)'
-    note = (f'{STAMP} 보존된 소스에서 생성한 사후 참조입니다. 당시 원본 설계 문서가 아닙니다.' if ko else
-            f'Generated on {STAMP} from archived source. This is a retrospective reference, not an original design document.')
+    note = (f'{STAMP} 현재 체크아웃의 소스에서 생성한 사후 참조입니다. 당시 원본 설계 문서가 아닙니다.' if ko else
+            f'Generated on {STAMP} from the current checkout source. This is a retrospective reference, not an original design document.')
     return f'# {title}\n\n{nav}\n\n{note}\n\n'
 
 def link(path, line):

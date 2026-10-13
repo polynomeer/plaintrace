@@ -2,6 +2,8 @@
 
 [English](HISTORY.md) | **한국어**
 
+이 문서의 보존 구현 설명과 검토 결과는 개선 전 태그 `archive/pre-improvements-2026-10-13` 기준입니다. 현재 개선 브랜치의 변경 사항과 남은 검증 항목은 [개선 기록](IMPROVEMENTS.ko.md)을 확인하세요.
+
 작성일: **2026-10-13**. 이 저장소의 **2017-07-01–2017-11-30 (+09:00)** 커밋은 실제 당시 Git 기록을 복구한 것이 아니라, 현재 남아 있는 최종 소스에서 만든 **기록용 사후 재구성**이다. 날짜, 개발 순서 및 작업 간격은 임의로 배치했다. 실제 당시 활동이나 기여를 입증하는 자료로 사용하지 않는다.
 
 ## 재구성 방법
@@ -21,7 +23,7 @@
 ```sh
 python3 tools/inspect_sources.py
 python3 tools/inspect_sources.py Win_TimeLine.EnScript --start 2006 --end 2120
-python3 tools/verify_archive.py
+python3 tools/verify_archive.py --archive-only
 git log --reverse --format='%h %aI %s' master
 ```
 
