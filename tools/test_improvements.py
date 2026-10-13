@@ -27,6 +27,7 @@ def expression(text, fields=None, variables=None):
         if isinstance(node, ast.Name): return variables[node.id]
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and len(node.args)==1:
             value = visit(node.args[0])
+            if node.func.id == 'KeywordText': return value.replace("'", "''")
             if node.func.id == 'SqlValue': return "'"+value.replace("'", "''")+"'"
             if node.func.id == 'CsvField': return '"'+value.replace('"', '""')+'"'
         raise ValueError(ast.dump(node))
@@ -52,7 +53,7 @@ class Improvements(unittest.TestCase):
     def test_timeline_schema_and_browser_insert(self):
         text=source('Win_TimeLine.EnScript');run=text[text.index('virtual void Run(){'):]
         statements=re.findall(r'ExecuteNonQuery\("(CREATE TABLE[^"\r\n]+)"\)',run)
-        db=sqlite3.connect(':memory:')
+        db=sqlite3.connect(':memory:');self.addCleanup(db.close)
         for sql in statements: db.execute(sql)
         tables={r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
         self.assertEqual(tables,{'PC_PowerOnOff','PC_LogOnOff','App_EXEFile','App_Documents','USB_EventLog','PC_UserAccount','Web_Download','Web_Keyword','Web_Visit','Web_Host','File_Deleted'})
@@ -73,7 +74,7 @@ class Improvements(unittest.TestCase):
             self.assertIn('keywordCommand.ExecuteQuery("select * from urls;", keywordReader)',text)
             self.assertIn('keywordCommand.ExecuteQuery("select * from moz_places;", keywordReader)',text)
             # Independent cursors both retain all rows after the first cursor is exhausted.
-            db=sqlite3.connect(':memory:');db.executescript('CREATE TABLE urls(url); INSERT INTO urls VALUES (1),(2);')
+            db=sqlite3.connect(':memory:');self.addCleanup(db.close);db.executescript('CREATE TABLE urls(url); INSERT INTO urls VALUES (1),(2);')
             first=db.execute('select * from urls;');list(first)
             self.assertEqual(list(db.execute('select * from urls;')),[(1,),(2,)])
 
@@ -104,10 +105,73 @@ class Improvements(unittest.TestCase):
         insert=re.search(r'ExecuteNonQuery\(("INSERT INTO App_RecentFile[^\r\n]+)\)\) \{',text).group(1)
         names=re.findall(r'SqlValue\(n\.(\w+)\)',insert)
         fields={name:"O'Brien, 한글\n\"quoted\""+name for name in names}
-        db=sqlite3.connect(':memory:');db.execute(ddl);db.execute(ddl)
+        db=sqlite3.connect(':memory:');self.addCleanup(db.close);db.execute(ddl);db.execute(ddl)
         db.execute(expression(insert,fields));db.commit()
         self.assertEqual(db.execute('SELECT * FROM App_RecentFile').fetchone()[1:],tuple(fields[n] for n in names))
         self.assertIn('cmd.ExecuteNonQuery("ROLLBACK;")',text)
+
+    def test_rerun_copy_lists_reset(self):
+        text=source('Win_PowerLogOnOff.EnScript')
+        for suffix in ('','1'):
+            start=text.index('Logon_dialog.List'+suffix+'.Close();')
+            end=text.index('foreach (',start)
+            self.assertIn('Logon_dialog.CopyList'+suffix+'.Close();',text[start:end])
+
+    def test_keyword_parameters_and_escaping(self):
+        from urllib.parse import urlsplit
+        expected={'https://example.org/?q=one%26two&next=3':'one%26two',
+                  'https://example.org/?search_query=한글#fragment':'한글',
+                  'https://example.org/?x=1&query=O%27Brien':'O%27Brien',
+                  'https://example.org/path#?q=false':'',
+                  'https://example.org/?other=1':''}
+        for name in ('Win_TimeLine.EnScript','Win_WebVisitKeyword.EnScript'):
+            text=source(name)
+            helper=text.split('String SearchParameter(',1)[1].split('String KeywordSqlText(',1)[0]
+            names=re.findall(r'parameter.Find\("([^"=]+)=\"\) == 0',helper)
+            self.assertEqual(names,['q','query','search_query'])
+            self.assertIn('url.Find("#", start + 1)',helper)
+            self.assertIn('firstFragment < start',helper)
+            # Model the source's exact recognized parameter names on independent URL fixtures.
+            for url,value in expected.items():
+                parameters=urlsplit(url).query.split('&')
+                actual=next((p.split('=',1)[1] for p in parameters if '=' in p and p.split('=',1)[0] in names),'')
+                self.assertEqual(actual,value)
+            method=text.split('void keyword_extract(',1)[1].split('void visit_csv(',1)[0]
+            prefix=ast.literal_eval(re.search(r'String union_insert_q = ("[^\r\n]+) \+ browser \+ ("[^\r\n]+);',method).group(1))+'Fixture'+"','"
+            addition=re.search(r'union_insert_q \+= ([^\r\n]+);',method).group(1)
+            # KeywordSqlText returns SQL-escaped text without surrounding quotes.
+            addition=addition.replace('KeywordSqlText(', 'KeywordText(')
+            fields={'union_url':"https://example.org/?q=O'Brien",'union_keyword':"O'Brien",'union_title':"'한글'",'union_time':'2026/10/13'}
+            # Use only literal concatenation and the escape model, preserving the actual source template.
+            sql=prefix+expression(addition,variables=fields)
+            db=sqlite3.connect(':memory:');self.addCleanup(db.close);db.execute('CREATE TABLE Web_Keyword(Browser,url,keyword,title,time)')
+            db.execute(sql)
+            self.assertEqual(db.execute('SELECT url,keyword,title,time FROM Web_Keyword').fetchone(),tuple(fields.values()))
+
+    def test_recent_failed_batch_rolls_back(self):
+        text=source('Win_LinkFile.EnScript').split('class RecentHandlerClass',1)[1]
+        ddl=re.search(r'ExecuteNonQuery\("(CREATE TABLE IF NOT EXISTS App_RecentFile[^"\r\n]+)"\)',text).group(1)
+        insert=re.search(r'ExecuteNonQuery\(("INSERT INTO App_RecentFile[^\r\n]+)\)\) \{',text).group(1)
+        fields={n:'original' for n in re.findall(r'SqlValue\(n\.(\w+)\)',insert)}
+        db=sqlite3.connect(':memory:');self.addCleanup(db.close);db.execute(ddl);db.execute(expression(insert,fields));db.commit()
+        db.execute("CREATE TRIGGER reject_bad BEFORE INSERT ON App_RecentFile WHEN NEW.FileName='bad' BEGIN SELECT RAISE(ABORT,'fixture'); END;")
+        db.execute('BEGIN TRANSACTION;');fields['LinkName']='good';db.execute(expression(insert,fields))
+        fields['LinkName']='bad'
+        with self.assertRaises(sqlite3.IntegrityError): db.execute(expression(insert,fields))
+        db.execute('ROLLBACK;')
+        self.assertEqual(db.execute('SELECT FileName FROM App_RecentFile').fetchall(),[('original',)])
+
+    def test_timeline_failure_and_percent_bounds(self):
+        run=source('Win_TimeLine.EnScript').split('virtual void Run(){',1)[1]
+        self.assertIn('if(!lnk_csv.Open(',run)
+        reopen=run[run.index('if(!sqliteFile.Open(exportPath, FileClass::APPEND)'):]
+        self.assertLess(reopen.index('return;'),reopen.index('recent_lnk('))
+        self.assertIn('TimeLine_dialog.Semaphore.Release();',reopen[:reopen.index('return;')])
+        self.assertNotIn('"Timeline Database Created"',run)
+        decoder=source('Win_WebVisitKeyword.EnScript').split('String qURLdecode(',1)[1].split('void sql2csv(',1)[0]
+        self.assertNotIn('url[i+8]',decoder)
+        self.assertIn('i + 2 < url.GetLength()',decoder)
+        self.assertIn('IsHexDigit(url[i+1])',decoder)
 
     def test_shutdown_reads_evidence(self):
         text=source('Win_SystemInfo.EnScript')

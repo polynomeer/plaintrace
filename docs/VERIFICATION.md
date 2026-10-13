@@ -58,4 +58,8 @@ The test plan now includes chart and extraction regression cases and targeted ch
 
 ## Improvement Branch Validation
 
-The current improvement branch passed seven portable regression cases, generated-reference checks, 34-document bilingual validation and historical archive-only verification. The original baseline remains tagged separately. Changes and remaining host tests are recorded in [the improvement record](IMPROVEMENTS.md). The portable checks exercise extracted SQL/output contracts and source structure; no EnCase compilation or runtime pass is claimed.
+The current improvement branch passed eleven portable regression cases, generated-reference checks, 36-document bilingual validation and historical archive-only verification. The original baseline remains tagged separately. Changes and remaining host tests are recorded in [the improvement record](IMPROVEMENTS.md). The portable checks exercise extracted SQL/output contracts and source structure; no EnCase compilation or runtime pass is claimed.
+
+## Follow-up Review
+
+[The branch review](REVIEW.md) records additional fixes for rerun copy lists, query parsing/decoder bounds, keyword SQL quoting and setup, and timeline finalization failures, with eleven portable regression cases. Keyword writes now escape text; other browser writers still require review.

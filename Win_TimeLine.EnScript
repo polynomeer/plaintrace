@@ -1356,7 +1356,32 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 		copy_db.Close();
 	}
 
-	void keyword_extract(SQLiteClass::DataReaderClass dataReader, String path, String table_name){
+	    String SearchParameter(String url) {
+        int start = url.Find("?");
+        if(start == -1) return "";
+        int firstFragment = url.Find("#");
+        if(firstFragment != -1 && firstFragment < start) return "";
+        int fragment = url.Find("#", start + 1);
+        String parameters;
+        if(fragment == -1) parameters = url.SubString(start + 1, -1);
+        else parameters = url.SubString(start + 1, fragment - start - 1);
+        while(parameters.GetLength() > 0) {
+            int separator = parameters.Find("&");
+            String parameter = parameters.SubString(0, separator);
+            if(parameter.Find("q=") == 0 || parameter.Find("query=") == 0 || parameter.Find("search_query=") == 0)
+                return parameter.SubString(parameter.Find("=") + 1, -1);
+            if(separator == -1) break;
+            parameters = parameters.SubString(separator + 1, -1);
+        }
+        return "";
+    }
+
+    String KeywordSqlText(String value) {
+        value.Replace("'", "''", 0, -1, 0);
+        return value;
+    }
+
+void keyword_extract(SQLiteClass::DataReaderClass dataReader, String path, String table_name){
 		LocalFileClass lf = new LocalFileClass();	    
 	
 		ulong time;
@@ -1373,16 +1398,27 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 
 		SQLiteClass copy = new SQLiteClass();
 		LocalFileClass copy_db = new LocalFileClass();
-		//if(!copy_db.Open(path + "\\history.sqlite", FileClass::APPEND))
-		if(!copy_db.Open("C:\\TimeLineArtifacts_Total.sqlite", FileClass::APPEND))
-		  Console.WriteLine("fail to open " + path + "\\" + path.GetFilename() +  "_history.sqlite");
-		if(!copy.Open(copy_db, SQLiteClass::SQLITE_OPEN_READWRITE))
-		  Console.WriteLine("fail to open history db " + path.GetFilename());
-		SQLiteClass::CommandClass copy_cmd = new SQLiteClass::CommandClass();
-		if(!copy.CreateCommand(copy_cmd))
-		  Console.WriteLine("fail to create command");
+		if(!copy_db.Open("C:\\TimeLineArtifacts_Total.sqlite", FileClass::APPEND)) {
+            Console.WriteLine("[-] keyword output open failed!\n");
+            lf.Close();
+            return;
+        }
+        if(!copy.Open(copy_db, SQLiteClass::SQLITE_OPEN_READWRITE)) {
+            Console.WriteLine("[-] keyword database open failed!\n");
+            copy_db.Close();
+            lf.Close();
+            return;
+        }
+        SQLiteClass::CommandClass copy_cmd = new SQLiteClass::CommandClass();
+        if(!copy.CreateCommand(copy_cmd)) {
+            Console.WriteLine("[-] keyword command creation failed!\n");
+            copy.Close();
+            copy_db.Close();
+            lf.Close();
+            return;
+        }
 
-		String host_table = table_name.SubString(0,6)+"_host";
+        String host_table = table_name.SubString(0,6)+"_host";
 		table_name = table_name.SubString(0,7) + table_name.SubString(table_name.Find("keyword"),7);
 		String browser = "";
 		bool set_table = true;
@@ -1436,51 +1472,12 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 		      union_url = url_ex;
 		      query += url_ex + "\t";
 		      //host_extract(url_ex, host, host_fre);
-		      if(url_ex.Contains("&q=") || url_ex.Contains("&query=") || url_ex.Contains("&search_query=") || url_ex.Contains("?q=") || url_ex.Contains("?query=") || url_ex.Contains("?search_query=")){
-		        field += "search_keyword" + "\t";
-		        field_arr.Add("keywords");
-		        if(url_ex.Contains("&q=")){
-		          q_idx = url_ex.Find("&q=");
-		          key = url_ex.SubString(q_idx+3,-1);
-
-		          //Console.WriteLine(key);
-		        }
-		        else if(url_ex.Contains("&query=")){
-		          q_idx = url_ex.Find("&query=");;
-		          key = url_ex.SubString(q_idx+7,-1);
-		          //idx = key.Find("&");
-		          //search_keyword = key.SubString(0,idx);
-		          //Console.WriteLine(key);
-		          //Console.WriteLine(search_keyword);
-		        }
-		        else if(url_ex.Contains("&search_query=") || url_ex.Contains("?search_query=")){
-		          q_idx = url_ex.Find("&search_query=");
-		          key = url_ex.SubString(q_idx+14,-1);
-		          //Console.WriteLine(key);
-		        }
-		        else if(url_ex.Contains("?q=")){
-		        	q_idx = url_ex.Find("?q=");
-		        	key = url_ex.SubString(q_idx+3,-1);
-		        }
-		        else if(url_ex.Contains("?query=")){
-		        	q_idx = url_ex.Find("?query=");
-		        	key = url_ex.SubString(q_idx+7,-1);
-		        }
-		        else if(url_ex.Contains("?search_query=")){
-		        	q_idx = url_ex.Find("?search_query=");
-		        	key = url_ex.SubString(q_idx+14,-1);
-		        }		        	
-
-		        if(key.Find("&")){
-		          if(0 < key.Find("&"))
-		            idx = key.Find("&");
-		          else
-		            idx = -1;
-		        }
-		        else
-		          idx = -1;
-		        search_key = key.SubString(0,idx);
-		        union_keyword = search_key;
+		      key = SearchParameter(url_ex);
+          if(key != ""){
+            field += "search_keyword" + "\t";
+            field_arr.Add("keywords");
+            search_key = key;
+            union_keyword = search_key;
 		        //Console.WriteLine("{0} {1} {2}",q_idx,idx,search_key);
 		        query += search_key + "\t";
 		        field_val.Add(search_key);
@@ -1510,9 +1507,10 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 		  
 
 		  if(flag){
-		    union_insert_q += union_url + "\',\'" + union_keyword + "\',\'" + union_title + "\',\'" + union_time + "\');";
+		    union_insert_q += KeywordSqlText(union_url) + "\',\'" + KeywordSqlText(union_keyword) + "\',\'" + KeywordSqlText(union_title) + "\',\'" + KeywordSqlText(union_time) + "\');";
 		    //Console.WriteLine(union_insert_q);	        
-		    copy_cmd.ExecuteNonQuery(union_insert_q);
+		    if(!copy_cmd.ExecuteNonQuery(union_insert_q))
+                Console.WriteLine("[-] keyword insert failed!\n");
 
 		  }
 
@@ -2078,7 +2076,14 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 	        conn.Close();
 
 	        LocalFileClass lnk_csv = new LocalFileClass();
-	        lnk_csv.Open(lnk_csv_path, FileClass::WRITE + FileClass::TEXT);
+            if(!lnk_csv.Open(lnk_csv_path, FileClass::WRITE + FileClass::TEXT)) {
+                Console.WriteLine("[-] Timeline LNK CSV open failed; collection stopped.\n");
+                sqliteDB.Close();
+                sqliteFile.Close();
+                TimeLine_dialog.time_check = false;
+                TimeLine_dialog.Semaphore.Release();
+                return;
+            }
 	        lnk_csv.WriteLine("FILE NAME\tFILE SIZE\tDRIVE TYPE\tMTIME\tATIME\tCTIME\tLOCAL PATH\t");
 
 	        for(ItemIteratorClass iter(c,0,ItemIteratorClass::CURRENTVIEW_SELECTED); DeviceClass dev = iter.GetNextDevice();){
@@ -2110,8 +2115,8 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 			}
 
 			lnk_csv.Close();
-			sqliteFile.Close();
 			sqliteDB.Close();
+			sqliteFile.Close();
 
 			StringArr pp_list(), word_list(), excel_list(), hwp_list(), adobe_list();
 
@@ -2141,21 +2146,28 @@ void sql2csv(SQLiteClass::DataReaderClass dataReader, LocalFileClass result, Str
 					WebArtifact(e);				
 			}
 
-			sqliteFile.Open(exportPath, FileClass::APPEND);
-			sqliteDB.Open(sqliteFile, SQLiteClass::SQLITE_OPEN_READWRITE);
-			sqliteDB.CreateCommand(cmd);
+            if(!sqliteFile.Open(exportPath, FileClass::APPEND) ||
+               !sqliteDB.Open(sqliteFile, SQLiteClass::SQLITE_OPEN_READWRITE) ||
+               !sqliteDB.CreateCommand(cmd)) {
+                Console.WriteLine("[-] Timeline final database reopen failed; collection is incomplete.\n");
+                sqliteDB.Close();
+                sqliteFile.Close();
+                TimeLine_dialog.time_check = false;
+                TimeLine_dialog.Semaphore.Release();
+                return;
+            }
 			
 			recent_lnk(lnk_path, lnk_csv_path, pp_list, word_list, excel_list, hwp_list, adobe_list, sqliteDB);
 
-			sqliteFile.Close();
 			sqliteDB.Close();
+			sqliteFile.Close();
 
 			TimeLine_dialog.time_check = false;
 			TimeLine_dialog.Semaphore.Release();
 			break;
 		}
 
-		SystemClass::Message(SystemClass::ICONINFORMATION, "Notice", "Timeline Database Created");
+		SystemClass::Message(SystemClass::ICONINFORMATION, "Notice", "Timeline collection finished; inspect console errors and validate database contents.");
 	}
 
 

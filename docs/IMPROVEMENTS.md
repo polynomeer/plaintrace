@@ -32,7 +32,7 @@ python3 tools/verify_archive.py --archive-only
 git diff --check
 ```
 
-Seven portable regression cases check source encodings/structure, timeline schemas and IE insert templates, independent browser queries, row-copy mappings, USB CSV special characters, Recent SQLite special characters and shutdown evidence-reading code. Python SQLite executes SQL extracted from source; output tests evaluate only selected string expressions and model the documented escaping operations. These checks do not compile or execute EnScript and do not establish API compatibility. EnCase/Windows compilation and T-02/T-08/T-09/T-10/T-11/T-12 remain required. In particular, confirm fresh-reader lifetimes, FILETIME interpretation and output failure cleanup in the actual host.
+Eleven portable regression cases check source encodings/structure, timeline schemas and IE insert templates, independent browser queries, row-copy mappings, USB CSV special characters, Recent SQLite special characters and shutdown evidence-reading code. Python SQLite executes SQL extracted from source; output tests evaluate only selected string expressions and model the documented escaping operations. These checks do not compile or execute EnScript and do not establish API compatibility. EnCase/Windows compilation and T-02/T-08/T-09/T-10/T-11/T-12 remain required. In particular, confirm fresh-reader lifetimes, FILETIME interpretation and output failure cleanup in the actual host.
 
 Archive-only verification reads historical Git blobs, checks all 263 records and compares the historical tree with the original local backup ref. Default archive verification still rejects changed working source; do not label this branch byte-identical to the archive. A normal clone needs the separately preserved local backup ref for full original-tree comparison. Portable improvement tests require the preserved baseline tag.
 
@@ -41,3 +41,7 @@ Archive-only verification reads historical Git blobs, checks all 263 records and
 Fixed-offset Prefetch/$I format support (R-01), timezone interpretation (R-02), SQL escaping and export round trips outside the corrected handlers (R-03), chart/rerun behavior and file races (R-05), generalized worker cleanup (R-07), missing HTML/JS and hardcoded browser launch paths (R-08), and provenance/schema migration (R-09) remain open. Supporting additional formats or replacing timestamp semantics requires independently known fixtures and host validation. No synthetic evidence results or historical test passes are claimed.
 
 Browser insertion templates outside the tested ordinary URL/title values still concatenate unescaped text. Do not infer that the schema and VALUES fixes solve apostrophes across all browser writers. Recycle Bin extraction still requires distinguishing metadata from recovered content.
+
+## Follow-up Review
+
+[The branch review](REVIEW.md) records additional fixes for rerun copy lists, query parsing/decoder bounds, keyword SQL quoting and setup, and timeline finalization failures, with eleven portable regression cases. Keyword writes now escape text; other browser writers still require review.
