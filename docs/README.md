@@ -1,0 +1,37 @@
+# Documentation Index
+
+**English** | [한국어](README.ko.md)
+
+Prepared on 2026-10-13 from the archived source. This is retrospective documentation, not an original 2017 deliverable.
+
+## Reading Paths
+
+- Project reader: overview → requirements → architecture → project report.
+- Examiner: setup/user guide → data model → test plan.
+- Maintainer: code structure → detailed design → schema reference → analysis → maintenance.
+- Archive reviewer: reconstructed history → verification report → JSON manifests.
+
+## Deliverable Catalog
+
+| Document | Contents |
+| --- | --- |
+| [Project overview and provenance](PROJECT_OVERVIEW.md) | Purpose, background, scope and evidence |
+| [Requirements and use cases](REQUIREMENTS.md) | FR/NFR IDs, use cases and acceptance boundary |
+| [Architecture](ARCHITECTURE.md) | Context, component and deployment views |
+| [Detailed system design](SYSTEM_DESIGN.md) | Selection, lifecycle, interfaces and timeline flow |
+| [Code structure](CODE_STRUCTURE.md) | All source classes and extracted method locations |
+| [Data model](DATA_MODEL.md) | Storage paths, table families, timestamps and contracts |
+| [SQL declaration reference](SCHEMA_REFERENCE.md) | Literal definitions and schema variants from source |
+| [Setup and user guide](USER_GUIDE.md) | Prerequisites, module workflow and troubleshooting |
+| [Verification and test plan](TEST_PLAN.md) | Test cases, oracles and future acceptance criteria |
+| [Documentation verification report](VERIFICATION.md) | Performed checks and validation limitations |
+| [Maintenance and risks](MAINTENANCE.md) | Review priorities, change rules and proposed follow-up |
+| [Project report](PROJECT_REPORT.md) | Deliverable status, verification evidence and handover |
+| [Static analysis](ANALYSIS.md) | Original module inventory and source observations |
+| [Reconstructed history](HISTORY.md) | Synthetic dates, archive method and backup recovery |
+
+## Interpretation Rules
+
+Source observations, author's historical account, and proposed future work are distinguished throughout. Diagrams describe the surviving code; tests are planned unless explicitly marked as performed. The original EnCase version and HTML/JS assets are unknown or missing. Embedded Windows 7/version/date help labels are source evidence, not a release certification. English and Korean documents share technical identifiers and references.
+
+Machine-readable records: [commit map](history-map.json) and [source manifest](source-manifest.json). Return to the [project README](../README.md).

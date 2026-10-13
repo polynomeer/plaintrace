@@ -58,6 +58,10 @@ python3 tools/verify_archive.py
 
 The verification tool checks the integrity of the current EnScript source, the archived README snapshot, and the reconstructed commits. It does not compile the plugin or test its behavior in EnCase.
 
+## Documentation
+
+Browse the [documentation index](docs/README.md) for the project overview, requirements, architecture, detailed design, code and data references, user guide, test plan, maintenance notes, and project report. These documents were prepared retrospectively from the surviving implementation; they are not original 2017 deliverables.
+
 ## Related Records
 
 - [Current GitHub repository](https://github.com/polynomeer/plaintrace)

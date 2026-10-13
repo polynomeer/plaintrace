@@ -58,6 +58,10 @@ python3 tools/verify_archive.py
 
 검증 도구는 현재 EnScript 소스, 재구성 당시 README 스냅샷과 커밋의 무결성을 확인합니다. EnCase 컴파일이나 실행 검증을 수행하는 도구는 아닙니다.
 
+## 문서 산출물
+
+프로젝트 개요부터 요구사항, 아키텍처, 상세 설계, 코드·데이터 구조, 사용 가이드, 테스트 계획, 유지보수, 결과 보고서까지 [전체 문서 목차](docs/README.ko.md)에서 확인할 수 있습니다. 문서는 보존된 구현을 기준으로 현재 작성했으며 2017년 당시 원본 산출물이 아닙니다.
+
 ## 관련 기록
 
 - [현재 GitHub 저장소](https://github.com/polynomeer/plaintrace)
