@@ -12,8 +12,10 @@ def git(*args):
 def main():
     manifest = json.loads((ROOT/'docs/source-manifest.json').read_text())
     records = json.loads((ROOT/'docs/history-map.json').read_text())
+    tip = records[-1]['commit']
     for name, expected in manifest.items():
-        data = (ROOT/name).read_bytes()
+        # README is maintained today; its manifest describes the archive snapshot.
+        data = git('show', f'{tip}:{name}') if name == 'README.md' else (ROOT/name).read_bytes()
         assert len(data) == expected['bytes'], name
         assert hashlib.sha256(data).hexdigest() == expected['sha256'], name
     for i, record in enumerate(records):
@@ -25,9 +27,9 @@ def main():
         assert 'Synthetic date and order' in '\n'.join(fields[4:]), commit
         changed = git('diff-tree', '--root', '--no-commit-id', '--name-only', '-r', commit).decode().splitlines()
         assert changed == [record['file']], (commit, changed)
-    tip = records[-1]['commit']
     assert git('rev-parse', tip+'^{tree}') == git('rev-parse', 'refs/archive/pre-reconstruction^{tree}')
     assert git('merge-base', '--is-ancestor', tip, 'HEAD') == b''
-    print(f'PASS: {len(manifest)} files preserved; {len(records)} synthetic commits verified; original tree matches.')
+    print(f'PASS: {len(manifest)-1} current sources and archived README preserved; '
+          f'{len(records)} synthetic commits verified; original tree matches.')
 
 if __name__ == '__main__': main()

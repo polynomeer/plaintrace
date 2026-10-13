@@ -12,7 +12,7 @@
 - 모든 제목은 `archive:`로 시작하며 본문에 retrospective reconstruction 및 synthetic date/order를 명시했다.
 - 단계별 클래스 닫는 중괄호를 임시로 추가하여 소스를 점진적으로 보존했다. 나중에 추가되는 메서드/다른 모듈/공통 클래스에 의존하는 중간 단계는 완성된 빌드가 아니다. 매 커밋의 컴파일 가능성을 보장하지 않는다.
 - 마지막 2017년 커밋의 Git tree는 기존 최종 커밋과 완전히 동일하다. 인코딩, BOM, CRLF, 주석 및 기존 구현상 문제까지 보존했다.
-- Codex 환경, 분석 문서, 검증 도구는 현재 날짜의 후속 커밋으로 분리했다. 원격 저장소에는 push하지 않았다.
+- Codex 환경, 분석 문서, 검증 도구는 실제 작업 날짜의 후속 커밋으로 분리했다. 최초 로컬 재구성 후, 2026-10-13 사용자의 후속 요청으로 원격 `master`에도 반영했다.
 
 ## 확인하기
 
@@ -23,7 +23,7 @@ python3 tools/verify_archive.py
 git log --reverse --format='%h %aI %s' master
 ```
 
-`docs/history-map.json`에는 전체 순번·날짜·파일·제목·커밋 ID가 있고 `docs/source-manifest.json`에는 원본 14개 파일의 SHA-256과 크기가 있다.
+`docs/history-map.json`에는 전체 순번·날짜·파일·제목·커밋 ID가 있고 `docs/source-manifest.json`에는 원본 14개 파일의 SHA-256과 크기가 있다. README는 이후 정리되었으므로 검증 도구는 README의 마지막 재구성 커밋 스냅샷과 현재 13개 EnScript 소스를 검사한다.
 
 UTF-16 소스의 diff 표시에는 로컬 설정 `diff.enscript.textconv = python3 tools/enscript_textconv.py`를 사용한다. 새 clone에서는 다음 명령을 한 번 실행할 수 있다. 원본 blob은 바뀌지 않는다.
 
@@ -37,7 +37,7 @@ git config --local diff.enscript.textconv 'python3 tools/enscript_textconv.py'
 
 - Git ref: `refs/archive/pre-reconstruction`
 - 원래 모든 refs의 Git bundle: `.history-backup/original-6814d18c75aa.bundle` (로컬 백업, ignore됨)
-- 원격 추적 refs도 유지된다. 따라서 `git log --all`에는 원래 기록이 함께 보일 수 있다. 새 개발 기록은 `git log master`로 확인한다.
+- 원래 기록은 archive ref와 bundle에 유지된다. 따라서 `git log --all`에는 원래 기록이 함께 보일 수 있다. 새 개발 기록은 `git log master`로 확인한다.
 
 원본을 별도 디렉터리에 복구하려면 다음 명령을 사용한다. 현재 재구성 기록을 덮어쓰지 않는다.
 
@@ -46,4 +46,4 @@ git bundle verify .history-backup/original-6814d18c75aa.bundle
 git clone .history-backup/original-6814d18c75aa.bundle /tmp/plaintrace-original
 ```
 
-로컬 백업을 잃지 않으려면 bundle 파일을 별도 보관한다. 히스토리 교체 때문에 원격과의 일반 push는 fast-forward가 아닐 수 있다. 원격 반영은 이번 작업에 포함하지 않았다.
+로컬 백업을 잃지 않으려면 bundle 파일을 별도 보관한다. 원격 `master`의 히스토리 교체는 `--force-with-lease`로 반영했고, 반영 직후 로컬과 원격의 최종 커밋이 동일함을 확인했다. 이후 문서 변경은 일반 후속 커밋으로 기록한다.
