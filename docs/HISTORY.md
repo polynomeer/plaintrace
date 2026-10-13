@@ -1,20 +1,22 @@
-# 사후 재구성한 개발 기록
+# Retrospectively Reconstructed Development History
 
-작성일: **2026-10-13**. 이 저장소의 **2017-07-01–2017-11-30 (+09:00)** 커밋은 실제 당시 Git 기록을 복구한 것이 아니라, 현재 남아 있는 최종 소스에서 만든 **기록용 사후 재구성**이다. 날짜, 개발 순서 및 작업 간격은 임의로 배치했다. 실제 당시 활동이나 기여를 입증하는 자료로 사용하지 않는다.
+**English** | [한국어](HISTORY.ko.md)
 
-## 재구성 방법
+Document date: **2026-10-13**. Commits dated **2017-07-01–2017-11-30 (+09:00)** are an **archival retrospective reconstruction** from the surviving final source snapshot. They are not recovered original Git records. Dates, development order, and work intervals were assigned for presentation and must not be used as evidence of actual historical activity or contributions.
 
-- 기존 `master`의 5개 커밋은 새 체인의 부모로 사용하지 않았다.
-- 원래 README와 13개 EnScript 파일을 그대로 보존했다. 최초 README에도 나중에 작성된 내용이 있을 수 있으므로 원래의 2017년 문서라고 주장하지 않는다.
-- README → 시스템 정보 → 파일 메타데이터 → 계정 → 휴지통 → 로그인/전원 → USB → Prefetch → LNK → 최근 문서 → 다운로드 → 웹 방문/검색어 → 타임라인 → 메인 조립 순서로 배치했다. 이는 설명을 위한 순서이고 실제 작업 순서는 아니다.
-- 클래스의 필드/생성자, 메서드 단위로 263개 커밋을 만들었다. 작은 데이터 클래스는 클래스 단위로 묶었고 메서드 내부를 임의의 줄 수로 더 잘게 자르지 않았다.
-- 날짜는 2017-07-01 10:00:00부터 2017-11-30 18:00:00까지 균등 배치했다. author date와 committer date를 동일하게 설정했으며 기존 로컬 Git 작성자 설정을 사용했다. 당시 작성자별 기여는 추정하지 않았다.
-- 모든 제목은 `archive:`로 시작하며 본문에 retrospective reconstruction 및 synthetic date/order를 명시했다.
-- 단계별 클래스 닫는 중괄호를 임시로 추가하여 소스를 점진적으로 보존했다. 나중에 추가되는 메서드/다른 모듈/공통 클래스에 의존하는 중간 단계는 완성된 빌드가 아니다. 매 커밋의 컴파일 가능성을 보장하지 않는다.
-- 마지막 2017년 커밋의 Git tree는 기존 최종 커밋과 완전히 동일하다. 인코딩, BOM, CRLF, 주석 및 기존 구현상 문제까지 보존했다.
-- Codex 환경, 분석 문서, 검증 도구는 실제 작업 날짜의 후속 커밋으로 분리했다. 최초 로컬 재구성 후, 2026-10-13 사용자의 후속 요청으로 원격 `master`에도 반영했다.
+## Reconstruction Method
 
-## 확인하기
+- The five existing commits on `master` were not used as parents of the new chain.
+- The original README and 13 EnScript files were preserved exactly. The initial README may itself contain material written later; it is not presented as an original document from 2017.
+- The chosen order was README → system information → file metadata → accounts → Recycle Bin → logon/power → USB → Prefetch → LNK → recent documents → downloads → web visits/keywords → timeline → main assembly. This is an explanatory order, rather than a claim about the actual development sequence.
+- The source was divided into 263 commits for class fields/constructors and individual methods. Small data classes were kept as class-level units; method bodies were not split into arbitrary line-count fragments.
+- Dates were distributed evenly from 2017-07-01 10:00:00 to 2017-11-30 18:00:00. Author and committer dates were set to the same value, using the existing local Git author configuration. Historical contributions by individual authors were not inferred.
+- Every subject starts with `archive:`, and every body discloses the retrospective reconstruction and synthetic dates/order.
+- Temporary closing braces were added as classes were preserved progressively. Intermediate stages that depend on methods, modules, or shared classes introduced later are incomplete builds. Compilation of every commit is not guaranteed.
+- The final 2017-dated commit has exactly the same Git tree as the previous final commit. Encodings, BOMs, CRLF line endings, comments, and existing implementation issues were preserved.
+- Codex setup, analysis documents, and verification tools were separated into follow-up commits with actual work dates. After the initial local reconstruction, the remote `master` was updated on 2026-10-13 at the user's request.
+
+## Inspecting the Archive
 
 ```sh
 python3 tools/inspect_sources.py
@@ -23,27 +25,27 @@ python3 tools/verify_archive.py
 git log --reverse --format='%h %aI %s' master
 ```
 
-`docs/history-map.json`에는 전체 순번·날짜·파일·제목·커밋 ID가 있고 `docs/source-manifest.json`에는 원본 14개 파일의 SHA-256과 크기가 있다. README는 이후 정리되었으므로 검증 도구는 README의 마지막 재구성 커밋 스냅샷과 현재 13개 EnScript 소스를 검사한다.
+`docs/history-map.json` records sequence numbers, dates, files, subjects, and commit IDs. `docs/source-manifest.json` records SHA-256 hashes and sizes for the 14 original files. Because the README has since been updated, the verification tool checks its snapshot at the last reconstructed commit and the 13 current EnScript files.
 
-UTF-16 소스의 diff 표시에는 로컬 설정 `diff.enscript.textconv = python3 tools/enscript_textconv.py`를 사용한다. 새 clone에서는 다음 명령을 한 번 실행할 수 있다. 원본 blob은 바뀌지 않는다.
+UTF-16 diffs use the local setting `diff.enscript.textconv = python3 tools/enscript_textconv.py`. In a new clone, run the following once to enable decoded diffs. This does not change the original blobs.
 
 ```sh
 git config --local diff.enscript.textconv 'python3 tools/enscript_textconv.py'
 ```
 
-## 백업 및 복구
+## Backup and Recovery
 
-기존 최종 커밋: `6814d18c75aa` (전체 ID는 archive ref에서 조회 가능).
+Previous final commit: `6814d18c75aa` (the full ID can be retrieved from the archive ref).
 
 - Git ref: `refs/archive/pre-reconstruction`
-- 원래 모든 refs의 Git bundle: `.history-backup/original-6814d18c75aa.bundle` (로컬 백업, ignore됨)
-- 원래 기록은 archive ref와 bundle에 유지된다. 따라서 `git log --all`에는 원래 기록이 함께 보일 수 있다. 새 개발 기록은 `git log master`로 확인한다.
+- Git bundle containing the original refs: `.history-backup/original-6814d18c75aa.bundle` (an ignored local backup)
+- The original history remains in the archive ref and bundle. Consequently, `git log --all` may also show the old history. Use `git log master` to inspect the new development history.
 
-원본을 별도 디렉터리에 복구하려면 다음 명령을 사용한다. 현재 재구성 기록을 덮어쓰지 않는다.
+To recover the original repository in a separate directory, use the following commands. They do not overwrite the reconstructed history.
 
 ```sh
 git bundle verify .history-backup/original-6814d18c75aa.bundle
 git clone .history-backup/original-6814d18c75aa.bundle /tmp/plaintrace-original
 ```
 
-로컬 백업을 잃지 않으려면 bundle 파일을 별도 보관한다. 원격 `master`의 히스토리 교체는 `--force-with-lease`로 반영했고, 반영 직후 로컬과 원격의 최종 커밋이 동일함을 확인했다. 이후 문서 변경은 일반 후속 커밋으로 기록한다.
+Keep a separate copy of the bundle to protect the local backup. The remote `master` history was replaced using `--force-with-lease`, and its final commit was verified against the local branch immediately afterward. Subsequent documentation changes are recorded as ordinary follow-up commits.

@@ -32,7 +32,7 @@ The work included UI development and Windows artifact extraction and parsing in 
 - The source contains hardcoded database, browser, and HTML paths under `C:\`. Check these paths against the actual environment before running the plugin.
 - **The web timeline's HTML and JavaScript assets are missing from this repository.** The source alone cannot reproduce the complete original visualization.
 
-This repository preserves the surviving project source as an archive. Windows artifact format differences and existing implementation limitations are documented in the [static analysis report (Korean)](docs/ANALYSIS.md).
+This repository preserves the surviving project source as an archive. Windows artifact format differences and existing implementation limitations are documented in the [static analysis report](docs/ANALYSIS.md).
 
 ## Reconstructed Commit History
 
@@ -42,7 +42,7 @@ The source was divided into 263 commits at the class and method level. Dates, ta
 
 The final reconstructed source snapshot preserves the previous source byte for byte. Subsequent README updates, Codex setup, analysis documents, and verification tools are recorded in follow-up commits with their actual work dates.
 
-- [Reconstruction method and original backup details (Korean)](docs/HISTORY.md)
+- [Reconstruction method and original backup details](docs/HISTORY.md)
 - [Commit dates, files, and task units](docs/history-map.json)
 - [Original file sizes and SHA-256 hashes](docs/source-manifest.json)
 
