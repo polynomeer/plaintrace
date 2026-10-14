@@ -20,15 +20,17 @@ class Report:
     keywords: list = field(default_factory=list)
     downloads: list = field(default_factory=list)
     diagnostics: list = field(default_factory=list)
+    links: list = field(default_factory=list)
+    prefetch: list = field(default_factory=list)
 
     def warn(self, source_id, code, message, record_id=None):
         self.diagnostics.append(dict(source_id=source_id, severity="warning", code=code,
                                      message=message, record_id=record_id))
 
     def as_dict(self):
-        return dict(format_version=1, tool="plaintrace", tool_version=__version__,
+        return dict(format_version=2, tool="plaintrace", tool_version=__version__,
                     **self.__dict__, counts={name: len(getattr(self, name))
-                    for name in ("sources", "visits", "keywords", "downloads", "diagnostics")})
+                    for name in ("sources", "visits", "keywords", "downloads", "diagnostics", "links", "prefetch")})
 
 
 def raw_text(value):

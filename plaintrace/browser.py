@@ -225,7 +225,7 @@ def analyze(paths, browser="auto"):
             if browser != "auto" and ((family == "firefox") != (browser == "firefox")):
                 raise AnalysisError(f"Browser label {browser} conflicts with {family} schema: {path}")
             source = dict(source_id=index, path=str(Path(path).expanduser().resolve()),
-                          browser=family if browser == "auto" else browser, schema_family=family, **hashes)
+                          browser=family if browser == "auto" else browser, schema_family=family, source_kind="browser", sha256=hashes["database_sha256"], **hashes)
             report.sources.append(source)
             visits(db, source, report, family == "firefox")
             if family == "firefox":
