@@ -17,3 +17,9 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/IMPROVEMENTS.md` for the branch's behavior and remaining host-validation requirements. Keep file encodings, BOMs and CRLF when editing.
 - Use `python3 tools/verify_archive.py --archive-only` to validate historical blobs on an improvement branch. Default verification intentionally requires unchanged working source.
 - Run `python3 tools/test_improvements.py` and regenerate source references after source changes. Portable tests do not establish EnCase compilation or execution.
+
+## Python port branch
+
+- Python changes belong on `codex/python-browser-cli`; preserve all thirteen EnScript files byte-for-byte against merged commit `bb476180453c76f7d38e5b6a9f1f025ad2273ce0` and preserve all archive refs/manifests/history.
+- Read `docs/PYTHON_CLI.md` and `docs/PYTHON_TESTS.md`. Run `python3 -m unittest discover -s tests -v` for actual Python behavior; these results do not certify EnCase.
+- Analyze acquired stable DB/WAL snapshots only. Keep real evidence and exports out of Git; synthetic test databases are created in temporary directories.

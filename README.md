@@ -71,3 +71,12 @@ Browse the [documentation index](docs/README.md) for the project overview, requi
 - [Current GitHub repository](https://github.com/polynomeer/plaintrace)
 - [Original project GitHub URL](https://github.com/Polynomeer/PVMA)
 - [Project Trello URL](https://trello.com/b/xIo5E0Ez/bobenscriptwork)
+
+## Python CLI (2026)
+
+A separate, runnable Python port now analyzes acquired Chromium/Firefox SQLite visits, keyword candidates and downloads without EnCase. The preserved EnScript files and archive are unchanged on this branch. See [usage and architecture](docs/PYTHON_CLI.md) and [the executable test plan](docs/PYTHON_TESTS.md). Python tests do not establish EnCase runtime correctness.
+
+```sh
+python3 -m plaintrace --input /path/to/History --browser chrome --output report.json
+python3 -m unittest discover -s tests -v
+```

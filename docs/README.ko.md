@@ -37,3 +37,9 @@
 소스 관찰·작성자의 과거 설명·향후 제안을 구분합니다. 도표는 현존 코드를 설명하며 수행 표시가 없는 테스트는 계획입니다. 원래 EnCase 버전과 HTML/JS 자산은 미확인 또는 누락입니다. Windows 7·버전·날짜 도움말은 소스 근거이며 릴리스 인증이 아닙니다. 양 언어 문서는 기술 ID와 참조를 공유합니다.
 
 기계 판독 기록: [커밋 맵](history-map.json), [소스 매니페스트](source-manifest.json). [프로젝트 README](../README.ko.md)로 돌아갑니다.
+
+## Python 이식
+
+[Python CLI](PYTHON_CLI.ko.md) · [Python tests](PYTHON_TESTS.ko.md)
+
+[Python CLI 리뷰](PYTHON_REVIEW.ko.md)

@@ -37,3 +37,9 @@ Prepared on 2026-10-13 from the archived source. This is retrospective documenta
 Source observations, author's historical account, and proposed future work are distinguished throughout. Diagrams describe the surviving code; tests are planned unless explicitly marked as performed. The original EnCase version and HTML/JS assets are unknown or missing. Embedded Windows 7/version/date help labels are source evidence, not a release certification. English and Korean documents share technical identifiers and references.
 
 Machine-readable records: [commit map](history-map.json) and [source manifest](source-manifest.json). Return to the [project README](../README.md).
+
+## Python Port
+
+[Python CLI](PYTHON_CLI.md) · [Python tests](PYTHON_TESTS.md)
+
+[Python CLI review](PYTHON_REVIEW.md)
