@@ -41,3 +41,5 @@
 ## Python 이식
 
 [Python CLI](PYTHON_CLI.ko.md) · [Python tests](PYTHON_TESTS.ko.md)
+
+[Python CLI 리뷰](PYTHON_REVIEW.ko.md)

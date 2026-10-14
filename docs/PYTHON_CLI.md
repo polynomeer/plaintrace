@@ -54,7 +54,7 @@ Hash stability during copying is not atomic acquisition of a live browser, does 
 
 Firefox downloads are annotation_summary records: one current annotation set per place, not a reconstruction of every historical download. Duplicate annotations select the newest modification/creation time and ID and emit a warning. The start time prefers the latest visit_type 7 event; otherwise annotation dateAdded is an explicitly labeled proxy. Metadata is parsed as JSON, retained verbatim and may contain millisecond endTime or an ISO timestamp with timezone. Destination file URIs are decoded to display paths; raw URIs and browser URLs remain available. Chromium filesystem paths are not URL-decoded.
 
-Query parameters are candidate search terms; arbitrary websites can use these names for other purposes. Query-derived terms and stored terms are separate records and are not deduplicated. Malformed percent escapes are preserved with warnings; invalid UTF-8 queries are skipped with diagnostics while the original visit remains. Empty query values produce no keyword records. Missing optional tables/columns yield null values or explicit unavailable diagnostics; malformed required tables fail the input. Orphan visit/annotation records are retained and diagnosed.
+Query parameters are candidate search terms; arbitrary websites can use these names for other purposes. Query-derived terms and stored terms are separate records and are not deduplicated. Malformed percent escapes are preserved with warnings; invalid UTF-8 recognized query fields are skipped individually with diagnostics, preserving valid neighboring terms and the original visit. Empty query values produce no keyword records. Missing optional tables/columns yield null values or explicit unavailable diagnostics; malformed required tables fail the input. Orphan visit/annotation records are retained and diagnosed.
 
 ## Time and Numeric Values
 
@@ -71,7 +71,7 @@ JSON format_version is 1 and includes tool/tool_version, the five collections be
 | sources | source_id, path, browser, schema_family, database_sha256, wal_sha256 |
 | visits | source_id, browser, record_id, source_table, record_kind, url, title, visited_at, timestamp_raw, timestamp_unit, transition |
 | keywords | source_id, browser, record_id, source_table, derivation, visit_record_id, parameter, keyword, url, searched_at, time_basis |
-| downloads | source_id, browser, record_id, source_table, record_kind, path, destination_uri, url, url_chain, referrer, state, started_at, ended_at, start_time_raw, end_time_raw, start_time_unit, end_time_unit, start_time_basis, received_bytes, total_bytes, metadata_raw |
+| downloads | source_id, browser, record_id, source_table, record_kind, path, destination_uri, url, url_chain, referrer, state, started_at, ended_at, start_time_raw, end_time_raw, start_time_unit, end_time_unit, start_time_basis, received_bytes, total_bytes, metadata_raw, annotation_ids, start_visit_id |
 | diagnostics | source_id, severity, code, message, record_id |
 
 SQLite inserts bind parameters, retain Unicode/quotes/newlines and enforce source foreign keys. The download URL chain is a JSON array in JSON and JSON text in SQLite. Times are UTC ISO strings; unknown fields are null. Stored-term time_basis and download start_time_basis must be checked before interpreting proxy times. The schema is separate from the EnScript Web_* schema; no consumer compatibility is implied.
@@ -102,7 +102,7 @@ Warnings are emitted to stderr and included in diagnostics. Inspect them before 
 
 ## Tests and Remaining Validation
 
-The [Python test plan](PYTHON_TESTS.md) records 24 executable synthetic-fixture tests, including committed WAL rows and unchanged original DB/WAL/SHM, real CLI subprocess execution, output transactions and no-overwrite races. The installed console entry point is also smoke-tested in an isolated temporary environment. These are actual Python tests, separate from static EnScript checks.
+The [Python test plan](PYTHON_TESTS.md) records 33 executable synthetic-fixture tests, including committed WAL rows and unchanged original DB/WAL/SHM, real CLI subprocess execution, output transactions and no-overwrite races. The installed console entry point is also smoke-tested in an isolated temporary environment. These are actual Python tests, separate from static EnScript checks.
 
 ```sh
 python3 -m unittest discover -s tests -v
@@ -118,3 +118,9 @@ Real acquired profiles across browser versions, Windows/Linux, large profiles, c
 ## Schema Sources
 
 Implementation references include the [Chromium history SQL fixture](https://chromium.googlesource.com/chromium/src/+/77a7f22877f83aca6844991cfb17db3edd6f0947/components/test/data/history/history.30.sql) and [Mozilla download history implementation](https://github.com/mozilla-firefox/firefox/blob/main/toolkit/components/downloads/DownloadHistory.sys.mjs). They help establish table/annotation meanings, not universal version support. The original [EnScript analysis](ANALYSIS.md) remains separately documented.
+
+## Follow-up Review Contract
+
+[The review report](PYTHON_REVIEW.md) records nine additional regression cases. Output paths reject final-component symlinks, including dangling ones; SQLite output refuses existing WAL/SHM/journal sidecars both before writing and before publication. This does not atomically reserve all sidecar names against competing writers. JSON serialization fails before stdout emission for unsupported/nonfinite values, although stream transport failures can still leave partial stdout. Native schema names must refer to tables rather than views.
+
+Downloads now include selected Firefox annotation IDs and the start event ID; Chromium has an empty annotation map and null start event ID. The annotation map is JSON text in SQLite. End-before-start values are retained with diagnostics, not corrected. These are additive fields in the first unmerged format-version-1 implementation. ISO normalization overflow and stored-term orphan URLs are also diagnosed.

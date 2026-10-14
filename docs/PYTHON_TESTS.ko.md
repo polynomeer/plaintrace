@@ -20,7 +20,7 @@ git diff --exit-code bb476180453c76f7d38e5b6a9f1f025ad2273ce0 -- '*.EnScript' do
 
 ## 실행 가능한 사례
 
-24개 모두 통과했습니다. 기대 UTC 시각과 문자열을 독립적으로 명시했으며 Firefox 주석 ID/순서는 EnScript 가정과 의도적으로 다릅니다. 각 사례의 임시 테스트 자료는 검사 후 제거합니다.
+33개 모두 통과했습니다. 기대 UTC 시각과 문자열을 독립적으로 명시했으며 Firefox 주석 ID/순서는 EnScript 가정과 의도적으로 다릅니다. 각 사례의 임시 테스트 자료는 검사 후 제거합니다.
 
 | ID | 테스트 메서드 | 기준 / 동작 |
 | --- | --- | --- |
@@ -48,6 +48,15 @@ git diff --exit-code bb476180453c76f7d38e5b6a9f1f025ad2273ce0 -- '*.EnScript' do
 | PY-22 | test_all_or_nothing_multiple_inputs | 후속 입력 실패 시 부분 보고서 게시하지 않음 |
 | PY-23 | test_output_publication_failure_leaves_no_report_or_temp | 하드 링크 미지원 시 임시 출력 정리 |
 | PY-24 | test_epoch_precision_and_unknown_values | 에포크 오프셋, 마이크로초 정밀도, 미상 및 잘못된 시각 |
+| PY-25 | test_invalid_unrelated_query_does_not_drop_valid_terms | 잘못된 비검색/검색 필드 때문에 정상 인접 검색어가 누락되지 않음 |
+| PY-26 | test_dangling_output_symlink_is_not_followed | 최종 출력의 dangling symlink을 따라가지 않고 유지 |
+| PY-27 | test_existing_output_sqlite_sidecars_are_preserved | 기존 출력 WAL/SHM/저널이 있으면 게시 거부 |
+| PY-28 | test_stdout_serialization_failure_has_no_partial_json | 바이너리/비유한 JSON 값은 stdout 쓰기 전에 실패 |
+| PY-29 | test_browser_views_are_not_accepted_as_native_tables | 브라우저 표준 이름은 실제 테이블이어야 함 |
+| PY-30 | test_orphan_stored_keyword_is_diagnosed | URL 대응이 없는 저장 검색어를 진단하고 보존 |
+| PY-31 | test_download_lineage_and_inconsistent_times | 선택된 주석/이벤트 ID를 출력하고 역전 시각 진단 |
+| PY-32 | test_unsupported_export_format_fails_explicitly | API 출력 형식 미지원 시 조용히 JSON을 선택하지 않음 |
+| PY-33 | test_iso_timezone_overflow_is_diagnostic_not_exception | ISO 시간대 정규화 범위 초과를 예외 대신 진단 처리 |
 
 ## 추가 검사
 
@@ -56,3 +65,5 @@ git diff --exit-code bb476180453c76f7d38e5b6a9f1f025ad2273ce0 -- '*.EnScript' do
 ## 남은 검증
 
 사건 분석 결과에 의존하기 전에 여러 버전/플랫폼의 실제 획득 Chrome/Opera/Firefox 프로필, 매우 큰 프로필, 브라우저 종료/획득 절차와 특이한 Unicode/메타데이터/스키마 변형을 검사해야 합니다. 해시 기반 복사 안정성은 원자적인 획득이 아니며 테스트가 증거 완전성이나 모든 라이브 작성자 경합 탐지를 입증하지는 않습니다. EnCase 컴파일/실행은 아직 남아 있습니다. Python 테스트는 원본 EnScript를 실행하지 않으며 호스트 API 동작과의 동등성을 입증하지 않습니다.
+
+후속 수정과 남은 한계는 [코드 리뷰](PYTHON_REVIEW.ko.md)를 확인하세요.

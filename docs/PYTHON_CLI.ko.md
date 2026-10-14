@@ -54,7 +54,7 @@ py -m venv .venv
 
 Firefox 다운로드는 annotation_summary이며 place별 현재 주석 집합 하나를 나타내고 모든 과거 다운로드를 재구성하지 않습니다. 중복 주석은 최신 수정/생성 시각과 ID를 기준으로 선택하며 경고를 남깁니다. 시작 시각은 가장 최근 visit_type 7 이벤트를 우선하고, 없으면 annotation dateAdded를 명시적인 대리 값으로 표시합니다. 메타데이터는 JSON으로 파싱하고 원문을 유지하며 endTime은 밀리초 또는 시간대가 있는 ISO 시각일 수 있습니다. 대상 file URI는 표시용 경로로 디코딩하고 원시 URI와 브라우저 URL은 유지합니다. Chromium 파일 경로는 URL 디코딩하지 않습니다.
 
-쿼리 매개변수는 검색어 후보이며 웹사이트가 해당 이름을 다른 목적으로 사용할 수 있습니다. URL에서 추출한 검색어와 저장된 검색어는 별도 행으로 유지하고 중복 제거하지 않습니다. 잘못된 퍼센트 이스케이프는 경고와 함께 유지하며 잘못된 UTF-8 쿼리는 진단 후 건너뛰되 원본 방문은 남깁니다. 빈 쿼리 값은 검색어 행을 생성하지 않습니다. 선택적 테이블/열 누락은 null 또는 사용 불가 진단으로 표현하고 필수 테이블의 잘못된 구조는 입력 실패로 처리합니다. 대응 URL이 없는 방문/주석 행도 유지하고 진단합니다.
+쿼리 매개변수는 검색어 후보이며 웹사이트가 해당 이름을 다른 목적으로 사용할 수 있습니다. URL에서 추출한 검색어와 저장된 검색어는 별도 행으로 유지하고 중복 제거하지 않습니다. 잘못된 퍼센트 이스케이프는 경고와 함께 유지하며 잘못된 UTF-8 검색 매개변수는 개별 진단 후 건너뛰며 정상 인접 검색어와 원본 방문은 남깁니다. 빈 쿼리 값은 검색어 행을 생성하지 않습니다. 선택적 테이블/열 누락은 null 또는 사용 불가 진단으로 표현하고 필수 테이블의 잘못된 구조는 입력 실패로 처리합니다. 대응 URL이 없는 방문/주석 행도 유지하고 진단합니다.
 
 ## 시간과 숫자 값
 
@@ -71,7 +71,7 @@ JSON의 format_version은 1이며 tool/tool_version, 아래 컬렉션 5개와 co
 | sources | source_id, path, browser, schema_family, database_sha256, wal_sha256 |
 | visits | source_id, browser, record_id, source_table, record_kind, url, title, visited_at, timestamp_raw, timestamp_unit, transition |
 | keywords | source_id, browser, record_id, source_table, derivation, visit_record_id, parameter, keyword, url, searched_at, time_basis |
-| downloads | source_id, browser, record_id, source_table, record_kind, path, destination_uri, url, url_chain, referrer, state, started_at, ended_at, start_time_raw, end_time_raw, start_time_unit, end_time_unit, start_time_basis, received_bytes, total_bytes, metadata_raw |
+| downloads | source_id, browser, record_id, source_table, record_kind, path, destination_uri, url, url_chain, referrer, state, started_at, ended_at, start_time_raw, end_time_raw, start_time_unit, end_time_unit, start_time_basis, received_bytes, total_bytes, metadata_raw, annotation_ids, start_visit_id |
 | diagnostics | source_id, severity, code, message, record_id |
 
 SQLite 삽입은 매개변수를 바인딩하고 Unicode/따옴표/줄바꿈을 유지하며 출처 외래 키를 적용합니다. 다운로드 URL 체인은 JSON 출력에서는 배열이고 SQLite에서는 JSON 텍스트입니다. 시각은 UTC ISO 문자열이며 알 수 없는 필드는 null입니다. 저장 검색어의 time_basis와 다운로드의 start_time_basis를 확인한 뒤 대리 시각을 해석해야 합니다. EnScript Web_* 스키마와 별개이며 기존 소비자 호환성을 의미하지 않습니다.
@@ -102,7 +102,7 @@ SQLite 삽입은 매개변수를 바인딩하고 Unicode/따옴표/줄바꿈을 
 
 ## 테스트와 남은 검증
 
-[Python 테스트 계획](PYTHON_TESTS.ko.md)에 실행 가능한 합성 픽스처 검사 24개를 정리했습니다. 커밋된 WAL 행과 원본 DB/WAL/SHM 바이트 유지, 실제 CLI 서브프로세스 실행, 출력 트랜잭션과 덮어쓰기 경합을 포함합니다. 임시 독립 환경에서 설치한 콘솔 진입점도 스모크 검증합니다. 실제 Python 테스트이며 정적 EnScript 검사와 별개입니다.
+[Python 테스트 계획](PYTHON_TESTS.ko.md)에 실행 가능한 합성 픽스처 검사 33개를 정리했습니다. 커밋된 WAL 행과 원본 DB/WAL/SHM 바이트 유지, 실제 CLI 서브프로세스 실행, 출력 트랜잭션과 덮어쓰기 경합을 포함합니다. 임시 독립 환경에서 설치한 콘솔 진입점도 스모크 검증합니다. 실제 Python 테스트이며 정적 EnScript 검사와 별개입니다.
 
 ```sh
 python3 -m unittest discover -s tests -v
@@ -118,3 +118,9 @@ git diff --check
 ## 스키마 참고 자료
 
 [Chromium 히스토리 SQL 픽스처](https://chromium.googlesource.com/chromium/src/+/77a7f22877f83aca6844991cfb17db3edd6f0947/components/test/data/history/history.30.sql)와 [Mozilla 다운로드 히스토리 구현](https://github.com/mozilla-firefox/firefox/blob/main/toolkit/components/downloads/DownloadHistory.sys.mjs)을 참고했습니다. 테이블/주석의 의미를 확인하는 자료이며 모든 버전의 지원을 입증하지 않습니다. 기존 [EnScript 분석](ANALYSIS.ko.md)은 별도로 유지합니다.
+
+## 후속 리뷰 계약
+
+[리뷰 보고서](PYTHON_REVIEW.ko.md)에 회귀 사례 9개를 추가했습니다. 출력 경로의 최종 요소가 dangling symlink을 포함한 심볼릭 링크이면 거부하며 SQLite 출력의 기존 WAL/SHM/저널 사이드카도 쓰기 전과 게시 전에 검사하여 거부합니다. 모든 사이드카 이름을 경쟁 작성자에 대해 원자적으로 예약하는 것은 아닙니다. 지원하지 않는 값이나 비유한 값의 JSON 직렬화는 stdout 쓰기 전에 실패하지만 스트림 전달 실패는 여전히 부분 stdout을 남길 수 있습니다. 표준 스키마 이름은 뷰가 아닌 테이블이어야 합니다.
+
+다운로드에는 선택한 Firefox 주석 ID와 시작 이벤트 ID를 추가합니다. Chromium은 빈 주석 맵과 null 시작 이벤트 ID를 사용합니다. 주석 맵은 SQLite에서 JSON 텍스트입니다. 시작보다 빠른 종료 시각은 수정하지 않고 진단과 함께 보존합니다. 첫 미병합 format-version-1 구현의 추가 필드입니다. ISO 정규화 범위 초과와 대응 URL이 없는 저장 검색어도 진단합니다.

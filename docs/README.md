@@ -41,3 +41,5 @@ Machine-readable records: [commit map](history-map.json) and [source manifest](s
 ## Python Port
 
 [Python CLI](PYTHON_CLI.md) · [Python tests](PYTHON_TESTS.md)
+
+[Python CLI review](PYTHON_REVIEW.md)
