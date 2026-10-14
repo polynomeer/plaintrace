@@ -45,3 +45,5 @@
 [Python CLI 리뷰](PYTHON_REVIEW.ko.md)
 
 [Execution CLI](EXECUTION_CLI.ko.md) · [Execution tests and review](EXECUTION_TESTS.ko.md)
+
+[EVTX CLI](EVTX_CLI.ko.md) · [EVTX 테스트와 리뷰](EVTX_TESTS.ko.md)

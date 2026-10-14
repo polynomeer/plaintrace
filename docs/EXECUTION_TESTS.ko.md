@@ -41,7 +41,7 @@ git diff --exit-code d1830099999cb1669f8f868506d5c323acdb8ca5 -- '*.EnScript' do
 | EX-17 | test_xpress_multiple_blocks | 여러 Huffman 블록으로 64 KiB 초과 디코딩 |
 | EX-18 | test_xpress_invalid_table_match_and_truncation | 잘못된 트리, 역참조, 확장 초과와 잘린 입력 |
 | EX-19 | test_mam_checksum_and_size_limits_fail | MAM84 및 과도하거나 짧은 선언 크기 거부 |
-| EX-20 | test_mixed_browser_execution_json_sqlite_and_source_hashes | 혼합 출처, 버전 2, JSON/SQLite 값과 바이트 보존 |
+| EX-20 | test_mixed_browser_execution_json_sqlite_and_source_hashes | 혼합 출처, 현재 버전 3, JSON/SQLite 값과 바이트 보존 |
 | EX-21 | test_execution_cli_strict_and_fatal_atomicity | strict 경고 출력과 후속 실패 시 부분 파일 방지 |
 | EX-22 | test_execution_file_size_limit_and_changing_input | 입력 읽기 제한과 출처 변경 탐지 |
 | EX-23 | test_mutated_binary_inputs_never_escape_contract_errors | 결정적 바이트 변형이 결과 또는 계약 오류만 생성 |
@@ -71,3 +71,7 @@ git diff --exit-code d1830099999cb1669f8f868506d5c323acdb8ca5 -- '*.EnScript' do
 지원하는 SCCA 레이아웃은 합성 검사이며 실제 OS/프로필 검증은 아닙니다. MAM04 리터럴/매치/여러 블록 검사가 모든 압축기 호환을 입증하지는 않습니다. MAM84/체크섬, 불투명 PIDL/ExtraData와 상세 Prefetch 내부 구조는 미지원입니다. Windows/Linux, Python 3.10 실행, 실제 획득 픽스처, 독립 파서 비교와 성능은 추가 검증이 필요합니다. LNK 후보를 실행하거나 해석하지 않으며 실행 흔적이 모든 실행을 입증하지도 않습니다. EnCase 컴파일/실행은 미검증입니다.
 
 [사용법, 필드와 형식 참조](EXECUTION_CLI.ko.md), [브라우저 회귀 계획](PYTHON_TESTS.ko.md)을 확인하세요.
+
+## EVTX 회귀 실행 (2026-10-15)
+
+현재 전체 검사는 브라우저 33개, 실행 30개, EVTX 32개로 총 95개입니다. 전체 통합 검사를 실행하려면 선택 extra를 설치하며 없으면 EVTX 7개를 명시적으로 건너뜁니다. 기존 출력 회귀 검사도 이제 스키마 버전 3을 확인합니다. [EVTX 재현과 리뷰](EVTX_TESTS.ko.md)를 확인하세요. 위의 기존 검증 날짜는 과거 기록으로 유지합니다.

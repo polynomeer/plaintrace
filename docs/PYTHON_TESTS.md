@@ -67,3 +67,7 @@ A wheel was built and installed in an isolated temporary virtual environment; th
 Test real acquired Chrome/Opera/Firefox profiles across versions and platforms, very large profiles, browser shutdown/acquisition workflows and unusual Unicode/metadata/schema variants before relying on casework results. Hash-based copy stability is not atomic acquisition; the tests do not prove evidence completeness or detect all live writer races. EnCase compilation/execution remains outstanding. The Python tests neither run the original EnScript nor establish parity with its host API behavior.
 
 See [the code review](PYTHON_REVIEW.md) for follow-up fixes and remaining limits.
+
+## EVTX Regression Run (2026-10-15)
+
+The current full suite contains 95 cases: 33 browser, 30 execution and 32 EVTX. Install the optional extra to run all integrations; without it seven EVTX cases explicitly skip. Existing export regressions now assert schema version 3. See [EVTX reproduction and review](EVTX_TESTS.md); earlier validation dates above remain historical records.

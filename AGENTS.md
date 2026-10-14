@@ -29,3 +29,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - LNK/Prefetch development belongs on `codex/python-lnk-prefetch`, based on `d1830099999cb1669f8f868506d5c323acdb8ca5`. Preserve EnScript, original manifests, archive tags and all historical commits.
 - Read `docs/EXECUTION_CLI.md` and `docs/EXECUTION_TESTS.md`; run both browser and execution test modules via unittest discovery. Report schema version 2 deliberately extends version 1 and must be documented.
 - Enforce binary input/decoded-output limits and bounds on offsets, counts, strings and XPRESS references. Never execute shortcut targets or infer drive letters from device IDs.
+
+## Event log port
+
+- EVTX development belongs on `codex/python-evtx`, based on `9f32324141810b257d4f680e84c849c013543900`. Preserve EnScript, archive tags/manifests and the reconstructed history.
+- Read `docs/EVTX_CLI.md` and `docs/EVTX_TESTS.md`. Full unittest discovery must run with the optional `.[evtx]` extra; skipped integration tests are not complete EVTX validation.
+- Report schema version 3 adds events. Preserve rendered XML, exact envelope FILETIME, source offsets and duplicate values. Qualify classifications by provider/channel; never infer USB state from equal-time event counts.
+- Keep container/record/XML/output limits and decoder timeout. No carving, repair, message DLL loading, target execution or Windows/EnCase runtime claim.

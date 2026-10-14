@@ -83,4 +83,8 @@ python3 -m unittest discover -s tests -v
 
 ## LNK와 Prefetch CLI
 
-[사용법과 버전 2 스키마](docs/EXECUTION_CLI.ko.md) · [테스트와 리뷰](docs/EXECUTION_TESTS.ko.md)
+[사용법과 현재 스키마](docs/EXECUTION_CLI.ko.md) · [테스트와 리뷰](docs/EXECUTION_TESTS.ko.md)
+
+## EVTX CLI
+
+[설치, 이벤트 필드와 버전 3 스키마](docs/EVTX_CLI.ko.md) · [테스트와 리뷰](docs/EVTX_TESTS.ko.md)
