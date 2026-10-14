@@ -43,3 +43,5 @@ Machine-readable records: [commit map](history-map.json) and [source manifest](s
 [Python CLI](PYTHON_CLI.md) · [Python tests](PYTHON_TESTS.md)
 
 [Python CLI review](PYTHON_REVIEW.md)
+
+[Execution CLI](EXECUTION_CLI.md) · [Execution tests and review](EXECUTION_TESTS.md)

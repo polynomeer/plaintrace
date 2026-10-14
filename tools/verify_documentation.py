@@ -65,22 +65,25 @@ def main():
             assert test_ids == english_test_ids, 'Bilingual test ID mismatch'
         readme=(ROOT/f'README{suffix}.md').read_text()
         assert f'(docs/README{suffix}.md)' in readme, f'Missing documentation index: {suffix}'
-    python_tests = ROOT/'tests'/'test_browser_cli.py'
-    if python_tests.exists():
+    for test_file, plan_name, prefix in (('test_browser_cli.py','PYTHON_TESTS','PY'),
+                                          ('test_execution_cli.py','EXECUTION_TESTS','EX')):
+        python_tests = ROOT/'tests'/test_file
+        if not python_tests.exists():
+            continue
         tree = ast.parse(python_tests.read_text())
         actual = {node.name for node in ast.walk(tree)
                   if isinstance(node, ast.FunctionDef) and node.name.startswith('test_')}
         expected = None
         for suffix in ('', '.ko'):
-            plan = (ROOT/'docs'/f'PYTHON_TESTS{suffix}.md').read_text()
-            cases = re.findall(r'^\| (PY-\d+) \| (test_\w+) \|', plan, re.M)
-            assert [identity for identity, _ in cases] == [f'PY-{i:02}' for i in range(1, len(cases)+1)], 'Invalid Python test IDs'
+            plan = (ROOT/'docs'/f'{plan_name}{suffix}.md').read_text()
+            cases = re.findall(r'^\| ('+prefix+r'-\d+) \| (test_\w+) \|', plan, re.M)
+            assert [identity for identity, _ in cases] == [f'{prefix}-{i:02}' for i in range(1, len(cases)+1)], 'Invalid Python test IDs'
             assert len(cases) == len(actual) and {name for _, name in cases} == actual, 'Unmapped Python tests'
             if expected is None:
                 expected = cases
             else:
                 assert cases == expected, 'Bilingual Python test mismatch'
-        print(f'PASS: {len(actual)} executable Python cases mapped in both languages.')
+        print(f'PASS: {len(actual)} executable cases from {test_file} mapped in both languages.')
     print(f'PASS: {len(documents)} documents, {links} local links, bilingual structures, source references and {len(test_ids)} test IDs.')
 
 if __name__=='__main__': main()

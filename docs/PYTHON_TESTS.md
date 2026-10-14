@@ -60,7 +60,7 @@ All 33 cases passed. Fixtures use explicitly known UTC times and expected string
 
 ## Additional Checks
 
-A wheel was built and installed in an isolated temporary virtual environment; the installed console command reports version 0.1.0 and is smoke-tested outside the checkout. The existing eleven EnScript portable contract tests, generated references, bilingual documentation checks and historical archive-only verification remain separate checks. Python package build artifacts are ignored.
+A wheel was built and installed in an isolated temporary virtual environment; the installed console command reports version 0.2.0 and is smoke-tested outside the checkout. The existing eleven EnScript portable contract tests, generated references, bilingual documentation checks and historical archive-only verification remain separate checks. Python package build artifacts are ignored.
 
 ## Remaining Validation
 
