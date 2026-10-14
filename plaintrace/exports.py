@@ -11,7 +11,7 @@ TABLES = {
     "sources": "source_id INTEGER PRIMARY KEY, path TEXT, browser TEXT, schema_family TEXT, database_sha256 TEXT, wal_sha256 TEXT",
     "visits": "source_id INTEGER, browser TEXT, record_id TEXT, source_table TEXT, record_kind TEXT, url TEXT, title TEXT, visited_at TEXT, timestamp_raw TEXT, timestamp_unit TEXT, transition INTEGER",
     "keywords": "source_id INTEGER, browser TEXT, record_id TEXT, source_table TEXT, derivation TEXT, visit_record_id TEXT, parameter TEXT, keyword TEXT, url TEXT, searched_at TEXT, time_basis TEXT",
-    "downloads": "source_id INTEGER, browser TEXT, record_id TEXT, source_table TEXT, record_kind TEXT, path TEXT, destination_uri TEXT, url TEXT, url_chain TEXT, referrer TEXT, state INTEGER, started_at TEXT, ended_at TEXT, start_time_raw TEXT, end_time_raw TEXT, start_time_unit TEXT, end_time_unit TEXT, start_time_basis TEXT, received_bytes INTEGER, total_bytes INTEGER, metadata_raw TEXT",
+    "downloads": "source_id INTEGER, browser TEXT, record_id TEXT, source_table TEXT, record_kind TEXT, path TEXT, destination_uri TEXT, url TEXT, url_chain TEXT, referrer TEXT, state INTEGER, started_at TEXT, ended_at TEXT, start_time_raw TEXT, end_time_raw TEXT, start_time_unit TEXT, end_time_unit TEXT, start_time_basis TEXT, received_bytes INTEGER, total_bytes INTEGER, metadata_raw TEXT, annotation_ids TEXT, start_visit_id INTEGER",
     "diagnostics": "source_id INTEGER, severity TEXT, code TEXT, message TEXT, record_id TEXT",
 }
 
@@ -34,7 +34,8 @@ def sqlite_report(report, path):
                 for record in getattr(report, table):
                     row = [record[name] for name in names]
                     if table == "downloads":
-                        row[names.index("url_chain")] = json.dumps(record["url_chain"], ensure_ascii=False)
+                        for name in ("url_chain", "annotation_ids"):
+                            row[names.index(name)] = json.dumps(record[name], ensure_ascii=False, allow_nan=False)
                     rows.append(row)
                 placeholders = ",".join("?" for _ in names)
                 connection.executemany(f'INSERT INTO "{table}" VALUES ({placeholders})', rows)
@@ -42,10 +43,23 @@ def sqlite_report(report, path):
         connection.close()
 
 
-def write_report(report, output, format_name="json"):
-    destination = Path(output).expanduser().resolve()
-    if destination.exists():
+def ensure_new_output(destination, format_name):
+    if destination.exists() or destination.is_symlink():
         raise AnalysisError(f"Output already exists: {destination}; use a new path")
+    if format_name == "sqlite":
+        for suffix in ("-wal", "-shm", "-journal"):
+            sidecar = Path(str(destination) + suffix)
+            if sidecar.exists() or sidecar.is_symlink():
+                raise AnalysisError(f"Output SQLite sidecar already exists: {sidecar}; use a new base path")
+
+
+def write_report(report, output, format_name="json"):
+    if format_name not in ("json", "sqlite"):
+        raise AnalysisError(f"Unsupported output format: {format_name}")
+    requested = Path(output).expanduser()
+    # Resolve parent links, but never follow an existing final symlink (even a dangling one).
+    destination = requested.parent.resolve() / requested.name
+    ensure_new_output(destination, format_name)
     # Even absent WAL/SHM names are reserved against collision with evidence paths.
     protected = {Path(source["path"] + suffix).resolve()
                  for source in report.sources for suffix in ("", "-wal", "-shm", "-journal")}
@@ -59,10 +73,11 @@ def write_report(report, output, format_name="json"):
             sqlite_report(report, temporary)
         else:
             with temporary.open("w", encoding="utf-8", newline="\n") as stream:
-                json.dump(report.as_dict(), stream, ensure_ascii=False, indent=2)
+                json.dump(report.as_dict(), stream, ensure_ascii=False, indent=2, allow_nan=False)
                 stream.write("\n")
         # Hard-link publication fails rather than replacing a destination created
         # during analysis. Output filesystems must support hard links.
+        ensure_new_output(destination, format_name)
         os.link(temporary, destination)
     finally:
         temporary.unlink(missing_ok=True)

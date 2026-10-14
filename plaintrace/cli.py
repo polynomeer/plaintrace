@@ -26,8 +26,8 @@ def main(argv=None):
         if args.output:
             write_report(report, args.output, args.format)
         else:
-            json.dump(report.as_dict(), sys.stdout, ensure_ascii=False, indent=2)
-            sys.stdout.write("\n")
+            payload = json.dumps(report.as_dict(), ensure_ascii=False, indent=2, allow_nan=False)
+            sys.stdout.write(payload + "\n")
         for diagnostic in report.diagnostics:
             print(f'warning [{diagnostic["code"]}] source {diagnostic["source_id"]}: {diagnostic["message"]}', file=sys.stderr)
         return 1 if args.strict and report.diagnostics else 0

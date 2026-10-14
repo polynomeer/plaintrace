@@ -2,7 +2,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 import re
-from urllib.parse import parse_qsl, urlsplit
+from urllib.parse import unquote_plus, urlsplit
 
 from . import __version__
 
@@ -68,7 +68,7 @@ def firefox_end_time(value, report, source_id, record_id):
             if date.tzinfo is None:
                 raise ValueError("missing timezone")
             return date.astimezone(timezone.utc).isoformat(timespec="microseconds").replace("+00:00", "Z"), "iso8601"
-        except ValueError:
+        except (ValueError, OverflowError):
             report.warn(source_id, "invalid_timestamp", f"Invalid ISO date: {value!r}", record_id)
             return None, "iso8601"
     return timestamp(value, "unix_ms", report, source_id, record_id), "unix_ms"
@@ -83,12 +83,20 @@ def query_keywords(visit, report):
         query = urlsplit(url).query
         if re.search(r"%(?![0-9a-fA-F]{2})", query):
             report.warn(visit["source_id"], "malformed_url_escape", "Malformed percent escape retained literally", visit["record_id"])
-        pairs = parse_qsl(query, keep_blank_values=True, encoding="utf-8", errors="strict")
     except (ValueError, UnicodeError) as error:
         report.warn(visit["source_id"], "invalid_query", str(error), visit["record_id"])
         return
-    for ordinal, (parameter, term) in enumerate(pairs):
-        if parameter in ("q", "query", "search_query") and term:
+    for ordinal, raw_pair in enumerate(query.split("&")):
+        raw_parameter, _, raw_term = raw_pair.partition("=")
+        try:
+            parameter = unquote_plus(raw_parameter, encoding="utf-8", errors="strict")
+            if parameter not in ("q", "query", "search_query"):
+                continue
+            term = unquote_plus(raw_term, encoding="utf-8", errors="strict")
+        except UnicodeError as error:
+            report.warn(visit["source_id"], "invalid_query", str(error), f'{visit["record_id"]}:query:{ordinal}')
+            continue
+        if term:
             report.keywords.append(dict(source_id=visit["source_id"], browser=visit["browser"],
                 record_id=f'{visit["record_id"]}:query:{ordinal}', source_table=visit["source_table"],
                 derivation="url_parameter", visit_record_id=visit["record_id"], parameter=parameter,

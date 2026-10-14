@@ -335,6 +335,78 @@ class BrowserTests(unittest.TestCase):
         self.assertFalse(output.exists())
         self.assertFalse(list(self.directory.glob(".plaintrace-*")))
 
+    def test_invalid_unrelated_query_does_not_drop_valid_terms(self):
+        def build(db):
+            chromium(db)
+            db.execute("UPDATE urls SET url='https://example.org/?other=%FF&q=valid&query=%FF&search_query=also+valid'");db.commit()
+        report = analyze([self.database("mixed-query",build)])
+        self.assertEqual([k["keyword"] for k in report.keywords[:2]],["valid","also valid"])
+        self.assertEqual(sum(d["code"] == "invalid_query" for d in report.diagnostics),2)
+
+    def test_dangling_output_symlink_is_not_followed(self):
+        report = analyze([self.database("History",chromium)])
+        target,link = self.directory/"unexpected.json",self.directory/"link.json"
+        try: link.symlink_to(target)
+        except OSError as error: self.skipTest(str(error))
+        with self.assertRaises(AnalysisError):write_report(report,link)
+        self.assertFalse(target.exists());self.assertTrue(link.is_symlink())
+
+    def test_existing_output_sqlite_sidecars_are_preserved(self):
+        report = analyze([self.database("History",chromium)])
+        for suffix in ("-wal","-shm","-journal"):
+            output=self.directory/("out"+suffix+".sqlite")
+            sidecar=Path(str(output)+suffix);sidecar.write_bytes(b"old evidence")
+            with self.assertRaises(AnalysisError):write_report(report,output,"sqlite")
+            self.assertEqual(sidecar.read_bytes(),b"old evidence")
+            self.assertFalse(output.exists())
+        self.assertFalse(list(self.directory.glob(".plaintrace-*")))
+
+    def test_stdout_serialization_failure_has_no_partial_json(self):
+        report=Report();report.visits.append({"unsupported":b"binary"})
+        with patch("plaintrace.cli.analyze",return_value=report):
+            code,out,err=self.cli(["--input","unused"])
+        self.assertEqual(code,2);self.assertFalse(out);self.assertIn("plaintrace:",err)
+        report.visits=[{"unsupported":float("inf")}]
+        with patch("plaintrace.cli.analyze",return_value=report):
+            code,out,err=self.cli(["--input","unused"])
+        self.assertEqual(code,2);self.assertFalse(out)
+
+    def test_browser_views_are_not_accepted_as_native_tables(self):
+        def build(db):
+            db.executescript("CREATE TABLE fake(id,url,last_visit_time); CREATE VIEW urls AS SELECT * FROM fake;")
+        with self.assertRaisesRegex(AnalysisError,"expected a table"):
+            analyze([self.database("view",build)])
+
+    def test_orphan_stored_keyword_is_diagnosed(self):
+        def build(db):
+            chromium(db);db.execute("UPDATE keyword_search_terms SET url_id=999");db.commit()
+        report=analyze([self.database("orphan-term",build)])
+        self.assertIn("orphan_keyword",{d["code"] for d in report.diagnostics})
+        self.assertIsNone(report.keywords[-1]["url"])
+
+    def test_download_lineage_and_inconsistent_times(self):
+        def build(db):
+            firefox(db)
+            db.execute("UPDATE moz_annos SET content=? WHERE anno_attribute_id=73",(json.dumps({"endTime":1577836799000}),));db.commit()
+        report=analyze([self.database("lineage",build)])
+        row=report.downloads[0]
+        self.assertEqual(row["annotation_ids"],{"downloads/metaData":20,"downloads/destinationFileURI":30})
+        self.assertEqual(row["start_visit_id"],9)
+        self.assertIn("inconsistent_download_times",{d["code"] for d in report.diagnostics})
+        output=self.directory/"lineage.sqlite";write_report(report,output,"sqlite")
+        db=sqlite3.connect(output)
+        try:
+            ids,start_id=db.execute("SELECT annotation_ids,start_visit_id FROM downloads").fetchone()
+            self.assertEqual(json.loads(ids),row["annotation_ids"]);self.assertEqual(start_id,9)
+        finally:db.close()
+
+    def test_unsupported_export_format_fails_explicitly(self):
+        report=analyze([self.database("History",chromium)])
+        output=self.directory/"unknown"
+        with self.assertRaisesRegex(AnalysisError,"Unsupported output format"):
+            write_report(report,output,"csv")
+        self.assertFalse(output.exists())
+
 
 class TimeTests(unittest.TestCase):
     def test_epoch_precision_and_unknown_values(self):
@@ -346,6 +418,12 @@ class TimeTests(unittest.TestCase):
         self.assertFalse(report.diagnostics)
         for value in (-1,1.5,True,"not a number",10**100): self.assertIsNone(timestamp(value,"unix_us",report,1,"a"))
         self.assertEqual(len(report.diagnostics),5)
+
+    def test_iso_timezone_overflow_is_diagnostic_not_exception(self):
+        report=Report()
+        result,unit=firefox_end_time("0001-01-01T00:00:00+01:00",report,1,"date")
+        self.assertIsNone(result);self.assertEqual(unit,"iso8601")
+        self.assertEqual(report.diagnostics[0]["code"],"invalid_timestamp")
 
 
 if __name__ == "__main__":

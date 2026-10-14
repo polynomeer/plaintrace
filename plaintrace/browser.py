@@ -9,6 +9,9 @@ from .model import Report, firefox_end_time, integer, query_keywords, raw_text, 
 
 def columns(db, table):
     # Names are fixed internal adapter identifiers; input never supplies SQL identifiers.
+    entry = db.execute("SELECT type FROM sqlite_master WHERE name=?", (table,)).fetchone()
+    if entry and entry["type"] != "table":
+        raise AnalysisError(f"Unsupported {table}: expected a table, found {entry['type']}")
     return {row["name"] for row in db.execute(f'PRAGMA table_info("{table}")')}
 
 
@@ -71,6 +74,8 @@ def chromium_keywords(db, source, report):
     query = f'SELECT k.url_id, k.term, {keyword_id} AS keyword_id, u.url, {last} AS time FROM keyword_search_terms k LEFT JOIN urls u ON k.url_id=u.id ORDER BY k.url_id, keyword_id, k.term'
     for ordinal, row in enumerate(db.execute(query)):
         identity = f'keyword_search_terms:{row["url_id"]}:{row["keyword_id"]}:{ordinal}'
+        if row["url"] is None:
+            report.warn(source["source_id"], "orphan_keyword", "Stored term has no matching URL", identity)
         report.keywords.append(dict(source_id=source["source_id"], browser=source["browser"],
             record_id=identity, source_table="keyword_search_terms", derivation="stored_search_term",
             visit_record_id=None, parameter=None, keyword=row["term"], url=row["url"],
@@ -89,6 +94,13 @@ def numeric(value, report, source_id, identity, field):
     except ValueError:
         report.warn(source_id, "invalid_numeric_field", f"Invalid {field}: {value!r}", identity)
         return None
+
+
+def check_download_times(record, report):
+    start, end = record["started_at"], record["ended_at"]
+    if start and end and end < start:
+        report.warn(record["source_id"], "inconsistent_download_times",
+                    "End time precedes start time; raw values retained", record["record_id"])
 
 
 def chromium_downloads(db, source, report):
@@ -121,7 +133,8 @@ def chromium_downloads(db, source, report):
             ended_at=timestamp(row["end_time"], "chromium_us", report, source["source_id"], identity),
             start_time_raw=raw_text(row["start_time"]), end_time_raw=raw_text(row["end_time"]),
             start_time_unit="chromium_us", end_time_unit="chromium_us", start_time_basis="download_start",
-            received_bytes=numeric(row["received_bytes"], report, source["source_id"], identity, "received_bytes"), total_bytes=numeric(row["total_bytes"], report, source["source_id"], identity, "total_bytes"), metadata_raw=None))
+            received_bytes=numeric(row["received_bytes"], report, source["source_id"], identity, "received_bytes"), total_bytes=numeric(row["total_bytes"], report, source["source_id"], identity, "total_bytes"), metadata_raw=None, annotation_ids={}, start_visit_id=None))
+        check_download_times(report.downloads[-1], report)
 
 
 def destination_path(uri, report, source_id, identity):
@@ -177,11 +190,13 @@ def firefox_downloads(db, source, report):
             report.warn(source["source_id"], "incomplete_download", "Destination or metadata annotation missing", identity)
         start = base["added"]
         basis = "annotation_date_added"
+        start_visit_id = None
         history = columns(db, "moz_historyvisits")
         if {"place_id", "visit_date", "visit_type", "id"} <= history:
-            row = db.execute("SELECT visit_date FROM moz_historyvisits WHERE place_id=? AND visit_type=7 ORDER BY visit_date DESC,id DESC LIMIT 1", (place_id,)).fetchone()
+            row = db.execute("SELECT id, visit_date FROM moz_historyvisits WHERE place_id=? AND visit_type=7 ORDER BY visit_date DESC,id DESC LIMIT 1", (place_id,)).fetchone()
             if row:
-                start, basis = row[0], "latest_download_visit"
+                start, basis = row["visit_date"], "latest_download_visit"
+                start_visit_id = row["id"]
         end = parsed.get("endTime")
         ended_at, end_unit = firefox_end_time(end, report, source["source_id"], identity)
         uri = destination["content"] if destination else None
@@ -190,7 +205,9 @@ def firefox_downloads(db, source, report):
             destination_uri=uri, url=base["url"], url_chain=[], referrer=None, state=numeric(parsed.get("state"), report, source["source_id"], identity, "state"),
             started_at=timestamp(start, "unix_us", report, source["source_id"], identity), ended_at=ended_at,
             start_time_raw=raw_text(start), end_time_raw=raw_text(end), start_time_unit="unix_us", end_time_unit=end_unit,
-            start_time_basis=basis, received_bytes=None, total_bytes=numeric(parsed.get("fileSize"), report, source["source_id"], identity, "fileSize"), metadata_raw=raw))
+            start_time_basis=basis, received_bytes=None, total_bytes=numeric(parsed.get("fileSize"), report, source["source_id"], identity, "fileSize"), metadata_raw=raw,
+            annotation_ids={name: row["id"] for name, row in group.items()}, start_visit_id=start_visit_id))
+        check_download_times(report.downloads[-1], report)
 
 
 def analyze(paths, browser="auto"):
