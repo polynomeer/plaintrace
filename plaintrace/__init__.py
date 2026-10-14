@@ -1,2 +1,2 @@
-"""Portable browser artifact analysis; not an EnScript interpreter."""
-__version__ = "0.2.0"
+"""Portable Windows artifact analysis; not an EnScript interpreter."""
+__version__ = "0.3.0"

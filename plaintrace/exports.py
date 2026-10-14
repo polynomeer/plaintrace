@@ -15,6 +15,7 @@ TABLES = {
     "links": "source_id INTEGER, record_id TEXT, link_flags INTEGER, file_attributes INTEGER, target_size INTEGER, created_at TEXT, accessed_at TEXT, written_at TEXT, filetimes_raw TEXT, local_base_path TEXT, common_path_suffix TEXT, network_share TEXT, volume TEXT, name TEXT, relative_path TEXT, working_directory TEXT, arguments TEXT, icon_location TEXT, target_candidates TEXT, tracker TEXT, environment_target TEXT, id_list_hex TEXT, extra_blocks TEXT",
     "prefetch": "source_id INTEGER, record_id TEXT, version INTEGER, compressed INTEGER, layout INTEGER, executable TEXT, prefetch_hash TEXT, file_size INTEGER, run_count INTEGER, last_run_times TEXT, last_run_times_raw TEXT, referenced_files TEXT, executable_path_candidates TEXT, volumes TEXT, metrics_count INTEGER, trace_count INTEGER, unparsed_sections TEXT",
     "diagnostics": "source_id INTEGER, severity TEXT, code TEXT, message TEXT, record_id TEXT",
+    "events": "source_id INTEGER, record_id TEXT, chunk_index INTEGER, record_offset INTEGER, container_record_id TEXT, container_filetime_raw TEXT, event_record_id TEXT, event_id INTEGER, provider TEXT, provider_guid TEXT, channel TEXT, computer TEXT, level INTEGER, task INTEGER, opcode INTEGER, version INTEGER, qualifiers TEXT, keywords TEXT, process_id INTEGER, thread_id INTEGER, user_sid TEXT, activity_id TEXT, related_activity_id TEXT, created_at TEXT, time_created_raw TEXT, container_time TEXT, category TEXT, action TEXT, details TEXT, event_data TEXT, user_data_xml TEXT, xml TEXT",
 }
 
 
@@ -23,7 +24,7 @@ def sqlite_report(report, path):
     try:
         connection.execute("PRAGMA foreign_keys=ON")
         with connection:
-            connection.execute("PRAGMA user_version=2")
+            connection.execute("PRAGMA user_version=3")
             connection.execute("CREATE TABLE metadata(key TEXT PRIMARY KEY, value TEXT)")
             payload = report.as_dict()
             for key in ("format_version", "tool", "tool_version", "counts"):

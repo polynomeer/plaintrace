@@ -40,32 +40,37 @@ class Binary:
         raise AnalysisError(f"{self.label}: unterminated string")
 
 
-def bounded_hash(path):
+def bounded_hash(path, limit=MAX_ARTIFACT_BYTES):
+    if type(limit) is not int or limit <= 0:
+        raise AnalysisError("Invalid artifact hash limit")
     digest = hashlib.sha256()
     total = 0
     with path.open("rb") as stream:
         while True:
-            chunk = stream.read(min(1024*1024,MAX_ARTIFACT_BYTES+1-total))
+            chunk = stream.read(min(1024*1024,limit+1-total))
             if not chunk:
                 break
             total += len(chunk)
-            if total > MAX_ARTIFACT_BYTES:
+            if total > limit:
                 raise AnalysisError("Artifact exceeds bounded read size")
             digest.update(chunk)
     return digest.hexdigest()
 
 
-def read_artifact(path):
+def read_artifact(path, limit=MAX_ARTIFACT_BYTES):
+    if type(limit) is not int or limit <= 0:
+        raise AnalysisError("Invalid artifact read limit")
     path = Path(path).expanduser().resolve()
     if not path.is_file():
         raise AnalysisError(f"Input is not a file: {path}")
-    if path.stat().st_size > MAX_ARTIFACT_BYTES:
-        raise AnalysisError(f"Artifact exceeds {MAX_ARTIFACT_BYTES} bytes: {path}")
-    before = bounded_hash(path)
+    if path.stat().st_size > limit:
+        raise AnalysisError(f"Artifact exceeds {limit} bytes: {path}")
+    before = bounded_hash(path, limit)
     with path.open("rb") as stream:
-        data = stream.read(MAX_ARTIFACT_BYTES + 1)
+        data = stream.read(limit + 1)
     digest = hashlib.sha256(data).hexdigest()
-    if len(data) > MAX_ARTIFACT_BYTES or before != digest or bounded_hash(path) != digest:
+    after = bounded_hash(path, limit)
+    if len(data) > limit or before != digest or after != digest:
         raise AnalysisError(f"Artifact changed while reading or exceeds size limit: {path}")
     return path, data, digest
 
