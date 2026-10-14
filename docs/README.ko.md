@@ -43,3 +43,5 @@
 [Python CLI](PYTHON_CLI.ko.md) · [Python tests](PYTHON_TESTS.ko.md)
 
 [Python CLI 리뷰](PYTHON_REVIEW.ko.md)
+
+[Execution CLI](EXECUTION_CLI.ko.md) · [Execution tests and review](EXECUTION_TESTS.ko.md)

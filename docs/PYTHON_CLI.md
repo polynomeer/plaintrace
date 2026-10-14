@@ -8,7 +8,7 @@ Implemented on 2026-10-14 on branch `codex/python-browser-cli`, based on merged 
 
 Python 3.10 or later with the standard sqlite3 module is required. Runtime has no third-party dependencies and can run directly from the checkout. Optional package installation uses setuptools as a build dependency and may download it. The test environment was macOS with Python 3.14; Windows/Linux execution and the minimum supported Python version were not exercised in this workspace.
 
-Supported inputs are acquired Chromium-style History databases (Chrome/Opera labels can be selected explicitly) and Firefox places.sqlite. Detection uses tables, not filenames. Auto mode reports the Chromium family rather than guessing Chrome versus Opera. IE index.dat/WebCache, encrypted databases, session files, non-browser artifacts, evidence-image extraction and a GUI are outside this release. It does not scan live profiles automatically.
+Supported inputs are acquired Chromium-style History databases (Chrome/Opera labels can be selected explicitly) and Firefox places.sqlite. Detection uses tables, not filenames. Auto mode reports the Chromium family rather than guessing Chrome versus Opera. IE index.dat/WebCache, encrypted databases, session files, other non-browser artifacts, evidence-image extraction and a GUI are outside this release. It does not scan live profiles automatically.
 
 ## Run and Install
 
@@ -64,11 +64,11 @@ These choices deliberately differ from the EnScript fixed timezone adjustment, U
 
 ## Output Contract
 
-JSON format_version is 1 and includes tool/tool_version, the five collections below and counts. SQLite user_version is 1 and contains the five matching tables plus metadata, whose values are JSON text. Source IDs identify each supplied input; record IDs and source tables preserve row lineage. Transition values are raw and have family-specific meanings.
+JSON format_version is 2 and includes tool/tool_version, the five browser collections below plus links and prefetch and counts. SQLite user_version is 2 and contains the five matching browser tables, links and prefetch, plus metadata, whose values are JSON text. Source IDs identify each supplied input; record IDs and source tables preserve row lineage. Transition values are raw and have family-specific meanings.
 
 | Collection / table | Fields |
 | --- | --- |
-| sources | source_id, path, browser, schema_family, database_sha256, wal_sha256 |
+| sources | source_id, path, browser, schema_family, database_sha256, wal_sha256, source_kind, sha256 |
 | visits | source_id, browser, record_id, source_table, record_kind, url, title, visited_at, timestamp_raw, timestamp_unit, transition |
 | keywords | source_id, browser, record_id, source_table, derivation, visit_record_id, parameter, keyword, url, searched_at, time_basis |
 | downloads | source_id, browser, record_id, source_table, record_kind, path, destination_uri, url, url_chain, referrer, state, started_at, ended_at, start_time_raw, end_time_raw, start_time_unit, end_time_unit, start_time_basis, received_bytes, total_bytes, metadata_raw, annotation_ids, start_visit_id |
@@ -124,3 +124,7 @@ Implementation references include the [Chromium history SQL fixture](https://chr
 [The review report](PYTHON_REVIEW.md) records nine additional regression cases. Output paths reject final-component symlinks, including dangling ones; SQLite output refuses existing WAL/SHM/journal sidecars both before writing and before publication. This does not atomically reserve all sidecar names against competing writers. JSON serialization fails before stdout emission for unsupported/nonfinite values, although stream transport failures can still leave partial stdout. Native schema names must refer to tables rather than views.
 
 Downloads now include selected Firefox annotation IDs and the start event ID; Chromium has an empty annotation map and null start event ID. The annotation map is JSON text in SQLite. End-before-start values are retained with diagnostics, not corrected. These are additive fields in the first unmerged format-version-1 implementation. ISO normalization overflow and stored-term orphan URLs are also diagnosed.
+
+## Execution Artifact Extension
+
+The 0.2.0 extension supports LNK and Prefetch alongside browser inputs; see [execution artifact usage](EXECUTION_CLI.md) and [tests and review](EXECUTION_TESTS.md). Format version 2 adds links/prefetch collections and tables plus source_kind/sha256 source fields. Version 1 reports are not rewritten or migrated. Consumers must inspect the version before reading the new schema. Database hashes and existing browser fields retain their meanings.

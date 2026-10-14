@@ -23,3 +23,9 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Python changes belong on `codex/python-browser-cli`; preserve all thirteen EnScript files byte-for-byte against merged commit `bb476180453c76f7d38e5b6a9f1f025ad2273ce0` and preserve all archive refs/manifests/history.
 - Read `docs/PYTHON_CLI.md` and `docs/PYTHON_TESTS.md`. Run `python3 -m unittest discover -s tests -v` for actual Python behavior; these results do not certify EnCase.
 - Analyze acquired stable DB/WAL snapshots only. Keep real evidence and exports out of Git; synthetic test databases are created in temporary directories.
+
+## Execution artifact port
+
+- LNK/Prefetch development belongs on `codex/python-lnk-prefetch`, based on `d1830099999cb1669f8f868506d5c323acdb8ca5`. Preserve EnScript, original manifests, archive tags and all historical commits.
+- Read `docs/EXECUTION_CLI.md` and `docs/EXECUTION_TESTS.md`; run both browser and execution test modules via unittest discovery. Report schema version 2 deliberately extends version 1 and must be documented.
+- Enforce binary input/decoded-output limits and bounds on offsets, counts, strings and XPRESS references. Never execute shortcut targets or infer drive letters from device IDs.

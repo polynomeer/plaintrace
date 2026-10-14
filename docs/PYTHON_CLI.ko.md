@@ -8,7 +8,7 @@
 
 표준 sqlite3 모듈이 있는 Python 3.10 이상이 필요합니다. 런타임의 외부 의존성 없이 체크아웃에서 직접 실행할 수 있습니다. 선택적 패키지 설치는 빌드 의존성 setuptools를 사용하며 다운로드할 수 있습니다. 이 작업 환경의 검증은 macOS와 Python 3.14에서 수행했으며 Windows/Linux 실행과 최소 지원 Python 버전은 여기서 확인하지 않았습니다.
 
-지원 입력은 획득한 Chromium 계열 History DB와 Firefox places.sqlite입니다. Chrome/Opera 표기는 명시적으로 지정할 수 있습니다. 파일명 대신 테이블로 탐지하고 auto 모드는 Chrome과 Opera를 추측하지 않고 Chromium 계열로 표시합니다. IE index.dat/WebCache, 암호화 DB, 세션 파일, 브라우저 외 아티팩트, 증거 이미지 추출과 GUI는 이번 범위 밖입니다. 실행 중인 프로필을 자동 검색하지 않습니다.
+지원 입력은 획득한 Chromium 계열 History DB와 Firefox places.sqlite입니다. Chrome/Opera 표기는 명시적으로 지정할 수 있습니다. 파일명 대신 테이블로 탐지하고 auto 모드는 Chrome과 Opera를 추측하지 않고 Chromium 계열로 표시합니다. IE index.dat/WebCache, 암호화 DB, 세션 파일, 그 밖의 비브라우저 아티팩트, 증거 이미지 추출과 GUI는 이번 범위 밖입니다. 실행 중인 프로필을 자동 검색하지 않습니다.
 
 ## 실행과 설치
 
@@ -64,11 +64,11 @@ Chromium 시각은 UTC 1601-01-01 이후의 정수 마이크로초입니다. Fir
 
 ## 출력 계약
 
-JSON의 format_version은 1이며 tool/tool_version, 아래 컬렉션 5개와 counts를 포함합니다. SQLite의 user_version은 1이며 대응하는 테이블 5개와 JSON 텍스트 값을 담은 metadata를 포함합니다. source ID는 각 입력을 식별하고 record ID와 source_table은 행 출처를 유지합니다. transition은 원시 값이며 계열별 의미가 다릅니다.
+JSON의 format_version은 2이며 tool/tool_version, 아래 브라우저 컬렉션 5개, links와 prefetch 및 counts를 포함합니다. SQLite의 user_version은 2이며 대응하는 브라우저 테이블 5개, links와 prefetch 및 JSON 텍스트 값을 담은 metadata를 포함합니다. source ID는 각 입력을 식별하고 record ID와 source_table은 행 출처를 유지합니다. transition은 원시 값이며 계열별 의미가 다릅니다.
 
 | 컬렉션 / 테이블 | 필드 |
 | --- | --- |
-| sources | source_id, path, browser, schema_family, database_sha256, wal_sha256 |
+| sources | source_id, path, browser, schema_family, database_sha256, wal_sha256, source_kind, sha256 |
 | visits | source_id, browser, record_id, source_table, record_kind, url, title, visited_at, timestamp_raw, timestamp_unit, transition |
 | keywords | source_id, browser, record_id, source_table, derivation, visit_record_id, parameter, keyword, url, searched_at, time_basis |
 | downloads | source_id, browser, record_id, source_table, record_kind, path, destination_uri, url, url_chain, referrer, state, started_at, ended_at, start_time_raw, end_time_raw, start_time_unit, end_time_unit, start_time_basis, received_bytes, total_bytes, metadata_raw, annotation_ids, start_visit_id |
@@ -124,3 +124,7 @@ git diff --check
 [리뷰 보고서](PYTHON_REVIEW.ko.md)에 회귀 사례 9개를 추가했습니다. 출력 경로의 최종 요소가 dangling symlink을 포함한 심볼릭 링크이면 거부하며 SQLite 출력의 기존 WAL/SHM/저널 사이드카도 쓰기 전과 게시 전에 검사하여 거부합니다. 모든 사이드카 이름을 경쟁 작성자에 대해 원자적으로 예약하는 것은 아닙니다. 지원하지 않는 값이나 비유한 값의 JSON 직렬화는 stdout 쓰기 전에 실패하지만 스트림 전달 실패는 여전히 부분 stdout을 남길 수 있습니다. 표준 스키마 이름은 뷰가 아닌 테이블이어야 합니다.
 
 다운로드에는 선택한 Firefox 주석 ID와 시작 이벤트 ID를 추가합니다. Chromium은 빈 주석 맵과 null 시작 이벤트 ID를 사용합니다. 주석 맵은 SQLite에서 JSON 텍스트입니다. 시작보다 빠른 종료 시각은 수정하지 않고 진단과 함께 보존합니다. 첫 미병합 format-version-1 구현의 추가 필드입니다. ISO 정규화 범위 초과와 대응 URL이 없는 저장 검색어도 진단합니다.
+
+## 실행 아티팩트 확장
+
+0.2.0 확장은 브라우저 입력과 함께 LNK와 Prefetch를 지원합니다. [실행 아티팩트 사용법](EXECUTION_CLI.ko.md), [테스트와 리뷰](EXECUTION_TESTS.ko.md)를 확인하세요. 형식 버전 2에 links/prefetch 컬렉션과 테이블 및 source_kind/sha256 출처 필드를 추가합니다. 버전 1 보고서는 재작성하거나 마이그레이션하지 않습니다. 소비자는 새 스키마를 읽기 전에 버전을 확인해야 합니다. DB 해시와 기존 브라우저 필드의 의미는 유지합니다.

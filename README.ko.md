@@ -80,3 +80,7 @@ python3 tools/verify_archive.py --archive-only
 python3 -m plaintrace --input /path/to/History --browser chrome --output report.json
 python3 -m unittest discover -s tests -v
 ```
+
+## LNK와 Prefetch CLI
+
+[사용법과 버전 2 스키마](docs/EXECUTION_CLI.ko.md) · [테스트와 리뷰](docs/EXECUTION_TESTS.ko.md)

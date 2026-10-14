@@ -80,3 +80,7 @@ A separate, runnable Python port now analyzes acquired Chromium/Firefox SQLite v
 python3 -m plaintrace --input /path/to/History --browser chrome --output report.json
 python3 -m unittest discover -s tests -v
 ```
+
+## LNK and Prefetch CLI
+
+[Usage and version-2 schema](docs/EXECUTION_CLI.md) · [Tests and review](docs/EXECUTION_TESTS.md)

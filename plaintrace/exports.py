@@ -8,10 +8,12 @@ import tempfile
 from .evidence import AnalysisError
 
 TABLES = {
-    "sources": "source_id INTEGER PRIMARY KEY, path TEXT, browser TEXT, schema_family TEXT, database_sha256 TEXT, wal_sha256 TEXT",
+    "sources": "source_id INTEGER PRIMARY KEY, path TEXT, browser TEXT, schema_family TEXT, database_sha256 TEXT, wal_sha256 TEXT, source_kind TEXT, sha256 TEXT",
     "visits": "source_id INTEGER, browser TEXT, record_id TEXT, source_table TEXT, record_kind TEXT, url TEXT, title TEXT, visited_at TEXT, timestamp_raw TEXT, timestamp_unit TEXT, transition INTEGER",
     "keywords": "source_id INTEGER, browser TEXT, record_id TEXT, source_table TEXT, derivation TEXT, visit_record_id TEXT, parameter TEXT, keyword TEXT, url TEXT, searched_at TEXT, time_basis TEXT",
     "downloads": "source_id INTEGER, browser TEXT, record_id TEXT, source_table TEXT, record_kind TEXT, path TEXT, destination_uri TEXT, url TEXT, url_chain TEXT, referrer TEXT, state INTEGER, started_at TEXT, ended_at TEXT, start_time_raw TEXT, end_time_raw TEXT, start_time_unit TEXT, end_time_unit TEXT, start_time_basis TEXT, received_bytes INTEGER, total_bytes INTEGER, metadata_raw TEXT, annotation_ids TEXT, start_visit_id INTEGER",
+    "links": "source_id INTEGER, record_id TEXT, link_flags INTEGER, file_attributes INTEGER, target_size INTEGER, created_at TEXT, accessed_at TEXT, written_at TEXT, filetimes_raw TEXT, local_base_path TEXT, common_path_suffix TEXT, network_share TEXT, volume TEXT, name TEXT, relative_path TEXT, working_directory TEXT, arguments TEXT, icon_location TEXT, target_candidates TEXT, tracker TEXT, environment_target TEXT, id_list_hex TEXT, extra_blocks TEXT",
+    "prefetch": "source_id INTEGER, record_id TEXT, version INTEGER, compressed INTEGER, layout INTEGER, executable TEXT, prefetch_hash TEXT, file_size INTEGER, run_count INTEGER, last_run_times TEXT, last_run_times_raw TEXT, referenced_files TEXT, executable_path_candidates TEXT, volumes TEXT, metrics_count INTEGER, trace_count INTEGER, unparsed_sections TEXT",
     "diagnostics": "source_id INTEGER, severity TEXT, code TEXT, message TEXT, record_id TEXT",
 }
 
@@ -21,7 +23,7 @@ def sqlite_report(report, path):
     try:
         connection.execute("PRAGMA foreign_keys=ON")
         with connection:
-            connection.execute("PRAGMA user_version=1")
+            connection.execute("PRAGMA user_version=2")
             connection.execute("CREATE TABLE metadata(key TEXT PRIMARY KEY, value TEXT)")
             payload = report.as_dict()
             for key in ("format_version", "tool", "tool_version", "counts"):
@@ -33,9 +35,9 @@ def sqlite_report(report, path):
                 rows = []
                 for record in getattr(report, table):
                     row = [record[name] for name in names]
-                    if table == "downloads":
-                        for name in ("url_chain", "annotation_ids"):
-                            row[names.index(name)] = json.dumps(record[name], ensure_ascii=False, allow_nan=False)
+                    for i,value in enumerate(row):
+                        if isinstance(value,(list,dict)):
+                            row[i] = json.dumps(value,ensure_ascii=False,allow_nan=False)
                     rows.append(row)
                 placeholders = ",".join("?" for _ in names)
                 connection.executemany(f'INSERT INTO "{table}" VALUES ({placeholders})', rows)
