@@ -6,7 +6,7 @@ Implemented and reviewed on 2026-10-14 on codex/python-lnk-prefetch, based on d1
 
 ## Usage and Compatibility
 
-Python 3.10+ with standard-library sqlite3 is the declared requirement; validation here used macOS/Python 3.14. LNK/Prefetch require no third-party runtime libraries, including for XPRESS Huffman. EVTX needs an optional extra. Repeat --lnk and --prefetch for multiple acquired files; at least one --input, --lnk, --prefetch or --evtx is required. Browser options apply only to SQLite inputs. --lnk-codepage defaults to cp1252 and applies only to ANSI LNK fields; specify an ANSI-compatible encoding such as cp949 for appropriate acquisitions. Unicode fields remain UTF-16LE. The CLI does not recursively scan directories.
+Python 3.10+ with standard-library sqlite3 is the declared requirement; validation here used macOS/Python 3.14. LNK/Prefetch require no third-party runtime libraries, including for XPRESS Huffman. EVTX needs an optional extra. Repeat --lnk and --prefetch for multiple acquired files; at least one --input, --lnk, --prefetch, --evtx or --recycle-bin is required. Browser options apply only to SQLite inputs. --lnk-codepage defaults to cp1252 and applies only to ANSI LNK fields; specify an ANSI-compatible encoding such as cp949 for appropriate acquisitions. Unicode fields remain UTF-16LE. The CLI does not recursively scan directories.
 
 ```sh
 python3 -m plaintrace --lnk /path/to/example.lnk --prefetch /path/to/APP.pf --output execution.json
@@ -14,7 +14,7 @@ python3 -m plaintrace --lnk /path/to/example.lnk --lnk-codepage cp949 --strict
 python3 -m plaintrace --input /path/to/History --lnk /path/to/example.lnk --prefetch /path/to/APP.pf --format sqlite --output artifacts.sqlite
 ```
 
-Existing browser command syntax is retained, but report format_version and SQLite user_version were extended to 2 in 0.2.0. The current 0.3.0 release uses version 3 and adds events; see [EVTX schema migration](EVTX_CLI.md). Version 2 added links/prefetch collections/tables and source_kind/sha256 source fields even for browser-only reports. Existing version 1 output is never overwritten or migrated; consumers must explicitly recognize the new version. Optional pip installation provides the same plaintrace console command; see [installation and browser behavior](PYTHON_CLI.md).
+Existing browser command syntax is retained, but report format_version and SQLite user_version were extended to 2 in 0.2.0. The 0.3.0 release added events in version 3. Current output uses version 4; see [Recycle Bin schema migration](RECYCLE_BIN_CLI.md). Version 2 added links/prefetch collections/tables and source_kind/sha256 source fields even for browser-only reports. Existing version 1 output is never overwritten or migrated; consumers must explicitly recognize the new version. Optional pip installation provides the same plaintrace console command; see [installation and browser behavior](PYTHON_CLI.md).
 
 ## LNK Parsing
 
@@ -80,4 +80,8 @@ Structure interpretation refers to [Microsoft MS-SHLLINK](https://learn.microsof
 
 ## EVTX Extension
 
-[EVTX usage](EVTX_CLI.md) and [tests/review](EVTX_TESTS.md) describe the optional decoder and version-3 events. LNK/Prefetch interpretation and the 8 MiB cap are unchanged.
+[EVTX usage](EVTX_CLI.md) and [tests/review](EVTX_TESTS.md) describe the optional decoder and events. LNK/Prefetch interpretation and the 8 MiB cap are unchanged.
+
+## Recycle Bin Extension
+
+[Recycle Bin metadata](RECYCLE_BIN_CLI.md) and [tests/review](RECYCLE_BIN_TESTS.md) describe the standard-library $I parser and current schema 4. LNK/Prefetch fields and limits are preserved.

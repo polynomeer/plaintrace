@@ -32,7 +32,7 @@ git diff --exit-code 9f32324141810b257d4f680e84c849c013543900 -- '*.EnScript' do
 | EV-06 | test_unknown_and_namespace_free_events_retained | 미지 ID와 네임스페이스 없는 Event 허용 |
 | EV-07 | test_invalid_and_missing_time_and_numeric_fields | 잘못된/누락 시각과 숫자 경고 |
 | EV-08 | test_time_zone_precision_overflow_and_mismatch | 시간대/7자리 정밀도, 범위 초과와 XML/컨테이너 불일치 |
-| EV-09 | test_unsigned_record_ids_remain_text_in_sqlite | 부호 없는 64비트 ID를 SQLite 텍스트로 보존; 버전 3과 외래 키 |
+| EV-09 | test_unsigned_record_ids_remain_text_in_sqlite | 부호 없는 64비트 ID를 SQLite 텍스트로 보존; 현재 버전 4와 외래 키 |
 | EV-10 | test_xml_dtd_entities_roots_and_duplicate_system_rejected | DTD/entity, 외부 루트와 누락/중복 단일 필드 거부 |
 | EV-11 | test_xml_size_depth_and_node_limits | 레코드 XML 바이트와 깊이 제한 |
 | EV-12 | test_container_versions_empty_and_dirty | 3.1/3.2 컨테이너, 빈 청크와 dirty 경고 |
@@ -75,3 +75,7 @@ git diff --exit-code 9f32324141810b257d4f680e84c849c013543900 -- '*.EnScript' do
 실제 선택 디코더가 있는 격리 환경에서 전체 검사를 실행합니다. 디코더가 없는 두 번째 실행에서는 88개를 실행하고 7개를 명시적으로 건너뜁니다. 패키지 설치/콘솔 실행도 체크아웃 밖에서 스모크 검증합니다. 기존 EnScript 이식 가능한 검사 11개, 자동 생성 참조 4개, 영문·국문 문서/테스트 대응, 바이트 비교와 아카이브 전용 검증은 별도로 통과하며 EnCase 런타임 검증이 아닙니다. 아카이브 검사에는 원래 로컬 백업 ref가 필요합니다.
 
 생성한 리터럴/공유 템플릿/문자열 치환 픽스처는 디코더를 실행하지만 실제 Windows 템플릿 캐시, 조건부 치환, 타입/배열 치환, 드문 BinXML 토큰이나 모든 공급자 호환을 입증하지 않습니다. 획득 EVTX, Windows/Linux, Python 3.10, 독립 파서 동등성, 대형 로그 성능이나 라이브 획득 검사를 수행하지 않았습니다. CRC 검사는 손상/체크섬 없는 변형을 복구하지 않고 의도적으로 거부합니다. 입력별 제한이 정상 대형 로그도 거부할 수 있으며 시간 제한 프로세스는 메모리 샌드박스가 아닙니다. 삭제/슬랙 복구, 메시지 DLL 렌더링, EVT, 세션 연계와 USB 레지스트리/상태 연계는 미지원입니다. 기존 브라우저/LNK/Prefetch 한계와 Windows/EnCase 실행 미검증을 문서에 유지합니다. 합성 검사는 사건 분석 수용 기준이 아닙니다.
+
+## 휴지통 회귀 실행 (2026-10-15)
+
+현재 선택 EVTX extra를 포함하면 브라우저 33개, 실행 30개, EVTX 32개, 휴지통 28개로 123개가 통과합니다. 없으면 115개를 실행하고 8개를 명시적으로 건너뜁니다. 기존 출력 검사는 이제 스키마 4를 확인합니다. [재현과 리뷰](RECYCLE_BIN_TESTS.ko.md)를 확인하세요. 기존 날짜/개수는 과거 검증 기록으로 유지합니다.

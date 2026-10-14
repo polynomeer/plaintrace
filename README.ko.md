@@ -87,4 +87,8 @@ python3 -m unittest discover -s tests -v
 
 ## EVTX CLI
 
-[설치, 이벤트 필드와 버전 3 스키마](docs/EVTX_CLI.ko.md) · [테스트와 리뷰](docs/EVTX_TESTS.ko.md)
+[설치, 이벤트 필드와 현재 스키마](docs/EVTX_CLI.ko.md) · [테스트와 리뷰](docs/EVTX_TESTS.ko.md)
+
+## 휴지통 $I CLI
+
+[사용법과 버전 4 스키마](docs/RECYCLE_BIN_CLI.ko.md) · [테스트와 리뷰](docs/RECYCLE_BIN_TESTS.ko.md)

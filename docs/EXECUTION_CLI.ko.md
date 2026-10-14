@@ -6,7 +6,7 @@
 
 ## 사용법과 호환성
 
-표준 sqlite3이 있는 Python 3.10 이상을 요구하며 여기서는 macOS/Python 3.14로 검증했습니다. LNK/Prefetch는 XPRESS Huffman을 포함하여 외부 런타임 라이브러리가 필요하지 않습니다. EVTX에는 선택 extra가 필요합니다. 획득 파일 여러 개에는 --lnk와 --prefetch를 반복하고 --input, --lnk, --prefetch, --evtx 중 하나 이상이 필요합니다. 브라우저 옵션은 SQLite 입력에만 적용합니다. --lnk-codepage는 기본 cp1252이며 ANSI LNK 필드에만 적용합니다. 해당 획득 환경에 맞는 cp949 같은 ANSI 호환 인코딩을 지정할 수 있습니다. Unicode 필드는 UTF-16LE입니다. 디렉터리를 재귀 검색하지 않습니다.
+표준 sqlite3이 있는 Python 3.10 이상을 요구하며 여기서는 macOS/Python 3.14로 검증했습니다. LNK/Prefetch는 XPRESS Huffman을 포함하여 외부 런타임 라이브러리가 필요하지 않습니다. EVTX에는 선택 extra가 필요합니다. 획득 파일 여러 개에는 --lnk와 --prefetch를 반복하고 --input, --lnk, --prefetch, --evtx, --recycle-bin 중 하나 이상이 필요합니다. 브라우저 옵션은 SQLite 입력에만 적용합니다. --lnk-codepage는 기본 cp1252이며 ANSI LNK 필드에만 적용합니다. 해당 획득 환경에 맞는 cp949 같은 ANSI 호환 인코딩을 지정할 수 있습니다. Unicode 필드는 UTF-16LE입니다. 디렉터리를 재귀 검색하지 않습니다.
 
 ```sh
 python3 -m plaintrace --lnk /path/to/example.lnk --prefetch /path/to/APP.pf --output execution.json
@@ -14,7 +14,7 @@ python3 -m plaintrace --lnk /path/to/example.lnk --lnk-codepage cp949 --strict
 python3 -m plaintrace --input /path/to/History --lnk /path/to/example.lnk --prefetch /path/to/APP.pf --format sqlite --output artifacts.sqlite
 ```
 
-기존 브라우저 명령 구문은 유지하지만 보고서 format_version과 SQLite user_version은 0.2.0에서 2로 확장되었습니다. 현재 0.3.0은 버전 3을 사용하고 events를 추가하며 [EVTX 스키마 변경](EVTX_CLI.ko.md)을 확인하세요. 버전 2는 브라우저 전용 보고서에도 links/prefetch 컬렉션/테이블 및 source_kind/sha256 출처 필드를 추가합니다. 기존 버전 1 출력은 덮어쓰거나 마이그레이션하지 않으며 소비자는 새 버전을 명시적으로 인식해야 합니다. 선택적 pip 설치도 동일한 plaintrace 명령을 제공합니다. [설치와 브라우저 동작](PYTHON_CLI.ko.md)을 확인하세요.
+기존 브라우저 명령 구문은 유지하지만 보고서 format_version과 SQLite user_version은 0.2.0에서 2로 확장되었습니다. 0.3.0은 버전 3에 events를 추가했습니다. 현재 출력은 버전 4이며 [휴지통 스키마 변경](RECYCLE_BIN_CLI.ko.md)을 확인하세요. 버전 2는 브라우저 전용 보고서에도 links/prefetch 컬렉션/테이블 및 source_kind/sha256 출처 필드를 추가합니다. 기존 버전 1 출력은 덮어쓰거나 마이그레이션하지 않으며 소비자는 새 버전을 명시적으로 인식해야 합니다. 선택적 pip 설치도 동일한 plaintrace 명령을 제공합니다. [설치와 브라우저 동작](PYTHON_CLI.ko.md)을 확인하세요.
 
 ## LNK 파싱
 
@@ -80,4 +80,8 @@ Windows/Linux, 최소 Python 버전 실행, 실제 획득 LNK/Prefetch/MAM, 독�
 
 ## EVTX 확장
 
-[EVTX 사용법](EVTX_CLI.ko.md)과 [테스트/리뷰](EVTX_TESTS.ko.md)에 선택 디코더와 버전 3 events를 설명합니다. LNK/Prefetch 해석과 8 MiB 상한은 유지합니다.
+[EVTX 사용법](EVTX_CLI.ko.md)과 [테스트/리뷰](EVTX_TESTS.ko.md)에 선택 디코더와 events를 설명합니다. LNK/Prefetch 해석과 8 MiB 상한은 유지합니다.
+
+## 휴지통 확장
+
+[휴지통 메타데이터](RECYCLE_BIN_CLI.ko.md)와 [테스트/리뷰](RECYCLE_BIN_TESTS.ko.md)에 표준 라이브러리 $I 파서와 현재 스키마 4를 설명합니다. LNK/Prefetch 필드와 한계는 유지합니다.

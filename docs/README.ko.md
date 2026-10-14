@@ -47,3 +47,5 @@
 [Execution CLI](EXECUTION_CLI.ko.md) · [Execution tests and review](EXECUTION_TESTS.ko.md)
 
 [EVTX CLI](EVTX_CLI.ko.md) · [EVTX 테스트와 리뷰](EVTX_TESTS.ko.md)
+
+[휴지통 CLI](RECYCLE_BIN_CLI.ko.md) · [테스트와 리뷰](RECYCLE_BIN_TESTS.ko.md)

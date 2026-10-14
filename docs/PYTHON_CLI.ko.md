@@ -64,7 +64,7 @@ Chromium 시각은 UTC 1601-01-01 이후의 정수 마이크로초입니다. Fir
 
 ## 출력 계약
 
-JSON의 format_version은 3이며 tool/tool_version, 아래 브라우저 컬렉션 5개, links, prefetch, events 및 counts를 포함합니다. SQLite의 user_version은 3이며 대응하는 브라우저 테이블 5개, links, prefetch와 events 및 JSON 텍스트 값을 담은 metadata를 포함합니다. source ID는 각 입력을 식별하고 record ID와 source_table은 행 출처를 유지합니다. transition은 원시 값이며 계열별 의미가 다릅니다.
+JSON의 format_version은 4이며 tool/tool_version, 아래 브라우저 컬렉션 5개, links, prefetch, events, recycle_bin 및 counts를 포함합니다. SQLite의 user_version은 4이며 대응하는 브라우저 테이블 5개, links, prefetch, events와 recycle_bin 및 JSON 텍스트 값을 담은 metadata를 포함합니다. source ID는 각 입력을 식별하고 record ID와 source_table은 행 출처를 유지합니다. transition은 원시 값이며 계열별 의미가 다릅니다.
 
 | 컬렉션 / 테이블 | 필드 |
 | --- | --- |
@@ -131,4 +131,8 @@ git diff --check
 
 ## EVTX 확장과 버전 3
 
-0.3.0 확장은 선택 디코더를 통한 획득 Windows EVTX, events와 명시적 보고서/SQLite 버전 3을 추가합니다. 기존 브라우저 필드 의미를 유지하며 과거 보고서는 마이그레이션하지 않습니다. [EVTX 계약과 설치](EVTX_CLI.ko.md), [테스트와 리뷰](EVTX_TESTS.ko.md)를 확인하세요. 브라우저 전용 보고서도 버전 3을 사용합니다.
+0.3.0 확장에서 선택 디코더를 통한 획득 Windows EVTX, events와 명시적 보고서/SQLite 버전 3을 도입했습니다. 기존 브라우저 필드 의미를 유지하며 과거 보고서는 마이그레이션하지 않습니다. [EVTX 계약과 설치](EVTX_CLI.ko.md), [테스트와 리뷰](EVTX_TESTS.ko.md)를 확인하세요. 도입 당시 브라우저 전용 보고서도 버전 3을 사용했으며 현재 보고서는 버전 4입니다.
+
+## 휴지통 확장과 버전 4
+
+현재 0.4.0은 명시적으로 획득한 $I 메타데이터 입력, recycle_bin과 모든 보고서의 스키마 버전 4를 추가합니다. 브라우저 필드 의미는 유지합니다. [사용법, 필드와 한계](RECYCLE_BIN_CLI.ko.md), [테스트/리뷰](RECYCLE_BIN_TESTS.ko.md)를 확인하세요. 위의 버전 3 확장은 도입 당시 설명이며 현재 출력은 버전 4입니다.

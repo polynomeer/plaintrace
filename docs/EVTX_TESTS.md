@@ -32,7 +32,7 @@ git diff --exit-code 9f32324141810b257d4f680e84c849c013543900 -- '*.EnScript' do
 | EV-06 | test_unknown_and_namespace_free_events_retained | Unknown IDs and namespace-free Event accepted |
 | EV-07 | test_invalid_and_missing_time_and_numeric_fields | Invalid/missing time and numeric values diagnosed |
 | EV-08 | test_time_zone_precision_overflow_and_mismatch | Timezone/7-digit precision, overflow and XML/container mismatches |
-| EV-09 | test_unsigned_record_ids_remain_text_in_sqlite | Unsigned 64-bit IDs preserved as SQLite text; version 3 and FKs |
+| EV-09 | test_unsigned_record_ids_remain_text_in_sqlite | Unsigned 64-bit IDs preserved as SQLite text; current version 4 and FKs |
 | EV-10 | test_xml_dtd_entities_roots_and_duplicate_system_rejected | DTD/entities, foreign root, missing/duplicate singleton rejection |
 | EV-11 | test_xml_size_depth_and_node_limits | Per-record XML byte and depth bounds |
 | EV-12 | test_container_versions_empty_and_dirty | 3.1/3.2 envelopes, empty chunks and dirty diagnostic |
@@ -75,3 +75,7 @@ git diff --exit-code 9f32324141810b257d4f680e84c849c013543900 -- '*.EnScript' do
 The full suite runs in an isolated environment with the actual optional decoder. A second run without the decoder executes 88 tests and explicitly skips seven. Package installation/console execution is smoke-tested outside the checkout. Existing eleven EnScript portable checks, four generated references, bilingual documentation/test mappings, byte comparison and archive-only verification pass separately; none is EnCase runtime validation. The archive checker needs the original local backup ref.
 
 Generated literal/shared-template/string-substitution fixtures exercise the decoder but do not establish compatibility with real Windows template caches, conditional substitutions, typed/array substitutions, uncommon BinXML tokens or all providers. No acquired EVTX, Windows/Linux, Python 3.10, independent parser parity, large-log performance or live acquisition testing was performed. CRC enforcement deliberately rejects corrupt/no-checksum variants rather than offering recovery. Per-file limits can reject valid large logs; the timed worker is not a memory sandbox. Deleted/slack recovery, message DLL rendering, EVT, session correlation and USB registry/state correlation are unsupported. The original browser/LNK/Prefetch limitations and unverified Windows/EnCase execution remain documented. Synthetic tests are not casework acceptance.
+
+## Recycle Bin Regression Run (2026-10-15)
+
+The current suite passes 123 cases with the optional EVTX extra: 33 browser, 30 execution, 32 EVTX, 28 Recycle Bin. Without it, 115 execute and eight explicitly skip. Existing export assertions now check schema 4. See [reproduction and review](RECYCLE_BIN_TESTS.md); earlier dates/counts remain historical validation records.

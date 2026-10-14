@@ -70,4 +70,8 @@ See [the code review](PYTHON_REVIEW.md) for follow-up fixes and remaining limits
 
 ## EVTX Regression Run (2026-10-15)
 
-The current full suite contains 95 cases: 33 browser, 30 execution and 32 EVTX. Install the optional extra to run all integrations; without it seven EVTX cases explicitly skip. Existing export regressions now assert schema version 3. See [EVTX reproduction and review](EVTX_TESTS.md); earlier validation dates above remain historical records.
+The EVTX port validation ran 95 cases: 33 browser, 30 execution and 32 EVTX. Install the optional extra to run all integrations; without it seven EVTX cases explicitly skip. Existing export regressions now assert schema version 3. See [EVTX reproduction and review](EVTX_TESTS.md); earlier validation dates above remain historical records.
+
+## Recycle Bin Regression Run (2026-10-15)
+
+The current suite passes 123 cases with the optional EVTX extra: 33 browser, 30 execution, 32 EVTX, 28 Recycle Bin. Without it, 115 execute and eight explicitly skip. Existing export assertions now check schema 4. See [reproduction and review](RECYCLE_BIN_TESTS.md); earlier dates/counts remain historical validation records.

@@ -36,3 +36,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/EVTX_CLI.md` and `docs/EVTX_TESTS.md`. Full unittest discovery must run with the optional `.[evtx]` extra; skipped integration tests are not complete EVTX validation.
 - Report schema version 3 adds events. Preserve rendered XML, exact envelope FILETIME, source offsets and duplicate values. Qualify classifications by provider/channel; never infer USB state from equal-time event counts.
 - Keep container/record/XML/output limits and decoder timeout. No carving, repair, message DLL loading, target execution or Windows/EnCase runtime claim.
+
+## Recycle Bin port
+
+- Recycle Bin development belongs on `codex/python-recycle-bin`, based on `e0d0145cfb7b649c1713d66776ea140a43f891a3`. Preserve all EnScript bytes, archive refs/manifests and 2017 history.
+- Read `docs/RECYCLE_BIN_CLI.md` and `docs/RECYCLE_BIN_TESTS.md`. Full unittest discovery includes the EVTX extra; Recycle Bin-only parsing uses the standard library.
+- Report schema 4 adds recycle_bin. Bound input and UTF-16 code-unit counts, retain exact FILETIME/unsigned size/path bytes and warn about padding/trailing data.
+- Analyze acquired explicit $I files only. Do not infer SID/ownership or $R presence/restoration, open original paths, repair shifted layouts or claim Windows/EnCase validation.
