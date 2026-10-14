@@ -83,4 +83,8 @@ python3 -m unittest discover -s tests -v
 
 ## LNK and Prefetch CLI
 
-[Usage and version-2 schema](docs/EXECUTION_CLI.md) · [Tests and review](docs/EXECUTION_TESTS.md)
+[Usage and current schema](docs/EXECUTION_CLI.md) · [Tests and review](docs/EXECUTION_TESTS.md)
+
+## EVTX CLI
+
+[Install, event fields and version-3 schema](docs/EVTX_CLI.md) · [Tests and review](docs/EVTX_TESTS.md)

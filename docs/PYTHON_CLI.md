@@ -6,9 +6,9 @@ Implemented on 2026-10-14 on branch `codex/python-browser-cli`, based on merged 
 
 ## Scope and Requirements
 
-Python 3.10 or later with the standard sqlite3 module is required. Runtime has no third-party dependencies and can run directly from the checkout. Optional package installation uses setuptools as a build dependency and may download it. The test environment was macOS with Python 3.14; Windows/Linux execution and the minimum supported Python version were not exercised in this workspace.
+Python 3.10 or later with the standard sqlite3 module is required. Browser parsing has no third-party runtime dependencies and can run directly from the checkout. EVTX requires a separate optional extra; see [EVTX installation](EVTX_CLI.md). Optional package installation uses setuptools as a build dependency and may download it. The test environment was macOS with Python 3.14; Windows/Linux execution and the minimum supported Python version were not exercised in this workspace.
 
-Supported inputs are acquired Chromium-style History databases (Chrome/Opera labels can be selected explicitly) and Firefox places.sqlite. Detection uses tables, not filenames. Auto mode reports the Chromium family rather than guessing Chrome versus Opera. IE index.dat/WebCache, encrypted databases, session files, other non-browser artifacts, evidence-image extraction and a GUI are outside this release. It does not scan live profiles automatically.
+Supported inputs are acquired Chromium-style History databases (Chrome/Opera labels can be selected explicitly) and Firefox places.sqlite. Detection uses tables, not filenames. Auto mode reports the Chromium family rather than guessing Chrome versus Opera. IE index.dat/WebCache, encrypted databases, session files, evidence-image extraction and a GUI are outside the browser adapter. It does not scan live profiles automatically.
 
 ## Run and Install
 
@@ -64,7 +64,7 @@ These choices deliberately differ from the EnScript fixed timezone adjustment, U
 
 ## Output Contract
 
-JSON format_version is 2 and includes tool/tool_version, the five browser collections below plus links and prefetch and counts. SQLite user_version is 2 and contains the five matching browser tables, links and prefetch, plus metadata, whose values are JSON text. Source IDs identify each supplied input; record IDs and source tables preserve row lineage. Transition values are raw and have family-specific meanings.
+JSON format_version is 3 and includes tool/tool_version, the five browser collections below plus links, prefetch, events and counts. SQLite user_version is 3 and contains the five matching browser tables, links, prefetch and events, plus metadata, whose values are JSON text. Source IDs identify each supplied input; record IDs and source tables preserve row lineage. Transition values are raw and have family-specific meanings.
 
 | Collection / table | Fields |
 | --- | --- |
@@ -128,3 +128,7 @@ Downloads now include selected Firefox annotation IDs and the start event ID; Ch
 ## Execution Artifact Extension
 
 The 0.2.0 extension supports LNK and Prefetch alongside browser inputs; see [execution artifact usage](EXECUTION_CLI.md) and [tests and review](EXECUTION_TESTS.md). Format version 2 adds links/prefetch collections and tables plus source_kind/sha256 source fields. Version 1 reports are not rewritten or migrated. Consumers must inspect the version before reading the new schema. Database hashes and existing browser fields retain their meanings.
+
+## EVTX Extension and Version 3
+
+The 0.3.0 extension adds acquired Windows EVTX via an optional decoder, events and explicit report/SQLite version 3. Existing browser fields keep their meanings and old reports are never migrated. See [EVTX contracts and installation](EVTX_CLI.md) and [tests and review](EVTX_TESTS.md). Browser-only reports also use version 3.

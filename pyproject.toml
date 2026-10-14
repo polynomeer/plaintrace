@@ -4,9 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "plaintrace"
-version = "0.2.0"
-description = "Portable browser, LNK and Prefetch artifact analysis derived from Plain View of Multi Artifacts"
+version = "0.3.0"
+description = "Portable browser, LNK, Prefetch and EVTX artifact analysis derived from Plain View of Multi Artifacts"
 requires-python = ">=3.10"
+
+[project.optional-dependencies]
+evtx = ["python-evtx==0.8.1"]
 
 [project.scripts]
 plaintrace = "plaintrace.cli:main"

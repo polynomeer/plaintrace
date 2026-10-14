@@ -6,9 +6,9 @@
 
 ## 범위와 요구 환경
 
-표준 sqlite3 모듈이 있는 Python 3.10 이상이 필요합니다. 런타임의 외부 의존성 없이 체크아웃에서 직접 실행할 수 있습니다. 선택적 패키지 설치는 빌드 의존성 setuptools를 사용하며 다운로드할 수 있습니다. 이 작업 환경의 검증은 macOS와 Python 3.14에서 수행했으며 Windows/Linux 실행과 최소 지원 Python 버전은 여기서 확인하지 않았습니다.
+표준 sqlite3 모듈이 있는 Python 3.10 이상이 필요합니다. 브라우저 파싱은 외부 런타임 의존성 없이 체크아웃에서 직접 실행할 수 있습니다. EVTX에는 별도 선택 extra가 필요하며 [EVTX 설치](EVTX_CLI.ko.md)를 확인하세요. 선택적 패키지 설치는 빌드 의존성 setuptools를 사용하며 다운로드할 수 있습니다. 이 작업 환경의 검증은 macOS와 Python 3.14에서 수행했으며 Windows/Linux 실행과 최소 지원 Python 버전은 여기서 확인하지 않았습니다.
 
-지원 입력은 획득한 Chromium 계열 History DB와 Firefox places.sqlite입니다. Chrome/Opera 표기는 명시적으로 지정할 수 있습니다. 파일명 대신 테이블로 탐지하고 auto 모드는 Chrome과 Opera를 추측하지 않고 Chromium 계열로 표시합니다. IE index.dat/WebCache, 암호화 DB, 세션 파일, 그 밖의 비브라우저 아티팩트, 증거 이미지 추출과 GUI는 이번 범위 밖입니다. 실행 중인 프로필을 자동 검색하지 않습니다.
+지원 입력은 획득한 Chromium 계열 History DB와 Firefox places.sqlite입니다. Chrome/Opera 표기는 명시적으로 지정할 수 있습니다. 파일명 대신 테이블로 탐지하고 auto 모드는 Chrome과 Opera를 추측하지 않고 Chromium 계열로 표시합니다. IE index.dat/WebCache, 암호화 DB, 세션 파일, 증거 이미지 추출과 GUI는 브라우저 어댑터 범위 밖입니다. 실행 중인 프로필을 자동 검색하지 않습니다.
 
 ## 실행과 설치
 
@@ -64,7 +64,7 @@ Chromium 시각은 UTC 1601-01-01 이후의 정수 마이크로초입니다. Fir
 
 ## 출력 계약
 
-JSON의 format_version은 2이며 tool/tool_version, 아래 브라우저 컬렉션 5개, links와 prefetch 및 counts를 포함합니다. SQLite의 user_version은 2이며 대응하는 브라우저 테이블 5개, links와 prefetch 및 JSON 텍스트 값을 담은 metadata를 포함합니다. source ID는 각 입력을 식별하고 record ID와 source_table은 행 출처를 유지합니다. transition은 원시 값이며 계열별 의미가 다릅니다.
+JSON의 format_version은 3이며 tool/tool_version, 아래 브라우저 컬렉션 5개, links, prefetch, events 및 counts를 포함합니다. SQLite의 user_version은 3이며 대응하는 브라우저 테이블 5개, links, prefetch와 events 및 JSON 텍스트 값을 담은 metadata를 포함합니다. source ID는 각 입력을 식별하고 record ID와 source_table은 행 출처를 유지합니다. transition은 원시 값이며 계열별 의미가 다릅니다.
 
 | 컬렉션 / 테이블 | 필드 |
 | --- | --- |
@@ -128,3 +128,7 @@ git diff --check
 ## 실행 아티팩트 확장
 
 0.2.0 확장은 브라우저 입력과 함께 LNK와 Prefetch를 지원합니다. [실행 아티팩트 사용법](EXECUTION_CLI.ko.md), [테스트와 리뷰](EXECUTION_TESTS.ko.md)를 확인하세요. 형식 버전 2에 links/prefetch 컬렉션과 테이블 및 source_kind/sha256 출처 필드를 추가합니다. 버전 1 보고서는 재작성하거나 마이그레이션하지 않습니다. 소비자는 새 스키마를 읽기 전에 버전을 확인해야 합니다. DB 해시와 기존 브라우저 필드의 의미는 유지합니다.
+
+## EVTX 확장과 버전 3
+
+0.3.0 확장은 선택 디코더를 통한 획득 Windows EVTX, events와 명시적 보고서/SQLite 버전 3을 추가합니다. 기존 브라우저 필드 의미를 유지하며 과거 보고서는 마이그레이션하지 않습니다. [EVTX 계약과 설치](EVTX_CLI.ko.md), [테스트와 리뷰](EVTX_TESTS.ko.md)를 확인하세요. 브라우저 전용 보고서도 버전 3을 사용합니다.
