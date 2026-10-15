@@ -3,10 +3,10 @@ import re
 from .binary import read_artifact
 from .browser import analyze as analyze_browsers
 from .model import Report
-from . import lnk, prefetch, evtx, recycle_bin, usb_registry, registry_hive, recent_docs, application_mru, jump_lists
+from . import lnk, prefetch, evtx, recycle_bin, usb_registry, registry_hive, recent_docs, application_mru, jump_lists, shellbags
 
 
-def analyze(inputs=(), links=(), prefetches=(), browser="auto", codepage="cp1252", event_logs=(), recycle_bins=(), usb_hives=(), recent_hives=(), application_hives=(), jump_files=()):
+def analyze(inputs=(), links=(), prefetches=(), browser="auto", codepage="cp1252", event_logs=(), recycle_bins=(), usb_hives=(), recent_hives=(), application_hives=(), jump_files=(), shellbag_hives=(), shellbags_codepage="cp1252"):
     report = analyze_browsers(inputs,browser) if inputs else Report()
     for kind,paths,parser in (("lnk",links,lnk.parse),("prefetch",prefetches,prefetch.parse)):
         for path in paths:
@@ -61,4 +61,13 @@ def analyze(inputs=(), links=(), prefetches=(), browser="auto", codepage="cp1252
                                    database_sha256=None,wal_sha256=None,source_kind='jump_list',sha256=digest))
         report.jump_lists.append(summary)
         report.jump_list_entries.extend(entries)
+    for role,path in shellbag_hives:
+        resolved,data,digest=read_artifact(path,registry_hive.MAX_HIVE_BYTES)
+        source_id=len(report.sources)+1
+        report.sources.append(dict(source_id=source_id,path=str(resolved),browser=None,schema_family='registry_'+role,
+                                   database_sha256=None,wal_sha256=None,source_kind='shellbags',sha256=digest))
+        views,keys,entries=shellbags.analyze_hive(data,role,source_id,report,shellbags_codepage)
+        report.shellbag_views.extend(views)
+        report.shellbag_keys.extend(keys)
+        report.shellbag_entries.extend(entries)
     return report
