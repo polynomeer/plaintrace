@@ -40,12 +40,12 @@ git diff --exit-code e0d0145cfb7b649c1713d66776ea140a43f891a3 -- '*.EnScript' do
 | RB-14 | test_path_and_input_limits_cover_direct_parser_and_cli | 32768-unit boundary and 128 KiB input/direct-parser caps |
 | RB-15 | test_renamed_and_repeated_sources_have_stable_hash_and_lineage | Renamed/repeated inputs keep distinct source IDs and unchanged hash/bytes |
 | RB-16 | test_changed_input_fails_without_publication | Changed file prevents output publication |
-| RB-17 | test_json_sqlite_schema_four_and_unsigned_size_roundtrip | JSON/SQLite version 4, unsigned size, Unicode and source FKs |
+| RB-17 | test_json_sqlite_schema_four_and_unsigned_size_roundtrip | JSON/SQLite version 5, unsigned size, Unicode and source FKs |
 | RB-18 | test_cli_stdout_strict_and_real_subprocess | Strict warning stdout and actual subprocess success |
 | RB-19 | test_cli_all_or_nothing_when_later_input_fails | Later bad input aborts all output and cleans temporary exports |
 | RB-20 | test_existing_output_sidecar_and_evidence_collision_preserved | Existing output/sidecars and source collisions never overwrite bytes |
 | RB-21 | test_no_payload_sid_owner_or_target_filesystem_inference | Observed file opens only touch the $I source; no owner/$R assertions |
-| RB-22 | test_mixed_browser_link_prefetch_and_recycle_sources | Browser/LNK/Prefetch/Recycle Bin source ordering and schema 4 |
+| RB-22 | test_mixed_browser_link_prefetch_and_recycle_sources | Browser/LNK/Prefetch/Recycle Bin source ordering and schema 5 |
 | RB-23 | test_mixed_five_source_cli_with_actual_evtx_decoder | Actual EVTX decoder plus all five input kinds in JSON/SQLite |
 | RB-24 | test_mutated_inputs_only_raise_contract_errors | 200 seeded mutations raise only contract errors or retain metadata |
 | RB-25 | test_review_utf16_terminator_is_aligned_not_byte_substring | NUL search is aligned to UTF-16 units rather than arbitrary bytes |
@@ -72,3 +72,7 @@ Review covered parser, bounded read integration, argument scoping, output public
 The installed 0.4.0 console command is smoke-tested outside the checkout with all five artifact kinds, JSON/SQLite schema 4 and unchanged input hashes. Eleven existing EnScript portable checks, four source references, bilingual documentation/test mappings, whitespace and source/archive comparisons pass separately. Archive verification preserves thirteen archived sources, original README, original tree and 263 synthetic 2017 commits; it does not compile EnScript and requires the original local backup ref.
 
 Actual acquired $I files, Windows/Linux, Python 3.10, independent parser comparison, large collections and acquisition races remain untested. Supported layouts have synthetic coverage only. INFO/INFO2, the 543-byte version-1 anomaly, truncated/corrupt-field repair, directory scanning, $R extraction/recovery/status analysis and account attribution are unsupported. Metadata/CRC-free layout recognition is not authenticity or completeness certification. Existing browser/LNK/Prefetch/EVTX limitations, optional decoder requirements, per-input resource limits and unverified EnCase compilation/execution remain documented.
+
+## USB Registry Regression Run (2026-10-15)
+
+Current full discovery passes 148 cases: 33 browser, 30 execution, 32 EVTX, 28 Recycle Bin and 25 USB registry. Without the EVTX extra, 140 execute and eight skip. Current export assertions use schema 5; earlier counts/schema introductions are historical records. See [USB reproduction and review](USB_REGISTRY_TESTS.md).

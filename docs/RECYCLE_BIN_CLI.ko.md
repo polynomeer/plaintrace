@@ -52,9 +52,9 @@ py -m venv .venv
 
 `$R` 동반 파일을 읽거나 찾아 해시 계산, 추출, 복원하지 않습니다. 내용 존재, 복원 또는 영구 삭제 여부를 추론하지 않습니다. 지원 `$I` 헤더에는 SID/소유자/계정 정보가 없으며 획득 디렉터리 이름으로 추정하지 않습니다. 원본 EnScript는 사건 파일 메타데이터/MD5와 SID 경로 맥락을 수집했지만 이식판은 `$I` 메타데이터만 다룹니다. 오프셋 24 직후를 항상 경로로 가정하지 않고 버전을 명시적으로 구분하며 고정 시간대 표시를 UTC/원시 틱으로 바꿉니다. EnCase 출력 동등성을 주장하지 않습니다. 메타데이터만으로 사용자 의도, 내용 식별이나 완전한 삭제 이력을 입증하지 않습니다.
 
-## 버전 4 스키마와 구조
+## 현재 스키마와 구조
 
-휴지통 입력이 없는 경우도 모든 JSON `format_version`과 SQLite `user_version`은 4입니다. 버전 4는 `recycle_bin`과 개수를 추가하고 기존 브라우저, LNK, Prefetch와 EVTX 필드 의미를 유지합니다. 기존 버전 1/2/3 보고서는 재작성/마이그레이션하지 않으며 소비자는 버전 4를 명시적으로 인식해야 합니다. SQLite 삽입은 값을 바인딩하고 출처 외래 키를 적용합니다. sources의 `source_kind`와 `schema_family`는 recycle_bin, `sha256`은 전체 입력 해시이며 browser/database/WAL 필드는 null입니다.
+휴지통 입력이 없는 경우도 모든 JSON `format_version`과 SQLite `user_version`은 5입니다. 버전 4는 `recycle_bin`과 개수를 추가하고 기존 브라우저, LNK, Prefetch와 EVTX 필드 의미를 유지합니다. 기존 버전 1/2/3 보고서는 재작성/마이그레이션하지 않으며 소비자는 버전 5를 명시적으로 인식해야 합니다. SQLite 삽입은 값을 바인딩하고 출처 외래 키를 적용합니다. sources의 `source_kind`와 `schema_family`는 recycle_bin, `sha256`은 전체 입력 해시이며 browser/database/WAL 필드는 null입니다.
 
 | 컬렉션/테이블 recycle_bin 필드 | 의미 |
 | --- | --- |
@@ -67,7 +67,7 @@ py -m venv .venv
 | path_utf16_hex | 종료 문자/패딩을 포함한 전체 고정/길이 지정 경로 필드 바이트 |
 | trailing_data_hex | 지원 레이아웃 이후의 미해석 바이트; 없으면 빈 문자열 |
 
-[recycle_bin.py](../plaintrace/recycle_bin.py)는 레이아웃 검증과 메타데이터 해석을 담당합니다. [execution.py](../plaintrace/execution.py)는 입력 출처를 결합하고 [model.py](../plaintrace/model.py)는 버전 4/개수를 정의하며 [exports.py](../plaintrace/exports.py)는 테이블을 추가하고 [cli.py](../plaintrace/cli.py)는 반복 플래그를 추가합니다. 기존 LNK/Prefetch 8 MiB와 EVTX 64 MiB 제한은 유지합니다.
+[recycle_bin.py](../plaintrace/recycle_bin.py)는 레이아웃 검증과 메타데이터 해석을 담당합니다. [execution.py](../plaintrace/execution.py)는 입력 출처를 결합하고 [model.py](../plaintrace/model.py)는 버전 5/개수를 정의하며 [exports.py](../plaintrace/exports.py)는 테이블을 추가하고 [cli.py](../plaintrace/cli.py)는 반복 플래그를 추가합니다. 기존 LNK/Prefetch 8 MiB와 EVTX 64 MiB 제한은 유지합니다.
 
 ## 테스트, 리뷰와 남은 검증
 
@@ -78,3 +78,7 @@ py -m venv .venv
 ## 형식 참고 자료
 
 [libyal Recycle.Bin 작업 명세](https://github.com/libyal/dtformats/blob/main/documentation/Windows%20Recycle.Bin%20file%20formats.asciidoc)와 [rifiuti2 참조 구현](https://github.com/abelcheung/rifiuti2/blob/master/src/rifiuti-vista.c)을 참고했습니다. 레이아웃/변형 처리를 위한 자료이며 의존성 소스를 포함하지 않고 독립 실행 동등성을 확인하지 않았습니다. 보존된 [EnScript 분석](ANALYSIS.ko.md)을 확인하세요.
+
+## USB 레지스트리 확장
+
+현재 패키지 0.5.0은 모든 보고서에 스키마 5를 사용하고 usb_registry 관찰을 추가합니다. 위의 이전 스키마 도입은 과거 맥락이며 기존 아티팩트 필드 의미는 유지합니다. [USB 레지스트리 계약](USB_REGISTRY_CLI.ko.md)과 [테스트/리뷰](USB_REGISTRY_TESTS.ko.md)를 확인하세요.

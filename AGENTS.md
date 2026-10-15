@@ -43,3 +43,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/RECYCLE_BIN_CLI.md` and `docs/RECYCLE_BIN_TESTS.md`. Full unittest discovery includes the EVTX extra; Recycle Bin-only parsing uses the standard library.
 - Report schema 4 adds recycle_bin. Bound input and UTF-16 code-unit counts, retain exact FILETIME/unsigned size/path bytes and warn about padding/trailing data.
 - Analyze acquired explicit $I files only. Do not infer SID/ownership or $R presence/restoration, open original paths, repair shifted layouts or claim Windows/EnCase validation.
+
+## USB registry port
+
+- USB registry development belongs on `codex/python-usb-registry`, based on `d174bc8c7f57aa5f91e0e3c87113e4af78ce3eb1`. Preserve EnScript, archive refs/manifests and the synthetic historical chain.
+- Read `docs/USB_REGISTRY_CLI.md` and `docs/USB_REGISTRY_TESTS.md`; run full discovery with the EVTX extra. Registry parsing itself uses the standard library.
+- Schema 5 adds usb_registry observations. Preserve raw values, source offsets and FILETIMEs. Resolve Select/Current rather than assuming ControlSet001; key last-write is not a connection time.
+- Enforce REGF cell/index/value/output bounds. No dirty-hive log replay, deleted-cell recovery, guessed serials/drive letters/users, cross-hive joins or Windows/EnCase runtime claims.

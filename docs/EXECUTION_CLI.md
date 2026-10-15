@@ -14,7 +14,7 @@ python3 -m plaintrace --lnk /path/to/example.lnk --lnk-codepage cp949 --strict
 python3 -m plaintrace --input /path/to/History --lnk /path/to/example.lnk --prefetch /path/to/APP.pf --format sqlite --output artifacts.sqlite
 ```
 
-Existing browser command syntax is retained, but report format_version and SQLite user_version were extended to 2 in 0.2.0. The 0.3.0 release added events in version 3. Current output uses version 4; see [Recycle Bin schema migration](RECYCLE_BIN_CLI.md). Version 2 added links/prefetch collections/tables and source_kind/sha256 source fields even for browser-only reports. Existing version 1 output is never overwritten or migrated; consumers must explicitly recognize the new version. Optional pip installation provides the same plaintrace console command; see [installation and browser behavior](PYTHON_CLI.md).
+Existing browser command syntax is retained, but report format_version and SQLite user_version were extended to 2 in 0.2.0. The 0.3.0 release added events in version 3. Current output uses version 5; see [Recycle Bin schema migration](RECYCLE_BIN_CLI.md). Version 2 added links/prefetch collections/tables and source_kind/sha256 source fields even for browser-only reports. Existing version 1 output is never overwritten or migrated; consumers must explicitly recognize the new version. Optional pip installation provides the same plaintrace console command; see [installation and browser behavior](PYTHON_CLI.md).
 
 ## LNK Parsing
 
@@ -85,3 +85,7 @@ Structure interpretation refers to [Microsoft MS-SHLLINK](https://learn.microsof
 ## Recycle Bin Extension
 
 [Recycle Bin metadata](RECYCLE_BIN_CLI.md) and [tests/review](RECYCLE_BIN_TESTS.md) describe the standard-library $I parser and current schema 4. LNK/Prefetch fields and limits are preserved.
+
+## USB Registry Extension
+
+Current package 0.5.0 uses schema 5 for every report and adds usb_registry observations. Previous schema introductions above remain historical context; existing artifact field meanings are unchanged. See [USB registry contracts](USB_REGISTRY_CLI.md) and [tests/review](USB_REGISTRY_TESTS.md).

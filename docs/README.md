@@ -49,3 +49,5 @@ Machine-readable records: [commit map](history-map.json) and [source manifest](s
 [EVTX CLI](EVTX_CLI.md) · [EVTX tests and review](EVTX_TESTS.md)
 
 [Recycle Bin CLI](RECYCLE_BIN_CLI.md) · [Tests and review](RECYCLE_BIN_TESTS.md)
+
+[USB registry CLI](USB_REGISTRY_CLI.md) · [Tests and review](USB_REGISTRY_TESTS.md)

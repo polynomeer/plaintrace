@@ -68,7 +68,8 @@ def main():
     for test_file, plan_name, prefix in (('test_browser_cli.py','PYTHON_TESTS','PY'),
                                           ('test_execution_cli.py','EXECUTION_TESTS','EX'),
                                           ('test_evtx_cli.py','EVTX_TESTS','EV'),
-                                          ('test_recycle_bin_cli.py','RECYCLE_BIN_TESTS','RB')):
+                                          ('test_recycle_bin_cli.py','RECYCLE_BIN_TESTS','RB'),
+                                          ('test_usb_registry_cli.py','USB_REGISTRY_TESTS','USB')):
         python_tests = ROOT/'tests'/test_file
         if not python_tests.exists():
             continue
