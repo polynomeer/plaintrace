@@ -41,7 +41,7 @@ git diff --exit-code d1830099999cb1669f8f868506d5c323acdb8ca5 -- '*.EnScript' do
 | EX-17 | test_xpress_multiple_blocks | More than 64 KiB decoded using multiple Huffman blocks |
 | EX-18 | test_xpress_invalid_table_match_and_truncation | Invalid trees, backward references, overflow and truncation |
 | EX-19 | test_mam_checksum_and_size_limits_fail | MAM84 and excessive/short advertised size rejection |
-| EX-20 | test_mixed_browser_execution_json_sqlite_and_source_hashes | Mixed sources, current version 3, JSON/SQLite values and unchanged bytes |
+| EX-20 | test_mixed_browser_execution_json_sqlite_and_source_hashes | Mixed sources, current version 4, JSON/SQLite values and unchanged bytes |
 | EX-21 | test_execution_cli_strict_and_fatal_atomicity | Strict warning output and no partial file on later failure |
 | EX-22 | test_execution_file_size_limit_and_changing_input | Input read cap and changed-source detection |
 | EX-23 | test_mutated_binary_inputs_never_escape_contract_errors | Deterministic byte mutations produce records or contract errors |
@@ -74,4 +74,8 @@ See [usage, fields and format references](EXECUTION_CLI.md) and [the browser reg
 
 ## EVTX Regression Run (2026-10-15)
 
-The current full suite contains 95 cases: 33 browser, 30 execution and 32 EVTX. Install the optional extra to run all integrations; without it seven EVTX cases explicitly skip. Existing export regressions now assert schema version 3. See [EVTX reproduction and review](EVTX_TESTS.md); earlier validation dates above remain historical records.
+The EVTX port validation ran 95 cases: 33 browser, 30 execution and 32 EVTX. Install the optional extra to run all integrations; without it seven EVTX cases explicitly skip. Existing export regressions now assert schema version 3. See [EVTX reproduction and review](EVTX_TESTS.md); earlier validation dates above remain historical records.
+
+## Recycle Bin Regression Run (2026-10-15)
+
+The current suite passes 123 cases with the optional EVTX extra: 33 browser, 30 execution, 32 EVTX, 28 Recycle Bin. Without it, 115 execute and eight explicitly skip. Existing export assertions now check schema 4. See [reproduction and review](RECYCLE_BIN_TESTS.md); earlier dates/counts remain historical validation records.

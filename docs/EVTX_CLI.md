@@ -22,7 +22,7 @@ py -m venv .venv
 .venv\Scripts\plaintrace.exe --evtx C:\acquired\Security.evtx --output events.json
 ```
 
-Repeat `--evtx` for multiple acquired files. At least one of `--input`, `--lnk`, `--prefetch`, `--evtx` is required. Browser and LNK codepage options apply only to their existing inputs. JSON defaults to stdout; SQLite requires `--output`. Existing files/SQLite sidecars and input paths cannot be overwritten. Fatal errors abort all supplied inputs before publication; warnings appear in the report and stderr, and `--strict` returns 1 after producing a report. See [shared output and exit rules](PYTHON_CLI.md).
+Repeat `--evtx` for multiple acquired files. At least one of `--input`, `--lnk`, `--prefetch`, `--evtx`, `--recycle-bin` is required. Browser and LNK codepage options apply only to their existing inputs. JSON defaults to stdout; SQLite requires `--output`. Existing files/SQLite sidecars and input paths cannot be overwritten. Fatal errors abort all supplied inputs before publication; warnings appear in the report and stderr, and `--strict` returns 1 after producing a report. See [shared output and exit rules](PYTHON_CLI.md).
 
 ## Acquisition, Container and Decoder Boundaries
 
@@ -58,9 +58,9 @@ The record envelope FILETIME is retained as decimal `container_filetime_raw` and
 
 `record_id` is the decimal byte offset within its source file, scoped by `source_id`. `event_record_id` is XML EventRecordID; `container_record_id` is the unsigned envelope ID. Both are decimal text to preserve values above SQLite's signed integer range. Missing/invalid XML identities are null and diagnosed. Mismatches and repeated envelope IDs are diagnosed while distinct source offsets remain separate. Duplicate IDs across separately supplied sources are not deduplicated.
 
-## Version 3 Output and Architecture
+## Current Output and Architecture
 
-JSON `format_version` and SQLite `user_version` are 3 for every report, including browser-only reports. Version 3 adds `events` and its count, while retaining version-2 browser/LNK/Prefetch fields. Sources use `source_kind` and `schema_family` evtx, full-file `sha256`, and null browser/database/WAL fields. Existing version-1/2 files are never migrated or rewritten; consumers must explicitly support version 3. Arrays/objects below are native JSON and JSON text in SQLite. Source foreign keys and bound inserts remain enforced.
+JSON `format_version` and SQLite `user_version` are 4 for every report, including browser-only reports. Version 3 introduced `events` and its count, while retaining version-2 browser/LNK/Prefetch fields. Sources use `source_kind` and `schema_family` evtx, full-file `sha256`, and null browser/database/WAL fields. Existing version-1/2/3 files are never migrated or rewritten; consumers must explicitly support version 4. Version 4 adds recycle_bin; see [the Recycle Bin contract](RECYCLE_BIN_CLI.md). Arrays/objects below are native JSON and JSON text in SQLite. Source foreign keys and bound inserts remain enforced.
 
 | Event fields | Meaning |
 | --- | --- |
@@ -73,7 +73,7 @@ JSON `format_version` and SQLite `user_version` are 3 for every report, includin
 | category, action, details | Qualified classification and normalized logon fields; no inference for other events |
 | event_data, user_data_xml, xml | Ordered name/value/XML entries, serialized UserData and full decoder-rendered XML |
 
-`evtx.py` validates envelopes, launches decoding and interprets XML; `evtx_worker.py` bridges the optional BinXML library in a timed subprocess. `execution.py` combines sources, `model.py` declares version 3, `exports.py` writes events and metadata, and `cli.py` adds the repeatable input flag. The existing LNK/Prefetch input/decompression cap remains 8 MiB; EVTX does not change it.
+`evtx.py` validates envelopes, launches decoding and interprets XML; `evtx_worker.py` bridges the optional BinXML library in a timed subprocess. `execution.py` combines sources, `model.py` declares version 4, `exports.py` writes events and metadata, and `cli.py` adds the repeatable input flag. The existing LNK/Prefetch input/decompression cap remains 8 MiB; EVTX does not change it.
 
 ## Tests, Review and Remaining Validation
 
@@ -84,3 +84,7 @@ Actual acquired EVTX files, real provider/version/template variations, independe
 ## References
 
 Implementation uses the [python-evtx 0.8.1 source and XML API](https://github.com/williballenthin/python-evtx/tree/v0.8.1), [libevtx working EVTX format specification](https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20%28EVTX%29.asciidoc), [Microsoft Event schema](https://learn.microsoft.com/en-us/windows/win32/wes/eventschema-schema), [Microsoft 4634](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4634), [Microsoft 4647](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4647) and [Microsoft system event guidance](https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/troubleshoot-unexpected-reboots-system-event-logs). References guide interpretation; they do not certify acquired-case accuracy.
+
+## Recycle Bin Extension
+
+[Recycle Bin usage](RECYCLE_BIN_CLI.md) and [tests/review](RECYCLE_BIN_TESTS.md) document the current 0.4.0/schema-4 extension. EVTX fields and decoder limits are unchanged. Full discovery now contains 123 cases; without the extra eight cases skip, including one mixed Recycle Bin/EVTX case.

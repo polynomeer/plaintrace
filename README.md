@@ -87,4 +87,8 @@ python3 -m unittest discover -s tests -v
 
 ## EVTX CLI
 
-[Install, event fields and version-3 schema](docs/EVTX_CLI.md) · [Tests and review](docs/EVTX_TESTS.md)
+[Install, event fields and current schema](docs/EVTX_CLI.md) · [Tests and review](docs/EVTX_TESTS.md)
+
+## Recycle Bin $I CLI
+
+[Usage and version-4 schema](docs/RECYCLE_BIN_CLI.md) · [Tests and review](docs/RECYCLE_BIN_TESTS.md)

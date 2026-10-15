@@ -47,3 +47,5 @@ Machine-readable records: [commit map](history-map.json) and [source manifest](s
 [Execution CLI](EXECUTION_CLI.md) · [Execution tests and review](EXECUTION_TESTS.md)
 
 [EVTX CLI](EVTX_CLI.md) · [EVTX tests and review](EVTX_TESTS.md)
+
+[Recycle Bin CLI](RECYCLE_BIN_CLI.md) · [Tests and review](RECYCLE_BIN_TESTS.md)

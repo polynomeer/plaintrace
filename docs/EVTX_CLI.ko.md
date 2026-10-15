@@ -22,7 +22,7 @@ py -m venv .venv
 .venv\Scripts\plaintrace.exe --evtx C:\acquired\Security.evtx --output events.json
 ```
 
-여러 획득 파일에는 `--evtx`를 반복합니다. `--input`, `--lnk`, `--prefetch`, `--evtx` 중 하나 이상이 필요합니다. 브라우저와 LNK 코드페이지 옵션은 각각 기존 입력에만 적용합니다. JSON은 기본 stdout이며 SQLite는 `--output`이 필요합니다. 기존 파일/SQLite 사이드카와 입력 경로는 덮어쓸 수 없습니다. 치명적 오류는 게시 전에 전체 입력 처리를 중단합니다. 경고는 보고서와 stderr에 남으며 `--strict`는 보고서를 만든 후 1을 반환합니다. [공통 출력과 종료 규칙](PYTHON_CLI.ko.md)을 확인하세요.
+여러 획득 파일에는 `--evtx`를 반복합니다. `--input`, `--lnk`, `--prefetch`, `--evtx`, `--recycle-bin` 중 하나 이상이 필요합니다. 브라우저와 LNK 코드페이지 옵션은 각각 기존 입력에만 적용합니다. JSON은 기본 stdout이며 SQLite는 `--output`이 필요합니다. 기존 파일/SQLite 사이드카와 입력 경로는 덮어쓸 수 없습니다. 치명적 오류는 게시 전에 전체 입력 처리를 중단합니다. 경고는 보고서와 stderr에 남으며 `--strict`는 보고서를 만든 후 1을 반환합니다. [공통 출력과 종료 규칙](PYTHON_CLI.ko.md)을 확인하세요.
 
 ## 획득, 컨테이너와 디코더 경계
 
@@ -58,9 +58,9 @@ EnScript와 달리 NT AUTHORITY 계정을 제외하거나 고정 시간대 보�
 
 `record_id`는 출처 파일 내 바이트 오프셋의 십진 문자열이며 `source_id` 범위에서 식별합니다. `event_record_id`는 XML EventRecordID이고 `container_record_id`는 컨테이너의 부호 없는 ID입니다. 둘 다 SQLite의 부호 있는 정수 범위를 넘는 값도 보존하도록 십진 텍스트로 저장합니다. 누락/잘못된 XML 식별자는 null이며 경고합니다. 불일치와 중복 컨테이너 ID를 경고하며 서로 다른 출처 오프셋을 별도 레코드로 유지합니다. 별도 입력 출처 사이의 같은 ID도 중복 제거하지 않습니다.
 
-## 버전 3 출력과 구조
+## 현재 출력과 구조
 
-브라우저 전용을 포함한 모든 보고서의 JSON `format_version`과 SQLite `user_version`은 3입니다. 버전 3은 `events`와 개수를 추가하며 버전 2의 브라우저/LNK/Prefetch 필드는 유지합니다. sources의 `source_kind`와 `schema_family`는 evtx, `sha256`은 전체 파일 해시이고 browser/database/WAL 필드는 null입니다. 기존 버전 1/2 파일은 마이그레이션하거나 재작성하지 않으며 소비자는 버전 3을 명시적으로 지원해야 합니다. 아래 배열/객체는 JSON에서 그대로, SQLite에서 JSON 텍스트로 저장합니다. 출처 외래 키와 바인딩 삽입을 유지합니다.
+브라우저 전용을 포함한 모든 보고서의 JSON `format_version`과 SQLite `user_version`은 4입니다. 버전 3은 `events`와 개수를 도입했으며 버전 2의 브라우저/LNK/Prefetch 필드는 유지합니다. sources의 `source_kind`와 `schema_family`는 evtx, `sha256`은 전체 파일 해시이고 browser/database/WAL 필드는 null입니다. 기존 버전 1/2/3 파일은 마이그레이션하거나 재작성하지 않으며 소비자는 버전 4를 명시적으로 지원해야 합니다. 버전 4는 recycle_bin을 추가하며 [휴지통 계약](RECYCLE_BIN_CLI.ko.md)을 확인하세요. 아래 배열/객체는 JSON에서 그대로, SQLite에서 JSON 텍스트로 저장합니다. 출처 외래 키와 바인딩 삽입을 유지합니다.
 
 | 이벤트 필드 | 의미 |
 | --- | --- |
@@ -73,7 +73,7 @@ EnScript와 달리 NT AUTHORITY 계정을 제외하거나 고정 시간대 보�
 | category, action, details | 조건을 확인한 분류와 정규화 로그온 필드; 다른 이벤트는 추론하지 않음 |
 | event_data, user_data_xml, xml | 순서 있는 이름/값/XML 항목, 직렬화 UserData와 전체 디코더 렌더링 XML |
 
-`evtx.py`는 컨테이너 검증, 디코더 실행과 XML 해석을 담당하고 `evtx_worker.py`는 시간 제한 프로세스에서 선택 BinXML 라이브러리를 연결합니다. `execution.py`는 출처를 결합하고 `model.py`는 버전 3을 선언하며 `exports.py`는 이벤트/메타데이터를 쓰고 `cli.py`는 반복 입력 플래그를 추가합니다. 기존 LNK/Prefetch 입력/압축 해제 상한은 계속 8 MiB이며 EVTX가 변경하지 않습니다.
+`evtx.py`는 컨테이너 검증, 디코더 실행과 XML 해석을 담당하고 `evtx_worker.py`는 시간 제한 프로세스에서 선택 BinXML 라이브러리를 연결합니다. `execution.py`는 출처를 결합하고 `model.py`는 버전 4를 선언하며 `exports.py`는 이벤트/메타데이터를 쓰고 `cli.py`는 반복 입력 플래그를 추가합니다. 기존 LNK/Prefetch 입력/압축 해제 상한은 계속 8 MiB이며 EVTX가 변경하지 않습니다.
 
 ## 테스트, 리뷰와 남은 검증
 
@@ -84,3 +84,7 @@ EnScript와 달리 NT AUTHORITY 계정을 제외하거나 고정 시간대 보�
 ## 참고 자료
 
 [python-evtx 0.8.1 소스와 XML API](https://github.com/williballenthin/python-evtx/tree/v0.8.1), [libevtx EVTX 작업 명세](https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20%28EVTX%29.asciidoc), [Microsoft Event 스키마](https://learn.microsoft.com/en-us/windows/win32/wes/eventschema-schema), [Microsoft 4634](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4634), [Microsoft 4647](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4647), [Microsoft 시스템 이벤트 지침](https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/troubleshoot-unexpected-reboots-system-event-logs)을 참고했습니다. 해석을 위한 자료이며 획득 사건의 정확성을 인증하지 않습니다.
+
+## 휴지통 확장
+
+[휴지통 사용법](RECYCLE_BIN_CLI.ko.md)과 [테스트/리뷰](RECYCLE_BIN_TESTS.ko.md)에 현재 0.4.0/스키마 4 확장을 설명합니다. EVTX 필드와 디코더 한계는 유지합니다. 전체 discovery는 이제 123개이며 extra가 없으면 휴지통/EVTX 혼합 하나를 포함한 8개를 건너뜁니다.

@@ -64,7 +64,7 @@ These choices deliberately differ from the EnScript fixed timezone adjustment, U
 
 ## Output Contract
 
-JSON format_version is 3 and includes tool/tool_version, the five browser collections below plus links, prefetch, events and counts. SQLite user_version is 3 and contains the five matching browser tables, links, prefetch and events, plus metadata, whose values are JSON text. Source IDs identify each supplied input; record IDs and source tables preserve row lineage. Transition values are raw and have family-specific meanings.
+JSON format_version is 4 and includes tool/tool_version, the five browser collections below plus links, prefetch, events, recycle_bin and counts. SQLite user_version is 4 and contains the five matching browser tables, links, prefetch, events and recycle_bin, plus metadata, whose values are JSON text. Source IDs identify each supplied input; record IDs and source tables preserve row lineage. Transition values are raw and have family-specific meanings.
 
 | Collection / table | Fields |
 | --- | --- |
@@ -131,4 +131,8 @@ The 0.2.0 extension supports LNK and Prefetch alongside browser inputs; see [exe
 
 ## EVTX Extension and Version 3
 
-The 0.3.0 extension adds acquired Windows EVTX via an optional decoder, events and explicit report/SQLite version 3. Existing browser fields keep their meanings and old reports are never migrated. See [EVTX contracts and installation](EVTX_CLI.md) and [tests and review](EVTX_TESTS.md). Browser-only reports also use version 3.
+The 0.3.0 extension introduced acquired Windows EVTX via an optional decoder, events and explicit report/SQLite version 3. Existing browser fields keep their meanings and old reports are never migrated. See [EVTX contracts and installation](EVTX_CLI.md) and [tests and review](EVTX_TESTS.md). Browser-only reports also received version 3 at introduction; current reports use version 4.
+
+## Recycle Bin Extension and Version 4
+
+The current 0.4.0 release adds explicit acquired $I metadata inputs, recycle_bin and schema version 4 for every report. Browser fields keep their existing meanings. See [usage, fields and limits](RECYCLE_BIN_CLI.md) and [tests/review](RECYCLE_BIN_TESTS.md). The earlier version-3 extension above describes its original introduction; current output is version 4.
