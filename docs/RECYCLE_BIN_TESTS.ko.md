@@ -40,12 +40,12 @@ git diff --exit-code e0d0145cfb7b649c1713d66776ea140a43f891a3 -- '*.EnScript' do
 | RB-14 | test_path_and_input_limits_cover_direct_parser_and_cli | 32768 단위 경계와 128 KiB 입력/파서 직접 호출 상한 |
 | RB-15 | test_renamed_and_repeated_sources_have_stable_hash_and_lineage | 이름 변경/반복 입력의 별도 출처 ID와 해시/바이트 보존 |
 | RB-16 | test_changed_input_fails_without_publication | 변경 파일은 출력 게시 방지 |
-| RB-17 | test_json_sqlite_schema_four_and_unsigned_size_roundtrip | JSON/SQLite 버전 4, 부호 없는 크기, Unicode와 출처 외래 키 |
+| RB-17 | test_json_sqlite_schema_four_and_unsigned_size_roundtrip | JSON/SQLite 버전 5, 부호 없는 크기, Unicode와 출처 외래 키 |
 | RB-18 | test_cli_stdout_strict_and_real_subprocess | strict 경고 stdout과 실제 프로세스 성공 |
 | RB-19 | test_cli_all_or_nothing_when_later_input_fails | 후속 입력 오류는 전체 출력 중단과 임시 출력 정리 |
 | RB-20 | test_existing_output_sidecar_and_evidence_collision_preserved | 기존 출력/사이드카와 출처 충돌에서 바이트 덮어쓰기 방지 |
 | RB-21 | test_no_payload_sid_owner_or_target_filesystem_inference | 실제 파일 열기는 $I 출처만 접근하며 소유자/$R 추정 없음 |
-| RB-22 | test_mixed_browser_link_prefetch_and_recycle_sources | 브라우저/LNK/Prefetch/휴지통 출처 순서와 스키마 4 |
+| RB-22 | test_mixed_browser_link_prefetch_and_recycle_sources | 브라우저/LNK/Prefetch/휴지통 출처 순서와 스키마 5 |
 | RB-23 | test_mixed_five_source_cli_with_actual_evtx_decoder | 실제 EVTX 디코더와 다섯 입력 유형의 JSON/SQLite |
 | RB-24 | test_mutated_inputs_only_raise_contract_errors | 고정 시드 변형 200개는 계약 오류 또는 메타데이터 보존 |
 | RB-25 | test_review_utf16_terminator_is_aligned_not_byte_substring | NUL 검색을 임의 바이트가 아닌 UTF-16 단위에 정렬 |
@@ -72,3 +72,7 @@ git diff --exit-code e0d0145cfb7b649c1713d66776ea140a43f891a3 -- '*.EnScript' do
 설치한 0.4.0 콘솔 명령을 체크아웃 밖에서 다섯 아티팩트 유형, JSON/SQLite 스키마 4와 입력 해시 보존으로 스모크 검증합니다. 기존 EnScript 이식 가능한 검사 11개, 소스 참조 4개, 영문·국문 문서/테스트 대응, 공백과 소스/아카이브 비교는 별도로 통과합니다. 아카이브 검사는 원본 소스 13개, 원래 README, 원래 트리와 2017년 합성 커밋 263개를 보존하지만 EnScript 컴파일이 아니며 원래 로컬 백업 ref가 필요합니다.
 
 실제 획득 $I, Windows/Linux, Python 3.10, 독립 파서 대조, 대형 컬렉션과 획득 경합은 미검증입니다. 지원 레이아웃은 합성 검사만 수행했습니다. INFO/INFO2, 543바이트 버전 1 변형, 절단/손상 필드 복구, 디렉터리 검색, $R 추출/복구/상태 분석과 계정 식별은 미지원입니다. 메타데이터/CRC 없는 레이아웃 인식은 진위나 완전성 인증이 아닙니다. 기존 브라우저/LNK/Prefetch/EVTX 한계, 선택 디코더 요구, 입력별 자원 제한과 EnCase 컴파일/실행 미검증도 문서에 유지합니다.
+
+## USB 레지스트리 회귀 실행 (2026-10-15)
+
+현재 전체 discovery는 브라우저 33개, 실행 30개, EVTX 32개, 휴지통 28개, USB 레지스트리 25개로 148개가 통과합니다. EVTX extra가 없으면 140개를 실행하고 8개를 건너뜁니다. 현재 출력 검사는 스키마 5이며 이전 개수/스키마 도입은 과거 기록입니다. [USB 재현과 리뷰](USB_REGISTRY_TESTS.ko.md)를 확인하세요.

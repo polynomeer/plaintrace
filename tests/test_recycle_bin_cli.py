@@ -134,10 +134,10 @@ class RecycleBinTests(unittest.TestCase):
     def test_json_sqlite_schema_four_and_unsigned_size_roundtrip(self):
         path=self.file('$IBIG',index_fixture(size=2**64-1,path="C:\\A,B'\n😀"));report=analyze(recycle_bins=[path])
         json_path=self.folder/'out.json';sql_path=self.folder/'out.sqlite';write_report(report,json_path);write_report(report,sql_path,'sqlite')
-        payload=json.loads(json_path.read_text());self.assertEqual(payload['format_version'],4);self.assertEqual(payload['counts']['recycle_bin'],1)
+        payload=json.loads(json_path.read_text());self.assertEqual(payload['format_version'],5);self.assertEqual(payload['counts']['recycle_bin'],1)
         self.assertEqual(payload['recycle_bin'][0]['original_size'],str(2**64-1))
         with closing(sqlite3.connect(sql_path)) as db:
-            self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],4)
+            self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],5)
             self.assertEqual(db.execute('SELECT original_size,original_path,deletion_filetime_raw FROM recycle_bin').fetchone(),(str(2**64-1),"C:\\A,B'\n😀",str(FT)))
             self.assertEqual(db.execute('PRAGMA foreign_key_check').fetchall(),[])
             self.assertEqual(json.loads(db.execute("SELECT value FROM metadata WHERE key='counts'").fetchone()[0])['recycle_bin'],1)
@@ -185,7 +185,7 @@ class RecycleBinTests(unittest.TestCase):
         link=self.file('a.lnk',shell_link({'relative_path':'APP.EXE'}));pf=self.file('a.pf',pf_fixture());index=self.file('$IABC',index_fixture())
         report=analyze([browser],[link],[pf],recycle_bins=[index])
         self.assertEqual([s['source_kind'] for s in report.sources],['browser','lnk','prefetch','recycle_bin'])
-        self.assertEqual(report.recycle_bin[0]['source_id'],4);self.assertEqual(report.as_dict()['format_version'],4)
+        self.assertEqual(report.recycle_bin[0]['source_id'],4);self.assertEqual(report.as_dict()['format_version'],5)
 
     @unittest.skipUnless(HAS_DECODER,'optional python-evtx==0.8.1 not installed')
     def test_mixed_five_source_cli_with_actual_evtx_decoder(self):

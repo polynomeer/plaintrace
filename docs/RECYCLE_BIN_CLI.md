@@ -52,9 +52,9 @@ Each input yields one metadata record; `record_id` is the string 0, the header o
 
 The parser does not read, locate, hash, extract or restore a `$R` companion. It does not infer whether a payload exists, was restored or was permanently deleted. SID/owner/account attribution is not present in the supported `$I` header and is not guessed from acquisition directory names. The original EnScript collected case-file metadata/MD5 and SID path context; this port covers only `$I` metadata. It explicitly distinguishes versions instead of assuming a path immediately after offset 24, and replaces fixed timezone display with UTC/raw ticks. No EnCase output parity is claimed. Metadata records alone do not establish user intent, payload identity or a complete deletion history.
 
-## Version 4 Schema and Architecture
+## Current Schema and Architecture
 
-Every JSON `format_version` and SQLite `user_version` is 4, even when no Recycle Bin input is supplied. Version 4 adds `recycle_bin` and its count while preserving existing browser, LNK, Prefetch and EVTX field meanings. Existing version-1/2/3 reports are not rewritten or migrated; consumers must recognize version 4 explicitly. SQLite inserts bind values and enforce source foreign keys. Sources use `source_kind` and `schema_family` recycle_bin, full input `sha256`, and null browser/database/WAL fields.
+Every JSON `format_version` and SQLite `user_version` is 5, even when no Recycle Bin input is supplied. Version 4 adds `recycle_bin` and its count while preserving existing browser, LNK, Prefetch and EVTX field meanings. Existing version-1/2/3 reports are not rewritten or migrated; consumers must recognize version 5 explicitly. SQLite inserts bind values and enforce source foreign keys. Sources use `source_kind` and `schema_family` recycle_bin, full input `sha256`, and null browser/database/WAL fields.
 
 | Collection/table recycle_bin field | Meaning |
 | --- | --- |
@@ -67,7 +67,7 @@ Every JSON `format_version` and SQLite `user_version` is 4, even when no Recycle
 | path_utf16_hex | Entire fixed/counted path field bytes, including terminator/padding |
 | trailing_data_hex | Uninterpreted bytes after the supported layout; empty string when absent |
 
-[recycle_bin.py](../plaintrace/recycle_bin.py) validates layouts and interprets metadata. [execution.py](../plaintrace/execution.py) combines input sources, [model.py](../plaintrace/model.py) defines version 4/counts, [exports.py](../plaintrace/exports.py) adds the table, and [cli.py](../plaintrace/cli.py) adds the repeatable flag. Existing LNK/Prefetch 8 MiB and EVTX 64 MiB limits remain unchanged.
+[recycle_bin.py](../plaintrace/recycle_bin.py) validates layouts and interprets metadata. [execution.py](../plaintrace/execution.py) combines input sources, [model.py](../plaintrace/model.py) defines version 5/counts, [exports.py](../plaintrace/exports.py) adds the table, and [cli.py](../plaintrace/cli.py) adds the repeatable flag. Existing LNK/Prefetch 8 MiB and EVTX 64 MiB limits remain unchanged.
 
 ## Tests, Review and Remaining Validation
 
@@ -78,3 +78,7 @@ Actual acquired `$I` files from different Windows releases, Windows/Linux and Py
 ## Format References
 
 Structure interpretation uses the [libyal Recycle.Bin working specification](https://github.com/libyal/dtformats/blob/main/documentation/Windows%20Recycle.Bin%20file%20formats.asciidoc) and [rifiuti2 reference implementation](https://github.com/abelcheung/rifiuti2/blob/master/src/rifiuti-vista.c). These guide layout and anomaly handling; no dependency source is vendored and no independent runtime parity has been established. See the preserved [EnScript analysis](ANALYSIS.md).
+
+## USB Registry Extension
+
+Current package 0.5.0 uses schema 5 for every report and adds usb_registry observations. Previous schema introductions above remain historical context; existing artifact field meanings are unchanged. See [USB registry contracts](USB_REGISTRY_CLI.md) and [tests/review](USB_REGISTRY_TESTS.md).

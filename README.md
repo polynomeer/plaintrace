@@ -91,4 +91,8 @@ python3 -m unittest discover -s tests -v
 
 ## Recycle Bin $I CLI
 
-[Usage and version-4 schema](docs/RECYCLE_BIN_CLI.md) · [Tests and review](docs/RECYCLE_BIN_TESTS.md)
+[Usage and current schema](docs/RECYCLE_BIN_CLI.md) · [Tests and review](docs/RECYCLE_BIN_TESTS.md)
+
+## USB Registry CLI
+
+[Usage and schema 5](docs/USB_REGISTRY_CLI.md) · [Tests and review](docs/USB_REGISTRY_TESTS.md)

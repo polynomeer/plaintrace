@@ -91,4 +91,8 @@ python3 -m unittest discover -s tests -v
 
 ## 휴지통 $I CLI
 
-[사용법과 버전 4 스키마](docs/RECYCLE_BIN_CLI.ko.md) · [테스트와 리뷰](docs/RECYCLE_BIN_TESTS.ko.md)
+[사용법과 현재 스키마](docs/RECYCLE_BIN_CLI.ko.md) · [테스트와 리뷰](docs/RECYCLE_BIN_TESTS.ko.md)
+
+## USB 레지스트리 CLI
+
+[사용법과 스키마 5](docs/USB_REGISTRY_CLI.ko.md) · [테스트와 리뷰](docs/USB_REGISTRY_TESTS.ko.md)

@@ -41,7 +41,7 @@ git diff --exit-code d1830099999cb1669f8f868506d5c323acdb8ca5 -- '*.EnScript' do
 | EX-17 | test_xpress_multiple_blocks | 여러 Huffman 블록으로 64 KiB 초과 디코딩 |
 | EX-18 | test_xpress_invalid_table_match_and_truncation | 잘못된 트리, 역참조, 확장 초과와 잘린 입력 |
 | EX-19 | test_mam_checksum_and_size_limits_fail | MAM84 및 과도하거나 짧은 선언 크기 거부 |
-| EX-20 | test_mixed_browser_execution_json_sqlite_and_source_hashes | 혼합 출처, 현재 버전 4, JSON/SQLite 값과 바이트 보존 |
+| EX-20 | test_mixed_browser_execution_json_sqlite_and_source_hashes | 혼합 출처, 현재 버전 5, JSON/SQLite 값과 바이트 보존 |
 | EX-21 | test_execution_cli_strict_and_fatal_atomicity | strict 경고 출력과 후속 실패 시 부분 파일 방지 |
 | EX-22 | test_execution_file_size_limit_and_changing_input | 입력 읽기 제한과 출처 변경 탐지 |
 | EX-23 | test_mutated_binary_inputs_never_escape_contract_errors | 결정적 바이트 변형이 결과 또는 계약 오류만 생성 |
@@ -79,3 +79,7 @@ EVTX 도입 검증에서는 브라우저 33개, 실행 30개, EVTX 32개로 총 
 ## 휴지통 회귀 실행 (2026-10-15)
 
 현재 선택 EVTX extra를 포함하면 브라우저 33개, 실행 30개, EVTX 32개, 휴지통 28개로 123개가 통과합니다. 없으면 115개를 실행하고 8개를 명시적으로 건너뜁니다. 기존 출력 검사는 이제 스키마 4를 확인합니다. [재현과 리뷰](RECYCLE_BIN_TESTS.ko.md)를 확인하세요. 기존 날짜/개수는 과거 검증 기록으로 유지합니다.
+
+## USB 레지스트리 회귀 실행 (2026-10-15)
+
+현재 전체 discovery는 브라우저 33개, 실행 30개, EVTX 32개, 휴지통 28개, USB 레지스트리 25개로 148개가 통과합니다. EVTX extra가 없으면 140개를 실행하고 8개를 건너뜁니다. 현재 출력 검사는 스키마 5이며 이전 개수/스키마 도입은 과거 기록입니다. [USB 재현과 리뷰](USB_REGISTRY_TESTS.ko.md)를 확인하세요.

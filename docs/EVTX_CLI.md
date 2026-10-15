@@ -60,7 +60,7 @@ The record envelope FILETIME is retained as decimal `container_filetime_raw` and
 
 ## Current Output and Architecture
 
-JSON `format_version` and SQLite `user_version` are 4 for every report, including browser-only reports. Version 3 introduced `events` and its count, while retaining version-2 browser/LNK/Prefetch fields. Sources use `source_kind` and `schema_family` evtx, full-file `sha256`, and null browser/database/WAL fields. Existing version-1/2/3 files are never migrated or rewritten; consumers must explicitly support version 4. Version 4 adds recycle_bin; see [the Recycle Bin contract](RECYCLE_BIN_CLI.md). Arrays/objects below are native JSON and JSON text in SQLite. Source foreign keys and bound inserts remain enforced.
+JSON `format_version` and SQLite `user_version` are 5 for every report, including browser-only reports. Version 3 introduced `events` and its count, while retaining version-2 browser/LNK/Prefetch fields. Sources use `source_kind` and `schema_family` evtx, full-file `sha256`, and null browser/database/WAL fields. Existing version-1/2/3 files are never migrated or rewritten; consumers must explicitly support version 5. Version 4 adds recycle_bin; see [the Recycle Bin contract](RECYCLE_BIN_CLI.md). Arrays/objects below are native JSON and JSON text in SQLite. Source foreign keys and bound inserts remain enforced.
 
 | Event fields | Meaning |
 | --- | --- |
@@ -73,7 +73,7 @@ JSON `format_version` and SQLite `user_version` are 4 for every report, includin
 | category, action, details | Qualified classification and normalized logon fields; no inference for other events |
 | event_data, user_data_xml, xml | Ordered name/value/XML entries, serialized UserData and full decoder-rendered XML |
 
-`evtx.py` validates envelopes, launches decoding and interprets XML; `evtx_worker.py` bridges the optional BinXML library in a timed subprocess. `execution.py` combines sources, `model.py` declares version 4, `exports.py` writes events and metadata, and `cli.py` adds the repeatable input flag. The existing LNK/Prefetch input/decompression cap remains 8 MiB; EVTX does not change it.
+`evtx.py` validates envelopes, launches decoding and interprets XML; `evtx_worker.py` bridges the optional BinXML library in a timed subprocess. `execution.py` combines sources, `model.py` declares version 5, `exports.py` writes events and metadata, and `cli.py` adds the repeatable input flag. The existing LNK/Prefetch input/decompression cap remains 8 MiB; EVTX does not change it.
 
 ## Tests, Review and Remaining Validation
 
@@ -87,4 +87,8 @@ Implementation uses the [python-evtx 0.8.1 source and XML API](https://github.co
 
 ## Recycle Bin Extension
 
-[Recycle Bin usage](RECYCLE_BIN_CLI.md) and [tests/review](RECYCLE_BIN_TESTS.md) document the current 0.4.0/schema-4 extension. EVTX fields and decoder limits are unchanged. Full discovery now contains 123 cases; without the extra eight cases skip, including one mixed Recycle Bin/EVTX case.
+[Recycle Bin usage](RECYCLE_BIN_CLI.md) and [tests/review](RECYCLE_BIN_TESTS.md) document the 0.4.0/schema-4 introduction. EVTX fields and decoder limits are unchanged. Full discovery now contains 123 cases; without the extra eight cases skip, including one mixed Recycle Bin/EVTX case.
+
+## USB Registry Extension
+
+Current package 0.5.0 uses schema 5 for every report and adds usb_registry observations. Previous schema introductions above remain historical context; existing artifact field meanings are unchanged. See [USB registry contracts](USB_REGISTRY_CLI.md) and [tests/review](USB_REGISTRY_TESTS.md).

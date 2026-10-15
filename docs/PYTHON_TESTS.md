@@ -75,3 +75,7 @@ The EVTX port validation ran 95 cases: 33 browser, 30 execution and 32 EVTX. Ins
 ## Recycle Bin Regression Run (2026-10-15)
 
 The current suite passes 123 cases with the optional EVTX extra: 33 browser, 30 execution, 32 EVTX, 28 Recycle Bin. Without it, 115 execute and eight explicitly skip. Existing export assertions now check schema 4. See [reproduction and review](RECYCLE_BIN_TESTS.md); earlier dates/counts remain historical validation records.
+
+## USB Registry Regression Run (2026-10-15)
+
+Current full discovery passes 148 cases: 33 browser, 30 execution, 32 EVTX, 28 Recycle Bin and 25 USB registry. Without the EVTX extra, 140 execute and eight skip. Current export assertions use schema 5; earlier counts/schema introductions are historical records. See [USB reproduction and review](USB_REGISTRY_TESTS.md).

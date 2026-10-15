@@ -32,7 +32,7 @@ git diff --exit-code 9f32324141810b257d4f680e84c849c013543900 -- '*.EnScript' do
 | EV-06 | test_unknown_and_namespace_free_events_retained | Unknown IDs and namespace-free Event accepted |
 | EV-07 | test_invalid_and_missing_time_and_numeric_fields | Invalid/missing time and numeric values diagnosed |
 | EV-08 | test_time_zone_precision_overflow_and_mismatch | Timezone/7-digit precision, overflow and XML/container mismatches |
-| EV-09 | test_unsigned_record_ids_remain_text_in_sqlite | Unsigned 64-bit IDs preserved as SQLite text; current version 4 and FKs |
+| EV-09 | test_unsigned_record_ids_remain_text_in_sqlite | Unsigned 64-bit IDs preserved as SQLite text; current version 5 and FKs |
 | EV-10 | test_xml_dtd_entities_roots_and_duplicate_system_rejected | DTD/entities, foreign root, missing/duplicate singleton rejection |
 | EV-11 | test_xml_size_depth_and_node_limits | Per-record XML byte and depth bounds |
 | EV-12 | test_container_versions_empty_and_dirty | 3.1/3.2 envelopes, empty chunks and dirty diagnostic |
@@ -79,3 +79,7 @@ Generated literal/shared-template/string-substitution fixtures exercise the deco
 ## Recycle Bin Regression Run (2026-10-15)
 
 The current suite passes 123 cases with the optional EVTX extra: 33 browser, 30 execution, 32 EVTX, 28 Recycle Bin. Without it, 115 execute and eight explicitly skip. Existing export assertions now check schema 4. See [reproduction and review](RECYCLE_BIN_TESTS.md); earlier dates/counts remain historical validation records.
+
+## USB Registry Regression Run (2026-10-15)
+
+Current full discovery passes 148 cases: 33 browser, 30 execution, 32 EVTX, 28 Recycle Bin and 25 USB registry. Without the EVTX extra, 140 execute and eight skip. Current export assertions use schema 5; earlier counts/schema introductions are historical records. See [USB reproduction and review](USB_REGISTRY_TESTS.md).
