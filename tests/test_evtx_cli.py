@@ -210,7 +210,7 @@ class EvtxTests(unittest.TestCase):
         output=self.folder/'report.sqlite';write_report(report,output,'sqlite')
         with closing(sqlite3.connect(output)) as db:
             self.assertEqual(db.execute('SELECT event_record_id, container_record_id FROM events').fetchone(),(str(2**64-1),str(2**64-1)))
-            self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],5)
+            self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],6)
             self.assertEqual(db.execute('PRAGMA foreign_key_check').fetchall(),[])
 
     def test_xml_dtd_entities_roots_and_duplicate_system_rejected(self):
@@ -317,13 +317,13 @@ class EvtxTests(unittest.TestCase):
         args=[sys.executable,'-m','plaintrace','--input',str(browser),'--lnk',str(link),'--prefetch',str(pf),'--evtx',str(log)]
         result=subprocess.run(args,capture_output=True,text=True)
         self.assertEqual(result.returncode,0,result.stderr);payload=json.loads(result.stdout)
-        self.assertEqual(payload['format_version'],5);self.assertEqual(payload['events'][0]['source_id'],4)
+        self.assertEqual(payload['format_version'],6);self.assertEqual(payload['events'][0]['source_id'],4)
         self.assertEqual([s['source_kind'] for s in payload['sources']],['browser','lnk','prefetch','evtx'])
         output=self.folder/'events.sqlite'
         result=subprocess.run(args+['--format','sqlite','--output',str(output)],capture_output=True,text=True)
         self.assertEqual(result.returncode,0,result.stderr)
         with closing(sqlite3.connect(output)) as db:
-            self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],5)
+            self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],6)
             self.assertEqual(json.loads(db.execute('SELECT details FROM events').fetchone()[0])['user'],"한글,O'Brien\n")
         old=output.read_bytes();self.assertEqual(subprocess.run(args+['--output',str(output)],capture_output=True).returncode,2)
         self.assertEqual(output.read_bytes(),old);self.assertTrue(all(p.read_bytes()==data for p,data in before.items()))
