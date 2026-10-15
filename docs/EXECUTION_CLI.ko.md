@@ -2,7 +2,7 @@
 
 [English](EXECUTION_CLI.md) | **한국어**
 
-현재 패키지는 0.7.0이며 모든 출력은 스키마 7입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [애플리케이션 MRU 확장](APPLICATION_MRU_CLI.ko.md)을 따릅니다.
+현재 패키지는 0.8.0이며 모든 출력은 스키마 8입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [Jump Lists 확장](JUMP_LISTS_CLI.ko.md)을 따릅니다.
 
 2026-10-14 codex/python-lnk-prefetch에서 d1830099999cb1669f8f868506d5c323acdb8ca5를 기준으로 구현하고 리뷰했습니다. 모든 EnScript와 과거 매니페스트는 브랜치 기준과 바이트가 같으며 아카이브 태그와 재구성된 2017년 커밋 263개를 보존합니다. 버전 0.2.0은 독립 Python 확장이고 EnScript 런타임이 아닙니다.
 
@@ -16,7 +16,7 @@ python3 -m plaintrace --lnk /path/to/example.lnk --lnk-codepage cp949 --strict
 python3 -m plaintrace --input /path/to/History --lnk /path/to/example.lnk --prefetch /path/to/APP.pf --format sqlite --output artifacts.sqlite
 ```
 
-기존 브라우저 명령 구문은 유지하지만 보고서 format_version과 SQLite user_version은 0.2.0에서 2로 확장되었습니다. 0.3.0은 버전 3에 events를 추가했습니다. 현재 출력은 버전 7이며 [휴지통 스키마 변경](RECYCLE_BIN_CLI.ko.md)을 확인하세요. 버전 2는 브라우저 전용 보고서에도 links/prefetch 컬렉션/테이블 및 source_kind/sha256 출처 필드를 추가합니다. 기존 버전 1 출력은 덮어쓰거나 마이그레이션하지 않으며 소비자는 새 버전을 명시적으로 인식해야 합니다. 선택적 pip 설치도 동일한 plaintrace 명령을 제공합니다. [설치와 브라우저 동작](PYTHON_CLI.ko.md)을 확인하세요.
+기존 브라우저 명령 구문은 유지하지만 보고서 format_version과 SQLite user_version은 0.2.0에서 2로 확장되었습니다. 0.3.0은 버전 3에 events를 추가했습니다. 현재 출력은 버전 8이며 [휴지통 스키마 변경](RECYCLE_BIN_CLI.ko.md)을 확인하세요. 버전 2는 브라우저 전용 보고서에도 links/prefetch 컬렉션/테이블 및 source_kind/sha256 출처 필드를 추가합니다. 기존 버전 1 출력은 덮어쓰거나 마이그레이션하지 않으며 소비자는 새 버전을 명시적으로 인식해야 합니다. 선택적 pip 설치도 동일한 plaintrace 명령을 제공합니다. [설치와 브라우저 동작](PYTHON_CLI.ko.md)을 확인하세요.
 
 ## LNK 파싱
 
@@ -94,4 +94,4 @@ Windows/Linux, 최소 Python 버전 실행, 실제 획득 LNK/Prefetch/MAM, 독�
 
 ## RecentDocs 확장
 
-패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 7을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.
+패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 8을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.

@@ -2,7 +2,7 @@
 
 **English** | [한국어](RECYCLE_BIN_CLI.ko.md)
 
-The current package is 0.7.0 and every output uses schema 7. Earlier version introductions/test results below describe their release context; see [the application MRU extension](APPLICATION_MRU_CLI.md) for the current contract.
+The current package is 0.8.0 and every output uses schema 8. Earlier version introductions/test results below describe their release context; see [the Jump Lists extension](JUMP_LISTS_CLI.md) for the current contract.
 
 Implemented on 2026-10-15 on `codex/python-recycle-bin`, based on merged commit `e0d0145cfb7b649c1713d66776ea140a43f891a3`. All thirteen EnScript files and historical manifests remain byte-identical to the base. The original archive tag and 263 reconstructed 2017 commits are preserved. Package version `0.4.0` is an independent Python extension.
 
@@ -56,7 +56,7 @@ The parser does not read, locate, hash, extract or restore a `$R` companion. It 
 
 ## Current Schema and Architecture
 
-Every JSON `format_version` and SQLite `user_version` is 7, even when no Recycle Bin input is supplied. Version 4 adds `recycle_bin` and its count while preserving existing browser, LNK, Prefetch and EVTX field meanings. Existing version-1/2/3 reports are not rewritten or migrated; consumers must recognize version 7 explicitly. SQLite inserts bind values and enforce source foreign keys. Sources use `source_kind` and `schema_family` recycle_bin, full input `sha256`, and null browser/database/WAL fields.
+Every JSON `format_version` and SQLite `user_version` is 8, even when no Recycle Bin input is supplied. Version 4 adds `recycle_bin` and its count while preserving existing browser, LNK, Prefetch and EVTX field meanings. Existing version-1/2/3 reports are not rewritten or migrated; consumers must recognize version 8 explicitly. SQLite inserts bind values and enforce source foreign keys. Sources use `source_kind` and `schema_family` recycle_bin, full input `sha256`, and null browser/database/WAL fields.
 
 | Collection/table recycle_bin field | Meaning |
 | --- | --- |
@@ -69,7 +69,7 @@ Every JSON `format_version` and SQLite `user_version` is 7, even when no Recycle
 | path_utf16_hex | Entire fixed/counted path field bytes, including terminator/padding |
 | trailing_data_hex | Uninterpreted bytes after the supported layout; empty string when absent |
 
-[recycle_bin.py](../plaintrace/recycle_bin.py) validates layouts and interprets metadata. [execution.py](../plaintrace/execution.py) combines input sources, [model.py](../plaintrace/model.py) defines version 7/counts, [exports.py](../plaintrace/exports.py) adds the table, and [cli.py](../plaintrace/cli.py) adds the repeatable flag. Existing LNK/Prefetch 8 MiB and EVTX 64 MiB limits remain unchanged.
+[recycle_bin.py](../plaintrace/recycle_bin.py) validates layouts and interprets metadata. [execution.py](../plaintrace/execution.py) combines input sources, [model.py](../plaintrace/model.py) defines version 8/counts, [exports.py](../plaintrace/exports.py) adds the table, and [cli.py](../plaintrace/cli.py) adds the repeatable flag. Existing LNK/Prefetch 8 MiB and EVTX 64 MiB limits remain unchanged.
 
 ## Tests, Review and Remaining Validation
 
@@ -87,4 +87,4 @@ The 0.5.0 release introduced schema 5 and usb_registry observations. Previous sc
 
 ## RecentDocs Extension
 
-Package 0.6.0 introduced schema 6 and recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 7. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.
+Package 0.6.0 introduced schema 6 and recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 8. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.

@@ -59,3 +59,9 @@ Machine-readable records: [commit map](history-map.json) and [source manifest](s
 Package 0.7.0 adds Office/HWP/Adobe MRUs and schema 7.
 
 [CLI](APPLICATION_MRU_CLI.md) · [Tests and review](APPLICATION_MRU_TESTS.md)
+
+## Jump Lists Extension
+
+Package 0.8.0 adds automatic/custom Jump Lists and schema 8.
+
+[CLI](JUMP_LISTS_CLI.md) · [Tests and review](JUMP_LISTS_TESTS.md)

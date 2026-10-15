@@ -137,15 +137,15 @@ class ApplicationMRUTests(unittest.TestCase):
     def test_cli_repeated_sources_hashes_and_schema(self):
         path=self.file('NTUSER',hive_fixture(paths()));before=path.read_bytes()
         result=subprocess.run([sys.executable,'-m','plaintrace','--application-mru',str(path),'--application-mru',str(path)],capture_output=True,text=True)
-        self.assertEqual(result.returncode,0,result.stderr);payload=json.loads(result.stdout);self.assertEqual(payload['format_version'],7)
+        self.assertEqual(result.returncode,0,result.stderr);payload=json.loads(result.stdout);self.assertEqual(payload['format_version'],8)
         self.assertEqual(payload['counts']['application_mru'],10);self.assertEqual([s['source_id'] for s in payload['sources']],[1,2])
         self.assertEqual(payload['sources'][0]['sha256'],hashlib.sha256(before).hexdigest());self.assertEqual(path.read_bytes(),before)
 
     def test_json_sqlite_roundtrip_and_parent_foreign_key(self):
         path=self.file('hive',hive_fixture(paths()));report=analyze(application_hives=[path]);js=self.folder/'out.json';db=self.folder/'out.sqlite'
-        write_report(report,js);write_report(report,db,'sqlite');payload=json.loads(js.read_text());self.assertEqual(payload['format_version'],7)
+        write_report(report,js);write_report(report,db,'sqlite');payload=json.loads(js.read_text());self.assertEqual(payload['format_version'],8)
         with closing(sqlite3.connect(db)) as conn:
-            self.assertEqual(conn.execute('PRAGMA user_version').fetchone()[0],7);self.assertFalse(conn.execute('PRAGMA foreign_key_check').fetchall())
+            self.assertEqual(conn.execute('PRAGMA user_version').fetchone()[0],8);self.assertFalse(conn.execute('PRAGMA foreign_key_check').fetchall())
             self.assertEqual(conn.execute('SELECT stored_path FROM application_mru ORDER BY rowid').fetchall(),[(r['stored_path'],) for r in report.application_mru])
             conn.execute('PRAGMA foreign_keys=ON')
             with self.assertRaises(sqlite3.IntegrityError):conn.execute("UPDATE application_mru SET key_id='absent'")
