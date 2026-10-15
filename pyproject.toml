@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "plaintrace"
-version = "0.6.0"
-description = "Portable browser, LNK, Prefetch, EVTX Recycle Bin USB registry and RecentDocs artifact analysis derived from Plain View of Multi Artifacts"
+version = "0.7.0"
+description = "Portable browser, LNK, Prefetch, EVTX Recycle Bin USB registry RecentDocs and application MRU artifact analysis derived from Plain View of Multi Artifacts"
 requires-python = ">=3.10"
 
 [project.optional-dependencies]

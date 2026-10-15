@@ -53,3 +53,9 @@
 [USB 레지스트리 CLI](USB_REGISTRY_CLI.ko.md) · [테스트와 리뷰](USB_REGISTRY_TESTS.ko.md)
 
 [RecentDocs CLI](RECENT_DOCS_CLI.ko.md) · [테스트와 리뷰](RECENT_DOCS_TESTS.ko.md)
+
+## 애플리케이션 MRU 확장
+
+Office·HWP·Adobe MRU와 스키마 7을 패키지 0.7.0에서 추가했습니다.
+
+[CLI](APPLICATION_MRU_CLI.ko.md) · [테스트와 리뷰](APPLICATION_MRU_TESTS.ko.md)

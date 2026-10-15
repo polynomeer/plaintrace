@@ -53,3 +53,9 @@ Machine-readable records: [commit map](history-map.json) and [source manifest](s
 [USB registry CLI](USB_REGISTRY_CLI.md) · [Tests and review](USB_REGISTRY_TESTS.md)
 
 [RecentDocs CLI](RECENT_DOCS_CLI.md) · [Tests and review](RECENT_DOCS_TESTS.md)
+
+## Application MRU Extension
+
+Package 0.7.0 adds Office/HWP/Adobe MRUs and schema 7.
+
+[CLI](APPLICATION_MRU_CLI.md) · [Tests and review](APPLICATION_MRU_TESTS.md)

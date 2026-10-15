@@ -2,6 +2,8 @@
 
 **English** | [한국어](PYTHON_CLI.ko.md)
 
+The current package is 0.7.0 and every output uses schema 7. Earlier version introductions/test results below describe their release context; see [the application MRU extension](APPLICATION_MRU_CLI.md) for the current contract.
+
 Implemented on 2026-10-14 on branch `codex/python-browser-cli`, based on merged commit `bb476180453c76f7d38e5b6a9f1f025ad2273ce0`. All thirteen EnScript files remain byte-identical to that commit. The original archive tag `archive/pre-improvements-2026-10-13`, manifests and 263 synthetic 2017 commits are preserved. This Python implementation runs independently; it does not interpret EnScript or validate the EnCase host.
 
 ## Scope and Requirements
@@ -131,7 +133,7 @@ The 0.2.0 extension supports LNK and Prefetch alongside browser inputs; see [exe
 
 ## EVTX Extension and Version 3
 
-The 0.3.0 extension introduced acquired Windows EVTX via an optional decoder, events and explicit report/SQLite version 3. Existing browser fields keep their meanings and old reports are never migrated. See [EVTX contracts and installation](EVTX_CLI.md) and [tests and review](EVTX_TESTS.md). Browser-only reports also received version 3 at introduction; current reports use version 6.
+The 0.3.0 extension introduced acquired Windows EVTX via an optional decoder, events and explicit report/SQLite version 3. Existing browser fields keep their meanings and old reports are never migrated. See [EVTX contracts and installation](EVTX_CLI.md) and [tests and review](EVTX_TESTS.md). Browser-only reports also received version 3 at introduction; current reports use version 7.
 
 ## Recycle Bin Extension and Version 4
 
@@ -143,4 +145,4 @@ The 0.5.0 release introduced schema 5 and usb_registry observations. Previous sc
 
 ## RecentDocs Extension
 
-Current package 0.6.0 uses schema 6 for all reports and adds recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 6. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.
+Package 0.6.0 introduced schema 6 and recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 7. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.
