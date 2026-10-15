@@ -112,3 +112,9 @@ Package 0.7.0 adds Office/HWP/Adobe MRUs and schema 7.
 Package 0.8.0 adds automatic/custom Jump Lists and schema 8.
 
 [CLI](docs/JUMP_LISTS_CLI.md) · [Tests and review](docs/JUMP_LISTS_TESTS.md)
+
+## ShellBags Extension
+
+Package 0.9.0 adds ShellBags hierarchies, partial Shell Item decoding, referenced Bags metadata and schema 9.
+
+[CLI](docs/SHELLBAGS_CLI.md) · [Tests and review](docs/SHELLBAGS_TESTS.md)

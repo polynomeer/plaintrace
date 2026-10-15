@@ -2,7 +2,7 @@
 
 **English** | [한국어](EVTX_CLI.ko.md)
 
-The current package is 0.8.0 and every output uses schema 8. Earlier version introductions/test results below describe their release context; see [the Jump Lists extension](JUMP_LISTS_CLI.md) for the current contract.
+The current package is 0.9.0 and every output uses schema 9. Earlier version introductions/test results below describe their release context; see [the ShellBags extension](SHELLBAGS_CLI.md) for the current contract.
 
 Implemented on 2026-10-15 on `codex/python-evtx`, based on merged commit `9f32324141810b257d4f680e84c849c013543900`. All thirteen EnScript files and historical manifests remain byte-identical to the branch base. The archive tag and 263 reconstructed 2017 commits are preserved. Version `0.3.0` extends the independent Python port; it does not run EnScript.
 
@@ -62,7 +62,7 @@ The record envelope FILETIME is retained as decimal `container_filetime_raw` and
 
 ## Current Output and Architecture
 
-JSON `format_version` and SQLite `user_version` are 8 for every report, including browser-only reports. Version 3 introduced `events` and its count, while retaining version-2 browser/LNK/Prefetch fields. Sources use `source_kind` and `schema_family` evtx, full-file `sha256`, and null browser/database/WAL fields. Existing version-1/2/3 files are never migrated or rewritten; consumers must explicitly support version 8. Version 4 adds recycle_bin; see [the Recycle Bin contract](RECYCLE_BIN_CLI.md). Arrays/objects below are native JSON and JSON text in SQLite. Source foreign keys and bound inserts remain enforced.
+JSON `format_version` and SQLite `user_version` are 9 for every report, including browser-only reports. Version 3 introduced `events` and its count, while retaining version-2 browser/LNK/Prefetch fields. Sources use `source_kind` and `schema_family` evtx, full-file `sha256`, and null browser/database/WAL fields. Existing version-1/2/3 files are never migrated or rewritten; consumers must explicitly support version 9. Version 4 adds recycle_bin; see [the Recycle Bin contract](RECYCLE_BIN_CLI.md). Arrays/objects below are native JSON and JSON text in SQLite. Source foreign keys and bound inserts remain enforced.
 
 | Event fields | Meaning |
 | --- | --- |
@@ -75,7 +75,7 @@ JSON `format_version` and SQLite `user_version` are 8 for every report, includin
 | category, action, details | Qualified classification and normalized logon fields; no inference for other events |
 | event_data, user_data_xml, xml | Ordered name/value/XML entries, serialized UserData and full decoder-rendered XML |
 
-`evtx.py` validates envelopes, launches decoding and interprets XML; `evtx_worker.py` bridges the optional BinXML library in a timed subprocess. `execution.py` combines sources, `model.py` declares version 8, `exports.py` writes events and metadata, and `cli.py` adds the repeatable input flag. The existing LNK/Prefetch input/decompression cap remains 8 MiB; EVTX does not change it.
+`evtx.py` validates envelopes, launches decoding and interprets XML; `evtx_worker.py` bridges the optional BinXML library in a timed subprocess. `execution.py` combines sources, `model.py` declares version 9, `exports.py` writes events and metadata, and `cli.py` adds the repeatable input flag. The existing LNK/Prefetch input/decompression cap remains 8 MiB; EVTX does not change it.
 
 ## Tests, Review and Remaining Validation
 
@@ -97,4 +97,4 @@ The 0.5.0 release introduced schema 5 and usb_registry observations. Previous sc
 
 ## RecentDocs Extension
 
-Package 0.6.0 introduced schema 6 and recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 8. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.
+Package 0.6.0 introduced schema 6 and recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 9. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.
