@@ -64,3 +64,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/APPLICATION_MRU_CLI.md` and `docs/APPLICATION_MRU_TESTS.md`; run full discovery with the EVTX extra. Reuse the bounded standard-library REGF reader.
 - Schema 7 adds application_mru_keys/application_mru. Preserve sparse slots, literal paths, metadata tokens, raw bytes, physical source offsets and exact FILETIMEs.
 - Slot labels are not universal ranks; key last-write is not a document open time. No guessed Adobe drive mapping, pinned state, ownership, cross-artifact joins, log replay or host-validation claims.
+
+## Jump Lists port
+
+- Jump Lists work belongs on `codex/python-jump-lists`, based on `285f7f5020213042372e4d791fd001626a04231e`. Preserve all EnScript bytes, archive refs/manifests and reconstructed history.
+- Read `docs/JUMP_LISTS_CLI.md` and `docs/JUMP_LISTS_TESTS.md`; run full discovery with the EVTX extra. Jump Lists/CFB parsing uses the standard library.
+- Schema 8 adds jump_lists/jump_list_entries. Bound CFB FAT/DIFAT/miniFAT chains, directory references, lengths, categories, records and output; do not carve signatures or infer missing associations.
+- Preserve exact raw bytes/FILETIMEs, literal paths and fragmented stream mappings. DestList record lineage and linked-stream names are separate. No inferred execution, opening, MAC/owner/app identity or EnCase/Windows/Linux validation claims.

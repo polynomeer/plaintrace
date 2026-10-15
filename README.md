@@ -106,3 +106,9 @@ python3 -m unittest discover -s tests -v
 Package 0.7.0 adds Office/HWP/Adobe MRUs and schema 7.
 
 [CLI](docs/APPLICATION_MRU_CLI.md) · [Tests and review](docs/APPLICATION_MRU_TESTS.md)
+
+## Jump Lists Extension
+
+Package 0.8.0 adds automatic/custom Jump Lists and schema 8.
+
+[CLI](docs/JUMP_LISTS_CLI.md) · [Tests and review](docs/JUMP_LISTS_TESTS.md)

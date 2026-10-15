@@ -71,7 +71,8 @@ def main():
                                           ('test_recycle_bin_cli.py','RECYCLE_BIN_TESTS','RB'),
                                           ('test_usb_registry_cli.py','USB_REGISTRY_TESTS','USB'),
                                           ('test_recent_docs_cli.py','RECENT_DOCS_TESTS','RD'),
-                                          ('test_application_mru_cli.py','APPLICATION_MRU_TESTS','APP')):
+                                          ('test_application_mru_cli.py','APPLICATION_MRU_TESTS','APP'),
+                                          ('test_jump_lists_cli.py','JUMP_LISTS_TESTS','JL')):
         python_tests = ROOT/'tests'/test_file
         if not python_tests.exists():
             continue

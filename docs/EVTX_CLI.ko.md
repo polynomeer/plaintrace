@@ -2,7 +2,7 @@
 
 **한국어** | [English](EVTX_CLI.md)
 
-현재 패키지는 0.7.0이며 모든 출력은 스키마 7입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [애플리케이션 MRU 확장](APPLICATION_MRU_CLI.ko.md)을 따릅니다.
+현재 패키지는 0.8.0이며 모든 출력은 스키마 8입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [Jump Lists 확장](JUMP_LISTS_CLI.ko.md)을 따릅니다.
 
 2026-10-15 병합 커밋 `9f32324141810b257d4f680e84c849c013543900`을 기준으로 `codex/python-evtx`에서 구현했습니다. EnScript 파일 13개와 과거 매니페스트는 브랜치 기준과 바이트가 같습니다. 아카이브 태그와 재구성된 2017년 커밋 263개를 보존합니다. 버전 `0.3.0`은 독립 Python 이식판의 확장이며 EnScript를 실행하지 않습니다.
 
@@ -62,7 +62,7 @@ EnScript와 달리 NT AUTHORITY 계정을 제외하거나 고정 시간대 보�
 
 ## 현재 출력과 구조
 
-브라우저 전용을 포함한 모든 보고서의 JSON `format_version`과 SQLite `user_version`은 7입니다. 버전 3은 `events`와 개수를 도입했으며 버전 2의 브라우저/LNK/Prefetch 필드는 유지합니다. sources의 `source_kind`와 `schema_family`는 evtx, `sha256`은 전체 파일 해시이고 browser/database/WAL 필드는 null입니다. 기존 버전 1/2/3 파일은 마이그레이션하거나 재작성하지 않으며 소비자는 버전 7을 명시적으로 지원해야 합니다. 버전 4는 recycle_bin을 추가하며 [휴지통 계약](RECYCLE_BIN_CLI.ko.md)을 확인하세요. 아래 배열/객체는 JSON에서 그대로, SQLite에서 JSON 텍스트로 저장합니다. 출처 외래 키와 바인딩 삽입을 유지합니다.
+브라우저 전용을 포함한 모든 보고서의 JSON `format_version`과 SQLite `user_version`은 8입니다. 버전 3은 `events`와 개수를 도입했으며 버전 2의 브라우저/LNK/Prefetch 필드는 유지합니다. sources의 `source_kind`와 `schema_family`는 evtx, `sha256`은 전체 파일 해시이고 browser/database/WAL 필드는 null입니다. 기존 버전 1/2/3 파일은 마이그레이션하거나 재작성하지 않으며 소비자는 버전 8을 명시적으로 지원해야 합니다. 버전 4는 recycle_bin을 추가하며 [휴지통 계약](RECYCLE_BIN_CLI.ko.md)을 확인하세요. 아래 배열/객체는 JSON에서 그대로, SQLite에서 JSON 텍스트로 저장합니다. 출처 외래 키와 바인딩 삽입을 유지합니다.
 
 | 이벤트 필드 | 의미 |
 | --- | --- |
@@ -75,7 +75,7 @@ EnScript와 달리 NT AUTHORITY 계정을 제외하거나 고정 시간대 보�
 | category, action, details | 조건을 확인한 분류와 정규화 로그온 필드; 다른 이벤트는 추론하지 않음 |
 | event_data, user_data_xml, xml | 순서 있는 이름/값/XML 항목, 직렬화 UserData와 전체 디코더 렌더링 XML |
 
-`evtx.py`는 컨테이너 검증, 디코더 실행과 XML 해석을 담당하고 `evtx_worker.py`는 시간 제한 프로세스에서 선택 BinXML 라이브러리를 연결합니다. `execution.py`는 출처를 결합하고 `model.py`는 버전 7을 선언하며 `exports.py`는 이벤트/메타데이터를 쓰고 `cli.py`는 반복 입력 플래그를 추가합니다. 기존 LNK/Prefetch 입력/압축 해제 상한은 계속 8 MiB이며 EVTX가 변경하지 않습니다.
+`evtx.py`는 컨테이너 검증, 디코더 실행과 XML 해석을 담당하고 `evtx_worker.py`는 시간 제한 프로세스에서 선택 BinXML 라이브러리를 연결합니다. `execution.py`는 출처를 결합하고 `model.py`는 버전 8을 선언하며 `exports.py`는 이벤트/메타데이터를 쓰고 `cli.py`는 반복 입력 플래그를 추가합니다. 기존 LNK/Prefetch 입력/압축 해제 상한은 계속 8 MiB이며 EVTX가 변경하지 않습니다.
 
 ## 테스트, 리뷰와 남은 검증
 
@@ -97,4 +97,4 @@ EnScript와 달리 NT AUTHORITY 계정을 제외하거나 고정 시간대 보�
 
 ## RecentDocs 확장
 
-패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 7을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.
+패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 8을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.
