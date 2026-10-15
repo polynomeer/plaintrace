@@ -1,11 +1,12 @@
-"""Mix browser, LNK, Prefetch, EVTX and Recycle Bin reports while preserving input source IDs."""
+"""Combine acquired artifact reports while preserving source IDs and parser boundaries."""
+import re
 from .binary import read_artifact
 from .browser import analyze as analyze_browsers
 from .model import Report
-from . import lnk, prefetch, evtx, recycle_bin, usb_registry, registry_hive, recent_docs, application_mru
+from . import lnk, prefetch, evtx, recycle_bin, usb_registry, registry_hive, recent_docs, application_mru, jump_lists
 
 
-def analyze(inputs=(), links=(), prefetches=(), browser="auto", codepage="cp1252", event_logs=(), recycle_bins=(), usb_hives=(), recent_hives=(), application_hives=()):
+def analyze(inputs=(), links=(), prefetches=(), browser="auto", codepage="cp1252", event_logs=(), recycle_bins=(), usb_hives=(), recent_hives=(), application_hives=(), jump_files=()):
     report = analyze_browsers(inputs,browser) if inputs else Report()
     for kind,paths,parser in (("lnk",links,lnk.parse),("prefetch",prefetches,prefetch.parse)):
         for path in paths:
@@ -50,4 +51,14 @@ def analyze(inputs=(), links=(), prefetches=(), browser="auto", codepage="cp1252
         keys,entries=application_mru.analyze_hive(data,source_id,report)
         report.application_mru_keys.extend(keys)
         report.application_mru.extend(entries)
+    for path in jump_files:
+        resolved,data,digest=read_artifact(path,jump_lists.MAX_JUMP_BYTES)
+        source_id=len(report.sources)+1
+        summary,entries=jump_lists.parse(data,source_id,report,codepage)
+        match=re.fullmatch(r'([0-9a-fA-F]{16})\.(?:automatic|custom)Destinations-ms',resolved.name,re.I|re.ASCII)
+        summary['app_id_hint']=match[1] if match else None
+        report.sources.append(dict(source_id=source_id,path=str(resolved),browser=None,schema_family='jump_'+summary['container_kind'],
+                                   database_sha256=None,wal_sha256=None,source_kind='jump_list',sha256=digest))
+        report.jump_lists.append(summary)
+        report.jump_list_entries.extend(entries)
     return report

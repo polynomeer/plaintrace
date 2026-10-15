@@ -21,6 +21,8 @@ TABLES = {
     "recent_docs": "source_id INTEGER, record_id TEXT, key_id TEXT, key_path TEXT, category TEXT, value_name TEXT, value_type INTEGER, mru_rank INTEGER, document_name TEXT, name_utf16_hex TEXT, trailing_data_hex TEXT, value_data_hex TEXT",
     "application_mru_keys": "source_id INTEGER, record_id TEXT, key_path TEXT, family TEXT, application TEXT, application_version TEXT, scope TEXT, list_kind TEXT, key_role TEXT, key_last_written TEXT, key_last_write_raw TEXT, metadata_values TEXT",
     "application_mru": "source_id INTEGER, record_id TEXT, key_id TEXT, key_path TEXT, family TEXT, application TEXT, application_version TEXT, scope TEXT, list_kind TEXT, slot_name TEXT, slot_number INTEGER, value_name TEXT, value_type INTEGER, raw_text TEXT, stored_path TEXT, path_basis TEXT, metadata_tokens TEXT, embedded_filetime_raw TEXT, embedded_at TEXT, value_data_hex TEXT",
+    "jump_lists": "source_id INTEGER, record_id TEXT, container_kind TEXT, version INTEGER, app_id_hint TEXT, header_hex TEXT, container_header_hex TEXT, declared_entries INTEGER, declared_pinned INTEGER, streams TEXT, categories TEXT, trailing_data_hex TEXT",
+    "jump_list_entries": "source_id INTEGER, record_id TEXT, container_id TEXT, entry_index INTEGER, stream_name TEXT, link_stream_name TEXT, stream_offset INTEGER, file_offset INTEGER, directory_id INTEGER, category_index INTEGER, entry_number TEXT, association TEXT, stored_path TEXT, path_utf16_hex TEXT, hostname TEXT, hostname_hex TEXT, droids TEXT, last_modified_at TEXT, last_modified_filetime_raw TEXT, pin_status INTEGER, pinned INTEGER, metadata_hex TEXT, extension_hex TEXT, raw_entry_hex TEXT, link_status TEXT, link_representation TEXT, link TEXT, lnk_hex TEXT",
     "events": "source_id INTEGER, record_id TEXT, chunk_index INTEGER, record_offset INTEGER, container_record_id TEXT, container_filetime_raw TEXT, event_record_id TEXT, event_id INTEGER, provider TEXT, provider_guid TEXT, channel TEXT, computer TEXT, level INTEGER, task INTEGER, opcode INTEGER, version INTEGER, qualifiers TEXT, keywords TEXT, process_id INTEGER, thread_id INTEGER, user_sid TEXT, activity_id TEXT, related_activity_id TEXT, created_at TEXT, time_created_raw TEXT, container_time TEXT, category TEXT, action TEXT, details TEXT, event_data TEXT, user_data_xml TEXT, xml TEXT",
 }
 
@@ -30,19 +32,21 @@ def sqlite_report(report, path):
     try:
         connection.execute("PRAGMA foreign_keys=ON")
         with connection:
-            connection.execute("PRAGMA user_version=7")
+            connection.execute("PRAGMA user_version=8")
             connection.execute("CREATE TABLE metadata(key TEXT PRIMARY KEY, value TEXT)")
             payload = report.as_dict()
             for key in ("format_version", "tool", "tool_version", "counts"):
                 connection.execute("INSERT INTO metadata VALUES (?,?)", (key, json.dumps(payload[key], ensure_ascii=False)))
             for table, declaration in TABLES.items():
                 fk = "" if table == "sources" else ", FOREIGN KEY(source_id) REFERENCES sources(source_id)"
-                if table in ('recent_doc_keys','application_mru_keys'):
+                if table in ('recent_doc_keys','application_mru_keys','jump_lists'):
                     fk += ', UNIQUE(source_id, record_id)'
                 elif table == 'recent_docs':
                     fk += ', FOREIGN KEY(source_id, key_id) REFERENCES recent_doc_keys(source_id, record_id)'
                 elif table == 'application_mru':
                     fk += ', FOREIGN KEY(source_id, key_id) REFERENCES application_mru_keys(source_id, record_id)'
+                elif table == 'jump_list_entries':
+                    fk += ', FOREIGN KEY(source_id, container_id) REFERENCES jump_lists(source_id, record_id)'
                 connection.execute(f'CREATE TABLE "{table}" ({declaration}{fk})')
                 names = [column.split()[0] for column in declaration.split(",")]
                 rows = []
