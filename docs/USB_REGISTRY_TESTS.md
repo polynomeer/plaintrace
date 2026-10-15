@@ -42,7 +42,7 @@ git diff --exit-code d174bc8c7f57aa5f91e0e3c87113e4af78ce3eb1 -- '*.EnScript' do
 | USB-16 | test_counts_value_size_and_output_limits | Cell/item/value/row/output budgets and segmented-value limit |
 | USB-17 | test_truncations_and_seeded_mutations_are_contract_errors | Boundary truncations and 100 seeded mutations |
 | USB-18 | test_unicode_keys_case_insensitive_paths_and_value_names | Unicode keys and case-insensitive lookup |
-| USB-19 | test_source_hashes_roles_and_json_sqlite_schema_five | Repeated source hashes, JSON/SQLite schema 5 and foreign keys |
+| USB-19 | test_source_hashes_roles_and_json_sqlite_schema_five | Repeated source hashes, JSON/SQLite schema 6 and foreign keys |
 | USB-20 | test_cli_subprocess_strict_and_multiple_roles | Real CLI subprocess with role provenance and strict warnings |
 | USB-21 | test_later_bad_input_atomic_and_existing_output_protected | Fatal later hive is atomic and source cannot be overwritten |
 | USB-22 | test_stable_read_and_no_logs_or_live_registry_access | Only acquired hive is opened; changed input rejected |
@@ -69,3 +69,7 @@ In a separate manual check, python-registry 1.3.1 independently opened all four 
 Installed plaintrace 0.5.0 is smoke-tested outside the checkout using SYSTEM/SOFTWARE/NTUSER, JSON/SQLite schema 5, property values, source offsets and unchanged input hashes. Eleven EnScript portable checks, four generated source references, bilingual documentation/test mappings, whitespace/source comparison and archive-only verification pass separately. Archive refs, thirteen original EnScript sources, original README/tree and 263 synthetic 2017 commits remain preserved; archive verification needs the local original backup ref and is not compilation.
 
 No actual acquired hive, Windows/Linux, Python 3.10, independent real-hive comparison, large-case benchmark or live acquisition validation was performed. Dirty/log replay, segmented big data, unsupported REGF versions, volatile/link/deleted/slack structures and alternate device property storage remain unsupported. No automatic drive/volume/device/user joining or complete USB session timeline is claimed. Key metadata is not a connection timestamp; latest stored arrival/removal values are not exhaustive history. Existing browser/LNK/Prefetch/EVTX/Recycle Bin limitations and unverified EnCase compilation/execution remain documented.
+
+## RecentDocs Regression Run (2026-10-15)
+
+Current full discovery passes 175 tests: previous 148 plus 27 RecentDocs cases. Without the EVTX extra, 167 execute and eight existing integrations skip. Current export assertions use schema 6; earlier validation counts/schema introductions remain historical records. See [RecentDocs reproduction and review](RECENT_DOCS_TESTS.md).

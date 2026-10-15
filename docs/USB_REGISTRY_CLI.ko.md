@@ -59,9 +59,9 @@ SYSTEM은 1..999의 고유 DWORD Select/Current와 해당 ControlSet을 요구�
 
 값은 이름, 타입, 물리 값 셀 오프셋과 정확한 데이터 hex를 보존합니다. REG_SZ/EXPAND_SZ/MULTI_SZ는 환경 변수 확장 없이 UTF-16을 해독하고 DWORD/빅 엔디언 DWORD/QWORD는 십진 텍스트가 됩니다. 미지원 타입은 원시로 남깁니다. 잘못된 문자열/숫자 크기도 경고와 원시 값으로 보존합니다. 값별 시각을 만들지 않습니다. 직접 값 상한을 넘는 분할 big-data/db, REGF 1.6/구형 레이아웃, 트랜잭션 로그 복구, 삭제 셀 카빙, 하이브 슬랙, 텍스트 .reg 입력, 레지스트리 링크와 추가 USB 연계 구조는 미지원입니다. 접근한 미지원 구조는 입력을 조용히 누락하지 않고 전체 보고서를 실패시킵니다.
 
-## 스키마 5와 코드 구조
+## 현재 스키마와 코드 구조
 
-USB 하이브가 없는 보고서도 JSON format_version 5와 SQLite user_version 5를 사용합니다. 버전 5는 usb_registry와 개수를 추가하며 기존 컬렉션 의미를 유지합니다. 버전 1–4 보고서는 재작성/마이그레이션하지 않으며 소비자는 버전 5를 인식해야 합니다. sources의 source_kind는 usb_registry, schema_family는 registry_system/registry_software/registry_ntuser이며 획득 파일 sha256과 null browser/database/WAL 필드를 사용합니다. record_id는 source_id 범위의 물리 nk 셀 헤더 오프셋입니다.
+USB 하이브가 없는 보고서도 JSON format_version 6과 SQLite user_version 6를 사용합니다. 버전 5는 usb_registry와 개수를 추가하며 기존 컬렉션 의미를 유지합니다. 버전 1–5 보고서는 재작성/마이그레이션하지 않으며 소비자는 버전 6을 인식해야 합니다. sources의 source_kind는 usb_registry, schema_family는 registry_system/registry_software/registry_ntuser이며 획득 파일 sha256과 null browser/database/WAL 필드를 사용합니다. record_id는 source_id 범위의 물리 nk 셀 헤더 오프셋입니다.
 
 | JSON usb_registry 필드 | 의미 |
 | --- | --- |
@@ -72,7 +72,7 @@ USB 하이브가 없는 보고서도 JSON format_version 5와 SQLite user_versio
 | device_times | 속성 ID/의미, 속성 키 경로/오프셋, 원시 틱, UTC와 원시 속성 값 |
 | values | 순서 있는 value_offset/name/type/data_hex/decoded 객체; SQL 키워드를 피하도록 SQLite 열 이름은 values_json |
 
-객체/배열은 JSON에서 그대로, SQLite에서 JSON 텍스트로 저장하며 출처 외래 키와 바인딩 삽입을 유지합니다. [registry_hive.py](../plaintrace/registry_hive.py)는 제한된 REGF 접근을, [usb_registry.py](../plaintrace/usb_registry.py)는 USB/맥락 분기와 시각 의미를 담당합니다. CLI, 출처 결합, 보고서 모델과 출력기에 역할 플래그, 출처와 스키마 5를 추가합니다.
+객체/배열은 JSON에서 그대로, SQLite에서 JSON 텍스트로 저장하며 출처 외래 키와 바인딩 삽입을 유지합니다. [registry_hive.py](../plaintrace/registry_hive.py)는 제한된 REGF 접근을, [usb_registry.py](../plaintrace/usb_registry.py)는 USB/맥락 분기와 시각 의미를 담당합니다. CLI, 출처 결합, 보고서 모델과 출력기에 역할 플래그, 출처와 스키마 6을 추가합니다.
 
 ## 검증과 남은 한계
 
@@ -83,3 +83,7 @@ USB 하이브가 없는 보고서도 JSON format_version 5와 SQLite user_versio
 ## 참고 자료
 
 [libregf REGF 작업 명세](https://github.com/libyal/libregf/blob/main/documentation/Windows%20NT%20Registry%20File%20%28REGF%29%20format.asciidoc), [Microsoft devpkey.h 속성 ID](https://github.com/microsoft/win32metadata/blob/main/generation/WinSDK/RecompiledIdlHeaders/shared/devpkey.h), [Microsoft FirstInstallDate 의미](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/devpkey-device-firstinstalldate), [RegRipper USBSTOR 저장 레이아웃 예시](https://github.com/keydet89/RegRipper3.0/blob/master/plugins/usbstor.pl)를 참고했습니다. 구형 포렌식 예시에서 설치 이름을 바꿔 표기하는 경우 Microsoft 속성 ID를 따릅니다. 의존성 소스를 포함하지 않습니다. [원본 소스 분석](ANALYSIS.ko.md)을 확인하세요.
+
+## RecentDocs 확장
+
+현재 패키지 0.6.0은 모든 보고서에 스키마 6을 사용하며 recent_doc_keys/recent_docs를 추가합니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 6을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.

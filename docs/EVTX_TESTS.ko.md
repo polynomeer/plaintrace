@@ -32,7 +32,7 @@ git diff --exit-code 9f32324141810b257d4f680e84c849c013543900 -- '*.EnScript' do
 | EV-06 | test_unknown_and_namespace_free_events_retained | 미지 ID와 네임스페이스 없는 Event 허용 |
 | EV-07 | test_invalid_and_missing_time_and_numeric_fields | 잘못된/누락 시각과 숫자 경고 |
 | EV-08 | test_time_zone_precision_overflow_and_mismatch | 시간대/7자리 정밀도, 범위 초과와 XML/컨테이너 불일치 |
-| EV-09 | test_unsigned_record_ids_remain_text_in_sqlite | 부호 없는 64비트 ID를 SQLite 텍스트로 보존; 현재 버전 5와 외래 키 |
+| EV-09 | test_unsigned_record_ids_remain_text_in_sqlite | 부호 없는 64비트 ID를 SQLite 텍스트로 보존; 현재 버전 6와 외래 키 |
 | EV-10 | test_xml_dtd_entities_roots_and_duplicate_system_rejected | DTD/entity, 외부 루트와 누락/중복 단일 필드 거부 |
 | EV-11 | test_xml_size_depth_and_node_limits | 레코드 XML 바이트와 깊이 제한 |
 | EV-12 | test_container_versions_empty_and_dirty | 3.1/3.2 컨테이너, 빈 청크와 dirty 경고 |
@@ -83,3 +83,7 @@ git diff --exit-code 9f32324141810b257d4f680e84c849c013543900 -- '*.EnScript' do
 ## USB 레지스트리 회귀 실행 (2026-10-15)
 
 현재 전체 discovery는 브라우저 33개, 실행 30개, EVTX 32개, 휴지통 28개, USB 레지스트리 25개로 148개가 통과합니다. EVTX extra가 없으면 140개를 실행하고 8개를 건너뜁니다. 현재 출력 검사는 스키마 5이며 이전 개수/스키마 도입은 과거 기록입니다. [USB 재현과 리뷰](USB_REGISTRY_TESTS.ko.md)를 확인하세요.
+
+## RecentDocs 회귀 실행 (2026-10-15)
+
+현재 전체 discovery는 기존 148개와 RecentDocs 27개로 175개가 통과합니다. EVTX extra가 없으면 167개를 실행하고 기존 통합 8개를 건너뜁니다. 현재 출력 검사는 스키마 6이며 이전 검증 개수/스키마 도입은 과거 기록입니다. [RecentDocs 재현과 리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요.

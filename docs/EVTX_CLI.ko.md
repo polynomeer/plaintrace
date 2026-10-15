@@ -60,7 +60,7 @@ EnScript와 달리 NT AUTHORITY 계정을 제외하거나 고정 시간대 보�
 
 ## 현재 출력과 구조
 
-브라우저 전용을 포함한 모든 보고서의 JSON `format_version`과 SQLite `user_version`은 5입니다. 버전 3은 `events`와 개수를 도입했으며 버전 2의 브라우저/LNK/Prefetch 필드는 유지합니다. sources의 `source_kind`와 `schema_family`는 evtx, `sha256`은 전체 파일 해시이고 browser/database/WAL 필드는 null입니다. 기존 버전 1/2/3 파일은 마이그레이션하거나 재작성하지 않으며 소비자는 버전 5를 명시적으로 지원해야 합니다. 버전 4는 recycle_bin을 추가하며 [휴지통 계약](RECYCLE_BIN_CLI.ko.md)을 확인하세요. 아래 배열/객체는 JSON에서 그대로, SQLite에서 JSON 텍스트로 저장합니다. 출처 외래 키와 바인딩 삽입을 유지합니다.
+브라우저 전용을 포함한 모든 보고서의 JSON `format_version`과 SQLite `user_version`은 6입니다. 버전 3은 `events`와 개수를 도입했으며 버전 2의 브라우저/LNK/Prefetch 필드는 유지합니다. sources의 `source_kind`와 `schema_family`는 evtx, `sha256`은 전체 파일 해시이고 browser/database/WAL 필드는 null입니다. 기존 버전 1/2/3 파일은 마이그레이션하거나 재작성하지 않으며 소비자는 버전 6을 명시적으로 지원해야 합니다. 버전 4는 recycle_bin을 추가하며 [휴지통 계약](RECYCLE_BIN_CLI.ko.md)을 확인하세요. 아래 배열/객체는 JSON에서 그대로, SQLite에서 JSON 텍스트로 저장합니다. 출처 외래 키와 바인딩 삽입을 유지합니다.
 
 | 이벤트 필드 | 의미 |
 | --- | --- |
@@ -73,7 +73,7 @@ EnScript와 달리 NT AUTHORITY 계정을 제외하거나 고정 시간대 보�
 | category, action, details | 조건을 확인한 분류와 정규화 로그온 필드; 다른 이벤트는 추론하지 않음 |
 | event_data, user_data_xml, xml | 순서 있는 이름/값/XML 항목, 직렬화 UserData와 전체 디코더 렌더링 XML |
 
-`evtx.py`는 컨테이너 검증, 디코더 실행과 XML 해석을 담당하고 `evtx_worker.py`는 시간 제한 프로세스에서 선택 BinXML 라이브러리를 연결합니다. `execution.py`는 출처를 결합하고 `model.py`는 버전 5를 선언하며 `exports.py`는 이벤트/메타데이터를 쓰고 `cli.py`는 반복 입력 플래그를 추가합니다. 기존 LNK/Prefetch 입력/압축 해제 상한은 계속 8 MiB이며 EVTX가 변경하지 않습니다.
+`evtx.py`는 컨테이너 검증, 디코더 실행과 XML 해석을 담당하고 `evtx_worker.py`는 시간 제한 프로세스에서 선택 BinXML 라이브러리를 연결합니다. `execution.py`는 출처를 결합하고 `model.py`는 버전 6을 선언하며 `exports.py`는 이벤트/메타데이터를 쓰고 `cli.py`는 반복 입력 플래그를 추가합니다. 기존 LNK/Prefetch 입력/압축 해제 상한은 계속 8 MiB이며 EVTX가 변경하지 않습니다.
 
 ## 테스트, 리뷰와 남은 검증
 
@@ -91,4 +91,8 @@ EnScript와 달리 NT AUTHORITY 계정을 제외하거나 고정 시간대 보�
 
 ## USB 레지스트리 확장
 
-현재 패키지 0.5.0은 모든 보고서에 스키마 5를 사용하고 usb_registry 관찰을 추가합니다. 위의 이전 스키마 도입은 과거 맥락이며 기존 아티팩트 필드 의미는 유지합니다. [USB 레지스트리 계약](USB_REGISTRY_CLI.ko.md)과 [테스트/리뷰](USB_REGISTRY_TESTS.ko.md)를 확인하세요.
+0.5.0에서 스키마 5와 usb_registry 관찰을 도입했습니다. 위의 이전 스키마 도입은 과거 맥락이며 기존 아티팩트 필드 의미는 유지합니다. [USB 레지스트리 계약](USB_REGISTRY_CLI.ko.md)과 [테스트/리뷰](USB_REGISTRY_TESTS.ko.md)를 확인하세요.
+
+## RecentDocs 확장
+
+현재 패키지 0.6.0은 모든 보고서에 스키마 6을 사용하며 recent_doc_keys/recent_docs를 추가합니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 6을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.

@@ -95,4 +95,8 @@ python3 -m unittest discover -s tests -v
 
 ## USB Registry CLI
 
-[Usage and schema 5](docs/USB_REGISTRY_CLI.md) · [Tests and review](docs/USB_REGISTRY_TESTS.md)
+[Usage and current schema](docs/USB_REGISTRY_CLI.md) · [Tests and review](docs/USB_REGISTRY_TESTS.md)
+
+## RecentDocs CLI
+
+[Explorer RecentDocs and schema 6](docs/RECENT_DOCS_CLI.md) · [Tests and review](docs/RECENT_DOCS_TESTS.md)
