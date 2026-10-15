@@ -41,7 +41,7 @@ git diff --exit-code d1830099999cb1669f8f868506d5c323acdb8ca5 -- '*.EnScript' do
 | EX-17 | test_xpress_multiple_blocks | More than 64 KiB decoded using multiple Huffman blocks |
 | EX-18 | test_xpress_invalid_table_match_and_truncation | Invalid trees, backward references, overflow and truncation |
 | EX-19 | test_mam_checksum_and_size_limits_fail | MAM84 and excessive/short advertised size rejection |
-| EX-20 | test_mixed_browser_execution_json_sqlite_and_source_hashes | Mixed sources, current version 5, JSON/SQLite values and unchanged bytes |
+| EX-20 | test_mixed_browser_execution_json_sqlite_and_source_hashes | Mixed sources, current version 6, JSON/SQLite values and unchanged bytes |
 | EX-21 | test_execution_cli_strict_and_fatal_atomicity | Strict warning output and no partial file on later failure |
 | EX-22 | test_execution_file_size_limit_and_changing_input | Input read cap and changed-source detection |
 | EX-23 | test_mutated_binary_inputs_never_escape_contract_errors | Deterministic byte mutations produce records or contract errors |
@@ -83,3 +83,7 @@ The current suite passes 123 cases with the optional EVTX extra: 33 browser, 30 
 ## USB Registry Regression Run (2026-10-15)
 
 Current full discovery passes 148 cases: 33 browser, 30 execution, 32 EVTX, 28 Recycle Bin and 25 USB registry. Without the EVTX extra, 140 execute and eight skip. Current export assertions use schema 5; earlier counts/schema introductions are historical records. See [USB reproduction and review](USB_REGISTRY_TESTS.md).
+
+## RecentDocs Regression Run (2026-10-15)
+
+Current full discovery passes 175 tests: previous 148 plus 27 RecentDocs cases. Without the EVTX extra, 167 execute and eight existing integrations skip. Current export assertions use schema 6; earlier validation counts/schema introductions remain historical records. See [RecentDocs reproduction and review](RECENT_DOCS_TESTS.md).

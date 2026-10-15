@@ -50,3 +50,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/USB_REGISTRY_CLI.md` and `docs/USB_REGISTRY_TESTS.md`; run full discovery with the EVTX extra. Registry parsing itself uses the standard library.
 - Schema 5 adds usb_registry observations. Preserve raw values, source offsets and FILETIMEs. Resolve Select/Current rather than assuming ControlSet001; key last-write is not a connection time.
 - Enforce REGF cell/index/value/output bounds. No dirty-hive log replay, deleted-cell recovery, guessed serials/drive letters/users, cross-hive joins or Windows/EnCase runtime claims.
+
+## RecentDocs port
+
+- RecentDocs work belongs on `codex/python-recent-docs`, based on `0f3e9e4fec930332310c172df6b1e599249c8924`. Preserve EnScript, original refs/manifests and 2017 history.
+- Read `docs/RECENT_DOCS_CLI.md` and `docs/RECENT_DOCS_TESTS.md`; run full discovery with the EVTX extra. RecentDocs uses the existing standard-library REGF reader.
+- Schema 6 adds recent_doc_keys/recent_docs. Preserve MRU control bytes, rank gaps, source offsets and raw value/tail bytes. Missing/invalid/ambiguous MRU gets no guessed ranks.
+- Key last-write is not a per-document open time. No Shell Item target resolution, automatic Office/LNK/Jump List correlation, SID attribution, log replay or host-validation claims.

@@ -59,9 +59,9 @@ Limits per hive: 64 MiB input; 250000 scanned allocated/free cells; 100000 acces
 
 Values retain name, type, physical value-cell offset and exact data hex. REG_SZ/EXPAND_SZ/MULTI_SZ decode UTF-16 without environment expansion; numeric DWORD/big-endian DWORD/QWORD values become decimal text. Unsupported types remain raw. Invalid strings/numeric widths are diagnosed and remain raw. No value-level timestamps are invented. Segmented big-data/db values over the direct-value limit, REGF 1.6/older layouts, transaction-log recovery, deleted-cell carving, hive slack, text .reg imports, registry links and additional USB correlation structures are unsupported. Accessed unsupported structures fail the complete report rather than silently dropping input.
 
-## Schema 5 and Code Structure
+## Current Schema and Code Structure
 
-Every report now has JSON format_version 5 and SQLite user_version 5, including reports with no USB hive. Version 5 adds usb_registry and its count; prior collections retain field meanings. Existing report versions 1–4 are never rewritten or migrated. Consumers must recognize version 5. Sources use source_kind usb_registry and schema_family registry_system/registry_software/registry_ntuser, with acquired-file sha256 and null browser/database/WAL fields. record_id is the physical nk cell-header offset, scoped by source_id.
+Every report now has JSON format_version 6 and SQLite user_version 6, including reports with no USB hive. Version 5 adds usb_registry and its count; prior collections retain field meanings. Existing report versions 1–5 are never rewritten or migrated. Consumers must recognize version 6. Sources use source_kind usb_registry and schema_family registry_system/registry_software/registry_ntuser, with acquired-file sha256 and null browser/database/WAL fields. record_id is the physical nk cell-header offset, scoped by source_id.
 
 | JSON usb_registry field | Meaning |
 | --- | --- |
@@ -72,7 +72,7 @@ Every report now has JSON format_version 5 and SQLite user_version 5, including 
 | device_times | Property ID/meaning, property key path/offset, raw ticks, UTC time and raw property values |
 | values | Ordered value_offset/name/type/data_hex/decoded objects; SQLite column is named values_json to avoid a SQL keyword |
 
-Objects/arrays are native JSON and JSON text in SQLite; source foreign keys and bound inserts remain enforced. [registry_hive.py](../plaintrace/registry_hive.py) implements bounded REGF access; [usb_registry.py](../plaintrace/usb_registry.py) selects USB/context branches and timestamp semantics. CLI, source assembly, report model and exporters add role flags, provenance and schema 5.
+Objects/arrays are native JSON and JSON text in SQLite; source foreign keys and bound inserts remain enforced. [registry_hive.py](../plaintrace/registry_hive.py) implements bounded REGF access; [usb_registry.py](../plaintrace/usb_registry.py) selects USB/context branches and timestamp semantics. CLI, source assembly, report model and exporters add role flags, provenance and schema 6.
 
 ## Validation and Remaining Limits
 
@@ -83,3 +83,7 @@ Actual acquired SYSTEM/SOFTWARE/NTUSER hives across Windows versions, Windows/Li
 ## References
 
 Interpretation follows [libregf working REGF specification](https://github.com/libyal/libregf/blob/main/documentation/Windows%20NT%20Registry%20File%20%28REGF%29%20format.asciidoc), [Microsoft devpkey.h property IDs](https://github.com/microsoft/win32metadata/blob/main/generation/WinSDK/RecompiledIdlHeaders/shared/devpkey.h), [Microsoft FirstInstallDate semantics](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/devpkey-device-firstinstalldate) and [RegRipper USBSTOR storage-layout examples](https://github.com/keydet89/RegRipper3.0/blob/master/plugins/usbstor.pl). Property labels follow the Microsoft IDs where older forensic examples reverse installation labels. No dependency source is vendored. See [archived source analysis](ANALYSIS.md).
+
+## RecentDocs Extension
+
+Current package 0.6.0 uses schema 6 for all reports and adds recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 6. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.

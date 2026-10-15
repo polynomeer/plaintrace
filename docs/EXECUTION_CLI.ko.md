@@ -14,7 +14,7 @@ python3 -m plaintrace --lnk /path/to/example.lnk --lnk-codepage cp949 --strict
 python3 -m plaintrace --input /path/to/History --lnk /path/to/example.lnk --prefetch /path/to/APP.pf --format sqlite --output artifacts.sqlite
 ```
 
-기존 브라우저 명령 구문은 유지하지만 보고서 format_version과 SQLite user_version은 0.2.0에서 2로 확장되었습니다. 0.3.0은 버전 3에 events를 추가했습니다. 현재 출력은 버전 5이며 [휴지통 스키마 변경](RECYCLE_BIN_CLI.ko.md)을 확인하세요. 버전 2는 브라우저 전용 보고서에도 links/prefetch 컬렉션/테이블 및 source_kind/sha256 출처 필드를 추가합니다. 기존 버전 1 출력은 덮어쓰거나 마이그레이션하지 않으며 소비자는 새 버전을 명시적으로 인식해야 합니다. 선택적 pip 설치도 동일한 plaintrace 명령을 제공합니다. [설치와 브라우저 동작](PYTHON_CLI.ko.md)을 확인하세요.
+기존 브라우저 명령 구문은 유지하지만 보고서 format_version과 SQLite user_version은 0.2.0에서 2로 확장되었습니다. 0.3.0은 버전 3에 events를 추가했습니다. 현재 출력은 버전 6이며 [휴지통 스키마 변경](RECYCLE_BIN_CLI.ko.md)을 확인하세요. 버전 2는 브라우저 전용 보고서에도 links/prefetch 컬렉션/테이블 및 source_kind/sha256 출처 필드를 추가합니다. 기존 버전 1 출력은 덮어쓰거나 마이그레이션하지 않으며 소비자는 새 버전을 명시적으로 인식해야 합니다. 선택적 pip 설치도 동일한 plaintrace 명령을 제공합니다. [설치와 브라우저 동작](PYTHON_CLI.ko.md)을 확인하세요.
 
 ## LNK 파싱
 
@@ -88,4 +88,8 @@ Windows/Linux, 최소 Python 버전 실행, 실제 획득 LNK/Prefetch/MAM, 독�
 
 ## USB 레지스트리 확장
 
-현재 패키지 0.5.0은 모든 보고서에 스키마 5를 사용하고 usb_registry 관찰을 추가합니다. 위의 이전 스키마 도입은 과거 맥락이며 기존 아티팩트 필드 의미는 유지합니다. [USB 레지스트리 계약](USB_REGISTRY_CLI.ko.md)과 [테스트/리뷰](USB_REGISTRY_TESTS.ko.md)를 확인하세요.
+0.5.0에서 스키마 5와 usb_registry 관찰을 도입했습니다. 위의 이전 스키마 도입은 과거 맥락이며 기존 아티팩트 필드 의미는 유지합니다. [USB 레지스트리 계약](USB_REGISTRY_CLI.ko.md)과 [테스트/리뷰](USB_REGISTRY_TESTS.ko.md)를 확인하세요.
+
+## RecentDocs 확장
+
+현재 패키지 0.6.0은 모든 보고서에 스키마 6을 사용하며 recent_doc_keys/recent_docs를 추가합니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 6을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.

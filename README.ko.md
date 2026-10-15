@@ -95,4 +95,8 @@ python3 -m unittest discover -s tests -v
 
 ## USB 레지스트리 CLI
 
-[사용법과 스키마 5](docs/USB_REGISTRY_CLI.ko.md) · [테스트와 리뷰](docs/USB_REGISTRY_TESTS.ko.md)
+[사용법과 현재 스키마](docs/USB_REGISTRY_CLI.ko.md) · [테스트와 리뷰](docs/USB_REGISTRY_TESTS.ko.md)
+
+## RecentDocs CLI
+
+[Explorer RecentDocs와 스키마 6](docs/RECENT_DOCS_CLI.ko.md) · [테스트와 리뷰](docs/RECENT_DOCS_TESTS.ko.md)

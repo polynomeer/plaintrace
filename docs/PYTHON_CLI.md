@@ -64,7 +64,7 @@ These choices deliberately differ from the EnScript fixed timezone adjustment, U
 
 ## Output Contract
 
-JSON format_version is 5 and includes tool/tool_version, the five browser collections below plus links, prefetch, events, recycle_bin, usb_registry and counts. SQLite user_version is 5 and contains the five matching browser tables, links, prefetch, events, recycle_bin and usb_registry, plus metadata, whose values are JSON text. Source IDs identify each supplied input; record IDs and source tables preserve row lineage. Transition values are raw and have family-specific meanings.
+JSON format_version is 6 and includes tool/tool_version, the five browser collections below plus links, prefetch, events, recycle_bin, usb_registry, recent_doc_keys, recent_docs and counts. SQLite user_version is 6 and contains the five matching browser tables, links, prefetch, events, recycle_bin and usb_registry, recent_doc_keys and recent_docs, plus metadata, whose values are JSON text. Source IDs identify each supplied input; record IDs and source tables preserve row lineage. Transition values are raw and have family-specific meanings.
 
 | Collection / table | Fields |
 | --- | --- |
@@ -131,7 +131,7 @@ The 0.2.0 extension supports LNK and Prefetch alongside browser inputs; see [exe
 
 ## EVTX Extension and Version 3
 
-The 0.3.0 extension introduced acquired Windows EVTX via an optional decoder, events and explicit report/SQLite version 3. Existing browser fields keep their meanings and old reports are never migrated. See [EVTX contracts and installation](EVTX_CLI.md) and [tests and review](EVTX_TESTS.md). Browser-only reports also received version 3 at introduction; current reports use version 5.
+The 0.3.0 extension introduced acquired Windows EVTX via an optional decoder, events and explicit report/SQLite version 3. Existing browser fields keep their meanings and old reports are never migrated. See [EVTX contracts and installation](EVTX_CLI.md) and [tests and review](EVTX_TESTS.md). Browser-only reports also received version 3 at introduction; current reports use version 6.
 
 ## Recycle Bin Extension and Version 4
 
@@ -139,4 +139,8 @@ The 0.4.0 release adds explicit acquired $I metadata inputs, recycle_bin and sch
 
 ## USB Registry Extension
 
-Current package 0.5.0 uses schema 5 for every report and adds usb_registry observations. Previous schema introductions above remain historical context; existing artifact field meanings are unchanged. See [USB registry contracts](USB_REGISTRY_CLI.md) and [tests/review](USB_REGISTRY_TESTS.md).
+The 0.5.0 release introduced schema 5 and usb_registry observations. Previous schema introductions above remain historical context; existing artifact field meanings are unchanged. See [USB registry contracts](USB_REGISTRY_CLI.md) and [tests/review](USB_REGISTRY_TESTS.md).
+
+## RecentDocs Extension
+
+Current package 0.6.0 uses schema 6 for all reports and adds recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 6. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.

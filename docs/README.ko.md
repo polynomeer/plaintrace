@@ -51,3 +51,5 @@
 [휴지통 CLI](RECYCLE_BIN_CLI.ko.md) · [테스트와 리뷰](RECYCLE_BIN_TESTS.ko.md)
 
 [USB 레지스트리 CLI](USB_REGISTRY_CLI.ko.md) · [테스트와 리뷰](USB_REGISTRY_TESTS.ko.md)
+
+[RecentDocs CLI](RECENT_DOCS_CLI.ko.md) · [테스트와 리뷰](RECENT_DOCS_TESTS.ko.md)

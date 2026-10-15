@@ -54,7 +54,7 @@ The parser does not read, locate, hash, extract or restore a `$R` companion. It 
 
 ## Current Schema and Architecture
 
-Every JSON `format_version` and SQLite `user_version` is 5, even when no Recycle Bin input is supplied. Version 4 adds `recycle_bin` and its count while preserving existing browser, LNK, Prefetch and EVTX field meanings. Existing version-1/2/3 reports are not rewritten or migrated; consumers must recognize version 5 explicitly. SQLite inserts bind values and enforce source foreign keys. Sources use `source_kind` and `schema_family` recycle_bin, full input `sha256`, and null browser/database/WAL fields.
+Every JSON `format_version` and SQLite `user_version` is 6, even when no Recycle Bin input is supplied. Version 4 adds `recycle_bin` and its count while preserving existing browser, LNK, Prefetch and EVTX field meanings. Existing version-1/2/3 reports are not rewritten or migrated; consumers must recognize version 6 explicitly. SQLite inserts bind values and enforce source foreign keys. Sources use `source_kind` and `schema_family` recycle_bin, full input `sha256`, and null browser/database/WAL fields.
 
 | Collection/table recycle_bin field | Meaning |
 | --- | --- |
@@ -67,7 +67,7 @@ Every JSON `format_version` and SQLite `user_version` is 5, even when no Recycle
 | path_utf16_hex | Entire fixed/counted path field bytes, including terminator/padding |
 | trailing_data_hex | Uninterpreted bytes after the supported layout; empty string when absent |
 
-[recycle_bin.py](../plaintrace/recycle_bin.py) validates layouts and interprets metadata. [execution.py](../plaintrace/execution.py) combines input sources, [model.py](../plaintrace/model.py) defines version 5/counts, [exports.py](../plaintrace/exports.py) adds the table, and [cli.py](../plaintrace/cli.py) adds the repeatable flag. Existing LNK/Prefetch 8 MiB and EVTX 64 MiB limits remain unchanged.
+[recycle_bin.py](../plaintrace/recycle_bin.py) validates layouts and interprets metadata. [execution.py](../plaintrace/execution.py) combines input sources, [model.py](../plaintrace/model.py) defines version 6/counts, [exports.py](../plaintrace/exports.py) adds the table, and [cli.py](../plaintrace/cli.py) adds the repeatable flag. Existing LNK/Prefetch 8 MiB and EVTX 64 MiB limits remain unchanged.
 
 ## Tests, Review and Remaining Validation
 
@@ -81,4 +81,8 @@ Structure interpretation uses the [libyal Recycle.Bin working specification](htt
 
 ## USB Registry Extension
 
-Current package 0.5.0 uses schema 5 for every report and adds usb_registry observations. Previous schema introductions above remain historical context; existing artifact field meanings are unchanged. See [USB registry contracts](USB_REGISTRY_CLI.md) and [tests/review](USB_REGISTRY_TESTS.md).
+The 0.5.0 release introduced schema 5 and usb_registry observations. Previous schema introductions above remain historical context; existing artifact field meanings are unchanged. See [USB registry contracts](USB_REGISTRY_CLI.md) and [tests/review](USB_REGISTRY_TESTS.md).
+
+## RecentDocs Extension
+
+Current package 0.6.0 uses schema 6 for all reports and adds recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 6. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.
