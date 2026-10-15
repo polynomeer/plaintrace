@@ -25,14 +25,16 @@ class Report:
     events: list = field(default_factory=list)
     recycle_bin: list = field(default_factory=list)
 
+    usb_registry: list = field(default_factory=list)
+
     def warn(self, source_id, code, message, record_id=None):
         self.diagnostics.append(dict(source_id=source_id, severity="warning", code=code,
                                      message=message, record_id=record_id))
 
     def as_dict(self):
-        return dict(format_version=4, tool="plaintrace", tool_version=__version__,
+        return dict(format_version=5, tool="plaintrace", tool_version=__version__,
                     **self.__dict__, counts={name: len(getattr(self, name))
-                    for name in ("sources", "visits", "keywords", "downloads", "diagnostics", "links", "prefetch", "events", "recycle_bin")})
+                    for name in ("sources", "visits", "keywords", "downloads", "diagnostics", "links", "prefetch", "events", "recycle_bin", "usb_registry")})
 
 
 def raw_text(value):

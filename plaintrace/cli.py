@@ -11,25 +11,27 @@ from .exports import write_report
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="Analyze acquired browser SQLite, LNK, Prefetch, EVTX and Recycle Bin $I files without EnCase.")
+    parser = argparse.ArgumentParser(description="Analyze acquired browser SQLite, LNK, Prefetch, EVTX Recycle Bin $I and USB registry hives without EnCase.")
     parser.add_argument("--version", action="version", version=f"plaintrace {__version__}")
     parser.add_argument("--input", action="append", default=[], metavar="DB", help="Acquired History or places.sqlite; repeat for multiple sources")
     parser.add_argument("--lnk", action="append", default=[], metavar="FILE", help="Acquired Shell Link; repeat for multiple files")
     parser.add_argument("--prefetch", action="append", default=[], metavar="FILE", help="Acquired uncompressed SCCA or MAM04 Prefetch; repeat")
     parser.add_argument("--evtx", action="append", default=[], metavar="FILE", help="Acquired Windows EVTX; requires optional evtx extra; repeat")
     parser.add_argument("--recycle-bin", action="append", default=[], metavar="FILE", help="Acquired $Recycle.Bin $I metadata file; repeat")
+    for role in ('system','software','ntuser'):
+        parser.add_argument('--usb-'+role,action='append',default=[],metavar='HIVE',help='Acquired '+role.upper()+' hive for USB registry observations; repeat')
     parser.add_argument("--lnk-codepage", default="cp1252", help="ANSI-compatible LNK encoding; Unicode fields remain UTF-16LE")
     parser.add_argument("--browser", choices=("auto", "chromium", "chrome", "opera", "firefox"), default="auto", help="Auto detects schema family; Chrome/Opera labels require explicit selection")
     parser.add_argument("--format", choices=("json", "sqlite"), default="json")
     parser.add_argument("--output", metavar="PATH", help="New output file; existing files are never overwritten. JSON defaults to stdout")
     parser.add_argument("--strict", action="store_true", help="Write the report but return exit code 1 if warnings are present")
     args = parser.parse_args(argv)
-    if not (args.input or args.lnk or args.prefetch or args.evtx or args.recycle_bin):
-        parser.error("at least one --input, --lnk, --prefetch, --evtx or --recycle-bin is required")
+    if not (args.input or args.lnk or args.prefetch or args.evtx or args.recycle_bin or args.usb_system or args.usb_software or args.usb_ntuser):
+        parser.error("at least one --input, --lnk, --prefetch, --evtx, --recycle-bin or --usb-{system,software,ntuser} is required")
     if args.format == "sqlite" and not args.output:
         parser.error("--format sqlite requires --output")
     try:
-        report = analyze(args.input,args.lnk,args.prefetch,args.browser,args.lnk_codepage,event_logs=args.evtx,recycle_bins=args.recycle_bin)
+        report = analyze(args.input,args.lnk,args.prefetch,args.browser,args.lnk_codepage,event_logs=args.evtx,recycle_bins=args.recycle_bin,usb_hives=[(role,path) for role in ("system","software","ntuser") for path in getattr(args,"usb_"+role)])
         if args.output:
             write_report(report, args.output, args.format)
         else:
