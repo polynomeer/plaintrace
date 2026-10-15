@@ -43,7 +43,7 @@ git diff --exit-code 0f3e9e4fec930332310c172df6b1e599249c8924 -- '*.EnScript' do
 | RD-17 | test_key_document_and_output_budgets | Key/document/output and inherited value-byte budgets |
 | RD-18 | test_dirty_corrupt_truncated_hives_fail | Dirty/corrupt/truncated hives fail |
 | RD-19 | test_repeated_renamed_sources_hashes_and_offsets | Renamed/repeated source hashes and physical nk/vk lineage |
-| RD-20 | test_json_sqlite_schema_six_and_raw_metadata_roundtrip | JSON/SQLite schema 6, raw MRU objects and Unicode round trip |
+| RD-20 | test_json_sqlite_current_schema_and_raw_metadata_roundtrip | JSON/SQLite current schema, raw MRU objects and Unicode round trip |
 | RD-21 | test_cli_real_subprocess_strict_and_sqlite | Real subprocess CLI, SQLite output and strict warning |
 | RD-22 | test_later_failure_atomic_and_outputs_protected | Later failure publishes nothing and existing evidence/output protected |
 | RD-23 | test_only_acquired_hive_opened_and_changing_input_rejected | Only acquired hive opened and changing input rejected |
@@ -62,12 +62,12 @@ git diff --exit-code 0f3e9e4fec930332310c172df6b1e599249c8924 -- '*.EnScript' do
 | Medium | Invalid text diagnostics lacked value-level attribution | Escape text with the physical value offset in its diagnostic; RD-13 |
 | Medium | Unicode case-insensitive regex can accept non-ASCII lookalike letters | Restrict legacy letter matching to ASCII; RD-08/26 |
 | Medium | Document records can lose parent-key lineage on SQLite export | Composite source/key foreign key plus unique parent IDs; RD-20/27 |
-| Medium | Schema extension silently changes consumer expectations | Report/SQLite version 6 and bilingual migration notes; RD-20/24 |
+| Medium | Schema extension silently changes consumer expectations | Report/SQLite version 7 and bilingual migration notes; RD-20/24 |
 
 A separate python-registry 1.3.1 check reads all four generated index layouts, exact MRUListEx slots/sentinel, an astral Unicode entry and its extension scope. It is a temporary validation dependency, not a package/test requirement or independent real-hive parity result. The reviewed implementation includes bounded source reads, REGF reuse, rank semantics, decoding, output atomicity, schema migration and documentation.
 
 ## Verification and Remaining Limits
 
-Installed plaintrace 0.6.0 is smoke-tested outside the checkout with modern/legacy RecentDocs, JSON/SQLite schema 6, composite key lineage and unchanged input hashes. Eleven EnScript portable checks, four generated references, bilingual documentation/test mappings, whitespace/source comparison and archive-only checks pass separately. Original EnScript/archive refs/manifests/tree/README and all 263 synthetic 2017 commits remain preserved. Archive-only checks require the local original backup ref and are not compilation or runtime checks.
+Installed plaintrace 0.6.0 is smoke-tested outside the checkout with modern/legacy RecentDocs, JSON/SQLite current schema, composite key lineage and unchanged input hashes. Eleven EnScript portable checks, four generated references, bilingual documentation/test mappings, whitespace/source comparison and archive-only checks pass separately. Original EnScript/archive refs/manifests/tree/README and all 263 synthetic 2017 commits remain preserved. Archive-only checks require the local original backup ref and are not compilation or runtime checks.
 
 No actual acquired NTUSER, Windows/Linux, Python 3.10, independent real-hive comparison, large-case performance or live acquisition validation was performed. Shell Item/PIDL decoding, nested scopes, Office/HWP/Adobe application MRUs, Recent-folder/LNK correlation, Jump Lists, deleted records, attribution and sessions are unsupported. Native REGF restrictions and existing artifact limitations remain documented. Key last-write and relative order are not exact document-open times or proof of use. EnCase compilation/execution remains unverified.

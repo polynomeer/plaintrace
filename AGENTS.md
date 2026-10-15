@@ -57,3 +57,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/RECENT_DOCS_CLI.md` and `docs/RECENT_DOCS_TESTS.md`; run full discovery with the EVTX extra. RecentDocs uses the existing standard-library REGF reader.
 - Schema 6 adds recent_doc_keys/recent_docs. Preserve MRU control bytes, rank gaps, source offsets and raw value/tail bytes. Missing/invalid/ambiguous MRU gets no guessed ranks.
 - Key last-write is not a per-document open time. No Shell Item target resolution, automatic Office/LNK/Jump List correlation, SID attribution, log replay or host-validation claims.
+
+## Application MRU port
+
+- Application MRU work belongs on `codex/python-application-mru`, based on `4b88c0a8d8699920ecdd5622400484bbef956c89`. Preserve all EnScript bytes, archive refs/manifests and reconstructed history.
+- Read `docs/APPLICATION_MRU_CLI.md` and `docs/APPLICATION_MRU_TESTS.md`; run full discovery with the EVTX extra. Reuse the bounded standard-library REGF reader.
+- Schema 7 adds application_mru_keys/application_mru. Preserve sparse slots, literal paths, metadata tokens, raw bytes, physical source offsets and exact FILETIMEs.
+- Slot labels are not universal ranks; key last-write is not a document open time. No guessed Adobe drive mapping, pinned state, ownership, cross-artifact joins, log replay or host-validation claims.

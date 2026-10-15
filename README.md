@@ -100,3 +100,9 @@ python3 -m unittest discover -s tests -v
 ## RecentDocs CLI
 
 [Explorer RecentDocs and schema 6](docs/RECENT_DOCS_CLI.md) · [Tests and review](docs/RECENT_DOCS_TESTS.md)
+
+## Application MRU Extension
+
+Package 0.7.0 adds Office/HWP/Adobe MRUs and schema 7.
+
+[CLI](docs/APPLICATION_MRU_CLI.md) · [Tests and review](docs/APPLICATION_MRU_TESTS.md)
