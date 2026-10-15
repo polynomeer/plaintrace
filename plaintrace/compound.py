@@ -30,7 +30,8 @@ class Compound:
         if self.count>MAX_SECTORS:raise AnalysisError('CFB sector limit exceeded')
         self.used=set();self.mini_used=set();words=self.width//4
         fat_count=b.number(44,4);dif_count=b.number(72,4)
-        if not 0<fat_count<=min(self.count,(MAX_SECTORS+words-1)//words) or dif_count>self.count:raise AnalysisError('Invalid CFB FAT/DIFAT counts')
+        dif_limit=max(0,(fat_count-109+words-2)//(words-1))
+        if not 0<fat_count<=min(self.count,(MAX_SECTORS+words-1)//words) or dif_count>min(self.count,dif_limit):raise AnalysisError('Invalid CFB FAT/DIFAT counts')
         fat_ids=list(struct.unpack('<109I',b.take(76,436)));dif_ids=[];pointer=b.number(68,4)
         for _ in range(dif_count):
             self.claim(pointer);dif_ids.append(pointer)

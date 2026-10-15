@@ -2,7 +2,7 @@
 
 **English** | [한국어](JUMP_LISTS_TESTS.ko.md)
 
-Validated and self-reviewed on 2026-10-15 on macOS/Python 3.14. All 235 cases pass without skips with the EVTX extra: 200 existing and 35 Jump Lists cases. Without it, 227 execute and eight existing integrations skip. Jump Lists itself has no extra dependency. See [contracts and limits](JUMP_LISTS_CLI.md). This is not external reviewer approval or acquired-evidence certification.
+Validated and self-reviewed on 2026-10-15 on macOS/Python 3.14. All 236 cases pass without skips with the EVTX extra: 200 existing and 36 Jump Lists cases. Without it, 228 execute and eight existing integrations skip. Jump Lists itself has no extra dependency. See [contracts and limits](JUMP_LISTS_CLI.md). This is not external reviewer approval or acquired-evidence certification.
 
 ## Reproduction and Synthetic Fixtures
 
@@ -59,6 +59,7 @@ git diff --exit-code 285f7f5020213042372e4d791fd001626a04231e -- '*.EnScript' do
 | JL-33 | test_only_supplied_input_opened_and_changing_read_rejected | only supplied input opened and changing read rejected |
 | JL-34 | test_invalid_codepage_is_fatal_not_a_bad_link | invalid codepage is fatal not a bad link |
 | JL-35 | test_mutated_containers_fail_with_controlled_errors | mutated containers fail with controlled errors |
+| JL-36 | test_cfb_surplus_difat_rejected_before_table_expansion | Reject surplus DIFAT counts before reading sectors or expanding tables |
 
 ## Independent Comparison and Public Samples
 
@@ -73,7 +74,7 @@ Two public upstream automatic-list samples were also read only in temporary stor
 
 ## Self-Review and Corrections
 
-Reviewed CFB allocation/cycles/aliases, directory traversal, mini-stream logical-to-physical mapping, DestList bounds, duplicate/missing IDs, custom framing and export foreign keys. Separated DestList lineage from the associated LNK stream; invalid codepages now fail as configuration errors rather than being swallowed as corrupt links. Distinguished synthetic CLSID-body HeaderSize from original bytes and attached text/LNK diagnostics to entry/category identities. Bounded allocation-table expansion and avoided repeated remaining-buffer copies for CLSID-body framing. No signature splitting or arbitrary duplicate-ID joins occur.
+Reviewed CFB allocation/cycles/aliases, directory traversal, mini-stream logical-to-physical mapping, DestList bounds, duplicate/missing IDs, custom framing and export foreign keys. Separated DestList lineage from the associated LNK stream; invalid codepages now fail as configuration errors rather than being swallowed as corrupt links. Distinguished synthetic CLSID-body HeaderSize from original bytes and attached text/LNK diagnostics to entry/category identities. Final review additionally bounds DIFAT count from declared FAT capacity before any sector reads/table expansion (JL-36). Bounded allocation-table expansion and avoided repeated remaining-buffer copies for CLSID-body framing. No signature splitting or arbitrary duplicate-ID joins occur.
 
 Verified full regressions, eleven EnScript static checks, four source references and document/language/test mappings. Archive validation covers thirteen sources, original tree/README and 263 reconstructed 2017 commits; EnScript/manifests are unchanged against the base. These checks do not validate EnCase execution.
 

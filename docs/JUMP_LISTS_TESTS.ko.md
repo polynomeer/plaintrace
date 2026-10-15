@@ -2,7 +2,7 @@
 
 [English](JUMP_LISTS_TESTS.md) | **한국어**
 
-2026-10-15 macOS/Python 3.14에서 검증하고 자체 코드 리뷰했습니다. EVTX extra 포함 기존 200개와 신규 Jump Lists 35개, 전체 235개가 건너뜀 없이 통과합니다. extra가 없으면 227개를 실행하고 기존 통합 8개를 건너뜁니다. Jump Lists는 추가 의존성이 없습니다. [계약과 한계](JUMP_LISTS_CLI.ko.md)를 확인하세요. 외부 리뷰 승인이나 획득 증거 인증은 아닙니다.
+2026-10-15 macOS/Python 3.14에서 검증하고 자체 코드 리뷰했습니다. EVTX extra 포함 기존 200개와 신규 Jump Lists 36개, 전체 236개가 건너뜀 없이 통과합니다. extra가 없으면 228개를 실행하고 기존 통합 8개를 건너뜁니다. Jump Lists는 추가 의존성이 없습니다. [계약과 한계](JUMP_LISTS_CLI.ko.md)를 확인하세요. 외부 리뷰 승인이나 획득 증거 인증은 아닙니다.
 
 ## 재현과 합성 자료
 
@@ -59,6 +59,7 @@ git diff --exit-code 285f7f5020213042372e4d791fd001626a04231e -- '*.EnScript' do
 | JL-33 | test_only_supplied_input_opened_and_changing_read_rejected | 명시 입력만 읽고 변경 감지 |
 | JL-34 | test_invalid_codepage_is_fatal_not_a_bad_link | 잘못된 코드페이지는 치명적 설정 오류 |
 | JL-35 | test_mutated_containers_fail_with_controlled_errors | 결정적 변이 입력의 통제된 실패 |
+| JL-36 | test_cfb_surplus_difat_rejected_before_table_expansion | 섹터 읽기/테이블 확장 전 과도한 DIFAT 개수 거부 |
 
 ## 독립 대조와 공개 자료
 
@@ -73,7 +74,7 @@ olefile 0.47로 합성 CFB v3/v4/단편화/DIFAT 스트림 바이트를 독립 �
 
 ## 자체 코드 리뷰와 수정
 
-CFB 할당/순환/별칭, 디렉터리 탐색, 미니 스트림의 논리-물리 매핑, DestList 경계, 중복/누락 ID, 사용자 지정 프레임과 출력 외래 키를 검토했습니다. DestList 출처와 연결 LNK 스트림을 별도 필드로 분리했고, 잘못된 코드페이지는 손상 링크로 삼키지 않고 치명적 설정 오류로 처리합니다. CLSID-body 합성 HeaderSize와 원본 바이트를 구분하고, 텍스트/LNK 진단에는 항목/범주 ID를 연결했습니다. 할당 테이블 확장 크기를 제한하고 CLSID-body 프레임에서 잔여 버퍼 반복 복사를 피했습니다. 시그니처로 항목을 쪼개거나 중복 번호를 임의 연결하지 않습니다.
+CFB 할당/순환/별칭, 디렉터리 탐색, 미니 스트림의 논리-물리 매핑, DestList 경계, 중복/누락 ID, 사용자 지정 프레임과 출력 외래 키를 검토했습니다. DestList 출처와 연결 LNK 스트림을 별도 필드로 분리했고, 잘못된 코드페이지는 손상 링크로 삼키지 않고 치명적 설정 오류로 처리합니다. CLSID-body 합성 HeaderSize와 원본 바이트를 구분하고, 텍스트/LNK 진단에는 항목/범주 ID를 연결했습니다. 최종 리뷰에서 섹터 읽기/테이블 확장 전에 선언 FAT 용량으로 DIFAT 개수를 제한하도록 보완했습니다(JL-36). 할당 테이블 확장 크기를 제한하고 CLSID-body 프레임에서 잔여 버퍼 반복 복사를 피했습니다. 시그니처로 항목을 쪼개거나 중복 번호를 임의 연결하지 않습니다.
 
 전체 회귀, EnScript 정적 회귀 11개, 소스 참조 4개와 문서/언어/테스트 매핑을 확인했습니다. 아카이브 검증으로 소스 13개, 원래 트리/README와 2017년 재구성 커밋 263개를 확인했으며 기준 이후 EnScript/매니페스트 변경은 없습니다. 이 검사는 EnCase 실행 검증이 아닙니다.
 

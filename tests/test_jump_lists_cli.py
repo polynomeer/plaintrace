@@ -243,3 +243,11 @@ class JumpListTests(unittest.TestCase):
                 data=bytearray(original);offset=rng.randrange(len(data));data[offset]^=rng.randrange(1,256)
                 try:summary,rows=jump.parse(bytes(data),1,Report());json.dumps([summary,rows],allow_nan=False)
                 except AnalysisError:pass
+
+    def test_cfb_surplus_difat_rejected_before_table_expansion(self):
+        original=automatic()
+        for count in (1,3,65535):
+            data=bytearray(original);struct.pack_into('<I',data,72,count)
+            # Rejection must precede any DIFAT sector reads or list expansion.
+            with patch.object(compound.Compound,'words',side_effect=AssertionError('unexpected sector read')):
+                with self.assertRaisesRegex(AnalysisError,'FAT/DIFAT counts'):compound.Compound(bytes(data))

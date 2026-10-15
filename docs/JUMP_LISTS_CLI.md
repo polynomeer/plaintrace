@@ -27,7 +27,7 @@ Inputs are bounded and hashed before/read/after without modification. No live-pr
 
 ## AutomaticDestinations
 
-CFB version 3/512-byte and version 4/4096-byte sectors are supported, including regular streams, 64-byte mini streams, FAT, miniFAT and extended DIFAT. The reader traverses active flat root streams and checks ranges, declared lengths, directory references, cycles, overlapping ownership and duplicate names. Nested storages, unreachable active directory entries, malformed names, noncanonical headers and truncated/overlong chains are rejected. Inactive directory slots, free sectors and slack are not carved. This is a constrained Jump List container reader, not complete CFB validation: red-black ordering/color semantics and inactive allocation metadata are not certified.
+CFB version 3/512-byte and version 4/4096-byte sectors are supported, including regular streams, 64-byte mini streams, FAT, miniFAT and extended DIFAT. Surplus DIFAT counts are rejected against declared FAT capacity before expansion. The reader traverses active flat root streams and checks ranges, declared lengths, directory references, cycles, overlapping ownership and duplicate names. Nested storages, unreachable active directory entries, malformed names, noncanonical headers and truncated/overlong chains are rejected. Inactive directory slots, free sectors and slack are not carved. This is a constrained Jump List container reader, not complete CFB validation: red-black ordering/color semantics and inactive allocation metadata are not certified.
 
 DestList versions 1, 3 and 4 are interpreted; version 2 and future versions are explicitly rejected. Empty/missing DestList is diagnosed, while active numbered LNK streams are still retained as unassociated. A present header supplies declared entry and pinned counts. Only declared records are parsed; remaining bytes stay in trailing_data_hex with a warning. Truncated declared records/paths/extensions are fatal. Version 3/4 extension lengths are bounded by the stream and their bytes remain opaque with a diagnostic; property stores are not decoded.
 
@@ -73,7 +73,7 @@ flowchart LR
 
 ## Tests and Remaining Validation
 
-[Tests and review](JUMP_LISTS_TESTS.md) map 35 new cases; all 235 tests pass with the EVTX extra. Independent olefile 0.47 checks compare active stream bytes. Two public upstream Windows 7/10 AutomaticDestinations samples exercise DestList 1/3, with four/nine parsed links; this is limited sample coverage, not validation of user-acquired evidence.
+[Tests and review](JUMP_LISTS_TESTS.md) map 36 new cases; all 236 tests pass with the EVTX extra. Independent olefile 0.47 checks compare active stream bytes. Two public upstream Windows 7/10 AutomaticDestinations samples exercise DestList 1/3, with four/nine parsed links; this is limited sample coverage, not validation of user-acquired evidence.
 
 User-acquired Jump Lists, public/real CustomDestinations, broad Windows/application versions, Windows/Linux execution, Python 3.10, large collections and acquisition races remain unvalidated. Unsupported CFB structures, DestList 2/future versions, extension/property-store interpretation, non-LNK shell objects, nonconforming custom counts/envelopes, deleted/slack recovery and registry ProgramsCache remain excluded. Existing LNK PIDL/property-store and other artifact limitations continue. EnCase compilation/execution remains unverified; portable tests do not validate its APIs.
 
