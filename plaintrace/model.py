@@ -30,14 +30,17 @@ class Report:
     recent_doc_keys: list = field(default_factory=list)
     recent_docs: list = field(default_factory=list)
 
+    application_mru_keys: list = field(default_factory=list)
+    application_mru: list = field(default_factory=list)
+
     def warn(self, source_id, code, message, record_id=None):
         self.diagnostics.append(dict(source_id=source_id, severity="warning", code=code,
                                      message=message, record_id=record_id))
 
     def as_dict(self):
-        return dict(format_version=6, tool="plaintrace", tool_version=__version__,
+        return dict(format_version=7, tool="plaintrace", tool_version=__version__,
                     **self.__dict__, counts={name: len(getattr(self, name))
-                    for name in ("sources", "visits", "keywords", "downloads", "diagnostics", "links", "prefetch", "events", "recycle_bin", "usb_registry", "recent_doc_keys", "recent_docs")})
+                    for name in ("sources", "visits", "keywords", "downloads", "diagnostics", "links", "prefetch", "events", "recycle_bin", "usb_registry", "recent_doc_keys", "recent_docs", "application_mru_keys", "application_mru")})
 
 
 def raw_text(value):

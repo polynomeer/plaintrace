@@ -19,6 +19,8 @@ TABLES = {
     "usb_registry": "source_id INTEGER, record_id TEXT, hive_role TEXT, observation_kind TEXT, key_path TEXT, key_last_written TEXT, key_last_write_raw TEXT, control_set TEXT, device_id TEXT, instance_id TEXT, vendor TEXT, product TEXT, revision TEXT, vid TEXT, pid TEXT, friendly_name TEXT, device_times TEXT, values_json TEXT",
     "recent_doc_keys": "source_id INTEGER, record_id TEXT, key_path TEXT, category TEXT, key_last_written TEXT, key_last_write_raw TEXT, mru_format TEXT, mru_status TEXT, mru_order TEXT, mru_values TEXT, other_values TEXT",
     "recent_docs": "source_id INTEGER, record_id TEXT, key_id TEXT, key_path TEXT, category TEXT, value_name TEXT, value_type INTEGER, mru_rank INTEGER, document_name TEXT, name_utf16_hex TEXT, trailing_data_hex TEXT, value_data_hex TEXT",
+    "application_mru_keys": "source_id INTEGER, record_id TEXT, key_path TEXT, family TEXT, application TEXT, application_version TEXT, scope TEXT, list_kind TEXT, key_role TEXT, key_last_written TEXT, key_last_write_raw TEXT, metadata_values TEXT",
+    "application_mru": "source_id INTEGER, record_id TEXT, key_id TEXT, key_path TEXT, family TEXT, application TEXT, application_version TEXT, scope TEXT, list_kind TEXT, slot_name TEXT, slot_number INTEGER, value_name TEXT, value_type INTEGER, raw_text TEXT, stored_path TEXT, path_basis TEXT, metadata_tokens TEXT, embedded_filetime_raw TEXT, embedded_at TEXT, value_data_hex TEXT",
     "events": "source_id INTEGER, record_id TEXT, chunk_index INTEGER, record_offset INTEGER, container_record_id TEXT, container_filetime_raw TEXT, event_record_id TEXT, event_id INTEGER, provider TEXT, provider_guid TEXT, channel TEXT, computer TEXT, level INTEGER, task INTEGER, opcode INTEGER, version INTEGER, qualifiers TEXT, keywords TEXT, process_id INTEGER, thread_id INTEGER, user_sid TEXT, activity_id TEXT, related_activity_id TEXT, created_at TEXT, time_created_raw TEXT, container_time TEXT, category TEXT, action TEXT, details TEXT, event_data TEXT, user_data_xml TEXT, xml TEXT",
 }
 
@@ -28,17 +30,19 @@ def sqlite_report(report, path):
     try:
         connection.execute("PRAGMA foreign_keys=ON")
         with connection:
-            connection.execute("PRAGMA user_version=6")
+            connection.execute("PRAGMA user_version=7")
             connection.execute("CREATE TABLE metadata(key TEXT PRIMARY KEY, value TEXT)")
             payload = report.as_dict()
             for key in ("format_version", "tool", "tool_version", "counts"):
                 connection.execute("INSERT INTO metadata VALUES (?,?)", (key, json.dumps(payload[key], ensure_ascii=False)))
             for table, declaration in TABLES.items():
                 fk = "" if table == "sources" else ", FOREIGN KEY(source_id) REFERENCES sources(source_id)"
-                if table == 'recent_doc_keys':
+                if table in ('recent_doc_keys','application_mru_keys'):
                     fk += ', UNIQUE(source_id, record_id)'
                 elif table == 'recent_docs':
                     fk += ', FOREIGN KEY(source_id, key_id) REFERENCES recent_doc_keys(source_id, record_id)'
+                elif table == 'application_mru':
+                    fk += ', FOREIGN KEY(source_id, key_id) REFERENCES application_mru_keys(source_id, record_id)'
                 connection.execute(f'CREATE TABLE "{table}" ({declaration}{fk})')
                 names = [column.split()[0] for column in declaration.split(",")]
                 rows = []
