@@ -2,7 +2,7 @@
 
 **English** | [한국어](APPLICATION_MRU_CLI.ko.md)
 
-The current package is 0.10.0 and every output uses schema 10. Earlier version introductions/test results below describe their release context; see [the Common Dialog MRU extension](DIALOG_MRU_CLI.md) for the current contract.
+The current package is 0.11.0 and every output uses schema 11. Earlier version introductions/test results below describe their release context; see [the UserAssist extension](USERASSIST_CLI.md) for the current contract.
 
 Implemented on 2026-10-15 on codex/python-application-mru from 4b88c0a8d8699920ecdd5622400484bbef956c89. Package 0.7.0/report schema 7 adds independent Office, HWP and Adobe registry MRU observations. All thirteen EnScript files, archive refs/manifests and 263 reconstructed 2017 commits remain preserved.
 

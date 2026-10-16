@@ -2,7 +2,7 @@
 
 [English](APPLICATION_MRU_CLI.md) | **한국어**
 
-현재 패키지는 0.10.0이며 모든 출력은 스키마 10입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [공통 대화상자 MRU 확장](DIALOG_MRU_CLI.ko.md)을 따릅니다.
+현재 패키지는 0.11.0이며 모든 출력은 스키마 11입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [UserAssist 확장](USERASSIST_CLI.ko.md)을 따릅니다.
 
 2026-10-15에 4b88c0a8d8699920ecdd5622400484bbef956c89 기반 codex/python-application-mru에서 구현했습니다. 패키지 0.7.0/보고서 스키마 7은 Office, HWP, Adobe 레지스트리 MRU 관찰을 독립적으로 추가합니다. EnScript 13개, 아카이브 참조/매니페스트와 재구성된 2017년 커밋 263개를 보존합니다.
 

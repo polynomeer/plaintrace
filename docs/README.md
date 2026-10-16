@@ -77,3 +77,9 @@ Package 0.9.0 adds ShellBags hierarchies, partial Shell Item decoding, reference
 Package 0.10.0 adds OpenSavePidlMRU/LastVisitedPidlMRU and schema 10.
 
 [CLI](DIALOG_MRU_CLI.md) · [Tests and review](DIALOG_MRU_TESTS.md)
+
+## UserAssist Extension
+
+Package 0.11.0 adds acquired UserAssist observations and schema 11.
+
+[CLI](USERASSIST_CLI.md) · [Tests and review](USERASSIST_TESTS.md)

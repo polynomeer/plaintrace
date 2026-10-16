@@ -2,6 +2,8 @@
 
 **English** | [한국어](DIALOG_MRU_CLI.ko.md)
 
+The current package is 0.11.0 and every output uses schema 11. Earlier introductions/results below describe their release context; see [UserAssist](USERASSIST_CLI.md) for the current schema.
+
 Implemented and self-reviewed on 2026-10-16 on codex/python-dialog-mru from 2c6a4203770834c6e197e86b9a1888ea5c4c5d68. Package 0.10.0/report schema 10 adds OpenSavePidlMRU and LastVisitedPidlMRU. All thirteen EnScript files, archive refs/manifests and 263 reconstructed 2017 commits are preserved. The original RecentDocuments module has no dedicated Common Dialog MRU parser; this extension reuses the independent REGF and partial Shell Item readers.
 
 ## Run and Acquired Input

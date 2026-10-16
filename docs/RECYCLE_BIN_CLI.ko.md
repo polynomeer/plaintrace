@@ -2,7 +2,7 @@
 
 **한국어** | [English](RECYCLE_BIN_CLI.md)
 
-현재 패키지는 0.10.0이며 모든 출력은 스키마 10입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [공통 대화상자 MRU 확장](DIALOG_MRU_CLI.ko.md)을 따릅니다.
+현재 패키지는 0.11.0이며 모든 출력은 스키마 11입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [UserAssist 확장](USERASSIST_CLI.ko.md)을 따릅니다.
 
 2026-10-15 병합 커밋 `e0d0145cfb7b649c1713d66776ea140a43f891a3`을 기준으로 `codex/python-recycle-bin`에서 구현했습니다. EnScript 파일 13개와 과거 매니페스트는 기준 커밋과 바이트가 같습니다. 원본 아카이브 태그와 재구성된 2017년 커밋 263개를 보존합니다. 패키지 버전 `0.4.0`은 독립 Python 확장입니다.
 
@@ -87,4 +87,4 @@ py -m venv .venv
 
 ## RecentDocs 확장
 
-패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 10을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.
+패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 11을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.

@@ -164,14 +164,14 @@ class DialogMRUTests(unittest.TestCase):
     def test_cli_repeated_hives_source_hash_and_schema(self):
         p=self.file('renamed',hive_fixture(paths()));before=p.read_bytes()
         result=subprocess.run([sys.executable,'-m','plaintrace','--dialog-mru',str(p),'--dialog-mru',str(p)],capture_output=True,text=True)
-        self.assertEqual(result.returncode,0,result.stderr);payload=json.loads(result.stdout);self.assertEqual(payload['format_version'],10);self.assertEqual(payload['counts']['dialog_mru_entries'],10)
+        self.assertEqual(result.returncode,0,result.stderr);payload=json.loads(result.stdout);self.assertEqual(payload['format_version'],11);self.assertEqual(payload['counts']['dialog_mru_entries'],10)
         self.assertEqual([s['source_id'] for s in payload['sources']],[1,2]);self.assertEqual(payload['sources'][0]['sha256'],hashlib.sha256(before).hexdigest());self.assertEqual(p.read_bytes(),before)
 
     def test_json_sqlite_schema_raw_unicode_and_foreign_keys(self):
         p=self.file('hive',hive_fixture(paths()));report=analyze(dialog_hives=[p]);js=self.folder/'out.json';db=self.folder/'out.sqlite'
-        write_report(report,js);write_report(report,db,'sqlite');self.assertEqual(json.loads(js.read_text())['format_version'],10)
+        write_report(report,js);write_report(report,db,'sqlite');self.assertEqual(json.loads(js.read_text())['format_version'],11)
         with closing(sqlite3.connect(db)) as c:
-            self.assertEqual(c.execute('PRAGMA user_version').fetchone()[0],10);self.assertFalse(c.execute('PRAGMA foreign_key_check').fetchall())
+            self.assertEqual(c.execute('PRAGMA user_version').fetchone()[0],11);self.assertFalse(c.execute('PRAGMA foreign_key_check').fetchall())
             self.assertEqual(c.execute('SELECT application_name FROM dialog_mru_entries ORDER BY rowid').fetchall(),[(r['application_name'],) for r in report.dialog_mru_entries])
             self.assertEqual(c.execute('SELECT value_data_hex FROM dialog_mru_entries ORDER BY rowid').fetchall(),[(r['value_data_hex'],) for r in report.dialog_mru_entries])
             c.execute('PRAGMA foreign_keys=ON')

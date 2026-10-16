@@ -142,10 +142,10 @@ class RecentDocsTests(unittest.TestCase):
     def test_json_sqlite_current_schema_and_raw_metadata_roundtrip(self):
         path=self.file('NTUSER.DAT',hive_fixture(paths()));report=analyze(recent_hives=[path])
         js=self.folder/'out.json';sq=self.folder/'out.sqlite';write_report(report,js);write_report(report,sq,'sqlite')
-        payload=json.loads(js.read_text());self.assertEqual(payload['format_version'],10)
+        payload=json.loads(js.read_text());self.assertEqual(payload['format_version'],11)
         self.assertEqual(payload['counts']['recent_doc_keys'],2);self.assertEqual(payload['counts']['recent_docs'],3)
         with closing(sqlite3.connect(sq)) as db:
-            self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],10);self.assertEqual(db.execute('PRAGMA foreign_key_check').fetchall(),[])
+            self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],11);self.assertEqual(db.execute('PRAGMA foreign_key_check').fetchall(),[])
             self.assertEqual(json.loads(db.execute('SELECT mru_order FROM recent_doc_keys LIMIT 1').fetchone()[0]),['7','0'])
             self.assertEqual(db.execute('SELECT document_name,mru_rank FROM recent_docs LIMIT 1').fetchone(),('最新😀.txt',0))
 
