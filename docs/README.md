@@ -83,3 +83,9 @@ Package 0.10.0 adds OpenSavePidlMRU/LastVisitedPidlMRU and schema 10.
 Package 0.11.0 adds acquired UserAssist observations and schema 11.
 
 [CLI](USERASSIST_CLI.md) · [Tests and review](USERASSIST_TESTS.md)
+
+## RunMRU Extension
+
+Package 0.12.0 adds literal Run dialog MRU strings and schema 12.
+
+[CLI](RUN_MRU_CLI.md) · [Tests and review](RUN_MRU_TESTS.md)
