@@ -2,7 +2,7 @@
 
 [English](SHELLBAGS_CLI.md) | **한국어**
 
-현재 패키지는 0.11.0이며 모든 출력은 스키마 11입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [UserAssist 확장](USERASSIST_CLI.ko.md)을 따릅니다.
+현재 패키지는 0.12.0이며 모든 출력은 스키마 12입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [RunMRU 확장](RUN_MRU_CLI.ko.md)을 따릅니다.
 
 2026-10-15에 9bc15c8f765ea2c10d2259049a39222375f5d61c 기반 codex/python-shellbags에서 구현했습니다. 패키지 0.9.0/보고서 스키마 9는 BagMRU 계층과 참조 Bags 메타데이터를 추가합니다. EnScript 13개, 아카이브 참조/매니페스트와 재구성된 2017년 커밋 263개를 보존합니다. 원본 RecentDocuments 모듈에는 ShellBags 파서가 없어 새 독립 Python 확장으로 구현했습니다.
 

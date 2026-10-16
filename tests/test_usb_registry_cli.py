@@ -224,16 +224,16 @@ class USBRegistryTests(unittest.TestCase):
         self.assertEqual([r['source_id'] for r in report.usb_registry],[1,1,1,2,2,2])
         output=self.folder/'out.sqlite';write_report(report,output,'sqlite')
         with closing(sqlite3.connect(output)) as db:
-            self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],11);self.assertEqual(db.execute('PRAGMA foreign_key_check').fetchall(),[])
+            self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],12);self.assertEqual(db.execute('PRAGMA foreign_key_check').fetchall(),[])
             self.assertEqual(json.loads(db.execute('SELECT device_times FROM usb_registry LIMIT 1').fetchone()[0])[0]['filetime_raw'],str(FT))
         output=self.folder/'out.json';write_report(report,output)
-        self.assertEqual(json.loads(output.read_text())['format_version'],11);self.assertEqual(system.read_bytes(),before)
+        self.assertEqual(json.loads(output.read_text())['format_version'],12);self.assertEqual(system.read_bytes(),before)
 
     def test_cli_subprocess_strict_and_multiple_roles(self):
         system=self.file('SYSTEM',hive_fixture(system_paths()));software=self.file('SOFTWARE',hive_fixture({'Microsoft\\Windows Portable Devices\\Devices\\device':[text('FriendlyName','Portable')]}))
         args=[sys.executable,'-m','plaintrace','--usb-system',str(system),'--usb-software',str(software),'--strict']
         result=subprocess.run(args,capture_output=True,text=True);self.assertEqual(result.returncode,1,result.stderr)
-        payload=json.loads(result.stdout);self.assertEqual(payload['format_version'],11);self.assertEqual(payload['usb_registry'][-1]['source_id'],2)
+        payload=json.loads(result.stdout);self.assertEqual(payload['format_version'],12);self.assertEqual(payload['usb_registry'][-1]['source_id'],2)
         self.assertEqual(payload['usb_registry'][-1]['hive_role'],'software')
 
     def test_later_bad_input_atomic_and_existing_output_protected(self):

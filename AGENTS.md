@@ -92,3 +92,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/USERASSIST_CLI.md` and `docs/USERASSIST_TESTS.md`; run full discovery with the EVTX extra. Reuse the bounded REGF reader without changing decoder semantics.
 - Schema 11 adds userassist_keys/userassist_entries. Require explicit Version 3/5, exact REG_BINARY sizes and NoEncrypt-aware ASCII ROT13/plain names; retain unsupported values, controls, offsets, raw counters and exact FILETIMEs. Bound keys, entries and output.
 - No size-based version guessing, legacy count correction, focus-duration claims, target expansion/execution, ownership or cross-artifact joins. Actual NTUSER/Windows/Linux/EnCase validation remains outstanding.
+
+## RunMRU port
+
+- RunMRU work belongs on `codex/python-runmru`, based on `53f0d510b2d06f991394cf5858be22f54416a1f4`. Preserve EnScript bytes, archive refs/manifests and reconstructed history.
+- Read `docs/RUN_MRU_CLI.md` and `docs/RUN_MRU_TESTS.md`; run full discovery with the EVTX extra. Reuse the bounded REGF reader without changing decoder semantics.
+- Schema 12 adds run_mru_keys/run_mru_entries. Preserve literal REG_SZ commands, raw controls/tails/values, source offsets, rank gaps and exact key FILETIMEs. Require strict MRUList for ranks; no MRUListEx guess. Bound entries, strings and output.
+- No suffix trimming, command execution/expansion, per-entry key-time assignment, execution-success/ownership inference or automatic joins. Actual NTUSER/Windows/Linux/EnCase validation remains outstanding.
