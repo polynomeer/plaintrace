@@ -73,7 +73,8 @@ def main():
                                           ('test_recent_docs_cli.py','RECENT_DOCS_TESTS','RD'),
                                           ('test_application_mru_cli.py','APPLICATION_MRU_TESTS','APP'),
                                           ('test_jump_lists_cli.py','JUMP_LISTS_TESTS','JL'),
-                                          ('test_shellbags_cli.py','SHELLBAGS_TESTS','SB')):
+                                          ('test_shellbags_cli.py','SHELLBAGS_TESTS','SB'),
+                                          ('test_dialog_mru_cli.py','DIALOG_MRU_TESTS','DM')):
         python_tests = ROOT/'tests'/test_file
         if not python_tests.exists():
             continue

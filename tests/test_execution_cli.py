@@ -248,11 +248,11 @@ class ExecutionTests(unittest.TestCase):
         self.assertEqual(report.sources[1]['sha256'],hashlib.sha256(before[link]).hexdigest())
         for format in ('json','sqlite'):
             output=self.folder/('report.'+format);write_report(report,output,format)
-            if format=='json':self.assertEqual(json.loads(output.read_text())['format_version'],9)
+            if format=='json':self.assertEqual(json.loads(output.read_text())['format_version'],10)
             else:
                 db=sqlite3.connect(output)
                 try:
-                    self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],9)
+                    self.assertEqual(db.execute('PRAGMA user_version').fetchone()[0],10)
                     self.assertEqual(json.loads(db.execute('SELECT last_run_times FROM prefetch').fetchone()[0])[0],UTC)
                     self.assertEqual(db.execute('PRAGMA foreign_key_check').fetchall(),[])
                 finally:db.close()

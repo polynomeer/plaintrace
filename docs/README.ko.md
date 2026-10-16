@@ -71,3 +71,9 @@ Office·HWP·Adobe MRU와 스키마 7을 패키지 0.7.0에서 추가했습니�
 패키지 0.9.0은 ShellBags 계층·Shell Item·참조 Bags 메타데이터와 스키마 9를 추가합니다.
 
 [CLI](SHELLBAGS_CLI.ko.md) · [테스트와 리뷰](SHELLBAGS_TESTS.ko.md)
+
+## 공통 파일 대화상자 MRU 확장
+
+패키지 0.10.0은 OpenSavePidlMRU·LastVisitedPidlMRU와 스키마 10을 추가합니다.
+
+[CLI](DIALOG_MRU_CLI.ko.md) · [테스트와 리뷰](DIALOG_MRU_TESTS.ko.md)

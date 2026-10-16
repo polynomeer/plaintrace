@@ -26,6 +26,8 @@ TABLES = {
     "shellbag_views": "source_id INTEGER, record_id TEXT, hive_role TEXT, shell_root TEXT, key_path TEXT, parent_key_id TEXT, slot_name TEXT, key_last_written TEXT, key_last_write_raw TEXT, raw_values TEXT",
     "shellbag_keys": "source_id INTEGER, record_id TEXT, hive_role TEXT, shell_root TEXT, key_path TEXT, parent_key_id TEXT, parent_entry_id TEXT, depth INTEGER, hierarchy_slots TEXT, path_candidate TEXT, path_basis TEXT, ancestry_complete INTEGER, key_last_written TEXT, key_last_write_raw TEXT, mru_status TEXT, mru_order TEXT, control_values TEXT, node_slot INTEGER, bag_key_id TEXT, other_values TEXT",
     "shellbag_entries": "source_id INTEGER, record_id TEXT, key_id TEXT, hive_role TEXT, shell_root TEXT, key_path TEXT, value_name TEXT, value_type INTEGER, mru_rank INTEGER, child_key_id TEXT, item_status TEXT, items TEXT, item_list_terminated INTEGER, item_trailing_hex TEXT, path_candidate TEXT, path_basis TEXT, ancestry_complete INTEGER, value_data_hex TEXT",
+    "dialog_mru_keys": "source_id INTEGER, record_id TEXT, key_path TEXT, list_kind TEXT, category TEXT, parent_key_id TEXT, key_last_written TEXT, key_last_write_raw TEXT, mru_status TEXT, mru_order TEXT, control_values TEXT, other_values TEXT",
+    "dialog_mru_entries": "source_id INTEGER, record_id TEXT, key_id TEXT, key_path TEXT, list_kind TEXT, category TEXT, value_name TEXT, value_type INTEGER, mru_rank INTEGER, application_name TEXT, application_utf16_hex TEXT, application_name_valid INTEGER, pidl_offset INTEGER, pidl_hex TEXT, pidl_status TEXT, items TEXT, item_list_terminated INTEGER, item_trailing_hex TEXT, path_candidate TEXT, path_basis TEXT, ancestry_complete INTEGER, value_data_hex TEXT",
     "events": "source_id INTEGER, record_id TEXT, chunk_index INTEGER, record_offset INTEGER, container_record_id TEXT, container_filetime_raw TEXT, event_record_id TEXT, event_id INTEGER, provider TEXT, provider_guid TEXT, channel TEXT, computer TEXT, level INTEGER, task INTEGER, opcode INTEGER, version INTEGER, qualifiers TEXT, keywords TEXT, process_id INTEGER, thread_id INTEGER, user_sid TEXT, activity_id TEXT, related_activity_id TEXT, created_at TEXT, time_created_raw TEXT, container_time TEXT, category TEXT, action TEXT, details TEXT, event_data TEXT, user_data_xml TEXT, xml TEXT",
 }
 
@@ -35,7 +37,7 @@ def sqlite_report(report, path):
     try:
         connection.execute("PRAGMA foreign_keys=ON")
         with connection:
-            connection.execute("PRAGMA user_version=9")
+            connection.execute("PRAGMA user_version=10")
             connection.execute("CREATE TABLE metadata(key TEXT PRIMARY KEY, value TEXT)")
             payload = report.as_dict()
             for key in ("format_version", "tool", "tool_version", "counts"):
@@ -50,6 +52,10 @@ def sqlite_report(report, path):
                     fk += ', FOREIGN KEY(source_id, key_id) REFERENCES application_mru_keys(source_id, record_id)'
                 elif table == 'jump_list_entries':
                     fk += ', FOREIGN KEY(source_id, container_id) REFERENCES jump_lists(source_id, record_id)'
+                elif table == 'dialog_mru_keys':
+                    fk += ', UNIQUE(source_id, record_id), FOREIGN KEY(source_id, parent_key_id) REFERENCES dialog_mru_keys(source_id, record_id)'
+                elif table == 'dialog_mru_entries':
+                    fk += ', FOREIGN KEY(source_id, key_id) REFERENCES dialog_mru_keys(source_id, record_id)'
                 elif table in ('shellbag_views','shellbag_keys','shellbag_entries'):
                     fk += ', UNIQUE(source_id, record_id)'
                     if table in ('shellbag_views','shellbag_keys'):

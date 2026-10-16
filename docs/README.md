@@ -71,3 +71,9 @@ Package 0.8.0 adds automatic/custom Jump Lists and schema 8.
 Package 0.9.0 adds ShellBags hierarchies, partial Shell Item decoding, referenced Bags metadata and schema 9.
 
 [CLI](SHELLBAGS_CLI.md) · [Tests and review](SHELLBAGS_TESTS.md)
+
+## Common Dialog MRU Extension
+
+Package 0.10.0 adds OpenSavePidlMRU/LastVisitedPidlMRU and schema 10.
+
+[CLI](DIALOG_MRU_CLI.md) · [Tests and review](DIALOG_MRU_TESTS.md)

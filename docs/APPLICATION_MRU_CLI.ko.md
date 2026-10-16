@@ -2,7 +2,7 @@
 
 [English](APPLICATION_MRU_CLI.md) | **한국어**
 
-현재 패키지는 0.9.0이며 모든 출력은 스키마 9입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [ShellBags 확장](SHELLBAGS_CLI.ko.md)을 따릅니다.
+현재 패키지는 0.10.0이며 모든 출력은 스키마 10입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [공통 대화상자 MRU 확장](DIALOG_MRU_CLI.ko.md)을 따릅니다.
 
 2026-10-15에 4b88c0a8d8699920ecdd5622400484bbef956c89 기반 codex/python-application-mru에서 구현했습니다. 패키지 0.7.0/보고서 스키마 7은 Office, HWP, Adobe 레지스트리 MRU 관찰을 독립적으로 추가합니다. EnScript 13개, 아카이브 참조/매니페스트와 재구성된 2017년 커밋 263개를 보존합니다.
 
@@ -47,7 +47,7 @@ Office 일반 값은 그대로 유지합니다. 앞부분의 문자 태그 대�
 
 키 마지막 쓰기는 application_mru_keys에만 정확한 10진 FILETIME과 별도 UTC 표시로 남습니다. Office 내장 T는 저장된 연결 시각이며 실제 열람 사건을 증명하지 않습니다. HWP/Adobe의 문서별 시각은 만들어내지 않습니다. 표시 시각은 정수 연산으로 100 ns 단위를 마이크로초로 절삭하며 0은 null, 범위 초과는 진단합니다. 목록은 변경 가능한 상태이며 완전한 사용 이력, 사용자 귀속이나 세션 재구성이 아닙니다.
 
-해당 입력이 없어도 모든 보고서의 JSON format_version과 SQLite user_version은 9입니다. 버전 7은 application_mru_keys/application_mru와 개수를 추가하며 기존 필드 의미는 유지합니다. 이전 보고서는 마이그레이션/재작성하지 않으며 소비자는 버전 9를 지원해야 합니다. 출처의 source_kind는 application_mru, schema_family는 registry_ntuser, sha256은 전체 파일 해시이며 browser/database/WAL 필드는 null입니다.
+해당 입력이 없어도 모든 보고서의 JSON format_version과 SQLite user_version은 10입니다. 버전 7은 application_mru_keys/application_mru와 개수를 추가하며 기존 필드 의미는 유지합니다. 이전 보고서는 마이그레이션/재작성하지 않으며 소비자는 버전 10을 지원해야 합니다. 출처의 source_kind는 application_mru, schema_family는 registry_ntuser, sha256은 전체 파일 해시이며 browser/database/WAL 필드는 null입니다.
 
 | Collection/table | Fields |
 | --- | --- |
