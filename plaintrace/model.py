@@ -43,14 +43,17 @@ class Report:
     dialog_mru_keys: list = field(default_factory=list)
     dialog_mru_entries: list = field(default_factory=list)
 
+    userassist_keys: list = field(default_factory=list)
+    userassist_entries: list = field(default_factory=list)
+
     def warn(self, source_id, code, message, record_id=None):
         self.diagnostics.append(dict(source_id=source_id, severity="warning", code=code,
                                      message=message, record_id=record_id))
 
     def as_dict(self):
-        return dict(format_version=10, tool="plaintrace", tool_version=__version__,
+        return dict(format_version=11, tool="plaintrace", tool_version=__version__,
                     **self.__dict__, counts={name: len(getattr(self, name))
-                    for name in ("sources", "visits", "keywords", "downloads", "diagnostics", "links", "prefetch", "events", "recycle_bin", "usb_registry", "recent_doc_keys", "recent_docs", "application_mru_keys", "application_mru", "jump_lists", "jump_list_entries", "shellbag_views", "shellbag_keys", "shellbag_entries", "dialog_mru_keys", "dialog_mru_entries")})
+                    for name in ("sources", "visits", "keywords", "downloads", "diagnostics", "links", "prefetch", "events", "recycle_bin", "usb_registry", "recent_doc_keys", "recent_docs", "application_mru_keys", "application_mru", "jump_lists", "jump_list_entries", "shellbag_views", "shellbag_keys", "shellbag_entries", "dialog_mru_keys", "dialog_mru_entries", "userassist_keys", "userassist_entries")})
 
 
 def raw_text(value):
