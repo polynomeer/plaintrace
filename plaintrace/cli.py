@@ -11,7 +11,7 @@ from .exports import write_report
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="Analyze acquired browser SQLite, LNK, Prefetch, EVTX, Recycle Bin $I, USB registry, RecentDocs and application MRU hives Jump Lists and ShellBags without EnCase.")
+    parser = argparse.ArgumentParser(description="Analyze acquired browser SQLite, LNK, Prefetch, EVTX, Recycle Bin $I, USB registry, RecentDocs and application MRU hives, Jump Lists, ShellBags and Common Dialog MRUs without EnCase.")
     parser.add_argument("--version", action="version", version=f"plaintrace {__version__}")
     parser.add_argument("--input", action="append", default=[], metavar="DB", help="Acquired History or places.sqlite; repeat for multiple sources")
     parser.add_argument("--lnk", action="append", default=[], metavar="FILE", help="Acquired Shell Link; repeat for multiple files")
@@ -21,6 +21,8 @@ def main(argv=None):
     parser.add_argument("--recent-docs",action="append",default=[],metavar="NTUSER",help="Acquired NTUSER.DAT Explorer RecentDocs; repeat")
     parser.add_argument("--application-mru",action="append",default=[],metavar="NTUSER",help="Acquired NTUSER.DAT Office/HWP/Adobe MRUs; repeat")
     parser.add_argument("--jump-list",action="append",default=[],metavar="FILE",help="Acquired automatic/custom destinations Jump List; repeat")
+    parser.add_argument('--dialog-mru',action='append',default=[],metavar='NTUSER',help='Acquired NTUSER.DAT OpenSavePidlMRU/LastVisitedPidlMRU; repeat')
+    parser.add_argument('--dialog-mru-codepage',default='cp1252',help='ANSI-compatible dialog PIDL encoding; Unicode stays UTF-16LE')
     for role in ('ntuser','usrclass'):
         parser.add_argument('--shellbags-'+role,action='append',default=[],metavar='HIVE',help='Acquired '+role.upper()+' ShellBags hive; repeat')
     parser.add_argument('--shellbags-codepage',default='cp1252',help='ANSI-compatible Shell Item name encoding; Unicode remains UTF-16LE')
@@ -32,12 +34,12 @@ def main(argv=None):
     parser.add_argument("--output", metavar="PATH", help="New output file; existing files are never overwritten. JSON defaults to stdout")
     parser.add_argument("--strict", action="store_true", help="Write the report but return exit code 1 if warnings are present")
     args = parser.parse_args(argv)
-    if not (args.input or args.lnk or args.prefetch or args.evtx or args.recycle_bin or args.usb_system or args.usb_software or args.usb_ntuser or args.recent_docs or args.application_mru or args.jump_list or args.shellbags_ntuser or args.shellbags_usrclass):
-        parser.error("at least one --input, --lnk, --prefetch, --evtx, --recycle-bin or --usb-{system,software,ntuser} or --recent-docs or --application-mru or --jump-list or --shellbags-{ntuser,usrclass} is required")
+    if not (args.input or args.lnk or args.prefetch or args.evtx or args.recycle_bin or args.usb_system or args.usb_software or args.usb_ntuser or args.recent_docs or args.application_mru or args.jump_list or args.shellbags_ntuser or args.shellbags_usrclass or args.dialog_mru):
+        parser.error("at least one --input, --lnk, --prefetch, --evtx, --recycle-bin or --usb-{system,software,ntuser} or --recent-docs or --application-mru or --jump-list or --shellbags-{ntuser,usrclass} or --dialog-mru is required")
     if args.format == "sqlite" and not args.output:
         parser.error("--format sqlite requires --output")
     try:
-        report = analyze(args.input,args.lnk,args.prefetch,args.browser,args.lnk_codepage,event_logs=args.evtx,recycle_bins=args.recycle_bin,usb_hives=[(role,path) for role in ("system","software","ntuser") for path in getattr(args,"usb_"+role)],recent_hives=args.recent_docs,application_hives=args.application_mru,jump_files=args.jump_list,shellbag_hives=[(role,path) for role in ("ntuser","usrclass") for path in getattr(args,"shellbags_"+role)],shellbags_codepage=args.shellbags_codepage)
+        report = analyze(args.input,args.lnk,args.prefetch,args.browser,args.lnk_codepage,event_logs=args.evtx,recycle_bins=args.recycle_bin,usb_hives=[(role,path) for role in ("system","software","ntuser") for path in getattr(args,"usb_"+role)],recent_hives=args.recent_docs,application_hives=args.application_mru,jump_files=args.jump_list,shellbag_hives=[(role,path) for role in ("ntuser","usrclass") for path in getattr(args,"shellbags_"+role)],shellbags_codepage=args.shellbags_codepage,dialog_hives=args.dialog_mru,dialog_codepage=args.dialog_mru_codepage)
         if args.output:
             write_report(report, args.output, args.format)
         else:
