@@ -188,7 +188,7 @@ class BrowserTests(unittest.TestCase):
         self.assertEqual(json.loads(json_path.read_text())["visits"],report.visits)
         db = sqlite3.connect(sql_path)
         try:
-            self.assertEqual(db.execute("PRAGMA user_version").fetchone()[0],8)
+            self.assertEqual(db.execute("PRAGMA user_version").fetchone()[0],9)
             self.assertEqual(db.execute("SELECT keyword FROM keywords WHERE derivation='stored_search_term'").fetchone()[0],"stored 'term' 한글")
             self.assertEqual(json.loads(db.execute("SELECT url_chain FROM downloads").fetchone()[0]),report.downloads[0]["url_chain"])
             self.assertEqual(db.execute("PRAGMA foreign_key_check").fetchall(),[])

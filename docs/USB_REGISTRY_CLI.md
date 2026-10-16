@@ -2,7 +2,7 @@
 
 **English** | [한국어](USB_REGISTRY_CLI.ko.md)
 
-The current package is 0.8.0 and every output uses schema 8. Earlier version introductions/test results below describe their release context; see [the Jump Lists extension](JUMP_LISTS_CLI.md) for the current contract.
+The current package is 0.9.0 and every output uses schema 9. Earlier version introductions/test results below describe their release context; see [the ShellBags extension](SHELLBAGS_CLI.md) for the current contract.
 
 Implemented on 2026-10-15 on `codex/python-usb-registry`, based on `d174bc8c7f57aa5f91e0e3c87113e4af78ce3eb1`. EnScript files, archive refs/manifests and 263 reconstructed 2017 commits are preserved. Package 0.5.0/report schema 5 extends the independent Python implementation.
 
@@ -63,7 +63,7 @@ Values retain name, type, physical value-cell offset and exact data hex. REG_SZ/
 
 ## Current Schema and Code Structure
 
-Every report now has JSON format_version 8 and SQLite user_version 8, including reports with no USB hive. Version 5 adds usb_registry and its count; prior collections retain field meanings. Existing report versions 1–5 are never rewritten or migrated. Consumers must recognize version 8. Sources use source_kind usb_registry and schema_family registry_system/registry_software/registry_ntuser, with acquired-file sha256 and null browser/database/WAL fields. record_id is the physical nk cell-header offset, scoped by source_id.
+Every report now has JSON format_version 9 and SQLite user_version 9, including reports with no USB hive. Version 5 adds usb_registry and its count; prior collections retain field meanings. Existing report versions 1–5 are never rewritten or migrated. Consumers must recognize version 9. Sources use source_kind usb_registry and schema_family registry_system/registry_software/registry_ntuser, with acquired-file sha256 and null browser/database/WAL fields. record_id is the physical nk cell-header offset, scoped by source_id.
 
 | JSON usb_registry field | Meaning |
 | --- | --- |
@@ -74,7 +74,7 @@ Every report now has JSON format_version 8 and SQLite user_version 8, including 
 | device_times | Property ID/meaning, property key path/offset, raw ticks, UTC time and raw property values |
 | values | Ordered value_offset/name/type/data_hex/decoded objects; SQLite column is named values_json to avoid a SQL keyword |
 
-Objects/arrays are native JSON and JSON text in SQLite; source foreign keys and bound inserts remain enforced. [registry_hive.py](../plaintrace/registry_hive.py) implements bounded REGF access; [usb_registry.py](../plaintrace/usb_registry.py) selects USB/context branches and timestamp semantics. CLI, source assembly, report model and exporters add role flags, provenance and schema 8.
+Objects/arrays are native JSON and JSON text in SQLite; source foreign keys and bound inserts remain enforced. [registry_hive.py](../plaintrace/registry_hive.py) implements bounded REGF access; [usb_registry.py](../plaintrace/usb_registry.py) selects USB/context branches and timestamp semantics. CLI, source assembly, report model and exporters add role flags, provenance and schema 9.
 
 ## Validation and Remaining Limits
 
@@ -88,4 +88,4 @@ Interpretation follows [libregf working REGF specification](https://github.com/l
 
 ## RecentDocs Extension
 
-Package 0.6.0 introduced schema 6 and recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 8. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.
+Package 0.6.0 introduced schema 6 and recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 9. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.

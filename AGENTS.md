@@ -71,3 +71,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/JUMP_LISTS_CLI.md` and `docs/JUMP_LISTS_TESTS.md`; run full discovery with the EVTX extra. Jump Lists/CFB parsing uses the standard library.
 - Schema 8 adds jump_lists/jump_list_entries. Bound CFB FAT/DIFAT/miniFAT chains, directory references, lengths, categories, records and output; do not carve signatures or infer missing associations.
 - Preserve exact raw bytes/FILETIMEs, literal paths and fragmented stream mappings. DestList record lineage and linked-stream names are separate. No inferred execution, opening, MAC/owner/app identity or EnCase/Windows/Linux validation claims.
+
+## ShellBags port
+
+- ShellBags work belongs on `codex/python-shellbags`, based on `9bc15c8f765ea2c10d2259049a39222375f5d61c`. Preserve all EnScript bytes, archive refs/manifests and reconstructed history.
+- Read `docs/SHELLBAGS_CLI.md` and `docs/SHELLBAGS_TESTS.md`; run full discovery with the EVTX extra. Reuse the bounded standard-library REGF reader.
+- Schema 9 adds shellbag_views/shellbag_keys/shellbag_entries. Preserve raw MRU/NodeSlot/item/view bytes, hierarchy, source offsets and exact key FILETIMEs; bound both trees, items, extensions, paths and output.
+- NodeSlot belongs to its BagMRU key. Do not invent missing ancestry, normalize unsupported components, assign FAT timezones, infer folder access/ownership or claim Windows/Linux/EnCase validation. Same-root Bags references do not authorize cross-hive/user joins.

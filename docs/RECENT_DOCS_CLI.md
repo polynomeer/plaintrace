@@ -2,7 +2,7 @@
 
 **English** | [한국어](RECENT_DOCS_CLI.ko.md)
 
-The current package is 0.8.0 and every output uses schema 8. Earlier version introductions/test results below describe their release context; see [the Jump Lists extension](JUMP_LISTS_CLI.md) for the current contract.
+The current package is 0.9.0 and every output uses schema 9. Earlier version introductions/test results below describe their release context; see [the ShellBags extension](SHELLBAGS_CLI.md) for the current contract.
 
 Implemented on 2026-10-15 on `codex/python-recent-docs`, based on `0f3e9e4fec930332310c172df6b1e599249c8924`. All thirteen EnScript files, archive refs/manifests and 263 reconstructed 2017 commits are preserved. Package 0.6.0/report schema 6 extends the independent Python port.
 
@@ -48,9 +48,9 @@ Key last-write timestamps exist only in recent_doc_keys, with separate UTC micro
 
 The preserved EnScript module primarily handles Office/HWP/Adobe application MRUs and LNK correlation. This extension specifically implements Explorer RecentDocs, not the complete original viewer-specific behavior. Office application lists, Adobe/HWP MRUs, Recent-folder scanning, LNK correlation, Jump Lists, OpenSave/LastVisited, ShellBags, deleted records, user/SID attribution and session reconstruction are outside this adapter. Existing explicit LNK analysis is unchanged.
 
-## Version 8 Output and Architecture
+## Version 9 Output and Architecture
 
-JSON format_version and SQLite user_version are 8 for every report, including other-only inputs. Version 6 adds recent_doc_keys/recent_docs and both counts. Earlier reports are never rewritten/migrated; consumers must explicitly recognize version 8. Existing artifact field meanings remain unchanged. Sources have source_kind recent_docs, schema_family registry_ntuser, full acquired-file sha256 and null browser/database/WAL fields.
+JSON format_version and SQLite user_version are 9 for every report, including other-only inputs. Version 6 adds recent_doc_keys/recent_docs and both counts. Earlier reports are never rewritten/migrated; consumers must explicitly recognize version 9. Existing artifact field meanings remain unchanged. Sources have source_kind recent_docs, schema_family registry_ntuser, full acquired-file sha256 and null browser/database/WAL fields.
 
 | Collection/table | Fields and meaning |
 | --- | --- |
