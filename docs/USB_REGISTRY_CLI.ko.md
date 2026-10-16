@@ -2,7 +2,7 @@
 
 **한국어** | [English](USB_REGISTRY_CLI.md)
 
-현재 패키지는 0.10.0이며 모든 출력은 스키마 10입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [공통 대화상자 MRU 확장](DIALOG_MRU_CLI.ko.md)을 따릅니다.
+현재 패키지는 0.11.0이며 모든 출력은 스키마 11입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [UserAssist 확장](USERASSIST_CLI.ko.md)을 따릅니다.
 
 2026-10-15 `d174bc8c7f57aa5f91e0e3c87113e4af78ce3eb1`을 기준으로 `codex/python-usb-registry`에서 구현했습니다. EnScript, 아카이브 ref/매니페스트와 재구성된 2017년 커밋 263개를 보존합니다. 패키지 0.5.0/보고서 스키마 5는 독립 Python 구현의 확장입니다.
 
@@ -88,4 +88,4 @@ USB 하이브가 없는 보고서도 JSON format_version 10과 SQLite user_versi
 
 ## RecentDocs 확장
 
-패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 10을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.
+패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 11을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.

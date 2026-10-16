@@ -2,7 +2,7 @@
 
 **English** | [한국어](JUMP_LISTS_CLI.ko.md)
 
-The current package is 0.10.0 and every output uses schema 10. Earlier version introductions/test results below describe their release context; see [the Common Dialog MRU extension](DIALOG_MRU_CLI.md) for the current contract.
+The current package is 0.11.0 and every output uses schema 11. Earlier version introductions/test results below describe their release context; see [the UserAssist extension](USERASSIST_CLI.md) for the current contract.
 
 Implemented on 2026-10-15 on codex/python-jump-lists, based on 285f7f5020213042372e4d791fd001626a04231e. Package 0.8.0/report schema 8 adds automatic/custom Jump Lists. Original EnScript files, archive refs/manifests and 263 reconstructed 2017 commits remain preserved. The original LNK/RecentDocuments modules have no Jump Lists-specific parser; this extension reuses the independent Python LNK adapter.
 

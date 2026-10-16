@@ -77,3 +77,9 @@ Office·HWP·Adobe MRU와 스키마 7을 패키지 0.7.0에서 추가했습니�
 패키지 0.10.0은 OpenSavePidlMRU·LastVisitedPidlMRU와 스키마 10을 추가합니다.
 
 [CLI](DIALOG_MRU_CLI.ko.md) · [테스트와 리뷰](DIALOG_MRU_TESTS.ko.md)
+
+## UserAssist 확장
+
+패키지 0.11.0은 획득 UserAssist 관측과 스키마 11을 추가합니다.
+
+[CLI](USERASSIST_CLI.ko.md) · [테스트와 리뷰](USERASSIST_TESTS.ko.md)

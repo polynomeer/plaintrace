@@ -85,3 +85,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/DIALOG_MRU_CLI.md` and `docs/DIALOG_MRU_TESTS.md`; run full discovery with the EVTX extra. Reuse bounded REGF/Shell Item readers without changing existing decoder semantics.
 - Schema 10 adds dialog_mru_keys/dialog_mru_entries. Preserve raw MRU controls, UTF-16 application prefixes, PIDL offsets/bytes, rank gaps and exact key FILETIMEs. Bound scopes, entries, prefixes, items and output.
 - Require PIDL terminal items for path candidates. Do not infer success/open-versus-save, app execution/identity, per-entry key times, users or cross-list joins. Actual acquired NTUSER/Windows/Linux/EnCase validation remains outstanding.
+
+## UserAssist port
+
+- UserAssist work belongs on `codex/python-userassist`, based on `caa66102c4c46ebc7ab0e81153c36801bdfc8d67`. Preserve EnScript bytes, archive refs/manifests and reconstructed history.
+- Read `docs/USERASSIST_CLI.md` and `docs/USERASSIST_TESTS.md`; run full discovery with the EVTX extra. Reuse the bounded REGF reader without changing decoder semantics.
+- Schema 11 adds userassist_keys/userassist_entries. Require explicit Version 3/5, exact REG_BINARY sizes and NoEncrypt-aware ASCII ROT13/plain names; retain unsupported values, controls, offsets, raw counters and exact FILETIMEs. Bound keys, entries and output.
+- No size-based version guessing, legacy count correction, focus-duration claims, target expansion/execution, ownership or cross-artifact joins. Actual NTUSER/Windows/Linux/EnCase validation remains outstanding.
