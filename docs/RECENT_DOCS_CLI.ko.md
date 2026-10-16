@@ -2,7 +2,7 @@
 
 **한국어** | [English](RECENT_DOCS_CLI.md)
 
-현재 패키지는 0.9.0이며 모든 출력은 스키마 9입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [ShellBags 확장](SHELLBAGS_CLI.ko.md)을 따릅니다.
+현재 패키지는 0.10.0이며 모든 출력은 스키마 10입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [공통 대화상자 MRU 확장](DIALOG_MRU_CLI.ko.md)을 따릅니다.
 
 2026-10-15 `0f3e9e4fec930332310c172df6b1e599249c8924`을 기준으로 `codex/python-recent-docs`에서 구현했습니다. EnScript 파일 13개, 아카이브 ref/매니페스트와 재구성된 2017년 커밋 263개를 보존합니다. 패키지 0.6.0/보고서 스키마 6은 독립 Python 이식판의 확장입니다.
 
@@ -48,9 +48,9 @@ Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs와 확장자/Folde
 
 보존된 EnScript 모듈은 주로 Office/HWP/Adobe 애플리케이션 MRU와 LNK 연계를 처리합니다. 이번 확장은 Explorer RecentDocs이며 원본의 모든 뷰어별 동작이 아닙니다. Office 목록, Adobe/HWP MRU, Recent 폴더 검색, LNK 연계, Jump Lists, OpenSave/LastVisited, ShellBags, 삭제 레코드, 사용자/SID 식별과 세션 복원은 범위 밖입니다. 기존 명시적 LNK 분석은 유지합니다.
 
-## 버전 9 출력과 구조
+## 버전 10 출력과 구조
 
-다른 유형만 입력해도 모든 보고서의 JSON format_version과 SQLite user_version은 9입니다. 버전 6은 recent_doc_keys/recent_docs와 두 개수를 추가합니다. 과거 보고서는 재작성/마이그레이션하지 않으며 소비자는 버전 9를 명시적으로 인식해야 합니다. 기존 아티팩트 필드 의미는 유지합니다. sources는 source_kind recent_docs, schema_family registry_ntuser, 획득 전체 파일 sha256과 null browser/database/WAL 필드를 사용합니다.
+다른 유형만 입력해도 모든 보고서의 JSON format_version과 SQLite user_version은 10입니다. 버전 6은 recent_doc_keys/recent_docs와 두 개수를 추가합니다. 과거 보고서는 재작성/마이그레이션하지 않으며 소비자는 버전 10을 명시적으로 인식해야 합니다. 기존 아티팩트 필드 의미는 유지합니다. sources는 source_kind recent_docs, schema_family registry_ntuser, 획득 전체 파일 sha256과 null browser/database/WAL 필드를 사용합니다.
 
 | 컬렉션/테이블 | 필드와 의미 |
 | --- | --- |

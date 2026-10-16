@@ -2,7 +2,7 @@
 
 **English** | [한국어](JUMP_LISTS_CLI.ko.md)
 
-The current package is 0.9.0 and every output uses schema 9. Earlier version introductions/test results below describe their release context; see [the ShellBags extension](SHELLBAGS_CLI.md) for the current contract.
+The current package is 0.10.0 and every output uses schema 10. Earlier version introductions/test results below describe their release context; see [the Common Dialog MRU extension](DIALOG_MRU_CLI.md) for the current contract.
 
 Implemented on 2026-10-15 on codex/python-jump-lists, based on 285f7f5020213042372e4d791fd001626a04231e. Package 0.8.0/report schema 8 adds automatic/custom Jump Lists. Original EnScript files, archive refs/manifests and 263 reconstructed 2017 commits remain preserved. The original LNK/RecentDocuments modules have no Jump Lists-specific parser; this extension reuses the independent Python LNK adapter.
 
@@ -45,9 +45,9 @@ Only version 2 with a 12-byte file header and declared categories is supported. 
 
 Supported entries are full Shell Links or CLSID-plus-body COM persistence objects. The latter gets a synthetic four-byte HeaderSize only for the existing LNK parser; raw_entry_hex preserves original bytes and link_representation distinguishes the forms. Framing walks declared IDList, LinkInfo, StringData and ExtraData lengths through a zero TerminalBlock. It never splits on embedded LNK/footer signatures. Unknown shell object classes, category types/versions, missing footers, inconsistent counts and trailing envelopes are fatal; no signature carving or repair is attempted. A frameable link whose internal details fail parsing retains invalid status and raw bytes. Custom tasks/categories are application-defined menu state, not evidence of execution, pinning or recency; no DestList timestamps/pin states are invented.
 
-## Schema 9, Lineage and Architecture
+## Schema 10, Lineage and Architecture
 
-Every JSON format_version and SQLite user_version is 9, even for older artifact-only inputs. Version 8 adds jump_lists/jump_list_entries and both counts. Existing field meanings remain unchanged; earlier reports are never migrated or rewritten. Consumers must explicitly support version 9. Sources have source_kind jump_list, schema_family jump_automatic or jump_custom, full-file sha256 and null browser/database/WAL fields. app_id_hint is only the literal 16-hex filename prefix when the conventional extension matches; it is not verified application identity and no application lookup database is bundled.
+Every JSON format_version and SQLite user_version is 10, even for older artifact-only inputs. Version 8 adds jump_lists/jump_list_entries and both counts. Existing field meanings remain unchanged; earlier reports are never migrated or rewritten. Consumers must explicitly support version 10. Sources have source_kind jump_list, schema_family jump_automatic or jump_custom, full-file sha256 and null browser/database/WAL fields. app_id_hint is only the literal 16-hex filename prefix when the conventional extension matches; it is not verified application identity and no application lookup database is bundled.
 
 | Collection/table | Fields |
 | --- | --- |
@@ -68,7 +68,7 @@ flowchart LR
   CFB --> Dest[DestList and stream association]
   Dest --> LNK[Existing LNK parser]
   Custom --> LNK
-  LNK --> Report[Schema 9 JSON or SQLite]
+  LNK --> Report[Schema 10 JSON or SQLite]
 ```
 
 [compound.py](../plaintrace/compound.py) validates CFB chains; [jump_lists.py](../plaintrace/jump_lists.py) interprets containers and uses [lnk.py](../plaintrace/lnk.py). Source assembly, CLI, model and exporters add input and schema integration. Limits per input: 32 MiB file, 65536 CFB sectors, 4096 directory slots, 1024 streams, 10000 output entries, 1024 custom categories, 32768 path/name UTF-16 code units, 1 MiB per embedded LNK and 64 MiB serialized adapter output. Inherited LNK section checks remain. Limits also apply to direct calls and can reject valid large inputs. Output checks occur after allocation; combined reports stay in memory without a native process timeout or memory sandbox.

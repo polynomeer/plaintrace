@@ -2,7 +2,7 @@
 
 **한국어** | [English](RECYCLE_BIN_CLI.md)
 
-현재 패키지는 0.9.0이며 모든 출력은 스키마 9입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [ShellBags 확장](SHELLBAGS_CLI.ko.md)을 따릅니다.
+현재 패키지는 0.10.0이며 모든 출력은 스키마 10입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [공통 대화상자 MRU 확장](DIALOG_MRU_CLI.ko.md)을 따릅니다.
 
 2026-10-15 병합 커밋 `e0d0145cfb7b649c1713d66776ea140a43f891a3`을 기준으로 `codex/python-recycle-bin`에서 구현했습니다. EnScript 파일 13개와 과거 매니페스트는 기준 커밋과 바이트가 같습니다. 원본 아카이브 태그와 재구성된 2017년 커밋 263개를 보존합니다. 패키지 버전 `0.4.0`은 독립 Python 확장입니다.
 
@@ -56,7 +56,7 @@ py -m venv .venv
 
 ## 현재 스키마와 구조
 
-휴지통 입력이 없는 경우도 모든 JSON `format_version`과 SQLite `user_version`은 9입니다. 버전 4는 `recycle_bin`과 개수를 추가하고 기존 브라우저, LNK, Prefetch와 EVTX 필드 의미를 유지합니다. 기존 버전 1/2/3 보고서는 재작성/마이그레이션하지 않으며 소비자는 버전 9를 명시적으로 인식해야 합니다. SQLite 삽입은 값을 바인딩하고 출처 외래 키를 적용합니다. sources의 `source_kind`와 `schema_family`는 recycle_bin, `sha256`은 전체 입력 해시이며 browser/database/WAL 필드는 null입니다.
+휴지통 입력이 없는 경우도 모든 JSON `format_version`과 SQLite `user_version`은 10입니다. 버전 4는 `recycle_bin`과 개수를 추가하고 기존 브라우저, LNK, Prefetch와 EVTX 필드 의미를 유지합니다. 기존 버전 1/2/3 보고서는 재작성/마이그레이션하지 않으며 소비자는 버전 10을 명시적으로 인식해야 합니다. SQLite 삽입은 값을 바인딩하고 출처 외래 키를 적용합니다. sources의 `source_kind`와 `schema_family`는 recycle_bin, `sha256`은 전체 입력 해시이며 browser/database/WAL 필드는 null입니다.
 
 | 컬렉션/테이블 recycle_bin 필드 | 의미 |
 | --- | --- |
@@ -69,7 +69,7 @@ py -m venv .venv
 | path_utf16_hex | 종료 문자/패딩을 포함한 전체 고정/길이 지정 경로 필드 바이트 |
 | trailing_data_hex | 지원 레이아웃 이후의 미해석 바이트; 없으면 빈 문자열 |
 
-[recycle_bin.py](../plaintrace/recycle_bin.py)는 레이아웃 검증과 메타데이터 해석을 담당합니다. [execution.py](../plaintrace/execution.py)는 입력 출처를 결합하고 [model.py](../plaintrace/model.py)는 버전 9/개수를 정의하며 [exports.py](../plaintrace/exports.py)는 테이블을 추가하고 [cli.py](../plaintrace/cli.py)는 반복 플래그를 추가합니다. 기존 LNK/Prefetch 8 MiB와 EVTX 64 MiB 제한은 유지합니다.
+[recycle_bin.py](../plaintrace/recycle_bin.py)는 레이아웃 검증과 메타데이터 해석을 담당합니다. [execution.py](../plaintrace/execution.py)는 입력 출처를 결합하고 [model.py](../plaintrace/model.py)는 버전 10/개수를 정의하며 [exports.py](../plaintrace/exports.py)는 테이블을 추가하고 [cli.py](../plaintrace/cli.py)는 반복 플래그를 추가합니다. 기존 LNK/Prefetch 8 MiB와 EVTX 64 MiB 제한은 유지합니다.
 
 ## 테스트, 리뷰와 남은 검증
 
@@ -87,4 +87,4 @@ py -m venv .venv
 
 ## RecentDocs 확장
 
-패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 9을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.
+패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 10을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.

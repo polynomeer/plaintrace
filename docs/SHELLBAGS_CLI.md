@@ -2,6 +2,8 @@
 
 **English** | [한국어](SHELLBAGS_CLI.ko.md)
 
+The current package is 0.10.0 and every output uses schema 10. Earlier version introductions/test results below describe their release context; see [the Common Dialog MRU extension](DIALOG_MRU_CLI.md) for the current contract.
+
 Implemented on 2026-10-15 on codex/python-shellbags, based on 9bc15c8f765ea2c10d2259049a39222375f5d61c. Package 0.9.0/report schema 9 adds BagMRU hierarchy and referenced Bags metadata. All thirteen EnScript files, archive refs/manifests and 263 reconstructed 2017 commits remain preserved. The original RecentDocuments module has no ShellBags parser; this is a new independent Python extension.
 
 ## Run and Input Scope
@@ -54,9 +56,9 @@ path_candidate is a literal hierarchy candidate, never a filesystem lookup or ex
 
 Key last-write times exist only on key/view records, with exact decimal FILETIME plus UTC microsecond display. Zero is null; overflow is diagnosed; integer arithmetic truncates 100 ns fractions. Shell Item FAT dictionaries retain raw_hex, display and time_basis stored_fat_no_timezone: date-word then time-word fields are calendar-decoded at two-second resolution without assigning a timezone or converting to UTC. Zero is null; invalid calendar fields warn while preserving raw bytes. These are stored item metadata, not proven folder-view or user-access events. MRU ranks and NodeSlot relations do not create per-entry registry timestamps, execution, ownership, deletion or session claims.
 
-## Schema 9, Lineage and Architecture
+## Schema 10, Lineage and Architecture
 
-Every JSON format_version and SQLite user_version is 9, including reports without ShellBags. Version 9 adds shellbag_views/shellbag_keys/shellbag_entries and their counts; previous field meanings remain unchanged. Old reports are never migrated or rewritten; consumers must recognize version 9. Sources have source_kind shellbags, schema_family registry_ntuser or registry_usrclass, full-file sha256 and null browser/database/WAL fields.
+Every JSON format_version and SQLite user_version is 10, including reports without ShellBags. Version 9 adds shellbag_views/shellbag_keys/shellbag_entries and their counts; previous field meanings remain unchanged. Old reports are never migrated or rewritten; consumers must recognize version 10. Sources have source_kind shellbags, schema_family registry_ntuser or registry_usrclass, full-file sha256 and null browser/database/WAL fields.
 
 | Collection/table | Fields |
 | --- | --- |
@@ -75,7 +77,7 @@ flowchart LR
   Keys --> Items[Partial Shell Item decoding]
   Keys --> Views[Same-root NodeSlot to Bags metadata]
   Items --> Paths[Qualified hierarchy candidates]
-  Views --> Report[Schema 9 JSON or SQLite]
+  Views --> Report[Schema 10 JSON or SQLite]
   Paths --> Report
 ```
 

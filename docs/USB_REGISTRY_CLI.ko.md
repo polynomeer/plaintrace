@@ -2,7 +2,7 @@
 
 **한국어** | [English](USB_REGISTRY_CLI.md)
 
-현재 패키지는 0.9.0이며 모든 출력은 스키마 9입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [ShellBags 확장](SHELLBAGS_CLI.ko.md)을 따릅니다.
+현재 패키지는 0.10.0이며 모든 출력은 스키마 10입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [공통 대화상자 MRU 확장](DIALOG_MRU_CLI.ko.md)을 따릅니다.
 
 2026-10-15 `d174bc8c7f57aa5f91e0e3c87113e4af78ce3eb1`을 기준으로 `codex/python-usb-registry`에서 구현했습니다. EnScript, 아카이브 ref/매니페스트와 재구성된 2017년 커밋 263개를 보존합니다. 패키지 0.5.0/보고서 스키마 5는 독립 Python 구현의 확장입니다.
 
@@ -63,7 +63,7 @@ SYSTEM은 1..999의 고유 DWORD Select/Current와 해당 ControlSet을 요구�
 
 ## 현재 스키마와 코드 구조
 
-USB 하이브가 없는 보고서도 JSON format_version 9와 SQLite user_version 9를 사용합니다. 버전 5는 usb_registry와 개수를 추가하며 기존 컬렉션 의미를 유지합니다. 버전 1–5 보고서는 재작성/마이그레이션하지 않으며 소비자는 버전 9를 인식해야 합니다. sources의 source_kind는 usb_registry, schema_family는 registry_system/registry_software/registry_ntuser이며 획득 파일 sha256과 null browser/database/WAL 필드를 사용합니다. record_id는 source_id 범위의 물리 nk 셀 헤더 오프셋입니다.
+USB 하이브가 없는 보고서도 JSON format_version 10과 SQLite user_version 10를 사용합니다. 버전 5는 usb_registry와 개수를 추가하며 기존 컬렉션 의미를 유지합니다. 버전 1–5 보고서는 재작성/마이그레이션하지 않으며 소비자는 버전 10을 인식해야 합니다. sources의 source_kind는 usb_registry, schema_family는 registry_system/registry_software/registry_ntuser이며 획득 파일 sha256과 null browser/database/WAL 필드를 사용합니다. record_id는 source_id 범위의 물리 nk 셀 헤더 오프셋입니다.
 
 | JSON usb_registry 필드 | 의미 |
 | --- | --- |
@@ -74,7 +74,7 @@ USB 하이브가 없는 보고서도 JSON format_version 9와 SQLite user_versio
 | device_times | 속성 ID/의미, 속성 키 경로/오프셋, 원시 틱, UTC와 원시 속성 값 |
 | values | 순서 있는 value_offset/name/type/data_hex/decoded 객체; SQL 키워드를 피하도록 SQLite 열 이름은 values_json |
 
-객체/배열은 JSON에서 그대로, SQLite에서 JSON 텍스트로 저장하며 출처 외래 키와 바인딩 삽입을 유지합니다. [registry_hive.py](../plaintrace/registry_hive.py)는 제한된 REGF 접근을, [usb_registry.py](../plaintrace/usb_registry.py)는 USB/맥락 분기와 시각 의미를 담당합니다. CLI, 출처 결합, 보고서 모델과 출력기에 역할 플래그, 출처와 스키마 9를 추가합니다.
+객체/배열은 JSON에서 그대로, SQLite에서 JSON 텍스트로 저장하며 출처 외래 키와 바인딩 삽입을 유지합니다. [registry_hive.py](../plaintrace/registry_hive.py)는 제한된 REGF 접근을, [usb_registry.py](../plaintrace/usb_registry.py)는 USB/맥락 분기와 시각 의미를 담당합니다. CLI, 출처 결합, 보고서 모델과 출력기에 역할 플래그, 출처와 스키마 10을 추가합니다.
 
 ## 검증과 남은 한계
 
@@ -88,4 +88,4 @@ USB 하이브가 없는 보고서도 JSON format_version 9와 SQLite user_versio
 
 ## RecentDocs 확장
 
-패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 9을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.
+패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 10을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.

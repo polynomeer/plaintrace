@@ -2,7 +2,7 @@
 
 **English** | [한국어](APPLICATION_MRU_CLI.ko.md)
 
-The current package is 0.9.0 and every output uses schema 9. Earlier version introductions/test results below describe their release context; see [the ShellBags extension](SHELLBAGS_CLI.md) for the current contract.
+The current package is 0.10.0 and every output uses schema 10. Earlier version introductions/test results below describe their release context; see [the Common Dialog MRU extension](DIALOG_MRU_CLI.md) for the current contract.
 
 Implemented on 2026-10-15 on codex/python-application-mru from 4b88c0a8d8699920ecdd5622400484bbef956c89. Package 0.7.0/report schema 7 adds independent Office, HWP and Adobe registry MRU observations. All thirteen EnScript files, archive refs/manifests and 263 reconstructed 2017 commits remain preserved.
 
@@ -47,7 +47,7 @@ Office plain values remain literal. A leading sequence of bracketed letter-tagge
 
 Key last-write timestamps appear only in application_mru_keys, with exact decimal FILETIME ticks and separate UTC displays. Office embedded T is a stored association timestamp, not proof of an actual open event. HWP/Adobe get no invented per-document time. Display truncates 100 ns fractions to microseconds using integer arithmetic; zero is null and overflow is diagnosed. Lists are mutable state, not exhaustive usage histories, user attribution or session reconstruction.
 
-Every report uses JSON format_version 9 and SQLite user_version 9, even without this input. Version 7 adds application_mru_keys/application_mru and their counts; earlier field meanings remain unchanged. Existing reports are never migrated or rewritten; consumers must support version 9. Sources have source_kind application_mru, schema_family registry_ntuser, full-file sha256 and null browser/database/WAL fields.
+Every report uses JSON format_version 10 and SQLite user_version 10, even without this input. Version 7 adds application_mru_keys/application_mru and their counts; earlier field meanings remain unchanged. Existing reports are never migrated or rewritten; consumers must support version 10. Sources have source_kind application_mru, schema_family registry_ntuser, full-file sha256 and null browser/database/WAL fields.
 
 | Collection/table | Fields |
 | --- | --- |

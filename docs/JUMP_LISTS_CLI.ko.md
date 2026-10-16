@@ -2,7 +2,7 @@
 
 [English](JUMP_LISTS_CLI.md) | **한국어**
 
-현재 패키지는 0.9.0이며 모든 출력은 스키마 9입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [ShellBags 확장](SHELLBAGS_CLI.ko.md)을 따릅니다.
+현재 패키지는 0.10.0이며 모든 출력은 스키마 10입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [공통 대화상자 MRU 확장](DIALOG_MRU_CLI.ko.md)을 따릅니다.
 
 2026-10-15에 285f7f5020213042372e4d791fd001626a04231e 기반 codex/python-jump-lists에서 구현했습니다. 패키지 0.8.0/보고서 스키마 8은 자동/사용자 지정 Jump Lists를 추가합니다. 원본 EnScript, 아카이브 참조/매니페스트와 재구성된 2017년 커밋 263개는 보존합니다. 원본 LNK/RecentDocuments 모듈에는 Jump Lists 전용 파서가 없어 독립 Python LNK 어댑터를 재사용하는 확장입니다.
 
@@ -45,9 +45,9 @@ pin_status는 부호 있는 값으로 -1은 미고정, 0 이상은 고정, 다�
 
 지원 항목은 전체 Shell Link 또는 CLSID-plus-body COM 저장 객체입니다. 후자는 기존 LNK 파서에 전달할 때만 합성 4바이트 HeaderSize를 붙이며 raw_entry_hex는 원본을, link_representation은 두 형식을 구분합니다. 선언된 IDList, LinkInfo, StringData, ExtraData 길이를 따라 0 TerminalBlock까지 프레임을 정합니다. 내장 LNK/footer 시그니처로 분할하지 않습니다. 알 수 없는 객체 클래스, 범주 타입/버전, 누락 footer, 개수 불일치와 뒤따르는 봉투는 치명적 오류이며 시그니처 카빙/복구는 하지 않습니다. 프레임을 정할 수 있지만 내부 해석이 실패하는 링크는 invalid와 원시 바이트를 보존합니다. 사용자 지정 작업/범주는 애플리케이션 정의 메뉴 상태이며 실행, 고정이나 최근 사용 증거가 아니므로 DestList 시각/고정 상태를 만들어내지 않습니다.
 
-## 스키마 9, 출처와 구조
+## 스키마 10, 출처와 구조
 
-이전 아티팩트만 입력해도 모든 JSON format_version과 SQLite user_version은 9입니다. 버전 8은 jump_lists/jump_list_entries와 두 개수를 추가합니다. 기존 필드 의미는 유지하고 과거 보고서를 마이그레이션/재작성하지 않으며 소비자는 버전 9를 명시적으로 지원해야 합니다. 출처의 source_kind는 jump_list, schema_family는 jump_automatic 또는 jump_custom, sha256은 전체 파일 해시이며 browser/database/WAL 필드는 null입니다. app_id_hint는 관례적 확장자와 일치할 때 파일 이름의 16자리 16진 접두사 원문일 뿐이며 검증된 앱 정체성이 아닙니다. 앱 조회 데이터베이스는 포함하지 않습니다.
+이전 아티팩트만 입력해도 모든 JSON format_version과 SQLite user_version은 10입니다. 버전 8은 jump_lists/jump_list_entries와 두 개수를 추가합니다. 기존 필드 의미는 유지하고 과거 보고서를 마이그레이션/재작성하지 않으며 소비자는 버전 10을 명시적으로 지원해야 합니다. 출처의 source_kind는 jump_list, schema_family는 jump_automatic 또는 jump_custom, sha256은 전체 파일 해시이며 browser/database/WAL 필드는 null입니다. app_id_hint는 관례적 확장자와 일치할 때 파일 이름의 16자리 16진 접두사 원문일 뿐이며 검증된 앱 정체성이 아닙니다. 앱 조회 데이터베이스는 포함하지 않습니다.
 
 | Collection/table | Fields |
 | --- | --- |
@@ -68,7 +68,7 @@ flowchart LR
   CFB --> Dest[DestList and stream association]
   Dest --> LNK[Existing LNK parser]
   Custom --> LNK
-  LNK --> Report[Schema 9 JSON or SQLite]
+  LNK --> Report[Schema 10 JSON or SQLite]
 ```
 
 [compound.py](../plaintrace/compound.py)가 CFB 체인을 검증하고 [jump_lists.py](../plaintrace/jump_lists.py)는 컨테이너를 해석하며 [lnk.py](../plaintrace/lnk.py)를 사용합니다. 출처 결합, CLI, 모델과 출력기가 입력/스키마를 연결합니다. 입력당 제한은 파일 32 MiB, CFB 섹터 65536개, 디렉터리 슬롯 4096개, 스트림 1024개, 출력 항목 10000개, 사용자 지정 범주 1024개, 경로/이름 UTF-16 코드 단위 32768개, 내장 LNK당 1 MiB와 직렬화 어댑터 출력 64 MiB입니다. 기존 LNK 구간 검사도 유지합니다. 직접 호출에도 제한하며 정상 대용량 입력도 거부할 수 있습니다. 출력 검사는 할당 후 수행하며 통합 보고서는 메모리에 남고 자체 프로세스 시간 제한이나 메모리 샌드박스는 없습니다.

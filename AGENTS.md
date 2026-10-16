@@ -78,3 +78,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/SHELLBAGS_CLI.md` and `docs/SHELLBAGS_TESTS.md`; run full discovery with the EVTX extra. Reuse the bounded standard-library REGF reader.
 - Schema 9 adds shellbag_views/shellbag_keys/shellbag_entries. Preserve raw MRU/NodeSlot/item/view bytes, hierarchy, source offsets and exact key FILETIMEs; bound both trees, items, extensions, paths and output.
 - NodeSlot belongs to its BagMRU key. Do not invent missing ancestry, normalize unsupported components, assign FAT timezones, infer folder access/ownership or claim Windows/Linux/EnCase validation. Same-root Bags references do not authorize cross-hive/user joins.
+
+## Common Dialog MRU port
+
+- Dialog MRU work belongs on `codex/python-dialog-mru`, based on `2c6a4203770834c6e197e86b9a1888ea5c4c5d68`. Preserve all EnScript bytes, archive refs/manifests and reconstructed history.
+- Read `docs/DIALOG_MRU_CLI.md` and `docs/DIALOG_MRU_TESTS.md`; run full discovery with the EVTX extra. Reuse bounded REGF/Shell Item readers without changing existing decoder semantics.
+- Schema 10 adds dialog_mru_keys/dialog_mru_entries. Preserve raw MRU controls, UTF-16 application prefixes, PIDL offsets/bytes, rank gaps and exact key FILETIMEs. Bound scopes, entries, prefixes, items and output.
+- Require PIDL terminal items for path candidates. Do not infer success/open-versus-save, app execution/identity, per-entry key times, users or cross-list joins. Actual acquired NTUSER/Windows/Linux/EnCase validation remains outstanding.

@@ -2,6 +2,8 @@
 
 [English](SHELLBAGS_CLI.md) | **한국어**
 
+현재 패키지는 0.10.0이며 모든 출력은 스키마 10입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [공통 대화상자 MRU 확장](DIALOG_MRU_CLI.ko.md)을 따릅니다.
+
 2026-10-15에 9bc15c8f765ea2c10d2259049a39222375f5d61c 기반 codex/python-shellbags에서 구현했습니다. 패키지 0.9.0/보고서 스키마 9는 BagMRU 계층과 참조 Bags 메타데이터를 추가합니다. EnScript 13개, 아카이브 참조/매니페스트와 재구성된 2017년 커밋 263개를 보존합니다. 원본 RecentDocuments 모듈에는 ShellBags 파서가 없어 새 독립 Python 확장으로 구현했습니다.
 
 ## 실행과 입력 범위
@@ -54,9 +56,9 @@ path_candidate는 원문 계층 후보이며 파일시스템 조회/존재 확�
 
 키 마지막 쓰기는 키/보기 레코드에만 정확한 10진 FILETIME과 별도 UTC 마이크로초 표시로 남깁니다. 0은 null, 범위 초과는 진단하며 정수 연산으로 100 ns 단위를 절삭합니다. Shell Item FAT 사전은 raw_hex, display, time_basis stored_fat_no_timezone를 유지하며 날짜 워드 다음 시각 워드를 2초 해상도의 달력으로 디코딩하되 시간대를 부여하거나 UTC로 변환하지 않습니다. 0은 null이며 잘못된 달력 필드는 경고하고 원시 바이트를 유지합니다. 저장된 항목 메타데이터이며 폴더 보기나 사용자 접근 사건을 증명하지 않습니다. MRU 순위와 NodeSlot 관계로 항목별 레지스트리 시각, 실행, 소유권, 삭제나 세션을 추정하지 않습니다.
 
-## 스키마 9, 출처와 구조
+## 스키마 10, 출처와 구조
 
-ShellBags 없이도 모든 JSON format_version과 SQLite user_version은 9입니다. 버전 9는 shellbag_views/shellbag_keys/shellbag_entries와 개수를 추가하고 기존 필드 의미는 유지합니다. 과거 보고서를 마이그레이션/재작성하지 않으며 소비자는 버전 9를 인식해야 합니다. 출처의 source_kind는 shellbags, schema_family는 registry_ntuser 또는 registry_usrclass, sha256은 전체 파일 해시이며 browser/database/WAL 필드는 null입니다.
+ShellBags 없이도 모든 JSON format_version과 SQLite user_version은 10입니다. 버전 9는 shellbag_views/shellbag_keys/shellbag_entries와 개수를 추가하고 기존 필드 의미는 유지합니다. 과거 보고서를 마이그레이션/재작성하지 않으며 소비자는 버전 10을 인식해야 합니다. 출처의 source_kind는 shellbags, schema_family는 registry_ntuser 또는 registry_usrclass, sha256은 전체 파일 해시이며 browser/database/WAL 필드는 null입니다.
 
 | Collection/table | Fields |
 | --- | --- |
@@ -75,7 +77,7 @@ flowchart LR
   Keys --> Items[Partial Shell Item decoding]
   Keys --> Views[Same-root NodeSlot to Bags metadata]
   Items --> Paths[Qualified hierarchy candidates]
-  Views --> Report[Schema 9 JSON or SQLite]
+  Views --> Report[Schema 10 JSON or SQLite]
   Paths --> Report
 ```
 
