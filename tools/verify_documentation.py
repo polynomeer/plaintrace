@@ -76,7 +76,8 @@ def main():
                                           ('test_shellbags_cli.py','SHELLBAGS_TESTS','SB'),
                                           ('test_dialog_mru_cli.py','DIALOG_MRU_TESTS','DM'),
                                           ('test_userassist_cli.py','USERASSIST_TESTS','UA'),
-                                          ('test_run_mru_cli.py','RUN_MRU_TESTS','RUN')):
+                                          ('test_run_mru_cli.py','RUN_MRU_TESTS','RUN'),
+                                          ('test_explorer_history_cli.py','EXPLORER_HISTORY_TESTS','EH')):
         python_tests = ROOT/'tests'/test_file
         if not python_tests.exists():
             continue

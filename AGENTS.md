@@ -99,3 +99,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/RUN_MRU_CLI.md` and `docs/RUN_MRU_TESTS.md`; run full discovery with the EVTX extra. Reuse the bounded REGF reader without changing decoder semantics.
 - Schema 12 adds run_mru_keys/run_mru_entries. Preserve literal REG_SZ commands, raw controls/tails/values, source offsets, rank gaps and exact key FILETIMEs. Require strict MRUList for ranks; no MRUListEx guess. Bound entries, strings and output.
 - No suffix trimming, command execution/expansion, per-entry key-time assignment, execution-success/ownership inference or automatic joins. Actual NTUSER/Windows/Linux/EnCase validation remains outstanding.
+
+## Explorer address/search history port
+
+- TypedPaths/WordWheelQuery work belongs on `codex/python-explorer-history`, based on `e94cee173fffdcfdd9b960c29c0e9f81a1067236`. Preserve EnScript bytes, archive refs/manifests and reconstructed history.
+- Read `docs/EXPLORER_HISTORY_CLI.md` and `docs/EXPLORER_HISTORY_TESTS.md`; run full discovery with the EVTX extra. Reuse the bounded REGF reader without changing existing decoder semantics.
+- Schema 13 adds explorer_history_keys/explorer_history_entries. Keep TypedPaths slot labels separate from WordWheelQuery MRUListEx ranks; retain raw controls/text/tails/values, physical source offsets, rank gaps and exact key FILETIMEs. Bound entries, strings and output.
+- No inferred TypedPaths ranks, per-entry key times, navigation/search success, user attribution, target resolution/execution or automatic joins. Actual NTUSER/Windows/Linux/EnCase validation remains outstanding.
