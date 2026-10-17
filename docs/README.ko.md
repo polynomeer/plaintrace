@@ -89,3 +89,9 @@ Office·HWP·Adobe MRU와 스키마 7을 패키지 0.7.0에서 추가했습니�
 패키지 0.12.0은 리터럴 실행 대화상자 MRU 문자열과 스키마 12를 추가합니다.
 
 [CLI](RUN_MRU_CLI.ko.md) · [테스트와 리뷰](RUN_MRU_TESTS.ko.md)
+
+## 탐색기 주소·검색 이력
+
+패키지 0.13.0은 TypedPaths/WordWheelQuery 관측과 스키마 13을 추가합니다.
+
+[CLI](EXPLORER_HISTORY_CLI.ko.md) · [테스트와 리뷰](EXPLORER_HISTORY_TESTS.ko.md)

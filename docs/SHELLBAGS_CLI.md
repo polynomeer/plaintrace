@@ -2,7 +2,7 @@
 
 **English** | [한국어](SHELLBAGS_CLI.ko.md)
 
-The current package is 0.12.0 and every output uses schema 12. Earlier version introductions/test results below describe their release context; see [the RunMRU extension](RUN_MRU_CLI.md) for the current contract.
+The current package is 0.13.0 and every output uses schema 13. Earlier version introductions/test results below describe their release context; see [the Explorer history extension](EXPLORER_HISTORY_CLI.md) for the current contract.
 
 Implemented on 2026-10-15 on codex/python-shellbags, based on 9bc15c8f765ea2c10d2259049a39222375f5d61c. Package 0.9.0/report schema 9 adds BagMRU hierarchy and referenced Bags metadata. All thirteen EnScript files, archive refs/manifests and 263 reconstructed 2017 commits remain preserved. The original RecentDocuments module has no ShellBags parser; this is a new independent Python extension.
 

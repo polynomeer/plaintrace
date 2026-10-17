@@ -2,7 +2,7 @@
 
 **English** | [한국어](EXECUTION_CLI.ko.md)
 
-The current package is 0.12.0 and every output uses schema 12. Earlier version introductions/test results below describe their release context; see [the RunMRU extension](RUN_MRU_CLI.md) for the current contract.
+The current package is 0.13.0 and every output uses schema 13. Earlier version introductions/test results below describe their release context; see [the Explorer history extension](EXPLORER_HISTORY_CLI.md) for the current contract.
 
 Implemented and reviewed on 2026-10-14 on codex/python-lnk-prefetch, based on d1830099999cb1669f8f868506d5c323acdb8ca5. Every EnScript file and historical manifest remains byte-identical to the branch base; archive tags and 263 reconstructed 2017 commits are preserved. Version 0.2.0 is an independent Python extension, not an EnScript runtime.
 
@@ -94,4 +94,4 @@ The 0.5.0 release introduced schema 5 and usb_registry observations. Previous sc
 
 ## RecentDocs Extension
 
-Package 0.6.0 introduced schema 6 and recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 12. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.
+Package 0.6.0 introduced schema 6 and recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 13. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.
