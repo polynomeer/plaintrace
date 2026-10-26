@@ -132,9 +132,9 @@ class ExplorerHistoryTests(unittest.TestCase):
             with self.assertRaises(AnalysisError):self.parse({T:[text('url1','😀x')]})
 
     def test_json_sqlite_schema_raw_values_and_foreign_keys(self):
-        f=self.file('NTUSER',hive_fixture(paths()));r=analyze(explorer_hives=[('typed_paths',f),('word_wheel_query',f)]);j=self.folder/'out.json';s=self.folder/'out.sqlite';write_report(r,j);write_report(r,s,'sqlite');p=json.loads(j.read_text());self.assertEqual(p['format_version'],13);self.assertEqual(p['explorer_history_entries'],r.explorer_history_entries)
+        f=self.file('NTUSER',hive_fixture(paths()));r=analyze(explorer_hives=[('typed_paths',f),('word_wheel_query',f)]);j=self.folder/'out.json';s=self.folder/'out.sqlite';write_report(r,j);write_report(r,s,'sqlite');p=json.loads(j.read_text());self.assertEqual(p['format_version'],14);self.assertEqual(p['explorer_history_entries'],r.explorer_history_entries)
         with closing(sqlite3.connect(s)) as db:
-            self.assertEqual(db.execute('pragma user_version').fetchone()[0],13);self.assertEqual(db.execute('pragma foreign_key_check').fetchall(),[]);self.assertEqual(db.execute('select count(*) from explorer_history_entries').fetchone()[0],4);db.execute('pragma foreign_keys=on')
+            self.assertEqual(db.execute('pragma user_version').fetchone()[0],14);self.assertEqual(db.execute('pragma foreign_key_check').fetchall(),[]);self.assertEqual(db.execute('select count(*) from explorer_history_entries').fetchone()[0],4);db.execute('pragma foreign_keys=on')
             with self.assertRaises(sqlite3.IntegrityError):db.execute("update explorer_history_entries set key_id='missing'")
 
     def test_repeated_mixed_sources_hashes_and_input_preservation(self):

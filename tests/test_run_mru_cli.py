@@ -116,9 +116,9 @@ class RunMRUTests(unittest.TestCase):
 
     def test_json_sqlite_schema_raw_data_and_foreign_keys(self):
         f=self.file('NTUSER',hive_fixture(paths()));r=analyze(run_mru_hives=[f]);j=self.folder/'out.json';s=self.folder/'out.sqlite';write_report(r,j);write_report(r,s,'sqlite')
-        payload=json.loads(j.read_text());self.assertEqual(payload['format_version'],13);self.assertEqual(payload['run_mru_entries'],r.run_mru_entries)
+        payload=json.loads(j.read_text());self.assertEqual(payload['format_version'],14);self.assertEqual(payload['run_mru_entries'],r.run_mru_entries)
         with closing(sqlite3.connect(s)) as db:
-            self.assertEqual(db.execute('pragma user_version').fetchone()[0],13);self.assertEqual(db.execute('pragma foreign_key_check').fetchall(),[]);self.assertEqual(db.execute('select stored_command from run_mru_entries order by rowid').fetchone()[0],r.run_mru_entries[0]['stored_command'])
+            self.assertEqual(db.execute('pragma user_version').fetchone()[0],14);self.assertEqual(db.execute('pragma foreign_key_check').fetchall(),[]);self.assertEqual(db.execute('select stored_command from run_mru_entries order by rowid').fetchone()[0],r.run_mru_entries[0]['stored_command'])
             self.assertEqual(json.loads(db.execute('select control_values from run_mru_keys').fetchone()[0])[0]['data_hex'],'ca\0'.encode('utf-16-le').hex());db.execute('pragma foreign_keys=on')
             with self.assertRaises(sqlite3.IntegrityError):db.execute("update run_mru_entries set key_id='missing'")
 
