@@ -106,3 +106,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/EXPLORER_HISTORY_CLI.md` and `docs/EXPLORER_HISTORY_TESTS.md`; run full discovery with the EVTX extra. Reuse the bounded REGF reader without changing existing decoder semantics.
 - Schema 13 adds explorer_history_keys/explorer_history_entries. Keep TypedPaths slot labels separate from WordWheelQuery MRUListEx ranks; retain raw controls/text/tails/values, physical source offsets, rank gaps and exact key FILETIMEs. Bound entries, strings and output.
 - No inferred TypedPaths ranks, per-entry key times, navigation/search success, user attribution, target resolution/execution or automatic joins. Actual NTUSER/Windows/Linux/EnCase validation remains outstanding.
+
+## Windows system information port
+
+- System information work belongs on `codex/python-system-info`, based on `4638b5101ef3c5ec389d7d77418fe62acd8557c4`. Preserve EnScript bytes, archive refs/manifests and reconstructed history.
+- Read `docs/SYSTEM_INFO_CLI.md` and `docs/SYSTEM_INFO_TESTS.md`; run full discovery with the EVTX extra. Reuse bounded REGF/FILETIME readers without changing existing decoder semantics.
+- Schema 14 adds system_info observations. Resolve Select/Current without fallback; retain separate name/version/configuration fields, raw values/offsets and exact key/value times. Bound rows, values, strings and output.
+- No product-key derivation, guessed OS/owner identity, timezone application to past events, boot/uptime/clean-shutdown inference or cross-hive joins. Actual SOFTWARE/SYSTEM/Windows/Linux/EnCase validation remains outstanding.

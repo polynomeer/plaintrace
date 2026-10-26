@@ -2,7 +2,7 @@
 
 [English](DIALOG_MRU_CLI.md) | **한국어**
 
-현재 패키지는 0.13.0이며 모든 출력은 스키마 13입니다. 아래 도입/결과는 당시 기록이며 현재 스키마는 [탐색기 이력](EXPLORER_HISTORY_CLI.ko.md)를 참고하세요.
+현재 패키지는 0.14.0이며 모든 출력은 스키마 14입니다. 아래 도입/결과는 당시 기록이며 현재 스키마는 [시스템 정보](SYSTEM_INFO_CLI.ko.md)를 참고하세요.
 
 2026-10-16에 2c6a4203770834c6e197e86b9a1888ea5c4c5d68 기반 codex/python-dialog-mru에서 구현하고 자체 리뷰했습니다. 패키지 0.10.0/보고서 스키마 10은 OpenSavePidlMRU와 LastVisitedPidlMRU를 추가합니다. EnScript 13개, 아카이브 참조/매니페스트와 재구성된 2017년 커밋 263개를 보존합니다. 원본 RecentDocuments 모듈에는 전용 공통 대화상자 MRU 파서가 없어 독립 REGF/부분 Shell Item 판독기를 재사용하는 확장입니다.
 

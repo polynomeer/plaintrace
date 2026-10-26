@@ -2,6 +2,8 @@
 
 **English** | [한국어](EXPLORER_HISTORY_CLI.ko.md)
 
+The current package is 0.14.0 and every output uses schema 14. Earlier introductions/results below describe their release context; see [system information](SYSTEM_INFO_CLI.md) for the current schema.
+
 Implemented and self-reviewed on 2026-10-17 on codex/python-explorer-history from e94cee173fffdcfdd9b960c29c0e9f81a1067236. Package 0.13.0/report schema 13 adds independent Explorer address/search history adapters. No dedicated TypedPaths/WordWheelQuery parser occurs in the original thirteen EnScript files; all remain byte-identical to bb476180453c76f7d38e5b6a9f1f025ad2273ce0. Archive refs/manifests and 263 retrospectively reconstructed 2017 commits are preserved. This work uses its actual date.
 
 ## Run and Stable Acquired Inputs
