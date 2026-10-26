@@ -95,3 +95,9 @@ Office·HWP·Adobe MRU와 스키마 7을 패키지 0.7.0에서 추가했습니�
 패키지 0.13.0은 TypedPaths/WordWheelQuery 관측과 스키마 13을 추가합니다.
 
 [CLI](EXPLORER_HISTORY_CLI.ko.md) · [테스트와 리뷰](EXPLORER_HISTORY_TESTS.ko.md)
+
+## Windows 시스템 정보
+
+패키지 0.14.0은 스키마 14와 획득 SOFTWARE/SYSTEM의 OS·이름·시간대·저장 시각 관측을 추가합니다.
+
+[CLI](SYSTEM_INFO_CLI.ko.md) · [테스트와 리뷰](SYSTEM_INFO_TESTS.ko.md)

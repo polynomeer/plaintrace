@@ -142,3 +142,9 @@ Package 0.12.0 adds literal Run dialog MRU strings and schema 12.
 Package 0.13.0 adds TypedPaths/WordWheelQuery observations and schema 13.
 
 [CLI](docs/EXPLORER_HISTORY_CLI.md) · [Tests and review](docs/EXPLORER_HISTORY_TESTS.md)
+
+## Windows System Information
+
+Package 0.14.0 adds acquired SOFTWARE/SYSTEM OS, name, timezone and stored-time observations with schema 14.
+
+[CLI](docs/SYSTEM_INFO_CLI.md) · [Tests and review](docs/SYSTEM_INFO_TESTS.md)

@@ -148,10 +148,10 @@ class UserAssistTests(unittest.TestCase):
 
     def test_json_sqlite_schema_and_foreign_keys(self):
         f=self.file('NTUSER',hive_fixture(paths()));report=analyze(userassist_hives=[f]);j=self.folder/'out.json';s=self.folder/'out.sqlite'
-        write_report(report,j);write_report(report,s,'sqlite');payload=json.loads(j.read_text());self.assertEqual(payload['format_version'],13)
+        write_report(report,j);write_report(report,s,'sqlite');payload=json.loads(j.read_text());self.assertEqual(payload['format_version'],14)
         self.assertEqual(payload['userassist_entries'],report.userassist_entries)
         with closing(sqlite3.connect(s)) as db:
-            self.assertEqual(db.execute('pragma user_version').fetchone()[0],13);self.assertEqual(db.execute('pragma foreign_key_check').fetchall(),[])
+            self.assertEqual(db.execute('pragma user_version').fetchone()[0],14);self.assertEqual(db.execute('pragma foreign_key_check').fetchall(),[])
             self.assertEqual(db.execute('select last_run_filetime_raw from userassist_entries order by rowid').fetchone()[0],str(FT))
             self.assertEqual(json.loads(db.execute("select raw_values from userassist_keys where key_role='count' order by rowid").fetchone()[0])[0]['data_hex'],v3().hex())
             db.execute('pragma foreign_keys=on')

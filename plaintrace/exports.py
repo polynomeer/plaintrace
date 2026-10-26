@@ -34,6 +34,7 @@ TABLES = {
     "run_mru_entries": "source_id INTEGER, record_id TEXT, key_id TEXT, key_path TEXT, value_name TEXT, value_type INTEGER, mru_rank INTEGER, status TEXT, stored_command TEXT, command_utf16_hex TEXT, trailing_data_hex TEXT, value_data_hex TEXT",
     "explorer_history_keys": "source_id INTEGER, record_id TEXT, key_path TEXT, artifact TEXT, key_last_written TEXT, key_last_write_raw TEXT, mru_status TEXT, mru_order TEXT, control_values TEXT, other_values TEXT",
     "explorer_history_entries": "source_id INTEGER, record_id TEXT, key_id TEXT, key_path TEXT, artifact TEXT, value_name TEXT, value_type INTEGER, slot_number INTEGER, mru_rank INTEGER, status TEXT, stored_text TEXT, text_utf16_hex TEXT, trailing_data_hex TEXT, value_data_hex TEXT",
+    "system_info": "source_id INTEGER, record_id TEXT, hive_role TEXT, observation_kind TEXT, key_path TEXT, control_set TEXT, key_last_written TEXT, key_last_write_raw TEXT, values_json TEXT",
     "events": "source_id INTEGER, record_id TEXT, chunk_index INTEGER, record_offset INTEGER, container_record_id TEXT, container_filetime_raw TEXT, event_record_id TEXT, event_id INTEGER, provider TEXT, provider_guid TEXT, channel TEXT, computer TEXT, level INTEGER, task INTEGER, opcode INTEGER, version INTEGER, qualifiers TEXT, keywords TEXT, process_id INTEGER, thread_id INTEGER, user_sid TEXT, activity_id TEXT, related_activity_id TEXT, created_at TEXT, time_created_raw TEXT, container_time TEXT, category TEXT, action TEXT, details TEXT, event_data TEXT, user_data_xml TEXT, xml TEXT",
 }
 
@@ -43,7 +44,7 @@ def sqlite_report(report, path):
     try:
         connection.execute("PRAGMA foreign_keys=ON")
         with connection:
-            connection.execute("PRAGMA user_version=13")
+            connection.execute("PRAGMA user_version=14")
             connection.execute("CREATE TABLE metadata(key TEXT PRIMARY KEY, value TEXT)")
             payload = report.as_dict()
             for key in ("format_version", "tool", "tool_version", "counts"):

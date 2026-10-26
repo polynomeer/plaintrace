@@ -52,14 +52,16 @@ class Report:
     explorer_history_keys: list = field(default_factory=list)
     explorer_history_entries: list = field(default_factory=list)
 
+    system_info: list = field(default_factory=list)
+
     def warn(self, source_id, code, message, record_id=None):
         self.diagnostics.append(dict(source_id=source_id, severity="warning", code=code,
                                      message=message, record_id=record_id))
 
     def as_dict(self):
-        return dict(format_version=13, tool="plaintrace", tool_version=__version__,
+        return dict(format_version=14, tool="plaintrace", tool_version=__version__,
                     **self.__dict__, counts={name: len(getattr(self, name))
-                    for name in ("sources", "visits", "keywords", "downloads", "diagnostics", "links", "prefetch", "events", "recycle_bin", "usb_registry", "recent_doc_keys", "recent_docs", "application_mru_keys", "application_mru", "jump_lists", "jump_list_entries", "shellbag_views", "shellbag_keys", "shellbag_entries", "dialog_mru_keys", "dialog_mru_entries", "userassist_keys", "userassist_entries", "run_mru_keys", "run_mru_entries", "explorer_history_keys", "explorer_history_entries")})
+                    for name in ("sources", "visits", "keywords", "downloads", "diagnostics", "links", "prefetch", "events", "recycle_bin", "usb_registry", "recent_doc_keys", "recent_docs", "application_mru_keys", "application_mru", "jump_lists", "jump_list_entries", "shellbag_views", "shellbag_keys", "shellbag_entries", "dialog_mru_keys", "dialog_mru_entries", "userassist_keys", "userassist_entries", "run_mru_keys", "run_mru_entries", "explorer_history_keys", "explorer_history_entries", "system_info")})
 
 
 def raw_text(value):

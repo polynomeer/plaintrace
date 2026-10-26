@@ -192,14 +192,14 @@ class ShellBagsTests(unittest.TestCase):
     def test_cli_repeated_roles_hashes_and_schema(self):
         a=self.file('renamed-a',hive_fixture(paths()));b=self.file('renamed-b',hive_fixture(paths(UC)));before=a.read_bytes()
         result=subprocess.run([sys.executable,'-m','plaintrace','--shellbags-ntuser',str(a),'--shellbags-usrclass',str(b)],capture_output=True,text=True)
-        self.assertEqual(result.returncode,0,result.stderr);payload=json.loads(result.stdout);self.assertEqual(payload['format_version'],13);self.assertEqual(payload['counts']['shellbag_entries'],10)
+        self.assertEqual(result.returncode,0,result.stderr);payload=json.loads(result.stdout);self.assertEqual(payload['format_version'],14);self.assertEqual(payload['counts']['shellbag_entries'],10)
         self.assertEqual([s['schema_family'] for s in payload['sources']],['registry_ntuser','registry_usrclass']);self.assertEqual(payload['sources'][0]['sha256'],hashlib.sha256(before).hexdigest());self.assertEqual(a.read_bytes(),before)
 
     def test_json_sqlite_raw_roundtrip_and_composite_relationships(self):
         p=self.file('hive',hive_fixture(paths()));report=analyze(shellbag_hives=[('ntuser',p)]);js=self.folder/'out.json';db=self.folder/'out.sqlite'
-        write_report(report,js);write_report(report,db,'sqlite');self.assertEqual(json.loads(js.read_text())['format_version'],13)
+        write_report(report,js);write_report(report,db,'sqlite');self.assertEqual(json.loads(js.read_text())['format_version'],14)
         with closing(sqlite3.connect(db)) as c:
-            self.assertEqual(c.execute('PRAGMA user_version').fetchone()[0],13);self.assertFalse(c.execute('PRAGMA foreign_key_check').fetchall())
+            self.assertEqual(c.execute('PRAGMA user_version').fetchone()[0],14);self.assertFalse(c.execute('PRAGMA foreign_key_check').fetchall())
             self.assertEqual(c.execute('SELECT path_candidate FROM shellbag_entries ORDER BY rowid').fetchall(),[(r['path_candidate'],) for r in report.shellbag_entries])
             self.assertEqual(json.loads(c.execute('SELECT items FROM shellbag_entries LIMIT 1').fetchone()[0])[0]['folder_id'],GUID)
             c.execute('PRAGMA foreign_keys=ON')

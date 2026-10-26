@@ -2,7 +2,7 @@
 
 **English** | [한국어](USB_REGISTRY_CLI.ko.md)
 
-The current package is 0.13.0 and every output uses schema 13. Earlier version introductions/test results below describe their release context; see [the Explorer history extension](EXPLORER_HISTORY_CLI.md) for the current contract.
+The current package is 0.14.0 and every output uses schema 14. Earlier version introductions/test results below describe their release context; see [the system information extension](SYSTEM_INFO_CLI.md) for the current contract.
 
 Implemented on 2026-10-15 on `codex/python-usb-registry`, based on `d174bc8c7f57aa5f91e0e3c87113e4af78ce3eb1`. EnScript files, archive refs/manifests and 263 reconstructed 2017 commits are preserved. Package 0.5.0/report schema 5 extends the independent Python implementation.
 
@@ -88,4 +88,4 @@ Interpretation follows [libregf working REGF specification](https://github.com/l
 
 ## RecentDocs Extension
 
-Package 0.6.0 introduced schema 6 and recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 13. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.
+Package 0.6.0 introduced schema 6 and recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 14. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.

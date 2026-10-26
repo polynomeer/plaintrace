@@ -2,6 +2,8 @@
 
 [English](EXPLORER_HISTORY_CLI.md) | **한국어**
 
+현재 패키지는 0.14.0이며 모든 출력은 스키마 14입니다. 아래 도입/결과는 당시 기록이며 현재 스키마는 [시스템 정보](SYSTEM_INFO_CLI.ko.md)를 참고하세요.
+
 2026-10-17에 e94cee173fffdcfdd9b960c29c0e9f81a1067236 기반 codex/python-explorer-history에서 구현하고 자체 리뷰했습니다. 패키지 0.13.0/보고서 스키마 13은 독립 탐색기 주소/검색 이력 어댑터를 추가합니다. 원본 EnScript 13개에는 전용 TypedPaths/WordWheelQuery 파서가 없으며 모두 bb476180453c76f7d38e5b6a9f1f025ad2273ce0과 바이트 단위로 같습니다. 아카이브 참조/매니페스트와 사후 재구성한 2017년 커밋 263개를 보존하고 실제 작업 날짜를 사용합니다.
 
 ## 실행과 안정된 획득 입력
