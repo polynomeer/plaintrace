@@ -2,7 +2,7 @@
 
 **한국어** | [English](EVTX_CLI.md)
 
-현재 패키지는 0.14.0이며 모든 출력은 스키마 14입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [시스템 정보 확장](SYSTEM_INFO_CLI.ko.md)을 따릅니다.
+현재 패키지는 0.15.0이며 모든 출력은 스키마 15입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [SAM 계정 확장](SAM_ACCOUNTS_CLI.ko.md)을 따릅니다.
 
 2026-10-15 병합 커밋 `9f32324141810b257d4f680e84c849c013543900`을 기준으로 `codex/python-evtx`에서 구현했습니다. EnScript 파일 13개와 과거 매니페스트는 브랜치 기준과 바이트가 같습니다. 아카이브 태그와 재구성된 2017년 커밋 263개를 보존합니다. 버전 `0.3.0`은 독립 Python 이식판의 확장이며 EnScript를 실행하지 않습니다.
 
@@ -97,4 +97,4 @@ EnScript와 달리 NT AUTHORITY 계정을 제외하거나 고정 시간대 보�
 
 ## RecentDocs 확장
 
-패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 14을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.
+패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 15을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.

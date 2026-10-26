@@ -196,15 +196,15 @@ class JumpListTests(unittest.TestCase):
     def test_cli_repeated_inputs_renamed_detection_hash_and_app_hint(self):
         original=automatic();a=self.file('0123456789abcdef.automaticDestinations-ms',original);b=self.file('renamed.bin',custom())
         result=subprocess.run([sys.executable,'-m','plaintrace','--jump-list',str(a),'--jump-list',str(b)],capture_output=True,text=True)
-        self.assertEqual(result.returncode,0,result.stderr);payload=json.loads(result.stdout);self.assertEqual(payload['format_version'],14)
+        self.assertEqual(result.returncode,0,result.stderr);payload=json.loads(result.stdout);self.assertEqual(payload['format_version'],15)
         self.assertEqual(payload['jump_lists'][0]['app_id_hint'],'0123456789abcdef');self.assertIsNone(payload['jump_lists'][1]['app_id_hint']);self.assertEqual([s['schema_family'] for s in payload['sources']],['jump_automatic','jump_custom'])
         self.assertEqual(payload['sources'][0]['sha256'],hashlib.sha256(original).hexdigest());self.assertEqual(a.read_bytes(),original)
 
     def test_json_sqlite_schema_lineage_raw_roundtrip(self):
         path=self.file('jump',automatic(3));report=analyze(jump_files=[path]);js=self.folder/'out.json';db=self.folder/'out.sqlite'
-        write_report(report,js);write_report(report,db,'sqlite');self.assertEqual(json.loads(js.read_text())['format_version'],14)
+        write_report(report,js);write_report(report,db,'sqlite');self.assertEqual(json.loads(js.read_text())['format_version'],15)
         with closing(sqlite3.connect(db)) as conn:
-            self.assertEqual(conn.execute('PRAGMA user_version').fetchone()[0],14);self.assertFalse(conn.execute('PRAGMA foreign_key_check').fetchall())
+            self.assertEqual(conn.execute('PRAGMA user_version').fetchone()[0],15);self.assertFalse(conn.execute('PRAGMA foreign_key_check').fetchall())
             self.assertEqual(json.loads(conn.execute('SELECT link FROM jump_list_entries').fetchone()[0])['relative_path'],'relative.txt')
             self.assertEqual(conn.execute('SELECT raw_entry_hex FROM jump_list_entries').fetchone()[0],report.jump_list_entries[0]['raw_entry_hex'])
             conn.execute('PRAGMA foreign_keys=ON')

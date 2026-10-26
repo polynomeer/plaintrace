@@ -2,6 +2,8 @@
 
 **English** | [한국어](SYSTEM_INFO_CLI.ko.md)
 
+The current package is 0.15.0 and every output uses schema 15. Earlier introductions/results below describe their release context; see [SAM accounts](SAM_ACCOUNTS_CLI.md) for the current schema.
+
 Implemented and self-reviewed on 2026-10-26 on codex/python-system-info from 4638b5101ef3c5ec389d7d77418fe62acd8557c4. Package 0.14.0/report schema 14 introduces acquired SOFTWARE/SYSTEM registry observations. All thirteen EnScript files remain byte-identical to bb476180453c76f7d38e5b6a9f1f025ad2273ce0; original archive refs/manifests and 263 retrospectively reconstructed 2017 commits remain preserved. Modern work uses its actual date.
 
 ## Run and Acquired Input

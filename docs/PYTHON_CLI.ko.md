@@ -2,7 +2,7 @@
 
 [English](PYTHON_CLI.md) | **한국어**
 
-현재 패키지는 0.14.0이며 모든 출력은 스키마 14입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [시스템 정보 확장](SYSTEM_INFO_CLI.ko.md)을 따릅니다.
+현재 패키지는 0.15.0이며 모든 출력은 스키마 15입니다. 아래 이전 버전 도입/테스트 결과는 당시 기록이며 현재 계약은 [SAM 계정 확장](SAM_ACCOUNTS_CLI.ko.md)을 따릅니다.
 
 2026-10-14 병합 커밋 `bb476180453c76f7d38e5b6a9f1f025ad2273ce0`을 기준으로 브랜치 `codex/python-browser-cli`에서 구현했습니다. EnScript 파일 13개는 해당 커밋과 바이트가 같습니다. 원본 아카이브 태그 `archive/pre-improvements-2026-10-13`, 매니페스트와 2017년 합성 커밋 263개는 보존합니다. Python 구현은 독립 실행하며 EnScript 해석이나 EnCase 호스트 검증을 수행하지 않습니다.
 
@@ -133,7 +133,7 @@ git diff --check
 
 ## EVTX 확장과 버전 3
 
-0.3.0 확장에서 선택 디코더를 통한 획득 Windows EVTX, events와 명시적 보고서/SQLite 버전 3을 도입했습니다. 기존 브라우저 필드 의미를 유지하며 과거 보고서는 마이그레이션하지 않습니다. [EVTX 계약과 설치](EVTX_CLI.ko.md), [테스트와 리뷰](EVTX_TESTS.ko.md)를 확인하세요. 도입 당시 브라우저 전용 보고서도 버전 3을 사용했으며 현재 보고서는 버전 14입니다.
+0.3.0 확장에서 선택 디코더를 통한 획득 Windows EVTX, events와 명시적 보고서/SQLite 버전 3을 도입했습니다. 기존 브라우저 필드 의미를 유지하며 과거 보고서는 마이그레이션하지 않습니다. [EVTX 계약과 설치](EVTX_CLI.ko.md), [테스트와 리뷰](EVTX_TESTS.ko.md)를 확인하세요. 도입 당시 브라우저 전용 보고서도 버전 3을 사용했으며 현재 보고서는 버전 15입니다.
 
 ## 휴지통 확장과 버전 4
 
@@ -145,4 +145,4 @@ git diff --check
 
 ## RecentDocs 확장
 
-패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 14을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.
+패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 15을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.
