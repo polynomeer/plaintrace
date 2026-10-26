@@ -101,3 +101,9 @@ Office·HWP·Adobe MRU와 스키마 7을 패키지 0.7.0에서 추가했습니�
 패키지 0.14.0은 스키마 14와 획득 SOFTWARE/SYSTEM의 OS·이름·시간대·저장 시각 관측을 추가합니다.
 
 [CLI](SYSTEM_INFO_CLI.ko.md) · [테스트와 리뷰](SYSTEM_INFO_TESTS.ko.md)
+
+## SAM 계정 메타데이터
+
+패키지 0.15.0은 획득 SAM 계정/이름 메타데이터와 스키마 15를 추가합니다.
+
+[CLI](SAM_ACCOUNTS_CLI.ko.md) · [테스트와 리뷰](SAM_ACCOUNTS_TESTS.ko.md)

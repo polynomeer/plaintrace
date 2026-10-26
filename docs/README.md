@@ -101,3 +101,9 @@ Package 0.13.0 adds TypedPaths/WordWheelQuery observations and schema 13.
 Package 0.14.0 adds acquired SOFTWARE/SYSTEM OS, name, timezone and stored-time observations with schema 14.
 
 [CLI](SYSTEM_INFO_CLI.md) · [Tests and review](SYSTEM_INFO_TESTS.md)
+
+## SAM Account Metadata
+
+Package 0.15.0 adds acquired SAM account/name metadata and schema 15.
+
+[CLI](SAM_ACCOUNTS_CLI.md) · [Tests and review](SAM_ACCOUNTS_TESTS.md)

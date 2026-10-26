@@ -78,7 +78,8 @@ def main():
                                           ('test_userassist_cli.py','USERASSIST_TESTS','UA'),
                                           ('test_run_mru_cli.py','RUN_MRU_TESTS','RUN'),
                                           ('test_explorer_history_cli.py','EXPLORER_HISTORY_TESTS','EH'),
-                                          ('test_system_info_cli.py','SYSTEM_INFO_TESTS','SYS')):
+                                          ('test_system_info_cli.py','SYSTEM_INFO_TESTS','SYS'),
+                                          ('test_sam_accounts_cli.py','SAM_ACCOUNTS_TESTS','SAM')):
         python_tests = ROOT/'tests'/test_file
         if not python_tests.exists():
             continue

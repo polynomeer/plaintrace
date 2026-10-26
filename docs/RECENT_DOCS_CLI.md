@@ -2,7 +2,7 @@
 
 **English** | [한국어](RECENT_DOCS_CLI.ko.md)
 
-The current package is 0.14.0 and every output uses schema 14. Earlier version introductions/test results below describe their release context; see [the system information extension](SYSTEM_INFO_CLI.md) for the current contract.
+The current package is 0.15.0 and every output uses schema 15. Earlier version introductions/test results below describe their release context; see [the SAM account extension](SAM_ACCOUNTS_CLI.md) for the current contract.
 
 Implemented on 2026-10-15 on `codex/python-recent-docs`, based on `0f3e9e4fec930332310c172df6b1e599249c8924`. All thirteen EnScript files, archive refs/manifests and 263 reconstructed 2017 commits are preserved. Package 0.6.0/report schema 6 extends the independent Python port.
 

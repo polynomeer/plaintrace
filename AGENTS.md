@@ -113,3 +113,10 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/SYSTEM_INFO_CLI.md` and `docs/SYSTEM_INFO_TESTS.md`; run full discovery with the EVTX extra. Reuse bounded REGF/FILETIME readers without changing existing decoder semantics.
 - Schema 14 adds system_info observations. Resolve Select/Current without fallback; retain separate name/version/configuration fields, raw values/offsets and exact key/value times. Bound rows, values, strings and output.
 - No product-key derivation, guessed OS/owner identity, timezone application to past events, boot/uptime/clean-shutdown inference or cross-hive joins. Actual SOFTWARE/SYSTEM/Windows/Linux/EnCase validation remains outstanding.
+
+## SAM account metadata port
+
+- SAM account work belongs on `codex/python-sam-accounts`, based on `def0c228b0ef2721470d63e3adbf14719311428c`. Preserve EnScript bytes, archive refs/manifests and reconstructed history.
+- Read `docs/SAM_ACCOUNTS_CLI.md` and `docs/SAM_ACCOUNTS_TESTS.md`; run full discovery with the EVTX extra. Reuse bounded REGF/FILETIME readers without changing existing semantics.
+- Schema 15 adds sam_accounts/sam_name_mappings. Decode exact 80-byte binary F metadata and bounded selected V strings; retain RID/name discrepancies, raw selected fields/offsets and exact times. Full V/credential payload is not exported. Bound accounts, mappings, values, strings and output.
+- No boot-key/hash extraction or decryption, SID/group/admin identity inference, guessed password expiry or automatic cross-hive joins. Actual SAM/Windows/Linux/EnCase validation remains outstanding.
