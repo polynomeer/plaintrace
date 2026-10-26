@@ -145,9 +145,9 @@ class SystemInfoTests(unittest.TestCase):
             with self.assertRaises(AnalysisError):self.parse({OS:[text('ProductName','😀x')]})
 
     def test_json_sqlite_schema_values_and_foreign_keys(self):
-        f=self.file('SOFTWARE',hive_fixture(software_paths()));r=analyze(system_info_hives=[('software',f)]);j=self.folder/'out.json';s=self.folder/'out.sqlite';write_report(r,j);write_report(r,s,'sqlite');p=json.loads(j.read_text());self.assertEqual(p['format_version'],14);self.assertEqual(p['system_info'],r.system_info)
+        f=self.file('SOFTWARE',hive_fixture(software_paths()));r=analyze(system_info_hives=[('software',f)]);j=self.folder/'out.json';s=self.folder/'out.sqlite';write_report(r,j);write_report(r,s,'sqlite');p=json.loads(j.read_text());self.assertEqual(p['format_version'],15);self.assertEqual(p['system_info'],r.system_info)
         with closing(sqlite3.connect(s)) as db:
-            self.assertEqual(db.execute('pragma user_version').fetchone()[0],14);self.assertEqual(db.execute('pragma foreign_key_check').fetchall(),[]);self.assertEqual(json.loads(db.execute('select values_json from system_info').fetchone()[0]),r.system_info[0]['values']);db.execute('pragma foreign_keys=on')
+            self.assertEqual(db.execute('pragma user_version').fetchone()[0],15);self.assertEqual(db.execute('pragma foreign_key_check').fetchall(),[]);self.assertEqual(json.loads(db.execute('select values_json from system_info').fetchone()[0]),r.system_info[0]['values']);db.execute('pragma foreign_keys=on')
             with self.assertRaises(sqlite3.IntegrityError):db.execute('update system_info set source_id=999')
 
     def test_repeated_hives_source_hashes_and_input_bytes(self):
