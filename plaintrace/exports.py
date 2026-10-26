@@ -32,6 +32,8 @@ TABLES = {
     "userassist_entries": "source_id INTEGER, record_id TEXT, key_id TEXT, key_path TEXT, group_guid TEXT, format_version INTEGER, value_name TEXT, name_encoding TEXT, decoded_name TEXT, value_type INTEGER, status TEXT, first_dword_raw INTEGER, run_count_raw INTEGER, focus_count_raw INTEGER, focus_time_raw INTEGER, last_run_at TEXT, last_run_filetime_raw TEXT, opaque_data_hex TEXT, value_data_hex TEXT",
     "run_mru_keys": "source_id INTEGER, record_id TEXT, key_path TEXT, key_last_written TEXT, key_last_write_raw TEXT, mru_status TEXT, mru_order TEXT, control_values TEXT, other_values TEXT",
     "run_mru_entries": "source_id INTEGER, record_id TEXT, key_id TEXT, key_path TEXT, value_name TEXT, value_type INTEGER, mru_rank INTEGER, status TEXT, stored_command TEXT, command_utf16_hex TEXT, trailing_data_hex TEXT, value_data_hex TEXT",
+    "explorer_history_keys": "source_id INTEGER, record_id TEXT, key_path TEXT, artifact TEXT, key_last_written TEXT, key_last_write_raw TEXT, mru_status TEXT, mru_order TEXT, control_values TEXT, other_values TEXT",
+    "explorer_history_entries": "source_id INTEGER, record_id TEXT, key_id TEXT, key_path TEXT, artifact TEXT, value_name TEXT, value_type INTEGER, slot_number INTEGER, mru_rank INTEGER, status TEXT, stored_text TEXT, text_utf16_hex TEXT, trailing_data_hex TEXT, value_data_hex TEXT",
     "events": "source_id INTEGER, record_id TEXT, chunk_index INTEGER, record_offset INTEGER, container_record_id TEXT, container_filetime_raw TEXT, event_record_id TEXT, event_id INTEGER, provider TEXT, provider_guid TEXT, channel TEXT, computer TEXT, level INTEGER, task INTEGER, opcode INTEGER, version INTEGER, qualifiers TEXT, keywords TEXT, process_id INTEGER, thread_id INTEGER, user_sid TEXT, activity_id TEXT, related_activity_id TEXT, created_at TEXT, time_created_raw TEXT, container_time TEXT, category TEXT, action TEXT, details TEXT, event_data TEXT, user_data_xml TEXT, xml TEXT",
 }
 
@@ -41,15 +43,17 @@ def sqlite_report(report, path):
     try:
         connection.execute("PRAGMA foreign_keys=ON")
         with connection:
-            connection.execute("PRAGMA user_version=12")
+            connection.execute("PRAGMA user_version=13")
             connection.execute("CREATE TABLE metadata(key TEXT PRIMARY KEY, value TEXT)")
             payload = report.as_dict()
             for key in ("format_version", "tool", "tool_version", "counts"):
                 connection.execute("INSERT INTO metadata VALUES (?,?)", (key, json.dumps(payload[key], ensure_ascii=False)))
             for table, declaration in TABLES.items():
                 fk = "" if table == "sources" else ", FOREIGN KEY(source_id) REFERENCES sources(source_id)"
-                if table in ('recent_doc_keys','application_mru_keys','jump_lists','run_mru_keys'):
+                if table in ('recent_doc_keys','application_mru_keys','jump_lists','run_mru_keys','explorer_history_keys'):
                     fk += ', UNIQUE(source_id, record_id)'
+                elif table == 'explorer_history_entries':
+                    fk += ', FOREIGN KEY(source_id, key_id) REFERENCES explorer_history_keys(source_id, record_id)'
                 elif table == 'run_mru_entries':
                     fk += ', FOREIGN KEY(source_id, key_id) REFERENCES run_mru_keys(source_id, record_id)'
                 elif table == 'recent_docs':

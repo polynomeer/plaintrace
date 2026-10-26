@@ -2,7 +2,7 @@
 
 **English** | [한국어](USERASSIST_CLI.ko.md)
 
-The current package is 0.12.0 and every output uses schema 12. Earlier introductions/results below describe their release context; see [RunMRU](RUN_MRU_CLI.md) for the current schema.
+The current package is 0.13.0 and every output uses schema 13. Earlier introductions/results below describe their release context; see [Explorer history](EXPLORER_HISTORY_CLI.md) for the current schema.
 
 Implemented and self-reviewed on 2026-10-16 on codex/python-userassist from caa66102c4c46ebc7ab0e81153c36801bdfc8d67. Package 0.11.0 introduces report schema 11 and an independent UserAssist adapter. The thirteen original EnScript files contain no dedicated UserAssist parser and remain byte-identical to bb476180453c76f7d38e5b6a9f1f025ad2273ce0. Archive refs/manifests and 263 retrospectively reconstructed 2017 commits remain preserved; this work uses its actual date.
 

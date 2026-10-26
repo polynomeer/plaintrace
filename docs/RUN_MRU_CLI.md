@@ -2,6 +2,8 @@
 
 **English** | [한국어](RUN_MRU_CLI.ko.md)
 
+The current package is 0.13.0 and every output uses schema 13. Earlier introductions/results below describe their release context; see [Explorer history](EXPLORER_HISTORY_CLI.md) for the current schema.
+
 Implemented and self-reviewed on 2026-10-16 on codex/python-runmru from 53f0d510b2d06f991394cf5858be22f54416a1f4. Package 0.12.0 introduces report schema 12 and independent Windows Run dialog MRU observations. The original thirteen EnScript files have no dedicated RunMRU parser and remain byte-identical to bb476180453c76f7d38e5b6a9f1f025ad2273ce0. Original archive refs/manifests and 263 retrospectively reconstructed 2017 commits remain preserved; this extension uses its actual work date.
 
 ## Run and Input Preservation

@@ -89,3 +89,9 @@ Package 0.11.0 adds acquired UserAssist observations and schema 11.
 Package 0.12.0 adds literal Run dialog MRU strings and schema 12.
 
 [CLI](RUN_MRU_CLI.md) · [Tests and review](RUN_MRU_TESTS.md)
+
+## Explorer Address and Search History
+
+Package 0.13.0 adds TypedPaths/WordWheelQuery observations and schema 13.
+
+[CLI](EXPLORER_HISTORY_CLI.md) · [Tests and review](EXPLORER_HISTORY_TESTS.md)

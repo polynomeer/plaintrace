@@ -2,7 +2,7 @@
 
 **English** | [한국어](RECENT_DOCS_CLI.ko.md)
 
-The current package is 0.12.0 and every output uses schema 12. Earlier version introductions/test results below describe their release context; see [the RunMRU extension](RUN_MRU_CLI.md) for the current contract.
+The current package is 0.13.0 and every output uses schema 13. Earlier version introductions/test results below describe their release context; see [the Explorer history extension](EXPLORER_HISTORY_CLI.md) for the current contract.
 
 Implemented on 2026-10-15 on `codex/python-recent-docs`, based on `0f3e9e4fec930332310c172df6b1e599249c8924`. All thirteen EnScript files, archive refs/manifests and 263 reconstructed 2017 commits are preserved. Package 0.6.0/report schema 6 extends the independent Python port.
 
