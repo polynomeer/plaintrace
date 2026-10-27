@@ -39,7 +39,7 @@ Python 신규 9개로 기존 491개 suite를 500개로 확장했습니다. Node 
 
 2026-10-27 macOS/Python 3.14.8·python-evtx 0.8.1에서 Python 500개가 skip 없이 통과했습니다. Node 23.10.0에서 모델 12개가 통과했고 정밀도·중첩·문자열·크기 제한, 고아/중복 ID, 미지원 스키마/counts, 비활성 HTML/prototype 키, UTC 정밀도·페이지 처리를 검증했습니다. 서버 테스트는 패키지 경로만 제공, loopback 바인딩, 명시 MIME, 업로드·경로 이탈·외부 Origin 거부, 응답 헤더를 확인합니다. Python HTTP handler는 잘못된 이중 슬래시 경로를 정규화해 403 대신 404로 거부할 수 있으며 둘 모두 내용 제공을 거부해야 합니다.
 
-신규 JavaScript CI는 Ubuntu 24.04의 Node 22를 대상으로 설정했습니다. 이번 로컬 작업에서 실행했다고 주장하지 않습니다. 브랜치를 push하면 기존 M0 Python 행렬도 신규 Python 검사를 발견합니다.
+JavaScript CI는 Ubuntu 24.04의 Node 22를 대상으로 실행해 통과했습니다. 정확한 커밋·환경과 Python 6개 트랙 결과는 [CI 결과 기록](WORKBENCH_CI.ko.md)에 보관합니다.
 
 ## 브라우저 검토·남은 검증
 
@@ -57,4 +57,6 @@ Python 3.10.22에서 체크아웃 밖의 설치 wheel 스모크 검증도 통과
 python -I /absolute/path/to/plaintrace/tools/verify_workbench_install.py --wheel /absolute/path/to/plaintrace-0.15.0-py3-none-any.whl
 ```
 
-해당 wheel을 설치한 뒤 임시 디렉터리에서 실행합니다. 로컬 macOS/Python 3.10.22에서 경로 30개와 wheel 자산 30개로 통과했습니다. 호스팅 결과는 실행 후 별도 기록합니다.
+해당 wheel을 설치한 뒤 임시 디렉터리에서 실행합니다. 로컬 macOS/Python 3.10.22에서 경로 30개와 wheel 자산 30개로 통과했습니다. 호스팅 결과는 [CI 결과 기록](WORKBENCH_CI.ko.md)에 보관합니다.
+
+[호스팅 CI 결과](WORKBENCH_CI.ko.md): Python 6개 트랙, 설치된 CLI/UI와 Node 모델 검증이 통과했습니다.

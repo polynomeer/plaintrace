@@ -127,3 +127,5 @@ Adds a support registry, strict verification runner, three-OS CI and Python 3.10
 The screen design is implemented as a read-only JSON report workbench.
 
 [Run and use](WORKBENCH.md) · [Tests and validation scope](WORKBENCH_TESTS.md)
+
+- [Workbench hosted CI](WORKBENCH_CI.md)

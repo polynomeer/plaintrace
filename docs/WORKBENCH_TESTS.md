@@ -39,7 +39,7 @@ Nine new Python cases extend the existing 491-case suite to 500. Twelve Node bui
 
 On 2026-10-27, macOS/Python 3.14.8 with python-evtx 0.8.1 passed all 500 Python tests without skips. Node 23.10.0 passed all twelve model cases, including precision/depth/string/size limits, orphan/duplicate IDs, unknown schema/counts, inert HTML/prototype keys, UTC precision and pagination. The server tests confirm packaged-only routes, loopback binding, explicit MIME, denied uploads/traversal/foreign origins and response headers. Python's HTTP handler may normalize an invalid double-slash path to 404 rather than 403; both are required to reject content.
 
-The new JavaScript CI workflow targets Node 22 on Ubuntu 24.04. It is configured, not claimed executed by this local task. Existing M0 Python matrix jobs will discover the Python additions when this branch is pushed.
+The JavaScript CI workflow targets Node 22 on Ubuntu 24.04. Subsequent hosted execution passed; see the [CI result record](WORKBENCH_CI.md) for exact commits, environments and all six Python lanes.
 
 ## Browser review and remaining checks
 
@@ -57,4 +57,6 @@ Each of the six Python host lanes also runs [verify_workbench_install.py](../too
 python -I /absolute/path/to/plaintrace/tools/verify_workbench_install.py --wheel /absolute/path/to/plaintrace-0.15.0-py3-none-any.whl
 ```
 
-Run from a temporary directory after installing that wheel. Python 3.10.22 on local macOS passed this gate with 30 routes and 30 wheel assets. Hosted results will be recorded separately after execution.
+Run from a temporary directory after installing that wheel. Python 3.10.22 on local macOS passed this gate with 30 routes and 30 wheel assets. Hosted results are recorded in the [CI result record](WORKBENCH_CI.md).
+
+[Hosted CI results](WORKBENCH_CI.md): all six Python lanes, installed CLI/UI and Node model checks passed.

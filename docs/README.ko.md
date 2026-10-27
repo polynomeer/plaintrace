@@ -127,3 +127,5 @@ Office·HWP·Adobe MRU와 스키마 7을 패키지 0.7.0에서 추가했습니�
 화면 디자인을 읽기 전용 JSON 보고서 작업대로 적용했습니다.
 
 [실행·사용 가이드](WORKBENCH.ko.md) · [테스트·검증 범위](WORKBENCH_TESTS.ko.md)
+
+- [작업대 호스팅 CI](WORKBENCH_CI.ko.md)
