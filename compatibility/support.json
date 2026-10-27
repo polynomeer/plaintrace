@@ -456,8 +456,8 @@
         "Hosted Server 2022 is not Windows 11 client validation; ARM64/legacy Windows remain unvalidated."
       ],
       "validation_ids": [
-        "ci-40446197093-windows-2022-py3.10",
-        "ci-40446197093-windows-2022-py3.14"
+        "ci-40446843321-windows-2022-py3.10",
+        "ci-40446843321-windows-2022-py3.14"
       ]
     },
     {
@@ -474,8 +474,8 @@
         "Hosted label does not pin exact image or certify every macOS/CPU."
       ],
       "validation_ids": [
-        "ci-40446197093-macos-14-py3.10",
-        "ci-40446197093-macos-14-py3.14"
+        "ci-40446843321-macos-14-py3.10",
+        "ci-40446843321-macos-14-py3.14"
       ]
     },
     {
@@ -489,11 +489,11 @@
       "host_qualification": "tested",
       "validation_reference": "docs/M0_CI.md",
       "known_gaps": [
-        "Other distributions, musl and ARM64 remain unvalidated."
+        "Other Ubuntu builds/architectures and musl remain outside this hosted qualification; Debian ARM64 container results are separate local validations."
       ],
       "validation_ids": [
-        "ci-40446197093-ubuntu-24.04-py3.10",
-        "ci-40446197093-ubuntu-24.04-py3.14"
+        "ci-40446843321-ubuntu-24.04-py3.10",
+        "ci-40446843321-ubuntu-24.04-py3.14"
       ]
     }
   ],
@@ -709,13 +709,13 @@
   "milestone_status": "M0_named_host_gate_passed",
   "hosted_validations": [
     {
-      "id": "ci-40446197093-windows-2022-py3.10",
-      "recorded_at": "2026-10-27T03:49:33.427584+00:00",
+      "id": "ci-40446843321-windows-2022-py3.10",
+      "recorded_at": "2026-10-27T03:56:25.645488+00:00",
       "runner_label": "windows-2022",
-      "head_sha": "a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60",
-      "run_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446197093",
-      "job_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997963992",
-      "job_id": 121997963992,
+      "head_sha": "60e0541412c7920a01a5e9577df881e54903274d",
+      "run_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446843321",
+      "job_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030896",
+      "job_id": 122000030896,
       "job_name": "windows-2022 / Python 3.10",
       "environment": {
         "os": "Windows",
@@ -744,13 +744,13 @@
           "RUNNER_ARCH": "X64",
           "ImageOS": "win22",
           "ImageVersion": "20261022.344.1",
-          "GITHUB_SHA": "a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60",
-          "GITHUB_RUN_ID": "40446197093",
+          "GITHUB_SHA": "60e0541412c7920a01a5e9577df881e54903274d",
+          "GITHUB_RUN_ID": "40446843321",
           "PLAINTRACE_CONTAINER_IMAGE": null
         }
       },
       "tests": {
-        "run": 489,
+        "run": 491,
         "failures": 0,
         "errors": 0,
         "skips": 0,
@@ -760,30 +760,30 @@
       "installed_smoke": "passed",
       "evidence_qualification": "synthetic",
       "validation_reference": "docs/M0_CI.md",
-      "source_manifest_sha256": "45f15bed9d6ea8140eaa5fabf528cdb58f6252d881de03103b4122f9eefa9aae",
+      "source_manifest_sha256": "a67ea8720a99628a8803eabcb02522cf0805ee2268d59ba424ddc632a36773b4",
       "configuration_sha256": {
         "pyproject.toml": "0f05b327d2974a972b33dd91f5acb63fe514db00a5462380650f175dd2c14205",
         ".github/workflows/portability.yml": "292133ee243394b9c893fae95640243c3cb5c728fef82ec3d1d46213b349d0ec"
       },
-      "wheel_sha256": "1f644cbfb2a2905638c6c2f8a638ff6535a3a7d17c58826f1f1bf379f875f47d",
-      "suite_record_sha256": "645968f87c15e4a870463b940046d9154f612276f32ec314a3bf2ab3cee151d3",
-      "smoke_record_sha256": "435862b449318a8b38a5001a97c4b44c4426421753f517938b34e879f54318dc",
+      "wheel_sha256": "b3fc70e99eeaae13afe3ff32bf49a807c91e1a50cafda50b72e99fdcfb847780",
+      "suite_record_sha256": "fbe9ee76da15590e507ec5df836c40fccce280929d8b04c9a953cedf7a15c730",
+      "smoke_record_sha256": "b26b9ad82585b9f6106335433171d4f8dd3e6541f07dc734a4828bf7818e02a6",
       "artifact": {
-        "id": 12708307757,
+        "id": 12708443583,
         "name": "portability-windows-2022-py3.10",
-        "digest": "sha256:405ae2183dc20c6d3532980123aa1f57d6bb3139dec51c0adcb0e7322f7b887f",
-        "expires_at": "2026-11-10T03:49:51Z"
+        "digest": "sha256:b4442918f4ebf0865d75d6a5afe07f41f194a925435587b33ef7c6ce926dbcb6",
+        "expires_at": "2026-11-10T03:56:45Z"
       },
       "reviewer": "Codex review of GitHub jobs and downloaded result records; not acquired-evidence certification"
     },
     {
-      "id": "ci-40446197093-windows-2022-py3.14",
-      "recorded_at": "2026-10-27T03:48:48.899051+00:00",
+      "id": "ci-40446843321-windows-2022-py3.14",
+      "recorded_at": "2026-10-27T03:55:45.095474+00:00",
       "runner_label": "windows-2022",
-      "head_sha": "a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60",
-      "run_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446197093",
-      "job_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997964093",
-      "job_id": 121997964093,
+      "head_sha": "60e0541412c7920a01a5e9577df881e54903274d",
+      "run_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446843321",
+      "job_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030794",
+      "job_id": 122000030794,
       "job_name": "windows-2022 / Python 3.14",
       "environment": {
         "os": "Windows",
@@ -812,13 +812,13 @@
           "RUNNER_ARCH": "X64",
           "ImageOS": "win22",
           "ImageVersion": "20261022.344.1",
-          "GITHUB_SHA": "a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60",
-          "GITHUB_RUN_ID": "40446197093",
+          "GITHUB_SHA": "60e0541412c7920a01a5e9577df881e54903274d",
+          "GITHUB_RUN_ID": "40446843321",
           "PLAINTRACE_CONTAINER_IMAGE": null
         }
       },
       "tests": {
-        "run": 489,
+        "run": 491,
         "failures": 0,
         "errors": 0,
         "skips": 0,
@@ -828,30 +828,30 @@
       "installed_smoke": "passed",
       "evidence_qualification": "synthetic",
       "validation_reference": "docs/M0_CI.md",
-      "source_manifest_sha256": "45f15bed9d6ea8140eaa5fabf528cdb58f6252d881de03103b4122f9eefa9aae",
+      "source_manifest_sha256": "a67ea8720a99628a8803eabcb02522cf0805ee2268d59ba424ddc632a36773b4",
       "configuration_sha256": {
         "pyproject.toml": "0f05b327d2974a972b33dd91f5acb63fe514db00a5462380650f175dd2c14205",
         ".github/workflows/portability.yml": "292133ee243394b9c893fae95640243c3cb5c728fef82ec3d1d46213b349d0ec"
       },
-      "wheel_sha256": "690d49e85501c6d689e6c283d262d5b17be3e1dbd1e069736e3973c8f09993d7",
-      "suite_record_sha256": "23eff16dda57261f30835a4243ffa7a919426b1d070f7e53659e904e8f5f197f",
-      "smoke_record_sha256": "e1147a9f4f5ca1b87909cb0d3f30ff23cc0a6e967d64d3b7472f1fee2913aba3",
+      "wheel_sha256": "817a66752bf7db6cdebe5a57ae4a910418634cca8b28298b2cc50e0c53b9b2d9",
+      "suite_record_sha256": "f45dd5dfb6912e354d0e4f434b828aec1e05a53a973cfd13f0f39a950eb91210",
+      "smoke_record_sha256": "663143b35ba9e6326637dae28300daf7e6677fd0129353c2d7b6559afbb9d7a1",
       "artifact": {
-        "id": 12708102754,
+        "id": 12708991352,
         "name": "portability-windows-2022-py3.14",
-        "digest": "sha256:9c9fd64d07bd7125d56c7f0ab67873e3bf3379c6db60852c540c832ebfd5f216",
-        "expires_at": "2026-11-10T03:49:09Z"
+        "digest": "sha256:6476aaf0a139aa9cd8cba93dd35796d5bf26bdc8456ff33acd50f3cfab6f9584",
+        "expires_at": "2026-11-10T03:56:07Z"
       },
       "reviewer": "Codex review of GitHub jobs and downloaded result records; not acquired-evidence certification"
     },
     {
-      "id": "ci-40446197093-macos-14-py3.10",
-      "recorded_at": "2026-10-27T03:48:48.737065+00:00",
+      "id": "ci-40446843321-macos-14-py3.10",
+      "recorded_at": "2026-10-27T03:55:53.101928+00:00",
       "runner_label": "macos-14",
-      "head_sha": "a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60",
-      "run_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446197093",
-      "job_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997963902",
-      "job_id": 121997963902,
+      "head_sha": "60e0541412c7920a01a5e9577df881e54903274d",
+      "run_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446843321",
+      "job_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030844",
+      "job_id": 122000030844,
       "job_name": "macos-14 / Python 3.10",
       "environment": {
         "os": "Darwin",
@@ -880,13 +880,13 @@
           "RUNNER_ARCH": "ARM64",
           "ImageOS": "macos14",
           "ImageVersion": "20260831.0302.1",
-          "GITHUB_SHA": "a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60",
-          "GITHUB_RUN_ID": "40446197093",
+          "GITHUB_SHA": "60e0541412c7920a01a5e9577df881e54903274d",
+          "GITHUB_RUN_ID": "40446843321",
           "PLAINTRACE_CONTAINER_IMAGE": null
         }
       },
       "tests": {
-        "run": 489,
+        "run": 491,
         "failures": 0,
         "errors": 0,
         "skips": 0,
@@ -896,30 +896,30 @@
       "installed_smoke": "passed",
       "evidence_qualification": "synthetic",
       "validation_reference": "docs/M0_CI.md",
-      "source_manifest_sha256": "ce3fbaa2813fcf16078200b8b9176d6a78e7833c74a1286a48ea65f1d4225109",
+      "source_manifest_sha256": "dc654ecbc51d80e37d2390796b39398cf857b23227396fade11d22701092c626",
       "configuration_sha256": {
         "pyproject.toml": "0a43af4dd3e60d13fd123c2ebce41202bcb831270fe8f87daed005b50dee377d",
         ".github/workflows/portability.yml": "6c495a0c4bb82156cf3e7b6e4011a92db51ba5854ca2885fa8cc9205fdd23c8b"
       },
-      "wheel_sha256": "e618e092f52ecaa89a21ec414bafc592b1dc0be5eea48ceaa1d18584c70e2fb3",
-      "suite_record_sha256": "8c04edd7d4673b2dd14da27f4bfde6a87ca7edd5010fb6d1c9633b4ad07f76d8",
-      "smoke_record_sha256": "f3d71f066c5e9c7b671549c08c3db43518318c30620009d3a3e096e006955939",
+      "wheel_sha256": "edf385e50bb984e41d41d26c01e692b5dbf637e99de7f791066dc8bd447a0645",
+      "suite_record_sha256": "a10353358e4a48601af4b092c8128fe67c41bc4d2f66c1285cfd5f0eb1fd694b",
+      "smoke_record_sha256": "151f52152760aefb71518805e0228bc3b1958093a4a0962f4dbc52ecfe9ca1ca",
       "artifact": {
-        "id": 12708925646,
+        "id": 12708247799,
         "name": "portability-macos-14-py3.10",
-        "digest": "sha256:e6b526a1e3a7e08399f958717cff48a765cff733f350be251f1f9c5d2df7e376",
-        "expires_at": "2026-11-10T03:48:54Z"
+        "digest": "sha256:b21bbe50b885feb99b897a2ef619ece053359516f0d46ada6003c6fce7f2036f",
+        "expires_at": "2026-11-10T03:56:00Z"
       },
       "reviewer": "Codex review of GitHub jobs and downloaded result records; not acquired-evidence certification"
     },
     {
-      "id": "ci-40446197093-macos-14-py3.14",
-      "recorded_at": "2026-10-27T03:48:32.957256+00:00",
+      "id": "ci-40446843321-macos-14-py3.14",
+      "recorded_at": "2026-10-27T03:55:30.138361+00:00",
       "runner_label": "macos-14",
-      "head_sha": "a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60",
-      "run_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446197093",
-      "job_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997963993",
-      "job_id": 121997963993,
+      "head_sha": "60e0541412c7920a01a5e9577df881e54903274d",
+      "run_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446843321",
+      "job_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030777",
+      "job_id": 122000030777,
       "job_name": "macos-14 / Python 3.14",
       "environment": {
         "os": "Darwin",
@@ -948,13 +948,13 @@
           "RUNNER_ARCH": "ARM64",
           "ImageOS": "macos14",
           "ImageVersion": "20260831.0302.1",
-          "GITHUB_SHA": "a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60",
-          "GITHUB_RUN_ID": "40446197093",
+          "GITHUB_SHA": "60e0541412c7920a01a5e9577df881e54903274d",
+          "GITHUB_RUN_ID": "40446843321",
           "PLAINTRACE_CONTAINER_IMAGE": null
         }
       },
       "tests": {
-        "run": 489,
+        "run": 491,
         "failures": 0,
         "errors": 0,
         "skips": 0,
@@ -964,30 +964,30 @@
       "installed_smoke": "passed",
       "evidence_qualification": "synthetic",
       "validation_reference": "docs/M0_CI.md",
-      "source_manifest_sha256": "ce3fbaa2813fcf16078200b8b9176d6a78e7833c74a1286a48ea65f1d4225109",
+      "source_manifest_sha256": "dc654ecbc51d80e37d2390796b39398cf857b23227396fade11d22701092c626",
       "configuration_sha256": {
         "pyproject.toml": "0a43af4dd3e60d13fd123c2ebce41202bcb831270fe8f87daed005b50dee377d",
         ".github/workflows/portability.yml": "6c495a0c4bb82156cf3e7b6e4011a92db51ba5854ca2885fa8cc9205fdd23c8b"
       },
-      "wheel_sha256": "9d710be5484223801a28b555246bb5def2473f7178944fdab55f26e05bbe1adb",
-      "suite_record_sha256": "824efb6cd53c3125d89f16b487b7dc2cc90ed74d5e8fc3ce48c8a1cb0a7c928d",
-      "smoke_record_sha256": "cdae816d6a8c40c9a2892519b8abaa5262c2af131d53732e29e39ff450b9ee52",
+      "wheel_sha256": "4e29c618cb9a523c037d7cdae6f9426be8206b5a8525869537dd0ff1e06446a6",
+      "suite_record_sha256": "d56f0b862d4eded2c5fdb49b64e3c067bc89e0844d66151d15f9cfa5cfa3fcc4",
+      "smoke_record_sha256": "ede48c7af141937c3798b2d2f6ba1dd6594376b7572a80ea7af0d67ec237350d",
       "artifact": {
-        "id": 12708701112,
+        "id": 12708348586,
         "name": "portability-macos-14-py3.14",
-        "digest": "sha256:b228646f87bf17d4c4a8f417550e7938282a31627ce9929585712c39f9d927d2",
-        "expires_at": "2026-11-10T03:48:40Z"
+        "digest": "sha256:00ec469a8fb24ebf37b1ee5fecaded4a4aed730d7c40db7c283b5a0ab8e8f919",
+        "expires_at": "2026-11-10T03:55:37Z"
       },
       "reviewer": "Codex review of GitHub jobs and downloaded result records; not acquired-evidence certification"
     },
     {
-      "id": "ci-40446197093-ubuntu-24.04-py3.10",
-      "recorded_at": "2026-10-27T03:48:32.510597+00:00",
+      "id": "ci-40446843321-ubuntu-24.04-py3.10",
+      "recorded_at": "2026-10-27T03:55:33.540703+00:00",
       "runner_label": "ubuntu-24.04",
-      "head_sha": "a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60",
-      "run_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446197093",
-      "job_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997964000",
-      "job_id": 121997964000,
+      "head_sha": "60e0541412c7920a01a5e9577df881e54903274d",
+      "run_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446843321",
+      "job_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030796",
+      "job_id": 122000030796,
       "job_name": "ubuntu-24.04 / Python 3.10",
       "environment": {
         "os": "Linux",
@@ -1020,13 +1020,13 @@
           "RUNNER_ARCH": "X64",
           "ImageOS": "ubuntu24",
           "ImageVersion": "20261023.334.3",
-          "GITHUB_SHA": "a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60",
-          "GITHUB_RUN_ID": "40446197093",
+          "GITHUB_SHA": "60e0541412c7920a01a5e9577df881e54903274d",
+          "GITHUB_RUN_ID": "40446843321",
           "PLAINTRACE_CONTAINER_IMAGE": null
         }
       },
       "tests": {
-        "run": 489,
+        "run": 491,
         "failures": 0,
         "errors": 0,
         "skips": 0,
@@ -1036,30 +1036,30 @@
       "installed_smoke": "passed",
       "evidence_qualification": "synthetic",
       "validation_reference": "docs/M0_CI.md",
-      "source_manifest_sha256": "ce3fbaa2813fcf16078200b8b9176d6a78e7833c74a1286a48ea65f1d4225109",
+      "source_manifest_sha256": "dc654ecbc51d80e37d2390796b39398cf857b23227396fade11d22701092c626",
       "configuration_sha256": {
         "pyproject.toml": "0a43af4dd3e60d13fd123c2ebce41202bcb831270fe8f87daed005b50dee377d",
         ".github/workflows/portability.yml": "6c495a0c4bb82156cf3e7b6e4011a92db51ba5854ca2885fa8cc9205fdd23c8b"
       },
-      "wheel_sha256": "a1fe957855c68f0c1a68dc474d16e73b391d2ba0a16d3e2a6cb1f1631719f63c",
-      "suite_record_sha256": "08e96e83e011cf28af691076659575bb090527bb3d804615aa35003c4865fb35",
-      "smoke_record_sha256": "6db4bec207dcf603d3e9fc1687f98cb55ad170453fad3147e652450c38509000",
+      "wheel_sha256": "4e29c618cb9a523c037d7cdae6f9426be8206b5a8525869537dd0ff1e06446a6",
+      "suite_record_sha256": "08ec45c1a6bcb8b7794ae6e2cb997740f3781715700b3a9e0259184ee250e090",
+      "smoke_record_sha256": "310350dd947e3e1c0ee933381fe3234149091991ee9f3cf4e883cbb86b2f0f53",
       "artifact": {
-        "id": 12708347374,
+        "id": 12708662069,
         "name": "portability-ubuntu-24.04-py3.10",
-        "digest": "sha256:876519edbc1891a42337029c2ce937c6d75b92afaf850244435a618a3850543f",
-        "expires_at": "2026-11-10T03:48:40Z"
+        "digest": "sha256:2295576717f7fcb11c2708c16d59d2b976a0a370b09e32228aaefacb450bdde8",
+        "expires_at": "2026-11-10T03:55:43Z"
       },
       "reviewer": "Codex review of GitHub jobs and downloaded result records; not acquired-evidence certification"
     },
     {
-      "id": "ci-40446197093-ubuntu-24.04-py3.14",
-      "recorded_at": "2026-10-27T03:48:33.640248+00:00",
+      "id": "ci-40446843321-ubuntu-24.04-py3.14",
+      "recorded_at": "2026-10-27T03:55:36.608524+00:00",
       "runner_label": "ubuntu-24.04",
-      "head_sha": "a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60",
-      "run_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446197093",
-      "job_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997963936",
-      "job_id": 121997963936,
+      "head_sha": "60e0541412c7920a01a5e9577df881e54903274d",
+      "run_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446843321",
+      "job_url": "https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030855",
+      "job_id": 122000030855,
       "job_name": "ubuntu-24.04 / Python 3.14",
       "environment": {
         "os": "Linux",
@@ -1092,13 +1092,13 @@
           "RUNNER_ARCH": "X64",
           "ImageOS": "ubuntu24",
           "ImageVersion": "20261023.334.3",
-          "GITHUB_SHA": "a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60",
-          "GITHUB_RUN_ID": "40446197093",
+          "GITHUB_SHA": "60e0541412c7920a01a5e9577df881e54903274d",
+          "GITHUB_RUN_ID": "40446843321",
           "PLAINTRACE_CONTAINER_IMAGE": null
         }
       },
       "tests": {
-        "run": 489,
+        "run": 491,
         "failures": 0,
         "errors": 0,
         "skips": 0,
@@ -1108,19 +1108,19 @@
       "installed_smoke": "passed",
       "evidence_qualification": "synthetic",
       "validation_reference": "docs/M0_CI.md",
-      "source_manifest_sha256": "ce3fbaa2813fcf16078200b8b9176d6a78e7833c74a1286a48ea65f1d4225109",
+      "source_manifest_sha256": "dc654ecbc51d80e37d2390796b39398cf857b23227396fade11d22701092c626",
       "configuration_sha256": {
         "pyproject.toml": "0a43af4dd3e60d13fd123c2ebce41202bcb831270fe8f87daed005b50dee377d",
         ".github/workflows/portability.yml": "6c495a0c4bb82156cf3e7b6e4011a92db51ba5854ca2885fa8cc9205fdd23c8b"
       },
-      "wheel_sha256": "1c496de6599b9f802129b3d0f38cbb40e6164b9ededdc62b3b7741568f1106d4",
-      "suite_record_sha256": "b8944e4d11007e0f92939ab39fc81dc40ccbe536dbcc413119d408a7d4438ad8",
-      "smoke_record_sha256": "57d44c817fab4ae860e54d49b5d83901138df4559cf006fcb299a4e09db176b9",
+      "wheel_sha256": "07658ca37feca4fb995cf4906f0075ba6b03e68382f56e85285eb985466189f3",
+      "suite_record_sha256": "ae683eaf2a7155c25c6cef27bc65857ca6e1d817f16146369f900a34332021eb",
+      "smoke_record_sha256": "1b29b8394f1a07bf602cf33138a7d780e67a235ecd9820cb5206abd5e4d2d7af",
       "artifact": {
-        "id": 12708232489,
+        "id": 12708517326,
         "name": "portability-ubuntu-24.04-py3.14",
-        "digest": "sha256:554604f65612e24ae043e20130d74efdb838fbcdec2696187abc7b3f159b2956",
-        "expires_at": "2026-11-10T03:48:43Z"
+        "digest": "sha256:e09630ad461333f8878976a138a2591f41e41739446d02844eca32ff9e8536fe",
+        "expires_at": "2026-11-10T03:55:48Z"
       },
       "reviewer": "Codex review of GitHub jobs and downloaded result records; not acquired-evidence certification"
     }

@@ -6,16 +6,16 @@
 
 ## 결과·검증 범위
 
-[검증 실행](https://github.com/polynomeer/plaintrace/actions/runs/40446197093)의 호스트 6개 트랙과 정적 무결성 job이 모두 통과했습니다. 검증 커밋은 a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60이며 각 트랙은 EVTX extra를 포함한 489개 테스트를 skip·실패·오류 없이 수행하고 설치 wheel 검사도 통과했습니다. 이는 지정 환경의 M0 완료 근거이며 모든 OS 버전이나 실제 획득 증거의 정확성을 인증하지 않습니다.
+[검증 실행](https://github.com/polynomeer/plaintrace/actions/runs/40446843321)의 호스트 6개 트랙과 정적 무결성 job이 모두 통과했습니다. 검증 커밋은 60e0541412c7920a01a5e9577df881e54903274d이며 각 트랙은 EVTX extra를 포함한 491개 테스트를 skip·실패·오류 없이 수행하고 설치 wheel 검사도 통과했습니다. 이는 지정 환경의 M0 완료 근거이며 모든 OS 버전이나 실제 획득 증거의 정확성을 인증하지 않습니다.
 
 | CI 트랙 | 실제 Python / SQLite | 실제 OS·CPU | 결과 |
 | --- | --- | --- | --- |
-| [windows-2022 / 3.10](https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997963992) | 3.10.11 / 3.40.1 | Windows Server 2022 / 10.0.20348 / AMD64 | 489 통과, 설치 통과 |
-| [windows-2022 / 3.14](https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997964093) | 3.14.9 / 3.50.4 | Windows Server 2022 / 10.0.20348 / AMD64 | 489 통과, 설치 통과 |
-| [macos-14 / 3.10](https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997963902) | 3.10.11 / 3.40.1 | macOS 14.8.9 / arm64 | 489 통과, 설치 통과 |
-| [macos-14 / 3.14](https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997963993) | 3.14.7 / 3.50.4 | macOS 14.8.9 / arm64 | 489 통과, 설치 통과 |
-| [ubuntu-24.04 / 3.10](https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997964000) | 3.10.22 / 3.45.1 | Ubuntu 24.04 / 6.17.0-1022-azure / x86_64 | 489 통과, 설치 통과 |
-| [ubuntu-24.04 / 3.14](https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997963936) | 3.14.8 / 3.45.1 | Ubuntu 24.04 / 6.17.0-1022-azure / x86_64 | 489 통과, 설치 통과 |
+| [windows-2022 / 3.10](https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030896) | 3.10.11 / 3.40.1 | Windows Server 2022 / 10.0.20348 / AMD64 | 491 통과, 설치 통과 |
+| [windows-2022 / 3.14](https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030794) | 3.14.9 / 3.50.4 | Windows Server 2022 / 10.0.20348 / AMD64 | 491 통과, 설치 통과 |
+| [macos-14 / 3.10](https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030844) | 3.10.11 / 3.40.1 | macOS 14.8.9 / arm64 | 491 통과, 설치 통과 |
+| [macos-14 / 3.14](https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030777) | 3.14.7 / 3.50.4 | macOS 14.8.9 / arm64 | 491 통과, 설치 통과 |
+| [ubuntu-24.04 / 3.10](https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030796) | 3.10.22 / 3.45.1 | Ubuntu 24.04 / 6.17.0-1022-azure / x86_64 | 491 통과, 설치 통과 |
+| [ubuntu-24.04 / 3.14](https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030855) | 3.14.8 / 3.45.1 | Ubuntu 24.04 / 6.17.0-1022-azure / x86_64 | 491 통과, 설치 통과 |
 
 macOS 이미지·Windows Server build·CPU와 Python patch 버전은 실측값입니다. Python 3.10의 Windows platform.release 값이 10이어도 Windows 10 클라이언트를 검증한 것은 아니며 러너와 실제 build는 Server 2022입니다. Windows 11·다른 배포판·다른 CPU·구형/미래 버전은 별도 검증이 필요합니다.
 
@@ -38,3 +38,7 @@ Windows checkout의 Python 파일은 CRLF이므로 원시 소스 해시는 Unix 
 ## 문맥 규칙 근거
 
 2026-10-27 [GitHub 문맥 가용성 표](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts)를 확인했습니다. job env에는 runner 문맥이 없고 step env/run에는 허용됩니다. 이 근거와 actionlint 검사를 함께 사용해 오류를 수정했습니다.
+
+## 최종 로컬 확인
+
+문서 112개·로컬 링크 1,640개·양언어 테스트 매핑·등록부 검사가 통과했습니다. 호스팅 근거 gate 14개와 actionlint 1.7.7도 통과했습니다. 모든 호스팅 source 매니페스트를 현재 Python 소스와 비교했으며 Windows는 checkout의 CRLF 표현을 그대로 반영했습니다. 이 결과 기록 후속 변경은 문서·등록부 메타데이터만 갱신합니다.

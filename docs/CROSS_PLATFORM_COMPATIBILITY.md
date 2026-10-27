@@ -14,9 +14,9 @@ Record compatibility as a tuple: host OS/build + CPU + Python + optional depende
 
 | Host family | First validation target | Additional track | Current evidence |
 | --- | --- | --- | --- |
-| Windows | Windows 11 x86-64, explicit build | Windows 10/Server and ARM64 as separately tested lanes | Unvalidated in repository records |
-| macOS | macOS 14+ ARM64, each selected release | Intel and older macOS as separate runners | macOS/Python 3.14 recorded; no blanket version/CPU certification |
-| Linux | Ubuntu 24.04 LTS x86-64, pinned image | Debian/Fedora, ARM64 and musl separately | Unvalidated in repository records |
+| Windows | Windows 11 x86-64, explicit build | Windows 10/Server and ARM64 as separately tested lanes | Server 2022/x64 CI recorded; Windows 11 client unvalidated |
+| macOS | macOS 14+ ARM64, each selected release | Intel and older macOS as separate runners | macOS 14.8.9 ARM64 / Python 3.10 and 3.14 CI recorded; other tuples separate |
+| Linux | Ubuntu 24.04 LTS x86-64, pinned image | Debian/Fedora, ARM64 and musl separately | Ubuntu 24.04/x86-64 / Python 3.10 and 3.14 CI recorded |
 | Legacy hosts | No universal native-runtime promise | Analyze exported evidence on a modern host | Per-format qualification required |
 
 These are proposed test targets, not claims about vendor support or completed tests. Retain the current Python 3.10+ declaration until a separate compatibility decision. Exercise the minimum and each claimed interpreter minor; never keep an obsolete interpreter solely to run on legacy evidence systems. Wheel/native dependency availability must be verified per architecture.

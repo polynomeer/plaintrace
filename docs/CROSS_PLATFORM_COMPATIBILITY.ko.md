@@ -14,9 +14,9 @@
 
 | 호스트 계열 | 첫 검증 대상 | 추가 검증 트랙 | 현재 근거 |
 | --- | --- | --- | --- |
-| Windows | Windows 11 x86-64, build 명시 | Windows 10/Server·ARM64 각각 별도 검증 | 저장소 기록상 미검증 |
-| macOS | macOS 14+ ARM64 중 선정 릴리스 각각 | Intel·구형 macOS 별도 러너 | macOS/Python 3.14 기록만 존재, 전체 버전·CPU 인증 없음 |
-| Linux | Ubuntu 24.04 LTS x86-64, 이미지 고정 | Debian/Fedora·ARM64·musl 별도 | 저장소 기록상 미검증 |
+| Windows | Windows 11 x86-64, build 명시 | Windows 10/Server·ARM64 각각 별도 검증 | Server 2022/x64 CI 검증, Windows 11 클라이언트 미검증 |
+| macOS | macOS 14+ ARM64 중 선정 릴리스 각각 | Intel·구형 macOS 별도 러너 | macOS 14.8.9 ARM64 / Python 3.10·3.14 CI 검증, 다른 조합 별도 |
+| Linux | Ubuntu 24.04 LTS x86-64, 이미지 고정 | Debian/Fedora·ARM64·musl 별도 | Ubuntu 24.04/x86-64 / Python 3.10·3.14 CI 검증 |
 | 구형 실행 환경 | 일괄 native 런타임 보장 없음 | 현대 호스트에서 내보낸 증거 분석 | 포맷별 검증 필요 |
 
 이는 테스트 대상 제안이며 공급사 지원이나 완료된 테스트를 뜻하지 않습니다. 별도 호환성 결정까지 Python 3.10+ 선언을 유지합니다. 최소 버전과 지원 선언한 각 인터프리터 minor를 실행 검증하며 구형 증거 OS 실행만을 위해 수명 종료 런타임을 유지하지 않습니다. CPU별 wheel/native 의존성 제공 여부도 확인합니다.

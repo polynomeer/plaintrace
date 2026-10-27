@@ -6,16 +6,16 @@
 
 ## Outcome and qualification scope
 
-All six host lanes and the static-integrity job passed in the [verified run](https://github.com/polynomeer/plaintrace/actions/runs/40446197093). The tested commit is a8943e4fc58e6b7924bb20a9eea7e6d2542e8a60; every lane executed 489 tests with the EVTX extra and zero skips, failures or errors, then passed installed-wheel smoke. This satisfies the named M0 environment gate, not every OS version or acquired-evidence accuracy.
+All six host lanes and the static-integrity job passed in the [verified run](https://github.com/polynomeer/plaintrace/actions/runs/40446843321). The tested commit is 60e0541412c7920a01a5e9577df881e54903274d; every lane executed 491 tests with the EVTX extra and zero skips, failures or errors, then passed installed-wheel smoke. This satisfies the named M0 environment gate, not every OS version or acquired-evidence accuracy.
 
 | CI lane | Actual Python / SQLite | Actual OS / CPU | Result |
 | --- | --- | --- | --- |
-| [windows-2022 / 3.10](https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997963992) | 3.10.11 / 3.40.1 | Windows Server 2022 / 10.0.20348 / AMD64 | 489 pass; smoke pass |
-| [windows-2022 / 3.14](https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997964093) | 3.14.9 / 3.50.4 | Windows Server 2022 / 10.0.20348 / AMD64 | 489 pass; smoke pass |
-| [macos-14 / 3.10](https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997963902) | 3.10.11 / 3.40.1 | macOS 14.8.9 / arm64 | 489 pass; smoke pass |
-| [macos-14 / 3.14](https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997963993) | 3.14.7 / 3.50.4 | macOS 14.8.9 / arm64 | 489 pass; smoke pass |
-| [ubuntu-24.04 / 3.10](https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997964000) | 3.10.22 / 3.45.1 | Ubuntu 24.04 / 6.17.0-1022-azure / x86_64 | 489 pass; smoke pass |
-| [ubuntu-24.04 / 3.14](https://github.com/polynomeer/plaintrace/actions/runs/40446197093/job/121997963936) | 3.14.8 / 3.45.1 | Ubuntu 24.04 / 6.17.0-1022-azure / x86_64 | 489 pass; smoke pass |
+| [windows-2022 / 3.10](https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030896) | 3.10.11 / 3.40.1 | Windows Server 2022 / 10.0.20348 / AMD64 | 491 pass; smoke pass |
+| [windows-2022 / 3.14](https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030794) | 3.14.9 / 3.50.4 | Windows Server 2022 / 10.0.20348 / AMD64 | 491 pass; smoke pass |
+| [macos-14 / 3.10](https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030844) | 3.10.11 / 3.40.1 | macOS 14.8.9 / arm64 | 491 pass; smoke pass |
+| [macos-14 / 3.14](https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030777) | 3.14.7 / 3.50.4 | macOS 14.8.9 / arm64 | 491 pass; smoke pass |
+| [ubuntu-24.04 / 3.10](https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030796) | 3.10.22 / 3.45.1 | Ubuntu 24.04 / 6.17.0-1022-azure / x86_64 | 491 pass; smoke pass |
+| [ubuntu-24.04 / 3.14](https://github.com/polynomeer/plaintrace/actions/runs/40446843321/job/122000030855) | 3.14.8 / 3.45.1 | Ubuntu 24.04 / 6.17.0-1022-azure / x86_64 | 491 pass; smoke pass |
 
 Image/build/CPU and Python patch versions above were measured. Python 3.10 reports Windows platform.release as 10; this does not certify Windows 10 client, because the runner/build is Server 2022. Windows 11, other distributions/CPUs and legacy/future releases require their own validation.
 
@@ -38,3 +38,7 @@ Raw logs, result JSON, wheels and caches stay outside Git; reviewed summaries an
 ## Context-rule reference
 
 Checked the [GitHub context availability table](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts) on 2026-10-27: runner context is unavailable in job env but allowed in step env/run. This constraint and actionlint verification guided the repair.
+
+## Final local checks
+
+Documentation validation passed for 112 documents and 1,640 local links with bilingual test mappings; registry validation, fourteen hosted-evidence gate tests and actionlint 1.7.7 also passed. Every hosted source manifest was compared to the current Python sources, retaining Windows checkout CRLF representation. This result-record follow-up changes only documentation and registry metadata.
