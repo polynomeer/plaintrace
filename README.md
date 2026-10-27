@@ -168,3 +168,9 @@ Adds a support registry, strict verification runner, three-OS CI and Python 3.10
 [Implementation and reproduction](docs/M0_BASELINE.md) · [Tests and validation](docs/M0_TESTS.md)
 
 [Hosted results for all six lanes](docs/M0_CI.md) record exact commits/environments and repair history.
+
+## Local report workbench
+
+The screen design is implemented as a read-only JSON report workbench.
+
+[Run and use](docs/WORKBENCH.md) · [Tests and validation scope](docs/WORKBENCH_TESTS.md)

@@ -168,3 +168,9 @@ Office·HWP·Adobe MRU와 스키마 7을 패키지 0.7.0에서 추가했습니�
 [구현·재현 절차](docs/M0_BASELINE.ko.md) · [테스트·검증 결과](docs/M0_TESTS.ko.md)
 
 [6개 트랙의 원격 CI 결과](docs/M0_CI.ko.md)에서 검증 커밋·환경·수정 이력을 확인할 수 있습니다.
+
+## 로컬 보고서 작업대
+
+화면 디자인을 읽기 전용 JSON 보고서 작업대로 적용했습니다.
+
+[실행·사용 가이드](docs/WORKBENCH.ko.md) · [테스트·검증 범위](docs/WORKBENCH_TESTS.ko.md)

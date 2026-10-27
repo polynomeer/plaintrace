@@ -13,6 +13,10 @@ evtx = ["python-evtx==0.8.1"]
 
 [project.scripts]
 plaintrace = "plaintrace.cli:main"
+plaintrace-ui = "plaintrace.ui:main"
 
 [tool.setuptools]
 packages = ["plaintrace"]
+
+[tool.setuptools.package-data]
+plaintrace = ["web/*.html", "web/*.css", "web/*.mjs", "web/icons/*.svg", "web/icons/LICENSE"]

@@ -80,7 +80,8 @@ def main():
                                           ('test_explorer_history_cli.py','EXPLORER_HISTORY_TESTS','EH'),
                                           ('test_system_info_cli.py','SYSTEM_INFO_TESTS','SYS'),
                                           ('test_sam_accounts_cli.py','SAM_ACCOUNTS_TESTS','SAM'),
-                                          ('test_portability.py','M0_TESTS','M0')):
+                                          ('test_portability.py','M0_TESTS','M0'),
+                                          ('test_ui.py','WORKBENCH_TESTS','UI')):
         python_tests = ROOT/'tests'/test_file
         if not python_tests.exists():
             continue
