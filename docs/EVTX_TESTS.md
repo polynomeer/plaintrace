@@ -56,6 +56,7 @@ git diff --exit-code 9f32324141810b257d4f680e84c849c013543900 -- '*.EnScript' do
 | EV-30 | test_review_xml_node_limit_and_integer_lexical_bounds | XML node cap and malformed/huge unsigned-ID text rejection |
 | EV-31 | test_review_missing_dependency_cli_publishes_nothing | Missing extra in CLI leaves no output or stdout payload |
 | EV-32 | test_review_binxml_invalid_chunk_reference_is_fatal | Actual decoder rejects an out-of-chunk template reference |
+| EV-33 | test_fractional_systemtime_one_to_seven_digits_preserves_raw_text | One-to-seven fractional digits across Python minors; exact XML time retained |
 
 ## Code Review Findings
 
@@ -87,3 +88,7 @@ Current full discovery passes 148 cases: 33 browser, 30 execution, 32 EVTX, 28 R
 ## RecentDocs Regression Run (2026-10-15)
 
 Current full discovery passes 175 tests: previous 148 plus 27 RecentDocs cases. Without the EVTX extra, 167 execute and eight existing integrations skip. Current export assertions use schema 6; earlier validation counts/schema introductions remain historical records. See [RecentDocs reproduction and review](RECENT_DOCS_TESTS.md).
+
+## M0 portability follow-up
+
+On 2026-10-27, SQLite URI mode and EVTX fractional-time conversion were fixed for Python 3.10. See [M0 results](M0_TESTS.md) for final 489-case and installed-wheel checks on macOS/Python 3.10 and 3.14 plus a Linux ARM64 container, and for unvalidated environments. Raw values and report schema 15 remain unchanged; earlier dated results retain their historical scope.

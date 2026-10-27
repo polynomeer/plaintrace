@@ -47,7 +47,7 @@ def snapshot(path):
         if (fingerprint(local) != before or fingerprint(path) != before or
                 (journal.exists() and journal.stat().st_size)):
             raise AnalysisError(f"Input changed during copying: {path}; acquire a stable snapshot")
-        connection = sqlite3.connect(local.as_uri() + "?mode=ro")
+        connection = sqlite3.connect(local.as_uri() + "?mode=ro", uri=True)
         try:
             connection.row_factory = sqlite3.Row
             connection.execute("PRAGMA query_only=ON")

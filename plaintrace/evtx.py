@@ -136,7 +136,11 @@ def event_time(value, report, source_id, record_id):
             hours, minutes = map(int, value[-5:].split(":"))
             if hours > 23 or minutes > 59:
                 raise ValueError("invalid timezone")
-        return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(timezone.utc).isoformat(timespec="microseconds").replace("+00:00", "Z")
+        # Python 3.10 accepts only three/six fractional digits. Normalize only
+        # the display conversion; the caller retains the original XML text.
+        display = re.sub(r"\.(\d{1,7})(?=Z|[+-])",
+                         lambda match: "." + (match.group(1) + "000000")[:6], value)
+        return datetime.fromisoformat(display.replace("Z", "+00:00")).astimezone(timezone.utc).isoformat(timespec="microseconds").replace("+00:00", "Z")
     except (ValueError, OverflowError):
         report.warn(source_id, "evtx_invalid_time", "Invalid XML SystemTime retained verbatim", record_id)
         return None

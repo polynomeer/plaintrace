@@ -204,6 +204,19 @@ class EvtxTests(unittest.TestCase):
         row,report=self.parse_xml(event_xml(time='2021-01-01T00:00:00Z',record_id=8))
         self.assertEqual({d['code'] for d in report.diagnostics},{'evtx_time_mismatch','evtx_record_id_mismatch'})
 
+    def test_fractional_systemtime_one_to_seven_digits_preserves_raw_text(self):
+        for length in range(1, 8):
+            fraction = '1234567'[:length]
+            for clock, zone in [('00', 'Z'), ('09', '+09:00')]:
+                raw = f'2020-01-01T{clock}:00:00.{fraction}{zone}'
+                with self.subTest(raw=raw):
+                    row, report = self.parse_xml(event_xml(time=raw))
+                    expected = (fraction + '000000')[:6]
+                    self.assertEqual(row['created_at'], f'2020-01-01T00:00:00.{expected}Z')
+                    self.assertEqual(row['time_created_raw'], raw)
+                    self.assertEqual(row['container_filetime_raw'], str(FT))
+                    self.assertNotIn('evtx_invalid_time', {d['code'] for d in report.diagnostics})
+
     def test_unsigned_record_ids_remain_text_in_sqlite(self):
         row,_=self.parse_xml(event_xml(record_id=2**64-1),record_id=str(2**64-1))
         report=Report();report.events=[row];report.sources=[dict(source_id=1,path='synthetic',browser=None,schema_family='evtx',database_sha256=None,wal_sha256=None,source_kind='evtx',sha256='abc')]

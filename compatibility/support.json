@@ -1,0 +1,698 @@
+{
+  "registry_version": 1,
+  "updated_on": "2026-10-27",
+  "package_version": "0.15.0",
+  "report_schema": 15,
+  "baseline_commit": "c04213681212841c3919ee87f04f57300e34698a",
+  "archive_baseline": "bb476180453c76f7d38e5b6a9f1f025ad2273ce0",
+  "python_requires": ">=3.10",
+  "qualification_policy": "Implementation, host execution and acquired-evidence qualification are independent. CI targets are not tested claims.",
+  "adapters": [
+    {
+      "id": "chromium",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/browser.py",
+      "cli_flags": [
+        "--input"
+      ],
+      "format_predicate": "SQLite urls/visits and supported downloads schemas; family detection by native tables, not filename.",
+      "dependencies": {},
+      "contract": "docs/PYTHON_CLI.md",
+      "tests": [
+        "tests/test_browser_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "IE/WebCache, encrypted DBs and unreviewed required schemas.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "firefox",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/browser.py",
+      "cli_flags": [
+        "--input"
+      ],
+      "format_predicate": "SQLite moz_places/moz_historyvisits and named download annotations; missing event tables are explicit summaries.",
+      "dependencies": {},
+      "contract": "docs/PYTHON_CLI.md",
+      "tests": [
+        "tests/test_browser_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Every historical download, unsupported required schemas and encrypted DBs.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "lnk",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/lnk.py",
+      "cli_flags": [
+        "--lnk"
+      ],
+      "format_predicate": "Shell Link header/CLSID and bounded selected blocks; explicit ANSI codepage.",
+      "dependencies": {},
+      "contract": "docs/EXECUTION_CLI.md",
+      "tests": [
+        "tests/test_execution_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Target resolution/execution and unsupported blocks.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "prefetch",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/prefetch.py",
+      "cli_flags": [
+        "--prefetch"
+      ],
+      "format_predicate": "SCCA 17/23/26/30/31 with admitted layout offsets; MAM04 XPRESS Huffman.",
+      "dependencies": {},
+      "contract": "docs/EXECUTION_CLI.md",
+      "tests": [
+        "tests/test_execution_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Other MAM flags/layouts and device-to-drive inference.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "evtx",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/evtx.py",
+      "cli_flags": [
+        "--evtx"
+      ],
+      "format_predicate": "Validated EVTX container/chunks/records and bounded decoder/XML; provider-qualified classifications.",
+      "dependencies": {
+        "python-evtx": "0.8.1"
+      },
+      "contract": "docs/EVTX_CLI.md",
+      "tests": [
+        "tests/test_evtx_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Carving, repair, message DLL loading and native Windows APIs.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "recycle_bin",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/recycle_bin.py",
+      "cli_flags": [
+        "--recycle-bin"
+      ],
+      "format_predicate": "Explicit $I files with version 1/2 layouts, bounded UTF-16 path.",
+      "dependencies": {},
+      "contract": "docs/RECYCLE_BIN_CLI.md",
+      "tests": [
+        "tests/test_recycle_bin_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Ownership, $R presence/restoration and shifted layout repair.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "usb_registry",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/usb_registry.py",
+      "cli_flags": [
+        "--usb-system",
+        "--usb-software",
+        "--usb-ntuser"
+      ],
+      "format_predicate": "Selected SYSTEM/SOFTWARE keys using bounded clean REGF 1.3/1.4/1.5; Select/Current required.",
+      "dependencies": {},
+      "contract": "docs/USB_REGISTRY_CLI.md",
+      "tests": [
+        "tests/test_usb_registry_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Log replay, deleted recovery, guessed drive/user joins.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "recent_docs",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/recent_docs.py",
+      "cli_flags": [
+        "--recent-docs"
+      ],
+      "format_predicate": "RecentDocs in bounded clean REGF; strict MRUListEx ranks with raw tails.",
+      "dependencies": {},
+      "contract": "docs/RECENT_DOCS_CLI.md",
+      "tests": [
+        "tests/test_recent_docs_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Shell Item target resolution and per-document open times.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "application_mru",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/application_mru.py",
+      "cli_flags": [
+        "--application-mru"
+      ],
+      "format_predicate": "Selected Office/HWP/Adobe key/value profiles; sparse slots and literal metadata.",
+      "dependencies": {},
+      "contract": "docs/APPLICATION_MRU_CLI.md",
+      "tests": [
+        "tests/test_application_mru_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Universal slot ranks, Adobe drive guesses and pinned-state inference.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "jump_lists",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/jump_lists.py",
+      "cli_flags": [
+        "--jump-list"
+      ],
+      "format_predicate": "CFB 3/4; DestList 1/3/4 and custom destinations 2; separate stream associations.",
+      "dependencies": {},
+      "contract": "docs/JUMP_LISTS_CLI.md",
+      "tests": [
+        "tests/test_jump_lists_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Signature carving, missing associations and execution/owner inference.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "shellbags",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/shellbags.py",
+      "cli_flags": [
+        "--shellbags-ntuser",
+        "--shellbags-usrclass"
+      ],
+      "format_predicate": "Selected BagMRU/Bags roots and bounded supported Shell Items/extensions.",
+      "dependencies": {},
+      "contract": "docs/SHELLBAGS_CLI.md",
+      "tests": [
+        "tests/test_shellbags_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Missing ancestry, unsupported component normalization and folder-access claims.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "dialog_mru",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/dialog_mru.py",
+      "cli_flags": [
+        "--dialog-mru"
+      ],
+      "format_predicate": "OpenSavePidlMRU/LastVisitedPidlMRU with strict controls and terminal PIDL requirement.",
+      "dependencies": {},
+      "contract": "docs/DIALOG_MRU_CLI.md",
+      "tests": [
+        "tests/test_dialog_mru_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Open/save success, target execution and identity joins.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "userassist",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/userassist.py",
+      "cli_flags": [
+        "--userassist"
+      ],
+      "format_predicate": "Explicit Version 3/5, REG_BINARY 16/72 bytes; NoEncrypt-aware names.",
+      "dependencies": {},
+      "contract": "docs/USERASSIST_CLI.md",
+      "tests": [
+        "tests/test_userassist_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Size-based version guessing, corrected counts and focus-duration claims.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "run_mru",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/run_mru.py",
+      "cli_flags": [
+        "--run-mru"
+      ],
+      "format_predicate": "RunMRU REG_SZ commands and strict MRUList, preserving tails.",
+      "dependencies": {},
+      "contract": "docs/RUN_MRU_CLI.md",
+      "tests": [
+        "tests/test_run_mru_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "MRUListEx fallback, suffix trimming and command execution.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "explorer_history",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/explorer_history.py",
+      "cli_flags": [
+        "--typed-paths",
+        "--word-wheel-query"
+      ],
+      "format_predicate": "TypedPaths slots and WordWheelQuery strict MRUListEx as distinct observations.",
+      "dependencies": {},
+      "contract": "docs/EXPLORER_HISTORY_CLI.md",
+      "tests": [
+        "tests/test_explorer_history_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "TypedPaths ranks, navigation success and identity attribution.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "system_info",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/system_info.py",
+      "cli_flags": [
+        "--system-info-system",
+        "--system-info-software"
+      ],
+      "format_predicate": "Selected SOFTWARE/SYSTEM observations with Select/Current and raw values/times.",
+      "dependencies": {},
+      "contract": "docs/SYSTEM_INFO_CLI.md",
+      "tests": [
+        "tests/test_system_info_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Product-key derivation, guessed identity and boot/uptime inference.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "sam_accounts",
+      "implementation_maturity": "partial",
+      "adapter_version": "0.15.0",
+      "module": "plaintrace/sam_accounts.py",
+      "cli_flags": [
+        "--sam"
+      ],
+      "format_predicate": "Canonical SAM account keys; exact 80-byte F and selected strings from bounded V header.",
+      "dependencies": {},
+      "contract": "docs/SAM_ACCOUNTS_CLI.md",
+      "tests": [
+        "tests/test_sam_accounts_cli.py"
+      ],
+      "evidence_qualification": "synthetic",
+      "known_gaps": [
+        "Credential extraction, full V payload, SID/groups/effective privilege inference.",
+        "Actual acquired-version/build coverage remains unvalidated."
+      ],
+      "reviewer": "Maintainer self-review; not independent certification"
+    },
+    {
+      "id": "macos_plist",
+      "implementation_maturity": "planned",
+      "adapter_version": null,
+      "module": null,
+      "cli_flags": [],
+      "format_predicate": "XML/binary plist selected system metadata",
+      "dependencies": {},
+      "contract": "docs/CROSS_PLATFORM_ROADMAP.md",
+      "tests": [],
+      "evidence_qualification": "unvalidated",
+      "known_gaps": [
+        "No parser implemented; no compatibility claim."
+      ],
+      "reviewer": null,
+      "roadmap_stage": "M3"
+    },
+    {
+      "id": "safari",
+      "implementation_maturity": "planned",
+      "adapter_version": null,
+      "module": null,
+      "cli_flags": [],
+      "format_predicate": "Selected Safari SQLite schemas",
+      "dependencies": {},
+      "contract": "docs/CROSS_PLATFORM_ROADMAP.md",
+      "tests": [],
+      "evidence_qualification": "unvalidated",
+      "known_gaps": [
+        "No parser implemented; no compatibility claim."
+      ],
+      "reviewer": null,
+      "roadmap_stage": "M3"
+    },
+    {
+      "id": "linux_metadata",
+      "implementation_maturity": "planned",
+      "adapter_version": null,
+      "module": null,
+      "cli_flags": [],
+      "format_predicate": "os-release and passwd/group metadata",
+      "dependencies": {},
+      "contract": "docs/CROSS_PLATFORM_ROADMAP.md",
+      "tests": [],
+      "evidence_qualification": "unvalidated",
+      "known_gaps": [
+        "No parser implemented; no compatibility claim."
+      ],
+      "reviewer": null,
+      "roadmap_stage": "M4"
+    },
+    {
+      "id": "linux_journal_export",
+      "implementation_maturity": "planned",
+      "adapter_version": null,
+      "module": null,
+      "cli_flags": [],
+      "format_predicate": "Acquired systemd journal export with duplicate/binary fields",
+      "dependencies": {},
+      "contract": "docs/CROSS_PLATFORM_ROADMAP.md",
+      "tests": [],
+      "evidence_qualification": "unvalidated",
+      "known_gaps": [
+        "No parser implemented; no compatibility claim."
+      ],
+      "reviewer": null,
+      "roadmap_stage": "M4"
+    }
+  ],
+  "host_targets": [
+    {
+      "id": "windows-server-2022",
+      "runner_label": "windows-2022",
+      "os_family": "Windows",
+      "python_minors": [
+        "3.10",
+        "3.14"
+      ],
+      "host_qualification": "unvalidated",
+      "validation_reference": null,
+      "known_gaps": [
+        "Hosted Server 2022 is not Windows 11 client validation; ARM64/legacy Windows remain unvalidated."
+      ]
+    },
+    {
+      "id": "macos-14",
+      "runner_label": "macos-14",
+      "os_family": "Darwin",
+      "python_minors": [
+        "3.10",
+        "3.14"
+      ],
+      "host_qualification": "unvalidated",
+      "validation_reference": null,
+      "known_gaps": [
+        "Hosted label does not pin exact image or certify every macOS/CPU."
+      ]
+    },
+    {
+      "id": "ubuntu-24.04",
+      "runner_label": "ubuntu-24.04",
+      "os_family": "Linux",
+      "python_minors": [
+        "3.10",
+        "3.14"
+      ],
+      "host_qualification": "unvalidated",
+      "validation_reference": null,
+      "known_gaps": [
+        "Other distributions, musl and ARM64 remain unvalidated."
+      ]
+    }
+  ],
+  "local_validations": [
+    {
+      "id": "local-macos-arm64-py310",
+      "recorded_at": "2026-10-27T03:38:01.469004+00:00",
+      "host_qualification": "tested",
+      "environment": {
+        "os": "Darwin",
+        "release": "25.6.0",
+        "version": "Darwin Kernel Version 25.6.0: Fri Jul 31 19:18:49 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T6000",
+        "macos_version": "26.6.2",
+        "machine": "arm64",
+        "linux_distribution": null,
+        "python": "3.10.22",
+        "implementation": "CPython",
+        "sqlite": "3.53.1",
+        "byteorder": "little",
+        "packages": {
+          "plaintrace": "0.15.0",
+          "python-evtx": "0.8.1",
+          "hexdump": "3.3",
+          "pip": "23.0.1",
+          "setuptools": "79.0.1",
+          "wheel": null,
+          "build": null,
+          "packaging": null,
+          "pyproject_hooks": null
+        },
+        "runner": {
+          "RUNNER_OS": null,
+          "RUNNER_ARCH": null,
+          "ImageOS": null,
+          "ImageVersion": null,
+          "GITHUB_SHA": null,
+          "GITHUB_RUN_ID": null,
+          "PLAINTRACE_CONTAINER_IMAGE": null
+        }
+      },
+      "tests": {
+        "run": 489,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "installed_smoke": "passed",
+      "evidence_qualification": "synthetic",
+      "validation_reference": "docs/M0_TESTS.md",
+      "source_manifest_sha256": "ce3fbaa2813fcf16078200b8b9176d6a78e7833c74a1286a48ea65f1d4225109",
+      "wheel_sha256": "99ed030f391b1c7681efc28fe6c00ebff6886b820225ef06b24fa20ed0a7117c",
+      "suite_record_sha256": "220e16f58cf61134ed24c4120785d9f94e3f372f2695666e4138cca5a874f26e",
+      "smoke_record_sha256": "b49f2d1bc52e0de211d5049f1668910186833ddb0c4eddf39470e4dd81367f5e",
+      "reviewer": "Codex implementation self-review; no independent host certification"
+    },
+    {
+      "id": "local-macos-arm64-py314",
+      "recorded_at": "2026-10-27T03:38:08.705864+00:00",
+      "host_qualification": "tested",
+      "environment": {
+        "os": "Darwin",
+        "release": "25.6.0",
+        "version": "Darwin Kernel Version 25.6.0: Fri Jul 31 19:18:49 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T6000",
+        "macos_version": "26.6.2",
+        "machine": "arm64",
+        "linux_distribution": null,
+        "python": "3.14.8",
+        "implementation": "CPython",
+        "sqlite": "3.53.4",
+        "byteorder": "little",
+        "packages": {
+          "plaintrace": "0.15.0",
+          "python-evtx": "0.8.1",
+          "hexdump": "3.3",
+          "pip": "26.2.1",
+          "setuptools": null,
+          "wheel": null,
+          "build": "1.6.1",
+          "packaging": "26.3",
+          "pyproject_hooks": "1.3.3"
+        },
+        "runner": {
+          "RUNNER_OS": null,
+          "RUNNER_ARCH": null,
+          "ImageOS": null,
+          "ImageVersion": null,
+          "GITHUB_SHA": null,
+          "GITHUB_RUN_ID": null,
+          "PLAINTRACE_CONTAINER_IMAGE": null
+        }
+      },
+      "tests": {
+        "run": 489,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "installed_smoke": "passed",
+      "evidence_qualification": "synthetic",
+      "validation_reference": "docs/M0_TESTS.md",
+      "source_manifest_sha256": "ce3fbaa2813fcf16078200b8b9176d6a78e7833c74a1286a48ea65f1d4225109",
+      "wheel_sha256": "99ed030f391b1c7681efc28fe6c00ebff6886b820225ef06b24fa20ed0a7117c",
+      "suite_record_sha256": "e085be2deb0648acef415da8a5736ac3bfcee029abfc68d1120922cb63bab885",
+      "smoke_record_sha256": "de214058d6a15d3211606bb5300ebcc2ec1ea2668b26ab35ae243c79ad9e8692",
+      "reviewer": "Codex implementation self-review; no independent host certification"
+    },
+    {
+      "id": "local-linux-container-arm64-py314",
+      "recorded_at": "2026-10-27T03:38:07.621221+00:00",
+      "host_qualification": "tested",
+      "environment": {
+        "os": "Linux",
+        "release": "6.10.14-linuxkit",
+        "version": "#1 SMP Thu Mar 20 16:32:56 UTC 2025",
+        "macos_version": null,
+        "machine": "aarch64",
+        "linux_distribution": {
+          "ID": "debian",
+          "PRETTY_NAME": "Debian GNU/Linux 13 (trixie)",
+          "VERSION_ID": "13"
+        },
+        "python": "3.14.10",
+        "implementation": "CPython",
+        "sqlite": "3.46.1",
+        "byteorder": "little",
+        "packages": {
+          "plaintrace": "0.15.0",
+          "python-evtx": "0.8.1",
+          "hexdump": "3.3",
+          "pip": "26.2.2",
+          "setuptools": null,
+          "wheel": null,
+          "build": null,
+          "packaging": null,
+          "pyproject_hooks": null
+        },
+        "runner": {
+          "RUNNER_OS": null,
+          "RUNNER_ARCH": null,
+          "ImageOS": null,
+          "ImageVersion": null,
+          "GITHUB_SHA": null,
+          "GITHUB_RUN_ID": null,
+          "PLAINTRACE_CONTAINER_IMAGE": "python@sha256:82abc9f53600280b0757126f83c5a7d47088592d2acb6b4c0b9e97f76865508c"
+        }
+      },
+      "tests": {
+        "run": 489,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "installed_smoke": "passed",
+      "evidence_qualification": "synthetic",
+      "validation_reference": "docs/M0_TESTS.md",
+      "source_manifest_sha256": "ce3fbaa2813fcf16078200b8b9176d6a78e7833c74a1286a48ea65f1d4225109",
+      "wheel_sha256": "99ed030f391b1c7681efc28fe6c00ebff6886b820225ef06b24fa20ed0a7117c",
+      "suite_record_sha256": "c3e930a106c5518a16e641915be6231d7efbdeb5963a2758dd7e511c1da67fc0",
+      "smoke_record_sha256": "5e63c43354a0fb47d82111da5f6d467b98731c6f6cb1982f1baa0ee60cbbcdbf",
+      "reviewer": "Codex implementation self-review; no independent host certification"
+    }
+  ],
+  "fixture_policy": {
+    "kind": "synthetic_in_temporary_directories",
+    "license": null,
+    "source_paths": [
+      "tests/jump_fixtures.py",
+      "tests/test_application_mru_cli.py",
+      "tests/test_browser_cli.py",
+      "tests/test_dialog_mru_cli.py",
+      "tests/test_evtx_cli.py",
+      "tests/test_execution_cli.py",
+      "tests/test_explorer_history_cli.py",
+      "tests/test_jump_lists_cli.py",
+      "tests/test_recent_docs_cli.py",
+      "tests/test_recycle_bin_cli.py",
+      "tests/test_run_mru_cli.py",
+      "tests/test_sam_accounts_cli.py",
+      "tests/test_shellbags_cli.py",
+      "tests/test_system_info_cli.py",
+      "tests/test_usb_registry_cli.py",
+      "tests/test_userassist_cli.py",
+      "tools/portability.py"
+    ],
+    "binary_fixture_digest": null,
+    "expected_result_digest": null,
+    "digest_note": "No persistent binary fixtures or independent golden-result bundle; validator records generator/test-source hashes, not evidence hashes.",
+    "license_note": "No fixture-specific license is asserted; repository-generated synthetic code is referenced, and no acquired evidence is redistributed."
+  },
+  "baseline_artifact_test_counts": {
+    "tests/test_application_mru_cli.py": 25,
+    "tests/test_browser_cli.py": 33,
+    "tests/test_dialog_mru_cli.py": 36,
+    "tests/test_evtx_cli.py": 32,
+    "tests/test_execution_cli.py": 30,
+    "tests/test_explorer_history_cli.py": 31,
+    "tests/test_jump_lists_cli.py": 36,
+    "tests/test_recent_docs_cli.py": 27,
+    "tests/test_recycle_bin_cli.py": 28,
+    "tests/test_run_mru_cli.py": 30,
+    "tests/test_sam_accounts_cli.py": 35,
+    "tests/test_shellbags_cli.py": 42,
+    "tests/test_system_info_cli.py": 33,
+    "tests/test_usb_registry_cli.py": 25,
+    "tests/test_userassist_cli.py": 32
+  },
+  "milestone_status": "M0_implemented_named_host_qualification_pending"
+}

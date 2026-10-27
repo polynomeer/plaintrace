@@ -47,3 +47,7 @@
 2026-10-27 확인. Python 배포·런타임 요구사항은 달라질 수 있으므로 패키징 대상을 확정할 때 [CPython Windows 문서](https://docs.python.org/3/using/windows.html)를 확인합니다. 따라서 구형 증거 지원과 호스트 런타임 지원을 분리합니다.
 
 [Microsoft Shell Link 명세](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-shllink/16cb4ca1-9339-4d0c-a68d-bf1d6cc0f943)는 리비전을 공개하므로 포맷별 판정을 적용합니다. [systemd journal export](https://systemd.io/JOURNAL_EXPORT_FORMATS/)는 중복·바이너리 필드를 허용하므로 순서 있는 값 보존을 요구합니다. Apple [파일 접근 안내](https://developer.apple.com/documentation/security/accessing-files-from-the-macos-app-sandbox)는 사용자 Full Disk Access 부여를 설명합니다. 오프라인 코어가 보호된 호스트 자료를 직접 획득할 수 있다고 가정하지 않습니다. 이 근거는 설계 제약을 뒷받침하며 Plaintrace 검증 결과가 아닙니다.
+
+## M0 구현 후속 기록
+
+2026-10-27 M0의 지원 등록부·검증 도구·CI를 구현했습니다. [구현 계약](M0_BASELINE.ko.md)과 [실제 검증·남은 기준](M0_TESTS.ko.md)을 참조하세요. 지정 호스팅 러너의 실행 결과 없이 M0 전체 완료나 모든 OS 버전 지원을 선언하지 않습니다.

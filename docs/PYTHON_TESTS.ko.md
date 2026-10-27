@@ -57,6 +57,7 @@ git diff --exit-code bb476180453c76f7d38e5b6a9f1f025ad2273ce0 -- '*.EnScript' do
 | PY-31 | test_download_lineage_and_inconsistent_times | 선택된 주석/이벤트 ID를 출력하고 역전 시각 진단 |
 | PY-32 | test_unsupported_export_format_fails_explicitly | API 출력 형식 미지원 시 조용히 JSON을 선택하지 않음 |
 | PY-33 | test_iso_timezone_overflow_is_diagnostic_not_exception | ISO 시간대 정규화 범위 초과를 예외 대신 진단 처리 |
+| PY-34 | test_snapshot_explicit_uri_and_readonly_with_escaped_staging_path | 명시적 SQLite URI 모드·인코딩된 staging 경로·읽기 전용 보존 |
 
 ## 추가 검사
 
@@ -83,3 +84,7 @@ EVTX 도입 검증에서는 브라우저 33개, 실행 30개, EVTX 32개로 총 
 ## RecentDocs 회귀 실행 (2026-10-15)
 
 현재 전체 discovery는 기존 148개와 RecentDocs 27개로 175개가 통과합니다. EVTX extra가 없으면 167개를 실행하고 기존 통합 8개를 건너뜁니다. 현재 출력 검사는 스키마 6이며 이전 검증 개수/스키마 도입은 과거 기록입니다. [RecentDocs 재현과 리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요.
+
+## M0 호환성 검증 후속 기록
+
+2026-10-27 Python 3.10에서 SQLite URI 모드·EVTX 소수초 변환의 호환성 문제를 수정했습니다. macOS/Python 3.10·3.14 및 Linux ARM64 컨테이너의 최종 489개 검사와 설치 검증, 미검증 환경은 [M0 결과](M0_TESTS.ko.md)에 기록했습니다. 원시 값·보고서 스키마 15는 유지하며 기존 날짜의 결과 기록은 당시 검증 범위입니다.

@@ -160,3 +160,9 @@ Office·HWP·Adobe MRU와 스키마 7을 패키지 0.7.0에서 추가했습니�
 2026-10-27 작성한 향후 확장 계획입니다. 현재 구현·검증 범위와 구분합니다.
 
 [기획](docs/CROSS_PLATFORM_PLAN.ko.md) · [호환성 정책](docs/CROSS_PLATFORM_COMPATIBILITY.ko.md) · [아키텍처·데이터 계약](docs/CROSS_PLATFORM_ARCHITECTURE.ko.md) · [로드맵·검증](docs/CROSS_PLATFORM_ROADMAP.ko.md)
+
+## M0 구현
+
+지원 등록부·strict 검증 실행기·3개 OS CI와 Python 3.10 호환성 수정을 추가했습니다. 지정 CI 호스트 검증은 별도 완료 기준입니다.
+
+[구현·재현 절차](docs/M0_BASELINE.ko.md) · [테스트·검증 결과](docs/M0_TESTS.ko.md)

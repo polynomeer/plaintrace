@@ -98,3 +98,7 @@ The 0.5.0 release introduced schema 5 and usb_registry observations. Previous sc
 ## RecentDocs Extension
 
 Package 0.6.0 introduced schema 6 and recent_doc_keys/recent_docs. Earlier extension introductions above remain historical context; current consumers must support schema 15. See [RecentDocs contracts](RECENT_DOCS_CLI.md) and [tests/review](RECENT_DOCS_TESTS.md). Existing fields keep their meanings.
+
+## M0 portability follow-up
+
+On 2026-10-27, SQLite URI mode and EVTX fractional-time conversion were fixed for Python 3.10. See [M0 results](M0_TESTS.md) for final 489-case and installed-wheel checks on macOS/Python 3.10 and 3.14 plus a Linux ARM64 container, and for unvalidated environments. Raw values and report schema 15 remain unchanged; earlier dated results retain their historical scope.

@@ -12,7 +12,7 @@ from unittest.mock import patch
 
 from plaintrace.browser import analyze
 from plaintrace.cli import main
-from plaintrace.evidence import AnalysisError, sha256
+from plaintrace.evidence import AnalysisError, sha256, snapshot
 from plaintrace.exports import write_report
 from plaintrace.model import Report, firefox_end_time, timestamp
 
@@ -212,6 +212,25 @@ class BrowserTests(unittest.TestCase):
         self.assertEqual(len(report.visits),2)
         self.assertIsNotNone(report.sources[0]["wal_sha256"])
         self.assertEqual({str(p):p.read_bytes() for p in inputs},before)
+
+    def test_snapshot_explicit_uri_and_readonly_with_escaped_staging_path(self):
+        path = self.database('History', chromium)
+        before = path.read_bytes()
+        staging = self.directory / 'snapshot #한글'
+        staging.mkdir()
+        native_connect = sqlite3.connect
+        with patch('plaintrace.evidence.tempfile.tempdir', str(staging)):
+            with patch('plaintrace.evidence.sqlite3.connect', wraps=native_connect) as connect:
+                with snapshot(path) as (db, hashes):
+                    self.assertEqual(db.execute('SELECT COUNT(*) FROM visits').fetchone()[0], 2)
+                    self.assertEqual(hashes['database_sha256'], sha256(path))
+                    with self.assertRaises(sqlite3.OperationalError):
+                        db.execute('CREATE TABLE forbidden(value)')
+                self.assertTrue(connect.call_args.kwargs['uri'])
+                self.assertIn('%23', connect.call_args.args[0])
+                self.assertTrue(connect.call_args.args[0].endswith('?mode=ro'))
+        self.assertEqual(path.read_bytes(), before)
+        self.assertFalse(list(staging.iterdir()))
 
     def test_changed_snapshot_and_rollback_journal_rejected(self):
         path = self.database("History",chromium)

@@ -160,3 +160,9 @@ Package 0.15.0 adds acquired SAM account/name metadata and schema 15.
 Proposed on 2026-10-27; separate from current implementation and validation claims.
 
 [Plan](docs/CROSS_PLATFORM_PLAN.md) · [Compatibility policy](docs/CROSS_PLATFORM_COMPATIBILITY.md) · [Architecture and contracts](docs/CROSS_PLATFORM_ARCHITECTURE.md) · [Roadmap and validation](docs/CROSS_PLATFORM_ROADMAP.md)
+
+## M0 implementation
+
+Adds a support registry, strict verification runner, three-OS CI and Python 3.10 compatibility fixes. Named CI host qualification remains a separate exit gate.
+
+[Implementation and reproduction](docs/M0_BASELINE.md) · [Tests and validation](docs/M0_TESTS.md)

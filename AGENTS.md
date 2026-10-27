@@ -120,3 +120,11 @@ Legacy Windows forensic artifact plugin written in EnCase EnScript, originally d
 - Read `docs/SAM_ACCOUNTS_CLI.md` and `docs/SAM_ACCOUNTS_TESTS.md`; run full discovery with the EVTX extra. Reuse bounded REGF/FILETIME readers without changing existing semantics.
 - Schema 15 adds sam_accounts/sam_name_mappings. Decode exact 80-byte binary F metadata and bounded selected V strings; retain RID/name discrepancies, raw selected fields/offsets and exact times. Full V/credential payload is not exported. Bound accounts, mappings, values, strings and output.
 - No boot-key/hash extraction or decryption, SID/group/admin identity inference, guessed password expiry or automatic cross-hive joins. Actual SAM/Windows/Linux/EnCase validation remains outstanding.
+
+## Cross-platform M0 baseline
+
+- M0 implementation lives on `codex/cross-platform-m0`, based on design commit `c042136`. Read `docs/M0_BASELINE.md` and `docs/M0_TESTS.md` before changing portability tooling or support claims.
+- Preserve EnScript, archive refs/manifests and reconstructed history. Package 0.15.0/report schema 15 remain unchanged in this unreleased compatibility revision.
+- Keep `compatibility/support.json` consistent with code/contracts/tests. Implementation maturity, synthetic/acquired evidence qualification and exact host validation are separate; runner labels alone never establish tested support.
+- Run full unittest discovery with `.[evtx]`, `python tools/portability.py validate`, and the strict suite gate. Validate the installed wheel with isolated Python outside checkout. Keep generated result directories, wheelhouses and evidence out of Git.
+- Named CI targets remain unvalidated until their actual runs pass; local macOS and Linux container results do not certify Windows or other builds/architectures. Full archive verification requires the original local backup ref; do not fabricate/rewrite it in CI.

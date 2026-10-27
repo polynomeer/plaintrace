@@ -64,3 +64,7 @@ Next implementation decision: confirm named host builds/architectures, lawful fi
 On 2026-10-27, the documentation checker passed for 106 documents and 1,568 local links, including bilingual structure and technical literals. Archive-only verification passed for 13 archived sources, the archived README, 263 synthetic commits and the original tree. A baseline Git comparison confirmed unchanged EnScript files and original manifests. Whitespace validation passed.
 
 This change modifies documentation only. The Python behavioral suite was not rerun; existing 475-test results remain dated 2026-10-26. No Windows/Linux execution, new parser behavior, schema 16, CI workflow or native EnCase validation was performed for this design.
+
+## M0 implementation follow-up
+
+On 2026-10-27 the M0 inventory, verification tooling and CI were implemented. See [implementation contracts](M0_BASELINE.md) and [actual results and remaining gates](M0_TESTS.md). M0 is not fully accepted, and universal OS-version support is not claimed, without results from the named hosted runners.

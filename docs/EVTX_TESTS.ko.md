@@ -56,6 +56,7 @@ git diff --exit-code 9f32324141810b257d4f680e84c849c013543900 -- '*.EnScript' do
 | EV-30 | test_review_xml_node_limit_and_integer_lexical_bounds | XML 노드 상한과 잘못된/거대한 부호 없는 ID 텍스트 거부 |
 | EV-31 | test_review_missing_dependency_cli_publishes_nothing | CLI에서 extra 누락 시 파일/stdout 출력 없음 |
 | EV-32 | test_review_binxml_invalid_chunk_reference_is_fatal | 실제 디코더가 청크 밖 템플릿 참조 거부 |
+| EV-33 | test_fractional_systemtime_one_to_seven_digits_preserves_raw_text | Python minor 간 소수초 1–7자리 변환·원시 XML 시각 보존 |
 
 ## 코드 리뷰 발견 사항
 
@@ -87,3 +88,7 @@ git diff --exit-code 9f32324141810b257d4f680e84c849c013543900 -- '*.EnScript' do
 ## RecentDocs 회귀 실행 (2026-10-15)
 
 현재 전체 discovery는 기존 148개와 RecentDocs 27개로 175개가 통과합니다. EVTX extra가 없으면 167개를 실행하고 기존 통합 8개를 건너뜁니다. 현재 출력 검사는 스키마 6이며 이전 검증 개수/스키마 도입은 과거 기록입니다. [RecentDocs 재현과 리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요.
+
+## M0 호환성 검증 후속 기록
+
+2026-10-27 Python 3.10에서 SQLite URI 모드·EVTX 소수초 변환의 호환성 문제를 수정했습니다. macOS/Python 3.10·3.14 및 Linux ARM64 컨테이너의 최종 489개 검사와 설치 검증, 미검증 환경은 [M0 결과](M0_TESTS.ko.md)에 기록했습니다. 원시 값·보고서 스키마 15는 유지하며 기존 날짜의 결과 기록은 당시 검증 범위입니다.

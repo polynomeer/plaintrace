@@ -57,6 +57,7 @@ All 33 cases passed. Fixtures use explicitly known UTC times and expected string
 | PY-31 | test_download_lineage_and_inconsistent_times | Selected annotation/event IDs exported; reversed time ordering diagnosed |
 | PY-32 | test_unsupported_export_format_fails_explicitly | Unsupported API export format cannot silently select JSON |
 | PY-33 | test_iso_timezone_overflow_is_diagnostic_not_exception | ISO timezone normalization overflow returns a diagnostic |
+| PY-34 | test_snapshot_explicit_uri_and_readonly_with_escaped_staging_path | Explicit SQLite URI mode, escaped staging paths and read-only preservation |
 
 ## Additional Checks
 
@@ -83,3 +84,7 @@ Current full discovery passes 148 cases: 33 browser, 30 execution, 32 EVTX, 28 R
 ## RecentDocs Regression Run (2026-10-15)
 
 Current full discovery passes 175 tests: previous 148 plus 27 RecentDocs cases. Without the EVTX extra, 167 execute and eight existing integrations skip. Current export assertions use schema 6; earlier validation counts/schema introductions remain historical records. See [RecentDocs reproduction and review](RECENT_DOCS_TESTS.md).
+
+## M0 portability follow-up
+
+On 2026-10-27, SQLite URI mode and EVTX fractional-time conversion were fixed for Python 3.10. See [M0 results](M0_TESTS.md) for final 489-case and installed-wheel checks on macOS/Python 3.10 and 3.14 plus a Linux ARM64 container, and for unvalidated environments. Raw values and report schema 15 remain unchanged; earlier dated results retain their historical scope.

@@ -47,3 +47,7 @@ A future machine-readable support registry must contain adapter ID/version, exac
 Consulted 2026-10-27. Python distribution/runtime requirements vary; consult [CPython Windows documentation](https://docs.python.org/3/using/windows.html) before fixing packaging targets. This motivates separating legacy evidence from host runtime support.
 
 The [Microsoft Shell Link specification](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-shllink/16cb4ca1-9339-4d0c-a68d-bf1d6cc0f943) publishes revisions, motivating format-specific gates. [systemd journal export](https://systemd.io/JOURNAL_EXPORT_FORMATS/) supports repeated and binary fields; preserving ordered values is a design requirement. Apple's [file access guidance](https://developer.apple.com/documentation/security/accessing-files-from-the-macos-app-sandbox) describes user-granted Full Disk Access; the proposed offline core must not assume it can acquire protected host data. These sources support design constraints, not Plaintrace validation.
+
+## M0 implementation follow-up
+
+On 2026-10-27 the M0 inventory, verification tooling and CI were implemented. See [implementation contracts](M0_BASELINE.md) and [actual results and remaining gates](M0_TESTS.md). M0 is not fully accepted, and universal OS-version support is not claimed, without results from the named hosted runners.

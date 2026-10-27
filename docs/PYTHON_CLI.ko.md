@@ -146,3 +146,7 @@ git diff --check
 ## RecentDocs 확장
 
 패키지 0.6.0은 도입 당시 스키마 6과 recent_doc_keys/recent_docs를 추가했습니다. 위의 이전 확장 도입은 과거 맥락이며 현재 소비자는 스키마 15을 지원해야 합니다. [RecentDocs 계약](RECENT_DOCS_CLI.ko.md)과 [테스트/리뷰](RECENT_DOCS_TESTS.ko.md)를 확인하세요. 기존 필드 의미는 유지합니다.
+
+## M0 호환성 검증 후속 기록
+
+2026-10-27 Python 3.10에서 SQLite URI 모드·EVTX 소수초 변환의 호환성 문제를 수정했습니다. macOS/Python 3.10·3.14 및 Linux ARM64 컨테이너의 최종 489개 검사와 설치 검증, 미검증 환경은 [M0 결과](M0_TESTS.ko.md)에 기록했습니다. 원시 값·보고서 스키마 15는 유지하며 기존 날짜의 결과 기록은 당시 검증 범위입니다.
