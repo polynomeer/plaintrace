@@ -39,8 +39,63 @@ class PortabilityTests(unittest.TestCase):
     def test_tested_host_cannot_be_inferred_from_runner_label(self):
         data = self.registry()
         data['host_targets'][0]['host_qualification'] = 'tested'
+        data['host_targets'][0].pop('validation_ids', None)
         with self.assertRaisesRegex(ValueError, 'Tested host requires exact environment'):
             portability.validate_registry(data)
+
+    def hosted_registry(self):
+        # Structural fixtures only, not claims about actual CI execution.
+        data = self.registry()
+        host = data['host_targets'][0]
+        host['host_qualification'] = 'tested'
+        host['validation_ids'] = ['synthetic-ci-310', 'synthetic-ci-314']
+        data['hosted_validations'] = [dict(id=identity, head_sha='1'*40,
+            run_url='https://github.com/example/project/actions/runs/1',
+            runner_label=host['runner_label'], environment=dict(os=host['os_family'],
+            version='synthetic', machine='synthetic', python=minor+'.0', sqlite='synthetic'),
+            tests=dict(run=489, failures=0, errors=0, skips=0, expected_failures=0, unexpected_successes=0),
+            installed_smoke='passed', evidence_qualification='synthetic',
+            validation_reference='docs/M0_TESTS.md')
+            for identity, minor in zip(host['validation_ids'], host['python_minors'])]
+        # Other hosts may have real evidence in the repository registry.
+        for other in data['host_targets'][1:]:
+            other['host_qualification'] = 'unvalidated'
+        data['milestone_status'] = 'M0_implemented_named_host_qualification_pending'
+        return data
+
+    def test_hosted_qualification_requires_both_interpreters_and_matching_host(self):
+        data = self.hosted_registry()
+        portability.validate_registry(data)
+        for change in ('missing', 'duplicate_minor', 'wrong_family', 'wrong_runner', 'milestone'):
+            broken = deepcopy(data)
+            records = broken['hosted_validations']
+            if change == 'missing':
+                records.pop()
+            elif change == 'duplicate_minor':
+                records[1]['environment']['python'] = '3.10.9'
+            elif change == 'wrong_family':
+                records[1]['environment']['os'] = 'Other'
+            elif change == 'wrong_runner':
+                records[1]['runner_label'] = 'other-runner'
+            else:
+                broken['milestone_status'] = 'M0_named_host_gate_passed'
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                portability.validate_registry(broken)
+
+    def test_hosted_evidence_requires_unique_ids_exact_commit_and_run_url(self):
+        for change in ('duplicate', 'commit', 'url', 'skip'):
+            data = self.hosted_registry()
+            records = data['hosted_validations']
+            if change == 'duplicate':
+                records.append(deepcopy(records[0]))
+            elif change == 'commit':
+                records[0]['head_sha'] = 'branch-name'
+            elif change == 'url':
+                records[0]['run_url'] = 'not-a-run'
+            else:
+                records[0]['tests']['skips'] = 1
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                portability.validate_registry(data)
 
     def test_passing_result_claim_requires_zero_skips_and_installed_smoke(self):
         # Reuse a real contract path only as a reference-existence fixture.

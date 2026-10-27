@@ -88,3 +88,5 @@ Current full discovery passes 175 tests: previous 148 plus 27 RecentDocs cases. 
 ## M0 portability follow-up
 
 On 2026-10-27, SQLite URI mode and EVTX fractional-time conversion were fixed for Python 3.10. See [M0 results](M0_TESTS.md) for final 489-case and installed-wheel checks on macOS/Python 3.10 and 3.14 plus a Linux ARM64 container, and for unvalidated environments. Raw values and report schema 15 remain unchanged; earlier dated results retain their historical scope.
+
+Subsequent [hosted CI validation](M0_CI.md) exercised Python 3.10/3.14 on the named Windows Server, macOS and Ubuntu hosts. Qualification is limited to the recorded builds/CPUs/dependencies.

@@ -67,4 +67,4 @@ This change modifies documentation only. The Python behavioral suite was not rer
 
 ## M0 implementation follow-up
 
-On 2026-10-27 the M0 inventory, verification tooling and CI were implemented. See [implementation contracts](M0_BASELINE.md) and [actual results and remaining gates](M0_TESTS.md). M0 is not fully accepted, and universal OS-version support is not claimed, without results from the named hosted runners.
+On 2026-10-27 the M0 inventory, verification tooling and CI were implemented. See [implementation contracts](M0_BASELINE.md) and [actual results and remaining gates](M0_TESTS.md). The six named lanes passed in [remote CI](M0_CI.md), completing the M0 host gate. Universal OS-version support beyond those tuples is not claimed.

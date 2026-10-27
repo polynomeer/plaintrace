@@ -8,13 +8,13 @@
 
 M0 supplies an auditable baseline, a support inventory and a six-lane CI workflow. Two portability defects discovered by exercising the declared minimum interpreter are fixed. The evidence parser families, CLI flags, output schema and package version remain unchanged; this is an unreleased revision of 0.15.0, identified by source/wheel digests rather than version alone.
 
-Implementation is ready; the M0 exit gate remains pending named hosted runs. macOS local tests and a Debian ARM64 container do not certify the configured macOS 14, Ubuntu 24.04 or Windows Server 2022 runners, and Server tests do not certify Windows 11 client. M1–M6 and the proposed GUI/schema 16 are not implemented here. See [results and remaining gates](M0_TESTS.md).
+The named M0 hosted gate has passed; see [remote CI results](M0_CI.md). These are separate from the initial local macOS/Debian container results, and Server tests do not certify Windows 11 client. M1–M6 and the proposed GUI/schema 16 are not implemented here. See [results and remaining gates](M0_TESTS.md).
 
 ## Machine-readable inventory
 
 [Support registry](../compatibility/support.json) inventories 17 implemented, deliberately partial artifact adapters and four planned adapters. Every implemented entry links a module, contract, CLI inputs, test files, format predicates, dependencies and exclusions. The 475 original tests form a per-module minimum inventory; new tests may extend it. This is a development inventory, not M1 runtime plugin discovery or a universal OS-version map.
 
-Implementation maturity, evidence qualification and host qualification remain separate. Existing formats have synthetic coverage; macOS plist/Safari and Linux metadata/journal export remain planned and unvalidated. Local validation tuples include exact OS/kernel/CPU/Python/SQLite/dependency versions and a reviewed documentation reference. A runner label alone cannot set tested status.
+Implementation maturity, evidence qualification and host qualification remain separate. Existing formats have synthetic coverage; macOS plist/Safari and Linux metadata/journal export remain planned and unvalidated. Local validation tuples include exact OS/kernel/CPU/Python/SQLite/dependency versions and a reviewed documentation reference. A runner label alone cannot set tested status. Hosted qualification requires both Python minors on matching OS/runner tuples, exact commit/run URLs and skip-free results; M0 completion requires every named host to pass.
 
 Fixture generators and independent expected values live in source. Persistent binary fixture and golden-result-bundle hashes remain null because such bundles do not exist. The tooling records generator/test-source hashes instead and labels them as code hashes. No acquired evidence, exports or caches are committed. Structural validation checks claim consistency; it does not authenticate a reviewer or replace evidence review.
 
@@ -28,7 +28,7 @@ Generated records contain an allowlisted environment, source/configuration hashe
 
 ## CI host matrix and limits
 
-[Workflow](../.github/workflows/portability.yml) defines Ubuntu 24.04, macOS 14 and Windows Server 2022, each on Python 3.10 and 3.14. It builds and installs a wheel with the EVTX extra, checks dependencies, validates inventory, runs the strict full suite and verifies installation outside checkout. Each lane retains environment/result artifacts for 14 days, including failures. Actions are pinned to official repository commit SHAs; permissions are read-only and no secrets or deployment are required. No push or hosted workflow execution was performed in this local task.
+[Workflow](../.github/workflows/portability.yml) defines Ubuntu 24.04, macOS 14 and Windows Server 2022, each on Python 3.10 and 3.14. It builds and installs a wheel with the EVTX extra, checks dependencies, validates inventory, runs the strict full suite and verifies installation outside checkout. Each lane retains environment/result artifacts for 14 days, including failures. Actions are pinned to official repository commit SHAs; permissions are read-only and no secrets or deployment are required. After the initial local task, the branch was pushed and hosted workflows were executed; exact commits and lane results are in the [CI record](M0_CI.md).
 
 The native-shell steps use Python for wheel discovery and subprocess invocation, avoiding Bash-only path assumptions on Windows. Exact image build and architecture are recorded at runtime because OS-version labels still receive image updates. Interpreter minor selectors resolve patch versions, which are recorded rather than advertised as fixed. Build isolation resolves setuptools and transitive packages; this is not a complete dependency lock or a byte-reproducible build claim. Full locking/release reproducibility remains M6 work.
 

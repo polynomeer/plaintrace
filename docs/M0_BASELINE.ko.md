@@ -8,13 +8,13 @@
 
 M0는 감사 가능한 기준 목록·지원 등록부·6개 CI 트랙을 제공합니다. 선언된 최소 인터프리터 실행에서 찾은 호환성 결함 2개도 수정했습니다. 아티팩트 계열·CLI 플래그·출력 스키마·패키지 버전은 유지합니다. 미릴리스 0.15.0 수정본이므로 버전만이 아니라 소스·wheel 해시로 구분합니다.
 
-구현은 준비됐지만 M0 완료 기준은 지정 호스팅 환경 실행을 기다립니다. 로컬 macOS 및 Debian ARM64 컨테이너 테스트는 설정된 macOS 14·Ubuntu 24.04·Windows Server 2022 러너를 인증하지 않으며 Server 검증도 Windows 11 클라이언트 검증을 대신하지 않습니다. M1–M6와 제안 GUI·스키마 16은 이번 범위에 포함하지 않습니다. [검증 결과·남은 기준](M0_TESTS.ko.md)을 참조하세요.
+M0의 지정 호스팅 환경 검증은 [원격 CI 결과](M0_CI.ko.md)에 따라 완료했습니다. 초기 로컬 macOS·Debian ARM64 컨테이너 기록과 구분하며 Server 검증은 Windows 11 클라이언트 검증을 대신하지 않습니다. M1–M6와 제안 GUI·스키마 16은 이번 범위에 포함하지 않습니다. [검증 결과·남은 기준](M0_TESTS.ko.md)을 참조하세요.
 
 ## 기계 판독 지원 등록부
 
 [지원 등록부](../compatibility/support.json)는 구현됐지만 범위가 제한된 어댑터 17개와 계획 어댑터 4개를 목록화합니다. 구현 항목은 모듈·계약·CLI 입력·테스트 파일·포맷 조건·의존성·제외 범위를 연결합니다. 원래 테스트 475개를 모듈별 최소 기준으로 유지하고 신규 검사를 추가합니다. 이는 개발용 목록이며 M1 런타임 플러그인 탐색이나 모든 OS 버전 대응표가 아닙니다.
 
-구현 성숙도·증거 검증·호스트 검증을 분리합니다. 기존 포맷은 합성 검증이며 macOS plist/Safari·Linux metadata/journal export는 계획·미검증입니다. 로컬 검증 조합에는 정확한 OS·kernel·CPU·Python·SQLite·의존성 버전과 검토한 문서 참조를 기록합니다. 러너 이름만으로 검증 상태를 부여할 수 없습니다.
+구현 성숙도·증거 검증·호스트 검증을 분리합니다. 기존 포맷은 합성 검증이며 macOS plist/Safari·Linux metadata/journal export는 계획·미검증입니다. 로컬 검증 조합에는 정확한 OS·kernel·CPU·Python·SQLite·의존성 버전과 검토한 문서 참조를 기록합니다. 러너 이름만으로 검증 상태를 부여할 수 없습니다. 호스팅 검증은 두 Python minor의 동일 OS/러너 조합과 정확한 커밋·run URL·skip 없는 결과를 요구하며, M0 완료 표시는 지정 호스트 전부가 통과해야 허용합니다.
 
 fixture 생성기와 독립 기대값은 소스에 있습니다. 영구 바이너리 fixture·golden 결과 bundle은 없으므로 해당 해시는 null로 둡니다. 대신 생성기·테스트 소스 해시를 기록하고 코드 해시임을 구분합니다. 획득 증거·내보낸 결과·캐시는 커밋하지 않습니다. 구조 검사는 주장 간 일관성을 확인하며 검토자 인증이나 증거 검토를 대신하지 않습니다.
 
@@ -28,7 +28,7 @@ smoke는 격리 Python으로 실행하며 checkout import를 거부하고 설치
 
 ## CI 호스트 행렬·한계
 
-[워크플로](../.github/workflows/portability.yml)는 Ubuntu 24.04·macOS 14·Windows Server 2022 각각에 Python 3.10/3.14를 배치합니다. wheel 빌드·EVTX extra 설치·의존성 검사·등록부 검사·strict 전체 suite·checkout 밖 설치 검증을 수행합니다. 각 트랙은 실패를 포함한 환경·결과 artifact를 14일 보관합니다. Actions는 공식 저장소 커밋 SHA로 고정하고 권한은 읽기 전용이며 비밀 값·배포가 필요하지 않습니다. 이번 로컬 작업에서 push나 호스팅 workflow 실행은 수행하지 않았습니다.
+[워크플로](../.github/workflows/portability.yml)는 Ubuntu 24.04·macOS 14·Windows Server 2022 각각에 Python 3.10/3.14를 배치합니다. wheel 빌드·EVTX extra 설치·의존성 검사·등록부 검사·strict 전체 suite·checkout 밖 설치 검증을 수행합니다. 각 트랙은 실패를 포함한 환경·결과 artifact를 14일 보관합니다. Actions는 공식 저장소 커밋 SHA로 고정하고 권한은 읽기 전용이며 비밀 값·배포가 필요하지 않습니다. 초기 로컬 작업 후 원격에 push하고 호스팅 workflow를 실행했습니다. 정확한 검증 커밋·트랙별 결과는 [원격 CI 기록](M0_CI.ko.md)을 참조하세요.
 
 호스트 기본 셸에서 Python으로 wheel 탐색·subprocess 실행을 처리해 Windows에 Bash 경로 가정을 적용하지 않습니다. OS 버전 라벨도 이미지가 갱신되므로 실행 시 정확 build·CPU를 기록합니다. 인터프리터 minor 선택은 patch 버전을 해석하므로 고정이라고 주장하지 않고 실제 버전을 기록합니다. 격리 빌드는 setuptools·전이 의존성을 해석하며 완전한 lock이나 바이트 단위 재현 빌드를 주장하지 않습니다. 완전한 잠금·릴리스 재현성은 M6 작업입니다.
 

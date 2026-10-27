@@ -104,15 +104,36 @@ def validate_registry(data, root=ROOT):
                      for node in ast.walk(tree))
         require(type(count) is int and actual >= count, 'Artifact baseline test loss: '+path)
     hosts = data.get('host_targets', [])
+    hosted = data.get('hosted_validations', [])
+    require(len({r.get('id') for r in hosted}) == len(hosted), 'Duplicate hosted validation IDs')
+    hosted_by_id = {}
+    for record in hosted:
+        validate_local_result(record, root)
+        require(re.fullmatch(r'[0-9a-f]{40}', record.get('head_sha', '')) is not None,
+                'Hosted validation requires an exact commit')
+        require(re.fullmatch(r'https://github.com/[^/]+/[^/]+/actions/runs/\d+',
+                             record.get('run_url', '')) is not None,
+                'Hosted validation requires a run URL')
+        hosted_by_id[record['id']] = record
     require(len({h.get('id') for h in hosts}) == len(hosts), 'Duplicate host IDs')
     require({h.get('os_family') for h in hosts} == {'Windows', 'Darwin', 'Linux'}, 'Three host families required')
     for host in hosts:
         require(host.get('host_qualification') in ('unvalidated', 'tested', 'regressed'), 'Invalid host qualification')
         require(host.get('runner_label') and host.get('python_minors') == ['3.10', '3.14'], 'CI lane drift')
         if host['host_qualification'] == 'tested':
-            require(host.get('validation_reference') and host.get('environment') and host.get('tests'),
-                    'Tested host requires exact environment and passing result reference')
-            validate_local_result(host, root)
+            ids = host.get('validation_ids', [])
+            require(len(ids) == len(host['python_minors']) and len(set(ids)) == len(ids)
+                    and all(identity in hosted_by_id for identity in ids),
+                    'Tested host requires exact environment evidence for every CI lane')
+            records = [hosted_by_id[identity] for identity in ids]
+            require(all(r['environment']['os'] == host['os_family'] and
+                        r.get('runner_label') == host['runner_label'] for r in records),
+                    'Hosted validation family/runner mismatch')
+            minors = ['.'.join(r['environment']['python'].split('.')[:2]) for r in records]
+            require(sorted(minors) == sorted(host['python_minors']), 'Incomplete tested interpreter lanes')
+    if data.get('milestone_status') == 'M0_named_host_gate_passed':
+        require(all(host['host_qualification'] == 'tested' for host in hosts),
+                'M0 completion requires every named host')
     records = data.get('local_validations', [])
     require(len({r.get('id') for r in records}) == len(records), 'Duplicate validation IDs')
     for record in records:

@@ -119,3 +119,5 @@ Proposed on 2026-10-27; separate from current implementation and validation clai
 Adds a support registry, strict verification runner, three-OS CI and Python 3.10 compatibility fixes. Named CI host qualification remains a separate exit gate.
 
 [Implementation and reproduction](M0_BASELINE.md) · [Tests and validation](M0_TESTS.md)
+
+[Hosted results for all six lanes](M0_CI.md) record exact commits/environments and repair history.

@@ -6,7 +6,7 @@
 
 ## 검증 방식·테스트 매핑
 
-기존 475개·신규 브라우저/EVTX 회귀 2개·M0 gate 12개로 총 489개입니다. 합성 fixture를 사용하는 유지보수자 자체 검토이며 획득 증거나 독립 호스트 인증이 아닙니다. [구현 계약](M0_BASELINE.ko.md)에 strict gate·설치 wheel 검사를 설명합니다. 신규 gate 테스트는 아래에 매핑하고 브라우저·EVTX 추가 검사는 각 기존 테스트 문서에 매핑했습니다.
+초기 로컬 기준은 기존 475개·브라우저/EVTX 회귀 2개·M0 gate 12개로 총 489개였습니다. 호스팅 증거 회귀 2개를 추가한 후 전체는 491개이며 [원격 CI 기록](M0_CI.ko.md)에 실제 실행 개수·환경을 구분합니다. 합성 fixture를 사용하는 유지보수자 자체 검토이며 획득 증거나 독립 호스트 인증이 아닙니다. [구현 계약](M0_BASELINE.ko.md)에 strict gate·설치 wheel 검사를 설명합니다. 신규 gate 테스트는 아래에 매핑하고 브라우저·EVTX 추가 검사는 각 기존 테스트 문서에 매핑했습니다.
 
 | ID | 테스트 메서드 | 검증 항목 |
 | --- | --- | --- |
@@ -22,6 +22,8 @@
 | M0-10 | test_decoder_absent_or_wrong_version_fails_before_discovery | decoder absent or wrong version fails before discovery |
 | M0-11 | test_generated_results_cannot_be_written_into_repository | generated results cannot be written into repository |
 | M0-12 | test_environment_uses_allowlist_not_whole_environment | environment uses allowlist not whole environment |
+| M0-13 | test_hosted_qualification_requires_both_interpreters_and_matching_host | complete interpreter coverage and matching OS/runner evidence |
+| M0-14 | test_hosted_evidence_requires_unique_ids_exact_commit_and_run_url | unique evidence IDs, exact commit/run and zero skips |
 
 ## 최소 인터프리터의 실패·수정 기록
 
@@ -52,10 +54,10 @@ Linux는 네트워크를 끈 임시 Docker 컨테이너에서 실행했습니다
 | Docker image manifest | sha256:82abc9f53600280b0757126f83c5a7d47088592d2acb6b4c0b9e97f76865508c |
 
 
-3개 호스트 CI workflow를 로컬에서 YAML로 파싱했고 공식 저장소에서 action SHA를 확인했습니다. GitHub에 dispatch하거나 실행하지 않았습니다. 각 트랙 실행 시 이미지 ID·의존 버전을 기록하며 변하는 러너 라벨을 불변 이미지라고 주장하지 않습니다.
+3개 호스트 CI workflow를 로컬에서 YAML로 파싱했고 공식 저장소에서 action SHA를 확인했습니다. 초기 로컬 작업에서는 GitHub에서 실행하지 않았고, 후속 원격 실행·수정은 [호스팅 기록](M0_CI.ko.md)에 보존했습니다. 각 트랙 실행 시 이미지 ID·의존 버전을 기록하며 변하는 러너 라벨을 불변 이미지라고 주장하지 않습니다.
 
 ## 무결성·남은 완료 기준
 
 EnScript 정적 회귀 11개 통과, 생성 소스 참조 문서 4개 일치를 확인했습니다. archive-only 검증은 원본 소스 13개·보존 README·합성 역사 커밋 263개·원본 트리를 확인했습니다. 작업 EnScript·원본 매니페스트는 bb476180453c76f7d38e5b6a9f1f025ad2273ce0과 일치합니다. 최종 문서 검사도 110개 문서·1,608개 로컬 링크와 양언어 테스트 매핑을 포함해 통과했고 공백 검사도 통과했습니다. 이는 무결성·정적 결과이며 EnCase 컴파일·실행 검증이 아닙니다.
 
-M0 호스트 인수는 지정 CI 6개 트랙 전체 실행을 기다립니다. Windows 11 클라이언트는 별도 실제 호스트 테스트 환경이 필요하며 Server 2022가 대신하지 않습니다. macOS 14·Ubuntu 24.04/x86-64·Windows·추가 Python minor·CPU·획득 버전 fixture·파일시스템 변형은 이번 작업에서 미검증입니다. Linux 컨테이너 통과로 지정 호스팅 트랙을 승격하지 않습니다. Apple/Linux 고유 파서·라이브 획득·이미지 리더·스키마 16·GUI backend는 추가하지 않았습니다.
+초기 로컬 검증에서는 지정 CI 6개 트랙이 미검증이었습니다. 이후 [원격 CI](M0_CI.ko.md)에서 해당 호스트 인수 기준을 통과했습니다. Windows 11 클라이언트·추가 Python minor·다른 CPU·획득 버전 fixture·파일시스템 변형은 별도 검증이 필요합니다. Apple/Linux 고유 파서·라이브 획득·이미지 리더·스키마 16·GUI backend는 추가하지 않았습니다.

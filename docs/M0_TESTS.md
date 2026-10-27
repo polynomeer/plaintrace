@@ -6,7 +6,7 @@
 
 ## Method and test mapping
 
-The original 475 tests, two new browser/EVTX regressions and twelve M0 gate tests make 489 cases. This is a maintainer self-review using synthetic fixtures, not acquired-evidence or independent host certification. [Implementation contract](M0_BASELINE.md) describes the strict gate and installed-wheel smoke. The new gate tests are mapped below; browser and EVTX additions are mapped in their existing test documents.
+The initial local baseline combined 475 original tests, two browser/EVTX regressions and twelve M0 gate tests for 489 cases. Two hosted-evidence regressions bring the suite to 491; the [remote CI record](M0_CI.md) distinguishes actual run counts and environments. This is a maintainer self-review using synthetic fixtures, not acquired-evidence or independent host certification. [Implementation contract](M0_BASELINE.md) describes the strict gate and installed-wheel smoke. The new gate tests are mapped below; browser and EVTX additions are mapped in their existing test documents.
 
 | ID | Test method | Purpose |
 | --- | --- | --- |
@@ -22,6 +22,8 @@ The original 475 tests, two new browser/EVTX regressions and twelve M0 gate test
 | M0-10 | test_decoder_absent_or_wrong_version_fails_before_discovery | decoder absent or wrong version fails before discovery |
 | M0-11 | test_generated_results_cannot_be_written_into_repository | generated results cannot be written into repository |
 | M0-12 | test_environment_uses_allowlist_not_whole_environment | environment uses allowlist not whole environment |
+| M0-13 | test_hosted_qualification_requires_both_interpreters_and_matching_host | complete interpreter coverage and matching OS/runner evidence |
+| M0-14 | test_hosted_evidence_requires_unique_ids_exact_commit_and_run_url | unique evidence IDs, exact commit/run and zero skips |
 
 ## Observed minimum-interpreter failures and repairs
 
@@ -52,10 +54,10 @@ The [support registry](../compatibility/support.json) retains each exact environ
 | Docker image manifest | sha256:82abc9f53600280b0757126f83c5a7d47088592d2acb6b4c0b9e97f76865508c |
 
 
-The three-host CI workflow was parsed as YAML locally and its action SHAs resolved from the official repositories. It was not dispatched or executed on GitHub. Runtime image IDs and dependency versions are captured when a lane executes; there is no claim that moving runner labels are immutable images.
+The three-host CI workflow was parsed as YAML locally and its action SHAs resolved from the official repositories. It was not executed on GitHub during the initial local task; subsequent hosted execution and repairs are retained in the [CI record](M0_CI.md). Runtime image IDs and dependency versions are captured when a lane executes; there is no claim that moving runner labels are immutable images.
 
 ## Integrity and remaining gates
 
 The eleven EnScript static regressions pass; all four generated source-reference documents match; archive-only verification preserves 13 sources, archived README, all 263 synthetic historical commits and the original tree. Working EnScript files and original manifests match bb476180453c76f7d38e5b6a9f1f025ad2273ce0. The final documentation check also passed for 110 documents and 1,608 local links, including bilingual test mappings. Whitespace validation passed. These are integrity/static results, not EnCase compilation or execution.
 
-M0 host acceptance remains pending all six named CI lanes. Windows 11 client additionally requires its own acquired-host test environment; Server 2022 is not a substitute. macOS 14, Ubuntu 24.04/x86-64, Windows, other Python minors, CPU architectures, acquired version fixtures and filesystem variants are unvalidated here. Linux container success does not promote a named hosted lane. No Apple/Linux-specific parser, live acquisition, evidence-image reader, schema 16 or GUI backend is added.
+The six named CI lanes were unvalidated by the initial local run. They subsequently passed the hosted M0 gate in [remote CI](M0_CI.md). Windows 11 client, additional Python minors, other CPUs, acquired-version fixtures and filesystem variants still require separate validation. No Apple/Linux-specific parser, live acquisition, evidence-image reader, schema 16 or GUI backend is added.
