@@ -92,6 +92,8 @@ test('B-07 themes, responsive layouts and screenshots', async ({page},info) => {
   for(const theme of ['light','dark']) {
     await page.locator('#theme').selectOption(theme);
     await expect(page.locator('html')).toHaveAttribute('data-theme',theme);
+    await expect(page.locator('body')).toHaveCSS('background-color',theme==='dark'?'rgb(24, 29, 32)':'rgb(255, 255, 255)');
+    await expect(page.locator('.source-item').first()).toHaveCSS('background-color',theme==='dark'?'rgb(35, 60, 51)':'rgb(233, 242, 237)');
     for(const width of [1440,1024,850,768,560,390]) {
       await page.setViewportSize({width,height:1000});
       await expect(page.locator('#import-button')).toBeVisible();
@@ -101,7 +103,8 @@ test('B-07 themes, responsive layouts and screenshots', async ({page},info) => {
       expect(metrics.scroll).toBeLessThanOrEqual(metrics.width+1);
       expect(metrics.source.width).toBeGreaterThan(100);
       if(width<=850)expect(metrics.inspector.y).toBeGreaterThan(metrics.source.y);
-      if([1440,390].includes(width))await page.screenshot({path:info.outputPath(`${theme}-${width}.png`),fullPage:true});
+      if(width===390)expect(await page.locator('.table-scroll').evaluate(e=>e.scrollWidth>e.clientWidth)).toBe(true);
+      if([1440,390].includes(width))await page.screenshot({path:info.outputPath(`${theme}-${width}.png`),fullPage:true,animations:'disabled'});
     }
   }
   await page.emulateMedia({colorScheme:'dark',reducedMotion:'reduce'}); await page.locator('#theme').selectOption('auto');
