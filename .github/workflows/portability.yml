@@ -39,6 +39,8 @@ jobs:
         run: python tools/portability.py suite --output "${{ runner.temp }}/plaintrace-suite"
       - name: Installed wheel outside checkout
         run: python -c "import os,pathlib,subprocess,sys; temp=pathlib.Path(os.environ['RUNNER_TEMP']); wheel=next((temp/'plaintrace-wheel').glob('*.whl')); subprocess.check_call([sys.executable,'-I',str(pathlib.Path(os.environ['GITHUB_WORKSPACE'])/'tools'/'portability.py'),'smoke','--wheel',str(wheel),'--output',str(temp/'plaintrace-smoke')],cwd=temp)"
+      - name: Installed workbench assets and loopback HTTP
+        run: python -c "import os,pathlib,subprocess,sys; temp=pathlib.Path(os.environ['RUNNER_TEMP']); wheel=next((temp/'plaintrace-wheel').glob('*.whl')); result=subprocess.check_output([sys.executable,'-I',str(pathlib.Path(os.environ['GITHUB_WORKSPACE'])/'tools'/'verify_workbench_install.py'),'--wheel',str(wheel)],cwd=temp); (temp/'plaintrace-smoke'/'workbench.json').write_bytes(result); print(result.decode())"
       - name: Preserve generated validation records
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

@@ -48,3 +48,13 @@ Manual in-app browser review on macOS exercised synthetic demo navigation, sourc
 The implementation includes responsive breakpoints at 1,050, 850 and 560 CSS pixels, light/dark/system tokens and reduced-motion rules. These source rules are not a claim of completed mobile, screen-reader, touch-device or all-browser validation. Actual Windows/Linux UI rendering, Safari/Firefox, older browser versions, very large reports and assistive technology remain to be checked. Raw DB analysis and live acquisition remain in the CLI/outside this viewer.
 
 Installed-wheel smoke verification also passed outside the checkout on Python 3.10.22: the wheel imported from `site-packages`, exposed 30 packaged asset routes, and `plaintrace-ui --help` succeeded. This verifies packaging and CLI startup, not Windows/Linux browser rendering.
+
+## Installed workbench CI gate
+
+Each of the six Python host lanes also runs [verify_workbench_install.py](../tools/verify_workbench_install.py) with isolated Python outside the checkout. It compares every installed web asset to the built wheel, checks console/module help, and fetches all 30 loopback HTTP routes with exact bytes, MIME and CSP checks. The generated `workbench.json` is retained with the smoke artifact; it explicitly records that browser rendering is not tested. Source tests alone do not verify package-data inclusion.
+
+```sh
+python -I /absolute/path/to/plaintrace/tools/verify_workbench_install.py --wheel /absolute/path/to/plaintrace-0.15.0-py3-none-any.whl
+```
+
+Run from a temporary directory after installing that wheel. Python 3.10.22 on local macOS passed this gate with 30 routes and 30 wheel assets. Hosted results will be recorded separately after execution.

@@ -48,3 +48,13 @@ macOS의 in-app 브라우저에서 합성 데모 내비게이션·소스 선택�
 1,050·850·560 CSS 픽셀 breakpoint, 라이트/다크/시스템 토큰, reduced-motion 규칙을 구현했습니다. 이 소스 규칙을 모바일·스크린리더·터치·모든 브라우저의 검증 완료라고 주장하지 않습니다. Windows/Linux 실제 UI 렌더링, Safari/Firefox·구형 브라우저, 대형 보고서·보조 기술 검증은 남아 있습니다. 원시 DB 분석·라이브 획득은 기존 CLI 또는 뷰어 범위 밖입니다.
 
 Python 3.10.22에서 체크아웃 밖의 설치 wheel 스모크 검증도 통과했습니다. `site-packages`에서 패키지를 가져왔고, 패키지 자산 경로 30개와 `plaintrace-ui --help`를 확인했습니다. 이는 패키징과 CLI 시작 검증이며 Windows/Linux 브라우저 렌더링 검증은 아닙니다.
+
+## 설치된 작업대 CI 게이트
+
+6개 Python 호스트 트랙은 체크아웃 밖에서 격리 Python으로 [verify_workbench_install.py](../tools/verify_workbench_install.py)도 실행합니다. 설치된 모든 웹 자산을 빌드 wheel과 비교하고, 콘솔/모듈 도움말 및 루프백 HTTP 경로 30개의 바이트·MIME·CSP를 확인합니다. 생성된 `workbench.json`은 smoke 아티팩트에 보관하며 브라우저 렌더링은 검증하지 않았다고 명시합니다. 소스 테스트만으로는 패키지 자산 포함 여부가 검증되지 않습니다.
+
+```sh
+python -I /absolute/path/to/plaintrace/tools/verify_workbench_install.py --wheel /absolute/path/to/plaintrace-0.15.0-py3-none-any.whl
+```
+
+해당 wheel을 설치한 뒤 임시 디렉터리에서 실행합니다. 로컬 macOS/Python 3.10.22에서 경로 30개와 wheel 자산 30개로 통과했습니다. 호스팅 결과는 실행 후 별도 기록합니다.
