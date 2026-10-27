@@ -46,3 +46,35 @@ Windows WebKit additionally failed B-01/B-03 keyboard/focus assertions. Commit `
 The initial artifact upload also rejected the path containing `..`. The workflow now writes a canonical RUNNER_TEMP-based output path through GITHUB_ENV. Initial raw traces/screenshots could not be uploaded due to that error; failure messages were read from job logs. Superseded runs were canceled to prioritize the final revision; canceled jobs are not passing results.
 
 Screenshot review found excessively narrow wrapping in the 390px observation table. Commit `dded72c` adds a table minimum width and keyboard-focusable horizontal scroll region. B-07 checks internal table scrolling without document overflow and waits for final theme colors before disabling animations for capture.
+
+## Final execution results
+
+The [browser run](https://github.com/polynomeer/plaintrace/actions/runs/40522922787) at commit `5f3b3203098f8fa15fa559ce7ec39b558a1110ea` passed nine cases per lane, 54 total, with zero skipped/failed/flaky cases and no automatic test retries. The same workflow's 12 model tests passed. The [six Python hosts/static job](https://github.com/polynomeer/plaintrace/actions/runs/40518755665) passed at code revision `dded72c`; `5f3b320` adds documentation only. Each Python lane ran 500 EVTX-inclusive tests and installed CLI/UI verification. These Python results are scoped to that earlier run rather than unfinished follow-up jobs. Playwright 1.64.1 is pinned.
+
+| Lane | Actual OS/kernel/CPU | Engine version | Node | Image build | Result |
+| --- | --- | --- | --- | --- | --- |
+| [ubuntu-24.04 / chromium](https://github.com/polynomeer/plaintrace/actions/runs/40522922787/job/122254580849) | Ubuntu 24.04 / 6.17.0-1022-azure / x64 | 156.0.8078.4 | v22.23.3 | 20261023.334.3 | 9 pass / 4 PNG |
+| [ubuntu-24.04 / firefox](https://github.com/polynomeer/plaintrace/actions/runs/40522922787/job/122254580193) | Ubuntu 24.04 / 7.0.0-1017-azure / x64 | 157.0 | v22.23.4 | 20261026.354.1 | 9 pass / 4 PNG |
+| [ubuntu-24.04 / webkit](https://github.com/polynomeer/plaintrace/actions/runs/40522922787/job/122254580518) | Ubuntu 24.04 / 6.17.0-1022-azure / x64 | 27.2 | v22.23.3 | 20261023.334.3 | 9 pass / 4 PNG |
+| [windows-2022 / chromium](https://github.com/polynomeer/plaintrace/actions/runs/40522922787/job/122254580103) | Windows Server 2022 / 10.0.20348 / x64 | 156.0.8078.4 | v22.23.4 | 20261022.344.1 | 9 pass / 4 PNG |
+| [windows-2022 / firefox](https://github.com/polynomeer/plaintrace/actions/runs/40522922787/job/122254580222) | Windows Server 2022 / 10.0.20348 / x64 | 157.0 | v22.23.4 | 20261022.344.1 | 9 pass / 4 PNG |
+| [windows-2022 / webkit](https://github.com/polynomeer/plaintrace/actions/runs/40522922787/job/122254580131) | Windows Server 2022 / 10.0.20348 / x64 | 27.2 | v22.23.4 | 20261022.344.1 | 9 pass / 4 PNG |
+
+WebKit's user agent contains macOS text even on real Windows/Linux hosts. OS identity was checked from the process environment and runner image, not user-agent text. Representative Windows/Linux screenshots were inspected for text/icons, selection, light/dark themes and narrow-table layout; all 24 captures remain in artifacts. Automated geometry checks ran on every engine; this is not manual review of every pixel or a formal accessibility audit.
+
+## Result digests and remaining scope
+
+Result JSON was checked for the tested SHA/run, nine expected passes, zero skipped and zero flaky cases. The screenshot digest hashes a compact key-sorted JSON map of filename to SHA-256. Generated reports/screenshots remain outside Git; only reviewed digests are committed. Initial failures remain recorded, and later documentation commits are distinct from this tested revision.
+
+| Lane | Result JSON SHA-256 | Screenshot map SHA-256 |
+| --- | --- | --- |
+| ubuntu-24.04 / chromium | 2ffc589cef6838f020f401b6924e4a8bab66037925512d67a34fe9f5e8f2b150 | 320ef3da01996410ca831c50175a46229d812f1563a57e783b6cda5e5ea732b8 |
+| ubuntu-24.04 / firefox | 0cb5b1fb2d25498f14c06ee662dde7da1b13b0db363e9dd87416ae181f441804 | 7a22234a29695e6ebadaa4f4af7167d1e8053b4bdbde0c4dea13f6129a1eebeb |
+| ubuntu-24.04 / webkit | 23dfc62bbbd8b8f8227edb231da140e93996c95ba2d4a80e1fc41a4b7d8c28c7 | 0d9f396450086ab2bc8fe017819546b8b3c0af3184cfc486527eaf09ac647615 |
+| windows-2022 / chromium | 8615ab166698596073491391afdac9d4e1b3f16751053f17d04334db06ef82fc | 6d28e48c87f9570fa4249fafa4274b4e0aabd8cb19ff118824a681c926ab0b7c |
+| windows-2022 / firefox | 6d5fc3d8f0e1a24cc203d9d63e88eb4047eea549e637c5d90b5d56127bff7ac6 | 164e742c3702f987b7e58d3ff9b3129c18e11431c59b6fbf9075cd126290c8d3 |
+| windows-2022 / webkit | d02f848e9e6d919a9bd78d1948e064c95f0909781c858f4af6882c00d49db32b | e4e6d403d0e13c9e6c8d52b328d014d56d2d438baeda4b1512d58e6b9df22c93 |
+
+Windows 10/11 clients, other Linux distributions/architectures, branded Chrome/Edge/Safari, older browsers, physical touch devices/screen readers and large acquired reports require separate qualification. Local archive-only verification preserved 13 original EnScript files and 263 synthetic historical commits. No new EnCase-runtime or evidence-interpretation accuracy claim is made.
+
+The earlier `dded72c` run had prolonged Linux WebKit runner/setup delays; cancellation and runner re-request were attempted. Pending/canceled states were never counted as passes. The final table uses only the new documentation-inclusive `5f3b320` run where all six lanes completed successfully.
