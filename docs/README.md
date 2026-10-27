@@ -107,3 +107,9 @@ Package 0.14.0 adds acquired SOFTWARE/SYSTEM OS, name, timezone and stored-time 
 Package 0.15.0 adds acquired SAM account/name metadata and schema 15.
 
 [CLI](SAM_ACCOUNTS_CLI.md) · [Tests and review](SAM_ACCOUNTS_TESTS.md)
+
+## Cross-platform expansion design
+
+Proposed on 2026-10-27; separate from current implementation and validation claims.
+
+[Plan](CROSS_PLATFORM_PLAN.md) · [Compatibility policy](CROSS_PLATFORM_COMPATIBILITY.md) · [Architecture and contracts](CROSS_PLATFORM_ARCHITECTURE.md) · [Roadmap and validation](CROSS_PLATFORM_ROADMAP.md)

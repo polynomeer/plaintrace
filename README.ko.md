@@ -154,3 +154,9 @@ Office·HWP·Adobe MRU와 스키마 7을 패키지 0.7.0에서 추가했습니�
 패키지 0.15.0은 획득 SAM 계정/이름 메타데이터와 스키마 15를 추가합니다.
 
 [CLI](docs/SAM_ACCOUNTS_CLI.ko.md) · [테스트와 리뷰](docs/SAM_ACCOUNTS_TESTS.ko.md)
+
+## 멀티 OS 확장 설계
+
+2026-10-27 작성한 향후 확장 계획입니다. 현재 구현·검증 범위와 구분합니다.
+
+[기획](docs/CROSS_PLATFORM_PLAN.ko.md) · [호환성 정책](docs/CROSS_PLATFORM_COMPATIBILITY.ko.md) · [아키텍처·데이터 계약](docs/CROSS_PLATFORM_ARCHITECTURE.ko.md) · [로드맵·검증](docs/CROSS_PLATFORM_ROADMAP.ko.md)
