@@ -45,7 +45,7 @@ JavaScript CI는 Ubuntu 24.04의 Node 22를 대상으로 실행해 통과했습�
 
 macOS의 in-app 브라우저에서 합성 데모 내비게이션·소스 선택·원시 레코드 modal·타임라인을 검토했습니다. 실제 CLI로 만든 합성 Chromium 보고서를 브라우저 선택기로 불러와 소스 1개·관측 12개, 소스 해시, Unicode·개행·원시 레코드 참조를 확인했습니다. 획득 증거는 사용하지 않았습니다.
 
-1,050·850·560 CSS 픽셀 breakpoint, 라이트/다크/시스템 토큰, reduced-motion 규칙을 구현했습니다. 이 소스 규칙을 모바일·스크린리더·터치·모든 브라우저의 검증 완료라고 주장하지 않습니다. Windows/Linux 실제 UI 렌더링, Safari/Firefox·구형 브라우저, 대형 보고서·보조 기술 검증은 남아 있습니다. 원시 DB 분석·라이브 획득은 기존 CLI 또는 뷰어 범위 밖입니다.
+1,050·850·560 CSS 픽셀 breakpoint, 라이트/다크/시스템 토큰, reduced-motion 규칙을 구현했습니다. 이 소스 규칙을 모바일·스크린리더·터치·모든 브라우저의 검증 완료라고 주장하지 않습니다. 최초 로컬 검토 시 Windows/Linux 렌더링과 다른 엔진은 미검증이었습니다. 이후 Windows/Linux Chromium·Firefox·WebKit 실행과 수정 결과는 [브라우저 검증](WORKBENCH_BROWSER.ko.md)에 기록합니다. 상표 Safari·구형 버전·대형 보고서·보조 기술은 해당 게이트 범위 밖입니다. 원시 DB 분석·라이브 획득은 기존 CLI 또는 뷰어 범위 밖입니다.
 
 Python 3.10.22에서 체크아웃 밖의 설치 wheel 스모크 검증도 통과했습니다. `site-packages`에서 패키지를 가져왔고, 패키지 자산 경로 30개와 `plaintrace-ui --help`를 확인했습니다. 이는 패키징과 CLI 시작 검증이며 Windows/Linux 브라우저 렌더링 검증은 아닙니다.
 
@@ -60,3 +60,5 @@ python -I /absolute/path/to/plaintrace/tools/verify_workbench_install.py --wheel
 해당 wheel을 설치한 뒤 임시 디렉터리에서 실행합니다. 로컬 macOS/Python 3.10.22에서 경로 30개와 wheel 자산 30개로 통과했습니다. 호스팅 결과는 [CI 결과 기록](WORKBENCH_CI.ko.md)에 보관합니다.
 
 [호스팅 CI 결과](WORKBENCH_CI.ko.md): Python 6개 트랙, 설치된 CLI/UI와 Node 모델 검증이 통과했습니다.
+
+[Windows/Linux 브라우저 검증과 수정 기록](WORKBENCH_BROWSER.ko.md)

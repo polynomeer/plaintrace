@@ -129,3 +129,5 @@ Office·HWP·Adobe MRU와 스키마 7을 패키지 0.7.0에서 추가했습니�
 [실행·사용 가이드](WORKBENCH.ko.md) · [테스트·검증 범위](WORKBENCH_TESTS.ko.md)
 
 - [작업대 호스팅 CI](WORKBENCH_CI.ko.md)
+
+[Windows/Linux 브라우저 검증과 수정 기록](WORKBENCH_BROWSER.ko.md)

@@ -129,3 +129,5 @@ The screen design is implemented as a read-only JSON report workbench.
 [Run and use](WORKBENCH.md) · [Tests and validation scope](WORKBENCH_TESTS.md)
 
 - [Workbench hosted CI](WORKBENCH_CI.md)
+
+[Windows/Linux browser validation and repairs](WORKBENCH_BROWSER.md)

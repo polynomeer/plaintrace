@@ -45,3 +45,5 @@ python -m unittest discover -s tests -v
 ```
 
 See [verification and limits](WORKBENCH_TESTS.md). M0 host results describe the existing Python analysis baseline; they do not certify this new browser UI or new input formats.
+
+[Windows/Linux browser validation and repairs](WORKBENCH_BROWSER.md)

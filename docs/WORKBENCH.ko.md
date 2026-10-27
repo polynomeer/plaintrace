@@ -45,3 +45,5 @@ python -m unittest discover -s tests -v
 ```
 
 [검증·제약](WORKBENCH_TESTS.ko.md)을 참조하세요. M0 호스트 결과는 기존 Python 분석 기반을 대상으로 하며 이번 브라우저 UI나 신규 입력 포맷을 인증하지 않습니다.
+
+[Windows/Linux 브라우저 검증과 수정 기록](WORKBENCH_BROWSER.ko.md)

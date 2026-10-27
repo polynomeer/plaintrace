@@ -45,7 +45,7 @@ The JavaScript CI workflow targets Node 22 on Ubuntu 24.04. Subsequent hosted ex
 
 Manual in-app browser review on macOS exercised synthetic demo navigation, source selection, raw-record modal and timeline. A real CLI-generated synthetic Chromium report was selected through the browser picker and displayed one source/twelve observations, a source hash, literal Unicode/newlines and raw record references. No acquired evidence was used.
 
-The implementation includes responsive breakpoints at 1,050, 850 and 560 CSS pixels, light/dark/system tokens and reduced-motion rules. These source rules are not a claim of completed mobile, screen-reader, touch-device or all-browser validation. Actual Windows/Linux UI rendering, Safari/Firefox, older browser versions, very large reports and assistive technology remain to be checked. Raw DB analysis and live acquisition remain in the CLI/outside this viewer.
+The implementation includes responsive breakpoints at 1,050, 850 and 560 CSS pixels, light/dark/system tokens and reduced-motion rules. These source rules are not a claim of completed mobile, screen-reader, touch-device or all-browser validation. At this initial local-review stage Windows/Linux UI rendering and other engines were untested. Subsequent Windows/Linux Chromium/Firefox/WebKit execution and repairs are recorded in [browser validation](WORKBENCH_BROWSER.md). Branded Safari, older versions, very large reports and assistive technology remain outside that gate. Raw DB analysis and live acquisition remain in the CLI/outside this viewer.
 
 Installed-wheel smoke verification also passed outside the checkout on Python 3.10.22: the wheel imported from `site-packages`, exposed 30 packaged asset routes, and `plaintrace-ui --help` succeeded. This verifies packaging and CLI startup, not Windows/Linux browser rendering.
 
@@ -60,3 +60,5 @@ python -I /absolute/path/to/plaintrace/tools/verify_workbench_install.py --wheel
 Run from a temporary directory after installing that wheel. Python 3.10.22 on local macOS passed this gate with 30 routes and 30 wheel assets. Hosted results are recorded in the [CI result record](WORKBENCH_CI.md).
 
 [Hosted CI results](WORKBENCH_CI.md): all six Python lanes, installed CLI/UI and Node model checks passed.
+
+[Windows/Linux browser validation and repairs](WORKBENCH_BROWSER.md)
