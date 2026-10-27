@@ -11,3 +11,38 @@ jobs:
         with:
           node-version: '22'
       - run: node --test tests/test_ui_model.mjs
+  browser-ui:
+    name: ${{ matrix.os }} / ${{ matrix.browser }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2022]
+        browser: [chromium, firefox, webkit]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    env:
+      PYTHONUTF8: '1'
+      PLAINTRACE_BROWSER_RESULTS: ${{ github.workspace }}/../plaintrace-browser-results
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.14'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Install packaged workbench and test dependencies
+        run: |
+          python -m pip install .
+          npm ci
+          npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Browser UI tests against installed workbench
+        run: npm run test:browser -- --project=${{ matrix.browser }}
+      - name: Retain screenshots, environment and test records
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: browser-${{ matrix.os }}-${{ matrix.browser }}
+          path: ${{ env.PLAINTRACE_BROWSER_RESULTS }}/
+          if-no-files-found: error
+          retention-days: 14
