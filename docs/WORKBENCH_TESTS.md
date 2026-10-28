@@ -62,3 +62,5 @@ Run from a temporary directory after installing that wheel. Python 3.10.22 on lo
 [Hosted CI results](WORKBENCH_CI.md): all six Python lanes, installed CLI/UI and Node model checks passed.
 
 [Windows/Linux browser validation and repairs](WORKBENCH_BROWSER.md)
+
+[Windows client/vendor browser results and Windows 10 gap](WORKBENCH_VENDOR_BROWSERS.md)

@@ -78,3 +78,5 @@ WebKit user-agent는 실제 Windows/Linux에서도 macOS 문자열을 포함합�
 Windows 10/11 클라이언트, 다른 Linux 배포판/아키텍처, 상표 Chrome/Edge/Safari, 구형 브라우저, 실제 터치 기기·스크린리더와 대형 획득 보고서는 별도 검증이 필요합니다. 로컬 archive-only 검증은 원본 EnScript 13개와 합성 역사 커밋 263개 보존을 확인했습니다. EnCase 실행·증거 해석 정확도에 대한 새 주장은 없습니다.
 
 이전 `dded72c` 실행에서는 마지막 Linux WebKit의 러너 배정과 설치가 지연돼 취소·러너 재요청을 시도했습니다. 그 대기/취소 상태를 통과로 간주하지 않았습니다. 최종 표는 문서 포함 커밋 `5f3b320`의 새 실행에서 6개가 모두 완료된 결과만 사용합니다.
+
+[Windows 클라이언트·정식 브라우저 결과와 Windows 10 미검증 범위](WORKBENCH_VENDOR_BROWSERS.ko.md)

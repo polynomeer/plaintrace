@@ -1,0 +1,7 @@
+# Additional labels recognized by the local actionlint 1.7.7 installation.
+# windows-11-arm is an official GitHub-hosted label, not a self-hosted claim.
+# plaintrace-windows10 is a manual self-hosted gate; no runner is registered.
+self-hosted-runner:
+  labels:
+    - windows-11-arm
+    - plaintrace-windows10

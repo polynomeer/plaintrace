@@ -78,3 +78,5 @@ Result JSON was checked for the tested SHA/run, nine expected passes, zero skipp
 Windows 10/11 clients, other Linux distributions/architectures, branded Chrome/Edge/Safari, older browsers, physical touch devices/screen readers and large acquired reports require separate qualification. Local archive-only verification preserved 13 original EnScript files and 263 synthetic historical commits. No new EnCase-runtime or evidence-interpretation accuracy claim is made.
 
 The earlier `dded72c` run had prolonged Linux WebKit runner/setup delays; cancellation and runner re-request were attempted. Pending/canceled states were never counted as passes. The final table uses only the new documentation-inclusive `5f3b320` run where all six lanes completed successfully.
+
+[Windows client/vendor browser results and Windows 10 gap](WORKBENCH_VENDOR_BROWSERS.md)

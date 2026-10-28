@@ -1,0 +1,54 @@
+name: Windows 10 client browser qualification
+# No Windows 10 runner is registered. This gate is manual and cannot qualify
+# Server/Wine/user-agent emulation as a client result.
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  windows10-ui:
+    name: Windows 10 / ${{ matrix.channel }}
+    runs-on: [self-hosted, Windows, X64, plaintrace-windows10]
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        channel: [chrome, msedge]
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Require Windows 10 client
+        shell: powershell
+        run: |
+          $client = Get-CimInstance Win32_OperatingSystem
+          if ($client.ProductType -ne 1 -or [int]$client.BuildNumber -lt 19041 -or [int]$client.BuildNumber -ge 22000) { throw 'A Windows 10 client build 19041-21999 is required' }
+          $client | Select-Object Caption, Version, BuildNumber, ProductType, OSArchitecture | ConvertTo-Json | Set-Content -Encoding utf8 "$env:RUNNER_TEMP/windows-client.json"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.14'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Prepare isolated package and external results
+        shell: powershell
+        run: |
+          python -m venv "$env:RUNNER_TEMP/plaintrace-ui-venv"
+          "$env:RUNNER_TEMP/plaintrace-ui-venv/Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          "PLAINTRACE_BROWSER_RESULTS=$env:RUNNER_TEMP/windows10-browser-results" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Install test dependencies
+        run: |
+          python -m pip install .
+          npm ci
+      # Requires already-installed vendor browsers; never replaces host browsers.
+      - name: Verify actual installed browser
+        run: npm run test:browser -- --project=${{ matrix.channel }}
+      - name: Retain qualification records
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: windows10-${{ matrix.channel }}
+          path: |
+            ${{ env.PLAINTRACE_BROWSER_RESULTS }}/
+            ${{ runner.temp }}/windows-client.json
+          if-no-files-found: error
+          retention-days: 14

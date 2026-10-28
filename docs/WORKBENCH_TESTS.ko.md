@@ -62,3 +62,5 @@ python -I /absolute/path/to/plaintrace/tools/verify_workbench_install.py --wheel
 [호스팅 CI 결과](WORKBENCH_CI.ko.md): Python 6개 트랙, 설치된 CLI/UI와 Node 모델 검증이 통과했습니다.
 
 [Windows/Linux 브라우저 검증과 수정 기록](WORKBENCH_BROWSER.ko.md)
+
+[Windows 클라이언트·정식 브라우저 결과와 Windows 10 미검증 범위](WORKBENCH_VENDOR_BROWSERS.ko.md)

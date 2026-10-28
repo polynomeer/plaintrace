@@ -174,3 +174,5 @@ Adds a support registry, strict verification runner, three-OS CI and Python 3.10
 The screen design is implemented as a read-only JSON report workbench.
 
 [Run and use](docs/WORKBENCH.md) · [Tests and validation scope](docs/WORKBENCH_TESTS.md)
+
+[Windows client/vendor browser results and Windows 10 gap](docs/WORKBENCH_VENDOR_BROWSERS.md)
