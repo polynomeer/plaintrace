@@ -9,7 +9,8 @@ export default defineConfig({
   reporter: [['list'], ['json', {outputFile: path.join(output, 'results.json')}]],
   use: {baseURL: 'http://127.0.0.1:8771', viewport: {width: 1440, height: 1000},
     locale: 'ko-KR', timezoneId: 'UTC', trace: 'retain-on-failure', screenshot: 'only-on-failure'},
-  projects: ['chromium', 'firefox', 'webkit'].map(name => ({name, use: {browserName: name}})),
+  projects: [...['chromium', 'firefox', 'webkit'].map(name => ({name, use: {browserName: name}})),
+    ...['chrome','msedge'].map(name=>({name,use:{browserName:'chromium',channel:name}}))],
   webServer: {command: 'python -I -m plaintrace.ui --port 8771',
     url: 'http://127.0.0.1:8771/', reuseExistingServer: false, timeout: 30000}
 });

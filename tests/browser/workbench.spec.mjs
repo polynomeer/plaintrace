@@ -126,7 +126,8 @@ test('B-09 no report persistence and exact browser environment', async ({page,br
   expect(storage).toEqual({local:0,session:0,cookies:''});
   await page.goto('/'); await expect(page.locator('#empty-workspace')).toBeVisible();
   await info.attach('environment.json',{body:JSON.stringify({platform:os.platform(),release:os.release(),arch:os.arch(),
-    browser:browserName,version:browser.version(),node:process.version,sha:process.env.GITHUB_SHA||null,
+    browser:browserName,project:info.project.name,channel:info.project.use.channel||null,
+    version:browser.version(),node:process.version,attempt:process.env.GITHUB_RUN_ATTEMPT||null,sha:process.env.GITHUB_SHA||null,
     run:process.env.GITHUB_RUN_ID||null,image:process.env.ImageVersion||null,
     userAgent:await page.evaluate(()=>navigator.userAgent)},null,2),contentType:'application/json'});
 });
