@@ -80,7 +80,7 @@ def main():
             check('S-04 source format filtering',"document.querySelectorAll('.source-item').length===2")
             click('[data-view="timeline"]')
             check('S-05 explicit-field timeline',"document.querySelectorAll('#timeline-list > li').length===5")
-            click('[data-view="evidence"]');click('[data-filter="all"]');click('#record-list .row-open')
+            click('[data-view="evidence"]');click('[data-filter="all"]');click('#source-list .source-item');click('#record-list .row-open')
             check('S-06 raw values and source references',"document.querySelector('#record-dialog').open && document.querySelector('#raw-content').textContent.includes('visits:41')")
             click('[data-close="record-dialog"]')
             wait("document.activeElement===document.querySelector('#record-list .row-open')")
