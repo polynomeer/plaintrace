@@ -76,3 +76,5 @@ npm run test:browser -- --project=msedge
 ## 참고 문서와 도구
 
 러너 가용성은 공식 [호스팅 러너 참조](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)와 [Windows 11 이미지](https://github.com/actions/runner-images/blob/main/images/windows/Windows11-Arm64-Readme.md)에서 확인했습니다. 정식 채널은 [Playwright 안내](https://playwright.dev/docs/browsers), Safari는 [Apple WebDriver 안내](https://developer.apple.com/documentation/webkit/testing-with-webdriver-in-safari)를 따릅니다. 로컬 actionlint 1.7.7은 Windows 11 호스팅 라벨보다 오래돼 [lint 설정](../.github/actionlint.yaml)에 해당 라벨과 수동 Windows 10 라벨을 명시했습니다. lint 라벨은 러너 등록이나 지원 검증이 아닙니다. 이 설정으로 모든 워크플로가 lint를 통과합니다. EnScript/보관 참조·재구성 역사는 보존하며 EnCase 또는 획득 증거 정확도에 대한 새 주장은 없습니다.
+
+Windows 10 VM 준비 상태와 남은 실행 검증은 [VM 기록](WINDOWS10_VM.ko.md)에서 관리합니다.

@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Plaintrace · Windows 10 VM 콘솔</title><style>html,body{margin:0;height:100%;background:#181d20;color:#e6eceb;font:14px/1.6 system-ui,sans-serif}body{display:flex;flex-direction:column}header{padding:12px 20px;border-bottom:1px solid #354047;display:flex;gap:20px;align-items:center;flex-wrap:wrap}p{margin:0;color:#a9bab9}button{background:#39795f;color:white;border:0;padding:8px 16px;border-radius:4px;font:inherit;cursor:pointer}button:focus-visible{outline:3px solid #abdec2}#screen{flex:1;min-height:0}#status{margin-left:auto}</style></head>
+<body><header><div><strong>Windows 10 평가판 VM · 실제 x64 게스트</strong><p>설치 약관은 사용자가 직접 확인·동의해야 합니다. 브라우저 검증은 아직 실행하지 않았습니다.</p></div><span id="status" role="status">연결 중…</span><button id="reload">다시 연결</button></header><main id="screen" aria-label="가상 머신 화면"></main><script type="module">
+import RFB from './node_modules/@novnc/novnc/core/rfb.js';
+const status=document.querySelector('#status');
+const rfb=new RFB(document.querySelector('#screen'),'ws://'+location.host+'/websockify');
+rfb.scaleViewport=true;rfb.resizeSession=false;rfb.showDotCursor=true;
+rfb.addEventListener('connect',()=>status.textContent='연결됨 · 루프백 전용');
+rfb.addEventListener('disconnect',()=>status.textContent='연결 종료 · VM 실행 상태를 확인하세요');
+rfb.addEventListener('securityfailure',()=>status.textContent='연결 인증 실패');
+document.querySelector('#reload').addEventListener('click',()=>location.reload());
+</script></body></html>

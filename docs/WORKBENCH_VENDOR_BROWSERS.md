@@ -76,3 +76,5 @@ Keep generated results outside the checkout and retain OS/client attestation, ex
 ## References and tooling
 
 Runner availability was checked against the official [hosted runner reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners) and [Windows 11 image](https://github.com/actions/runner-images/blob/main/images/windows/Windows11-Arm64-Readme.md). Vendor channels follow [Playwright browser guidance](https://playwright.dev/docs/browsers); Safari uses [Apple WebDriver guidance](https://developer.apple.com/documentation/webkit/testing-with-webdriver-in-safari). Local actionlint 1.7.7 predates the hosted Windows 11 label; [lint configuration](../.github/actionlint.yaml) supplies it and the manual Windows 10 label explicitly. These lint labels do not register runners or establish support. All workflows pass that lint configuration. EnScript/archive refs and reconstructed history are preserved; no EnCase or acquired-evidence accuracy claim is added.
+
+Windows 10 VM preparation and its pending runtime gates are tracked in [the VM record](WINDOWS10_VM.md).
